@@ -78,8 +78,11 @@ void Engine::update()
 
     Scene* _scene = scene_manager.create_scene("new scene", this);
     _scene->p_window = p_window;
-    _scene->on_enter();
 
+    _scene->create_object("object", "teapot", {5.0f, 0.0f, 0.0f});
+    _scene->create_object("object", "monkey", {0.0f, 1.0f, 0.0f});
+
+    _scene->on_enter();
     while(m_is_running)
     {
         _scene->on_update(0.016f);

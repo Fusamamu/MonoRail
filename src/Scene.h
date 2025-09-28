@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "ResourceManager.h"
 #include "MeshRenderer.h"
+#include "Grid.h"
 
 class Engine;
 
@@ -31,6 +32,9 @@ public:
     entt::registry& get_registry(){
         return m_registry;
     }
+
+    void create_object(const std::string& name, const std::string& _mesh_name, glm::vec3 _position);
+
     void on_enter();
     void on_exit();
     void on_update(float delta_time);
@@ -40,6 +44,8 @@ private:
     Engine*        m_engine_owner;
     entt::registry m_registry;
     InputSystem    m_input_system;
+
+    unsigned int m_ubo;
 };
 
 #endif

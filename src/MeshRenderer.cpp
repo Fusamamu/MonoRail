@@ -1,5 +1,12 @@
 #include "MeshRenderer.h"
 
+MeshRenderer::~MeshRenderer()
+{
+    if(m_vbo) glDeleteBuffers     (1, &m_vbo);
+    if(m_ebo) glDeleteBuffers     (1, &m_ebo);
+    if(m_vao) glDeleteVertexArrays(1, &m_vao);
+}
+
 void MeshRenderer::load_mesh(Mesh* _mesh)
 {
     m_mesh = _mesh;

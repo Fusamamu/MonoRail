@@ -3,6 +3,7 @@
 void ResourceManager::init()
 {
     load_model ("../res/models/teapot.fbx");
+    load_model ("../res/models/monkey.fbx");
     load_shader("../res/shaders/toon.glsl");
 }
 

@@ -26,6 +26,12 @@ public:
     void set_mat4_uniform_view                  (glm::mat4 _view               ) const;
     void set_mat4_uniform_projection            (glm::mat4 _projection         ) const;
 
+    void block_bind(const std::string& _block_name, uint32_t _bind_point)
+    {
+        unsigned int uniform_block_index  = glGetUniformBlockIndex(id, _block_name.c_str());
+        glUniformBlockBinding(id, uniform_block_index, _bind_point);
+    }
+
     friend std::ostream& operator<<(std::ostream& _os, Shader& _shader)
     {
         _os << "[ Vertex shader source ]" << '\n';

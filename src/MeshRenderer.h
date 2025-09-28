@@ -7,14 +7,14 @@ class MeshRenderer
 {
 public:
     MeshRenderer() = default;
-    ~MeshRenderer() = default;
+    ~MeshRenderer();
    
     void load_mesh      (Mesh* _mesh);
     void set_buffer_data(Mesh* _mesh);
     void draw() const;
 
 private:
-    unsigned int m_vbo, m_vao, m_ebo; 
+    unsigned int m_vbo, m_vao, m_ebo;
     
     Mesh* m_mesh;
 };

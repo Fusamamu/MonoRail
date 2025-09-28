@@ -1,33 +1,12 @@
 #include "ResourceManager.h"
 
-// Constructor / Destructor
-ResourceManager::ResourceManager() = default;
-ResourceManager::~ResourceManager() = default;
-
-// Load model and store in map
-bool ResourceManager::load_model(const std::string& _path, const std::string& _name)
+void ResourceManager::init()
 {
-    Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(_path,
-        aiProcess_Triangulate |
-        aiProcess_FlipUVs |
-        aiProcess_CalcTangentSpace |
-        aiProcess_GenNormals);
-
-    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-    {
-        std::cerr << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
-        return false;
-    }
-
-    meshes.clear();
-    process_node(scene->mRootNode, scene);
-
-    models[_name] = meshes;
-    return true;
+    load_model ("../res/models/teapot.fbx");
+    load_shader("../res/shaders/toon.glsl");
 }
 
-Mesh ResourceManager::load_model(std::filesystem::path _path)
+void ResourceManager::load_model(std::filesystem::path _path)
 {
     Assimp::Importer _importer;
 
@@ -40,33 +19,37 @@ Mesh ResourceManager::load_model(std::filesystem::path _path)
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
         std::cerr << "ERROR::ASSIMP:: " << _importer.GetErrorString() << std::endl;
-        return { };
+        return;
     }
 
-    meshes.clear();
+    m_meshes.clear();
     process_node(scene->mRootNode, scene);
-
-    // std::string filename = _path.stem().string();
-    // models[filename] = meshes;
-
-    return meshes[0];
+    m_models[_path.stem().string()] = m_meshes;
 }
 
-// Get meshes of a loaded model
-std::vector<Mesh> ResourceManager::get_model(const std::string& name)
+// Return pointer to vector<Mesh> if exists, else nullptr
+const std::vector<Mesh>* ResourceManager::get_model(const std::string& name) const
 {
-    if(models.find(name) != models.end())
-        return models[name];
-    return {};
+    auto it = m_models.find(name);
+    if (it != m_models.end())
+        return &(it->second); // pointer to the stored vector
+    return nullptr;
 }
 
-// Process node recursively
+Mesh* ResourceManager::get_first_mesh(const std::string& name)
+{
+    auto it = m_models.find(name);
+    if (it != m_models.end() && !it->second.empty())
+        return &(it->second[0]); // pointer to the first element
+    return nullptr;
+}
+
 void ResourceManager::process_node(aiNode* node, const aiScene* scene)
 {
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        meshes.push_back(process_mesh(mesh, scene));
+        m_meshes.push_back(process_mesh(mesh, scene));
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -134,4 +117,18 @@ Mesh ResourceManager::process_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene)
     _outMesh.layout.stride = sizeof(float) * 8;
 
     return _outMesh;
+}
+
+void ResourceManager::load_shader(const std::filesystem::path _path)
+{
+    auto name = _path.stem().string();
+    m_shaders[name] = std::make_unique<Shader>(_path);
+}
+
+Shader* ResourceManager::get_shader(const std::string& name)
+{
+    auto it = m_shaders.find(name);
+    if(it != m_shaders.end())
+        return it->second.get(); // raw pointer
+    return nullptr;
 }

@@ -30,7 +30,12 @@ add_executable(${PROJECT_NAME}
         ./src/Shader.cpp
         ./src/MeshRenderer.cpp
         ./src/ResourceManager.cpp
-        ./src/InputSystem.cpp)
+        ./src/InputSystem.cpp
+        ./src/Grid.cpp
+        src/Scene.cpp
+        src/Scene.h
+        src/SceneManager.cpp
+        src/SceneManager.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ./vendors/assimp/include)

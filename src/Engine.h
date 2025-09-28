@@ -9,8 +9,10 @@
 #include "MeshRenderer.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "SceneManager.h"
 #include "ResourceManager.h"
 #include "InputSystem.h"
+#include "Component.h"
 
 class Engine
 {
@@ -22,12 +24,15 @@ public:
     SDL_GLContext context;
     SDL_Event     sdl_event;
 
+    SceneManager scene_manager;
+
     Engine();
     ~Engine();
     
     void init  ();
     void update();
     void quit  ();
+    void request_quit();
 private:
     bool m_is_running;
 };

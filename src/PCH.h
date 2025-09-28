@@ -8,8 +8,10 @@
 #include <istream>
 #include <fstream>
 #include <map>
+#include <unordered_map>
 #include <memory>
 #include <filesystem>
+#include <functional>
 
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
@@ -19,9 +21,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
+#include <entt/entt.hpp>
 
 #endif

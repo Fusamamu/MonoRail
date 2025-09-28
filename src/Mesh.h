@@ -41,6 +41,55 @@ struct Mesh
 
     [[nodiscard]] std::size_t get_vertex_buffer_size() const { return vertex_buffer.size(); }
     [[nodiscard]] std::size_t get_index_buffer_size () const { return index_buffer .size() * sizeof(unsigned int); }
+
+    // Helper to push a float as raw bytes
+    void push_float(float v)
+    {
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(&v);
+        vertex_buffer.insert(vertex_buffer.end(), bytes, bytes + sizeof(float));
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Mesh& mesh)
+    {
+        os << "Mesh:" << std::endl;
+        os << "Stride: " << mesh.layout.stride << " bytes" << std::endl;
+
+        // Print layout
+        os << "Vertex layout:" << std::endl;
+        for (const auto& elem : mesh.layout.elements)
+        {
+            os << "  Attribute: "  << static_cast<int>(elem.attribute)
+               << ", Offset: "     << elem.offset
+               << ", Size: "       << elem.size
+               << ", Components: " << elem.components
+               << ", Type: "       << elem.glType
+               << ", Normalized: " << elem.normalized
+               << std::endl;
+        }
+
+        // Print vertices
+        os << "Vertices (" << mesh.vertex_buffer.size() / sizeof(float) << " floats):" << std::endl;
+        const float* verts = reinterpret_cast<const float*>(mesh.vertex_buffer.data());
+        size_t num_floats = mesh.vertex_buffer.size() / sizeof(float);
+
+        for (size_t i = 0; i < num_floats; i += mesh.layout.stride / sizeof(float))
+        {
+            os << "  Vertex " << i / (mesh.layout.stride / sizeof(float)) << ": ";
+            for (size_t j = 0; j < mesh.layout.stride / sizeof(float) && (i + j) < num_floats; j++)
+            {
+                os << std::fixed << std::setprecision(3) << verts[i + j] << " ";
+            }
+            os << std::endl;
+        }
+
+        // Print indices
+        os << "Indices (" << mesh.index_buffer.size() << "): ";
+        for (auto idx : mesh.index_buffer)
+            os << idx << " ";
+        os << std::endl;
+
+        return os;
+    }
 };
 
 #endif

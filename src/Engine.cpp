@@ -33,7 +33,7 @@ void Engine::init()
     auto window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
    
     p_window = SDL_CreateWindow(
-                "MELT (V1.1)",
+                "Help princess",
                 SDL_WINDOWPOS_CENTERED,
                 SDL_WINDOWPOS_CENTERED,
                 SCREEN_WIDTH,
@@ -87,28 +87,51 @@ void Engine::update()
     _default_shader.set_mat4_uniform_view      (_view);
     _default_shader.set_mat4_uniform_projection(_proj);
 
-    Cube _cube;
+    Sphere _cube;
     Mesh _quad_mesh = _cube.to_mesh();
     MeshRenderer _mesh_renderer;
 
-    _mesh_renderer.load_mesh      (&_quad_mesh);
-    _mesh_renderer.set_buffer_data(&_quad_mesh);
+    ResourceManager _resource_manager;
+    Mesh _teapot = _resource_manager.load_model("../res/models/teapot.fbx");
+
+    _mesh_renderer.load_mesh      (&_teapot);
+    _mesh_renderer.set_buffer_data(&_teapot);
+
+    InputSystem _input_system;
 
     glEnable(GL_DEPTH_TEST);
 
     while(m_is_running)
     {
-        while(SDL_PollEvent(&sdl_event))
-        {
-            if(sdl_event.type == SDL_QUIT)
-                m_is_running = false;
+        _input_system.update();
 
-            if (sdl_event.type == SDL_KEYDOWN)
-            {
-                if (sdl_event.key.keysym.sym == SDLK_ESCAPE)
-                    m_is_running = false;
-            }
+        if (_input_system.get_quit_requested())
+        {
+            m_is_running = false;
+            return;
         }
+
+        if (_input_system.is_key_held(SDL_SCANCODE_A))
+        {
+            _camera.camera_move_left(0.25f);
+        }
+        if (_input_system.is_key_held(SDL_SCANCODE_D))
+        {
+            _camera.camera_move_right(0.25f);
+        }
+        if (_input_system.is_key_held(SDL_SCANCODE_W))
+        {
+            _camera.camera_move_up(0.25f);
+        }
+
+        if (_input_system.is_key_held(SDL_SCANCODE_S))
+        {
+            _camera.camera_move_down(0.25f);
+        }
+
+        glm::mat4 _view  = _camera.get_view_matrix();
+        _default_shader.use();
+        _default_shader.set_mat4_uniform_view      (_view);
         
         glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

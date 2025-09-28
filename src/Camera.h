@@ -25,6 +25,36 @@ struct Camera
     {
         return glm::perspective(glm::radians(fov), aspect, near_plane, far_plane);
     }
+
+    void camera_move_left(float distance)
+    {
+        glm::vec3 forward = glm::normalize(target - position);
+        glm::vec3 right   = glm::normalize(glm::cross(forward, up));
+        position -= right * distance;
+        target   -= right * distance;
+    }
+
+    void camera_move_right(float distance)
+    {
+        glm::vec3 forward = glm::normalize(target - position);
+        glm::vec3 right   = glm::normalize(glm::cross(forward, up));
+        position += right * distance;
+        target   += right * distance;
+    }
+
+    void camera_move_up(float distance)
+    {
+        glm::vec3 dir = glm::normalize(up);
+        position += dir * distance;
+        target   += dir * distance;
+    }
+
+    void camera_move_down(float distance)
+    {
+        glm::vec3 dir = glm::normalize(up);
+        position -= dir * distance;
+        target   -= dir * distance;
+    }
 };
 
 #endif

@@ -3,11 +3,14 @@
 
 #include "PCH.h"
 #include "Mesh.h"
+#include "Sphere.h"
 #include "Cube.h"
 #include "Quad.h"
 #include "MeshRenderer.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "ResourceManager.h"
+#include "InputSystem.h"
 
 class Engine
 {

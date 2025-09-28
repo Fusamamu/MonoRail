@@ -1,0 +1,21 @@
+# ninja log v6
+1	632	1759047966115620350	CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch	82aa4fe242acab67
+634	752	1759047966748818686	CMakeFiles/HelpPrincess.dir/src/main.cpp.o	5539f59b50b67885
+634	726	1759047966749274586	CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o	6846211c225f05c5
+634	758	1759047966749170548	CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o	b9202f5f10ef99b0
+4	146	1759048252668610952	CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o	cc3516212c3ed303
+146	221	1759048252810000001	HelpPrincess	34dd721df4e2293a
+3	113	1759048440449794261	CMakeFiles/HelpPrincess.dir/src/main.cpp.o	5539f59b50b67885
+4	164	1759048440450048460	CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o	cc3516212c3ed303
+164	244	1759048440610005190	HelpPrincess	34dd721df4e2293a
+4	108	1759048488626232032	CMakeFiles/HelpPrincess.dir/src/main.cpp.o	5539f59b50b67885
+4	159	1759048488626501897	CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o	cc3516212c3ed303
+159	240	1759048488781680722	HelpPrincess	34dd721df4e2293a
+3	145	1759048556559155116	CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o	cc3516212c3ed303
+145	218	1759048556700742908	HelpPrincess	34dd721df4e2293a
+4	94	1759048856113398005	CMakeFiles/HelpPrincess.dir/src/main.cpp.o	5539f59b50b67885
+4	143	1759048856113666370	CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o	cc3516212c3ed303
+143	216	1759048856252526306	HelpPrincess	34dd721df4e2293a
+4	98	1759049002196085530	CMakeFiles/HelpPrincess.dir/src/main.cpp.o	5539f59b50b67885
+4	148	1759049002196349395	CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o	cc3516212c3ed303
+148	219	1759049002340084815	HelpPrincess	34dd721df4e2293a

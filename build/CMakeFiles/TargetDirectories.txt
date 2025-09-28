@@ -1,0 +1,3 @@
+/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir
+/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/edit_cache.dir
+/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/rebuild_cache.dir

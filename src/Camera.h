@@ -2,6 +2,14 @@
 #define CAMERA_H
 
 #include "PCH.h"
+#include "Ray.h"
+
+struct CameraData
+{
+    glm::mat4 projection;
+    glm::mat4 view;
+    alignas(16) glm::vec3 viewPos;
+};
 
 struct Camera
 {
@@ -9,7 +17,7 @@ struct Camera
     glm::vec3 target   {0.0f, 0.0f, 0.0f};
     glm::vec3 up       {0.0f, 1.0f, 0.0f};
 
-    float fov        = 45.0f;     // field of view in degrees
+    float fov        = 35.0f;     // field of view in degrees
     float aspect     = 4.0f/3.0f; // width / height
     float near_plane = 0.1f;
     float far_plane  = 100.0f;
@@ -24,6 +32,15 @@ struct Camera
     glm::mat4 get_projection_matrix() const
     {
         return glm::perspective(glm::radians(fov), aspect, near_plane, far_plane);
+    }
+
+    CameraData get_camera_data() const
+    {
+        CameraData data{};
+        data.projection = get_projection_matrix();
+        data.view       = get_view_matrix();
+        data.viewPos    = position;
+        return data;
     }
 
     void camera_move_left(float distance)
@@ -54,6 +71,24 @@ struct Camera
         glm::vec3 dir = glm::normalize(up);
         position -= dir * distance;
         target   -= dir * distance;
+    }
+
+    // // Convert screen coordinates (pixels) to world ray
+    Ray screen_point_to_ray(const glm::vec2& screen_pos, const glm::vec2& screen_size) const
+    {
+        // Normalize screen coords to NDC
+        float x = (2.0f * screen_pos.x) / screen_size.x - 1.0f;
+        float y = 1.0f - (2.0f * screen_pos.y) / screen_size.y;
+        glm::vec4 ray_ndc(x, y, -1.0f, 1.0f);
+
+        // Clip space -> view space
+        glm::vec4 ray_eye = glm::inverse(get_projection_matrix()) * ray_ndc;
+        ray_eye.z = -1.0f; ray_eye.w = 0.0f;
+
+        // View space -> world space
+        glm::vec3 ray_wor = glm::normalize(glm::vec3(glm::inverse(get_view_matrix()) * ray_eye));
+
+        return { position, ray_wor };
     }
 };
 

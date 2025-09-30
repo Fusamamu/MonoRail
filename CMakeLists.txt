@@ -35,7 +35,13 @@ add_executable(${PROJECT_NAME}
         src/Scene.cpp
         src/Scene.h
         src/SceneManager.cpp
-        src/SceneManager.h)
+        src/SceneManager.h
+        src/Ray.cpp
+        src/Ray.h
+        src/PerlinNoise.cpp
+        src/PerlinNoise.h
+        src/FrameBuffer.cpp
+        src/FrameBuffer.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ./vendors/assimp/include)

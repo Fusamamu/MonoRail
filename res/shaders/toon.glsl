@@ -9,10 +9,11 @@ out vec2 TexCoord;
 out vec3 FragPos;
 out vec3 Normal;
 
-layout (std140) uniform Matrices
+layout (std140) uniform CameraData
 {
     mat4 proj;
     mat4 view;
+    vec3 view_position;
 };
 
 uniform mat4 model;
@@ -37,9 +38,9 @@ in vec3 Normal;
 
 out vec4 color;
 
-uniform vec3 LightDir    = normalize(vec3(-0.5, -1.0, -0.3));
-uniform vec3 LightColor  = vec3(1.0, 1.0, 1.0);
-uniform vec3 ObjectColor = vec3(1.0, 0.5, 0.2);
+uniform vec3 LightDir       = normalize(vec3(-0.5, -1.0, -0.3));
+uniform vec3 LightColor     = vec3(1.0, 1.0, 1.0);
+uniform vec3 u_object_color = vec3(1.0, 0.5, 0.2);
 
 void main()
 {
@@ -56,7 +57,7 @@ void main()
     else if (diff > 0.25)  diff = 0.4;
     else                   diff = 0.1;
 
-    vec3 result = diff * LightColor * ObjectColor;
+    vec3 result = diff * LightColor * u_object_color;
     color = vec4(result, 1.0);
 }
 

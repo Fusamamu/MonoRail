@@ -2,9 +2,12 @@
 
 void ResourceManager::init()
 {
-    load_model ("../res/models/teapot.fbx");
-    load_model ("../res/models/monkey.fbx");
-    load_shader("../res/shaders/toon.glsl");
+    load_model ("../res/models/teapot.fbx"       );
+    load_model ("../res/models/monkey.fbx"       );
+    load_model ("../res/models/tile.fbx"         );
+    load_shader("../res/shaders/toon.glsl"       );
+    load_shader("../res/shaders/phong.glsl"      );
+    load_shader("../res/shaders/screen_quad.glsl");
 }
 
 void ResourceManager::load_model(std::filesystem::path _path)

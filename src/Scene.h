@@ -9,8 +9,17 @@
 #include "ResourceManager.h"
 #include "MeshRenderer.h"
 #include "Grid.h"
+#include "FrameBuffer.h"
 
 class Engine;
+
+struct Light
+{
+    alignas(16) glm::vec3 direction;
+    alignas(16) glm::vec3 ambient;
+    alignas(16) glm::vec3 diffuse;
+    alignas(16) glm::vec3 specular;
+};
 
 class Scene {
 public:
@@ -33,7 +42,7 @@ public:
         return m_registry;
     }
 
-    void create_object(const std::string& name, const std::string& _mesh_name, glm::vec3 _position);
+    void create_object(const std::string& _name, const std::string& _mesh_name, glm::vec3 _position);
 
     void on_enter();
     void on_exit();
@@ -45,7 +54,10 @@ private:
     entt::registry m_registry;
     InputSystem    m_input_system;
 
-    unsigned int m_ubo;
+    unsigned int m_camera_data_ubo;
+    unsigned int m_light_data_ubo;
+
+    FrameBuffer    m_framebuffer;
 };
 
 #endif

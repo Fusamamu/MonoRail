@@ -26,6 +26,11 @@ public:
     void set_mat4_uniform_view                  (glm::mat4 _view               ) const;
     void set_mat4_uniform_projection            (glm::mat4 _projection         ) const;
 
+    void set_int(const std::string& _name, int _value)
+    {
+        glUniform1i(glGetUniformLocation(id, _name.c_str()), _value);
+    }
+
     void block_bind(const std::string& _block_name, uint32_t _bind_point)
     {
         unsigned int uniform_block_index  = glGetUniformBlockIndex(id, _block_name.c_str());

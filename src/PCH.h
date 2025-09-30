@@ -12,6 +12,11 @@
 #include <memory>
 #include <filesystem>
 #include <functional>
+#include <limits>
+#include <numeric>
+#include <random>
+#include <algorithm>
+#include <cmath>
 
 #include <GL/glew.h>
 #include <SDL2/SDL.h>

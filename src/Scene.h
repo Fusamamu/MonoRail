@@ -13,12 +13,21 @@
 
 class Engine;
 
-struct Light
+struct LightData
 {
     alignas(16) glm::vec3 direction;
     alignas(16) glm::vec3 ambient;
     alignas(16) glm::vec3 diffuse;
     alignas(16) glm::vec3 specular;
+};
+
+struct FogData
+{
+    alignas(16) glm::vec3 fogColor;  // 12 bytes + 4 bytes padding
+    alignas(4)  float fogStart;      // 4 bytes
+    alignas(4)  float fogEnd;        // 4 bytes
+    alignas(4)  float fogDensity;    // 4 bytes
+    alignas(4)  float pad;           // extra padding to make total size multiple of 16 bytes
 };
 
 class Scene {
@@ -56,6 +65,8 @@ private:
 
     unsigned int m_camera_data_ubo;
     unsigned int m_light_data_ubo;
+    GLuint m_fog_data_ubo;
+
 
     FrameBuffer    m_framebuffer;
 };

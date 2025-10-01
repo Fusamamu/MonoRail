@@ -31,6 +31,11 @@ public:
         glUniform1i(glGetUniformLocation(id, _name.c_str()), _value);
     }
 
+    void set_float(const std::string& _name, float _value)
+    {
+        glUniform1f(glGetUniformLocation(id, _name.c_str()), _value);
+    }
+
     void block_bind(const std::string& _block_name, uint32_t _bind_point)
     {
         unsigned int uniform_block_index  = glGetUniformBlockIndex(id, _block_name.c_str());

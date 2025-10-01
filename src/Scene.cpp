@@ -13,29 +13,13 @@ void Scene::on_enter()
     auto& _camera = m_registry.ctx().get<Camera>();
     _camera.position = { 20.0f, 20.0f, 20.0f };
 
-    glm::mat4 _view  = _camera.get_view_matrix();
-    glm::mat4 _proj  = _camera.get_projection_matrix();
+    Shader* _default_shader = ResourceManager::instance().get_shader("phong");
+    _default_shader->use();
+    _default_shader->block_bind("CameraData"           , 0);
+    _default_shader->block_bind("DirectionalLightBlock", 1);
+    _default_shader->block_bind("FogDataBlock"         , 2);
+    _default_shader->set_float("u_shininess", 100.0f);
 
-    Shader* _default_shader = ResourceManager::instance().get_shader("toon");
-    // _default_shader->block_bind("CameraBlock", 0);
-
-    // unsigned int uniform_block_index  = glGetUniformBlockIndex(_default_shader->id, "CameraData");
-    // glUniformBlockBinding(_default_shader->id, uniform_block_index, 0);
-
-    //this work !!!
-    // glGenBuffers(1, &m_camera_data_ubo);
-    // glBindBuffer(GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    // glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
-    // glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    // glBindBufferRange(GL_UNIFORM_BUFFER, 0, m_camera_data_ubo, 0, 2 * sizeof(glm::mat4));
-    //
-    // glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    // glBufferSubData(GL_UNIFORM_BUFFER, 0                , sizeof(glm::mat4), glm::value_ptr(_proj));
-    // glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(_view));
-    // glBindBuffer   (GL_UNIFORM_BUFFER, 0);
-
-
-    //this doesn't work!!!
     glGenBuffers(1, &m_camera_data_ubo);
     glBindBuffer(GL_UNIFORM_BUFFER, m_camera_data_ubo);
     glBufferData(GL_UNIFORM_BUFFER, sizeof(CameraData), nullptr, GL_DYNAMIC_DRAW);
@@ -43,46 +27,49 @@ void Scene::on_enter()
 
     CameraData camera_data = _camera.get_camera_data();
 
-    glBindBuffer(GL_UNIFORM_BUFFER, m_camera_data_ubo);
+    glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraData), &camera_data);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-
-    // // Generate buffer
-    // glGenBuffers(1, &m_camera_data_ubo);
-    // glBindBuffer(GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    // glBufferData(GL_UNIFORM_BUFFER, sizeof(CameraData), nullptr, GL_DYNAMIC_DRAW);
-    // glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    //
-    // // Fill data
-    // CameraData camera_data{};
-    // camera_data.projection = _camera.get_projection_matrix();
-    // camera_data.view       = _camera.get_view_matrix();
-    //
-    // glBindBuffer(GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    // glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraData), &camera_data);
-    // glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_camera_data_ubo);
 
+    //Light
+    glGenBuffers(1, &m_light_data_ubo);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_light_data_ubo);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(LightData), nullptr, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+    LightData _light_data{};
+    _light_data.direction = glm::normalize(glm::vec3(-1.0f, -1.0f, -1.0f));
+    _light_data.ambient   = glm::vec3(0.2f, 0.2f, 0.2f);
+    _light_data.diffuse   = glm::vec3(0.5f, 0.5f, 0.5f);
+    _light_data.specular  = glm::vec3(1.0f, 1.0f, 1.0f);
+
+    glBindBuffer   (GL_UNIFORM_BUFFER, m_light_data_ubo);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(LightData), &_light_data);
+    glBindBuffer   (GL_UNIFORM_BUFFER, 0);
+
+    glBindBufferBase(GL_UNIFORM_BUFFER, 1, m_light_data_ubo);
 
 
+    //Fog
+    glGenBuffers(1, &m_fog_data_ubo);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_fog_data_ubo);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(FogData), nullptr, GL_STATIC_DRAW); // or nullptr if updating later
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-    // glGenBuffers(1, &m_light_data_ubo);
-    // glBindBuffer(GL_UNIFORM_BUFFER, m_light_data_ubo);
-    // glBufferData(GL_UNIFORM_BUFFER, sizeof(Light), nullptr, GL_STATIC_DRAW);
-    // glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    FogData fog{};
+    fog.fogColor   = glm::vec3(1.0f, 1.0f, 0.5f); // gray fog
+    fog.fogStart   = 5.0f;
+    fog.fogEnd     = 10.0f;
+    fog.fogDensity = 3.0f;
+    fog.pad        = 0.0f; // padding must be set
 
+    glBindBuffer   (GL_UNIFORM_BUFFER, m_fog_data_ubo);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(FogData), &fog);
+    glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
-
-    // GLuint fogUBO;
-    // glGenBuffers(1, &fogUBO);
-    // glBindBuffer(GL_UNIFORM_BUFFER, fogUBO);
-    // glBufferData(GL_UNIFORM_BUFFER, sizeof(FogData), nullptr, GL_DYNAMIC_DRAW);
-    // glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    //
-    // glBindBufferBase(GL_UNIFORM_BUFFER, 0, fogUBO);// Bind UBO to binding point 0
-
+    glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
 
     auto& _grid = m_registry.ctx().get<Grid>();
     _grid.generate_tiles_with_perlin(m_registry);
@@ -146,7 +133,7 @@ void Scene::on_render(float delta_time)
     glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    Shader* _default_shader = ResourceManager::instance().get_shader("toon");
+    Shader* _default_shader = ResourceManager::instance().get_shader("phong");
     _default_shader->use();
 
     auto _mesh_view = m_registry.view<Transform, MeshRenderer>();

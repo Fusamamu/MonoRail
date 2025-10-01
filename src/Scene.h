@@ -69,6 +69,9 @@ private:
 
 
     FrameBuffer    m_framebuffer;
+
+
+    LightData _light_data;
 };
 
 #endif

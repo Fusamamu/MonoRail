@@ -39,7 +39,6 @@ void Scene::on_enter()
     glBufferData(GL_UNIFORM_BUFFER, sizeof(LightData), nullptr, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-    LightData _light_data{};
     _light_data.direction = glm::normalize(glm::vec3(-1.0f, -1.0f, -1.0f));
     _light_data.ambient   = glm::vec3(0.2f, 0.2f, 0.2f);
     _light_data.diffuse   = glm::vec3(0.5f, 0.5f, 0.5f);
@@ -166,6 +165,24 @@ void Scene::on_render(float delta_time)
     glBindTexture(GL_TEXTURE_2D, m_framebuffer.get_color_texture());
 
     _mesh_renderer.draw();
+
+    //ImGui
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+
+    ImGui::Begin("Scene debug");
+    if (ImGui::DragFloat3("Light direction", &_light_data.direction[0], 0.1f, -100.0f, 100.0f))
+    {
+        _light_data.direction = glm::normalize(_light_data.direction);
+        glBindBuffer   (GL_UNIFORM_BUFFER, m_light_data_ubo);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(LightData), &_light_data);
+        glBindBuffer   (GL_UNIFORM_BUFFER, 0);
+    }
+    ImGui::End();
+
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     SDL_GL_SwapWindow(p_window);
     SDL_Delay(16);

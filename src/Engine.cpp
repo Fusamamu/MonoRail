@@ -69,6 +69,20 @@ void Engine::init()
         return;
     }
 
+    SDL_GL_MakeCurrent(p_window, context);
+    SDL_GL_SetSwapInterval(1); // Enable vsync
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    ImGui::StyleColorsDark();
+
+    const char* glsl_version = "#version 150";
+    ImGui_ImplSDL2_InitForOpenGL(p_window, context);
+    ImGui_ImplOpenGL3_Init(glsl_version);
+
     ResourceManager::instance().init();
 }
 

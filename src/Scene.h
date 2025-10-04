@@ -16,23 +16,6 @@
 
 class Engine;
 
-struct LightData
-{
-    alignas(16) glm::vec3 direction;
-    alignas(16) glm::vec3 ambient;
-    alignas(16) glm::vec3 diffuse;
-    alignas(16) glm::vec3 specular;
-};
-
-struct FogData
-{
-    alignas(16) glm::vec3 fogColor;  // 12 bytes + 4 bytes padding
-    alignas(4)  float fogStart;      // 4 bytes
-    alignas(4)  float fogEnd;        // 4 bytes
-    alignas(4)  float fogDensity;    // 4 bytes
-    alignas(4)  float pad;           // extra padding to make total size multiple of 16 bytes
-};
-
 class Scene {
 public:
     SDL_Window*   p_window;
@@ -72,13 +55,8 @@ private:
     GLuint m_light_data_ubo;
     GLuint m_fog_data_ubo;
 
-    FrameBuffer m_framebuffer;
-    FrameBuffer m_depth_framebuffer;
-
     LightData m_light_data;
     FogData   m_fog_data;
-
-    bool m_display_depth = false;
 
     GizmosRenderer m_gizmos_renderer;
 

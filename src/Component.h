@@ -35,7 +35,6 @@ struct Transform
     }
 };
 
-
 struct Node
 {
     std::string name;
@@ -169,6 +168,41 @@ struct Material
     {
 
     }
+};
+
+struct LightData
+{
+    alignas(16) glm::vec3 direction;
+    alignas(16) glm::vec3 ambient;
+    alignas(16) glm::vec3 diffuse;
+    alignas(16) glm::vec3 specular;
+};
+
+struct DirectionalLight
+{
+    glm::vec3 direction   = glm::vec3(-0.2f, -1.0f, -0.3f);
+    glm::vec3 ambient     = glm::vec3(0.2f);
+    glm::vec3 diffuse     = glm::vec3(0.5f);
+    glm::vec3 specular    = glm::vec3(1.0f);
+
+    LightData to_light_data() const
+    {
+        LightData data{};
+        data.direction = direction;
+        data.ambient   = ambient;
+        data.diffuse   = diffuse;
+        data.specular  = specular;
+        return data;
+    }
+};
+
+struct FogData
+{
+    alignas(16) glm::vec3 fogColor;  // 12 bytes + 4 bytes padding
+    alignas(4)  float fogStart;      // 4 bytes
+    alignas(4)  float fogEnd;        // 4 bytes
+    alignas(4)  float fogDensity;    // 4 bytes
+    alignas(4)  float pad;           // extra padding to make total size multiple of 16 bytes
 };
 
 #endif

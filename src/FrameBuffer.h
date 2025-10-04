@@ -15,12 +15,17 @@ public:
 
     void resize(unsigned int new_width, unsigned int new_height);
 
+    void attach_color_texture();
+    void attach_depth_texture();
+
     GLuint get_color_texture() const;
+    GLuint get_depth_texture() const;
     GLuint get_fbo() const;
 
 private:
     GLuint m_fbo;
     GLuint m_color_texture;
+    GLuint m_depth_texture;
     GLuint m_depth_rbo;
 
     unsigned int m_width;

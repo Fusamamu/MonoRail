@@ -5,9 +5,15 @@ void ResourceManager::init()
     load_model ("../res/models/teapot.fbx"       );
     load_model ("../res/models/monkey.fbx"       );
     load_model ("../res/models/tile.fbx"         );
+    load_model ("../res/models/tile_pillar.fbx"  );
+    load_model ("../res/models/large_plane.fbx"  );
+
     load_shader("../res/shaders/toon.glsl"       );
     load_shader("../res/shaders/phong.glsl"      );
     load_shader("../res/shaders/screen_quad.glsl");
+    load_shader("../res/shaders/depth_quad.glsl" );
+    load_shader("../res/shaders/fog_plane.glsl"  );
+    load_shader("../res/shaders/aabb.glsl"       );
 }
 
 void ResourceManager::load_model(std::filesystem::path _path)

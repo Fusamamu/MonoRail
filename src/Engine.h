@@ -17,9 +17,6 @@
 class Engine
 {
 public:
-    unsigned int SCREEN_WIDTH;
-    unsigned int SCREEN_HEIGHT;
-
     SDL_Window*   p_window;
     SDL_GLContext context;
     SDL_Event     sdl_event;

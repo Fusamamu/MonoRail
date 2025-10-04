@@ -50,7 +50,12 @@ add_executable(${PROJECT_NAME}
         src/PerlinNoise.cpp
         src/PerlinNoise.h
         src/FrameBuffer.cpp
-        src/FrameBuffer.h)
+        src/FrameBuffer.h
+        src/GizmosRenderer.cpp
+        src/GizmosRenderer.h
+        src/RenderPipeline.cpp
+        src/RenderPipeline.h
+        src/ApplicationConfig.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ./vendors/assimp/include)

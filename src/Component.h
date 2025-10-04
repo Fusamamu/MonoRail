@@ -3,6 +3,39 @@
 
 #include "PCH.h"
 
+struct Transform
+{
+    glm::vec3 position;
+    glm::vec3 rotation;
+    glm::vec3 scale   ;
+
+    glm::mat4 world_mat;
+
+    Transform():
+        position({ 0.0f, 0.0f, 0.0f }),
+        rotation({ 0.0f, 0.0f, 0.0f }),
+        scale   ({ 1.0f, 1.0f, 1.0f })
+    {
+
+    }
+
+    glm::mat4 get_local_mat4() const
+    {
+        glm::mat4 translation = glm::translate(glm::mat4(1.0f), position);
+
+        // rotation order: Y (yaw), X (pitch), Z (roll) — you can change if needed
+        glm::mat4 rotX = glm::rotate(glm::mat4(1.0f), rotation.x, glm::vec3(1,0,0));
+        glm::mat4 rotY = glm::rotate(glm::mat4(1.0f), rotation.y, glm::vec3(0,1,0));
+        glm::mat4 rotZ = glm::rotate(glm::mat4(1.0f), rotation.z, glm::vec3(0,0,1));
+        glm::mat4 rotationMat = rotZ * rotY * rotX;
+
+        glm::mat4 scaling = glm::scale(glm::mat4(1.0f), scale);
+
+        return translation * rotationMat * scaling;
+    }
+};
+
+
 struct Node
 {
     std::string name;
@@ -18,19 +51,50 @@ struct Tile
     Tile(uint32_t x, uint32_t y) : idx(x), idy(y) {}
 };
 
-struct Transform
+struct Agent
 {
-    glm::vec3 position;
-    glm::vec3 rotation;
-    glm::vec3 scale;
+    glm::vec2 move_direction { 1.0f, 0.0f };
 
-    Transform():
-        position({ 0.0f, 0.0f, 0.0f }),
-        rotation({ 0.0f, 0.0f, 0.0f }),
-        scale   ({ 0.0f, 0.0f, 0.0f })
+    float move_amount   = 0.1f;
+    float move_duration = 0.5f;
+    float move_elapsed  = 0.0f;
+
+    Agent() = default;
+
+    void update_move(float _dt, Transform& _transform)
     {
+        move_elapsed += _dt;
+        if (move_elapsed > 1.0f)
+            move_elapsed = 0.0f;
 
+        float _ease = ease_out_elastic(move_elapsed);
+
+        _transform.position = glm::mix(glm::vec3(0.0f), { 0.0f, 5.0f, 0.0f} , _ease);
     }
+
+    float ease_out_elastic(float t) {
+        const float c4 = (2.0f * 3.14159265f) / 3.0f;
+        if (t == 0)
+            return 0;
+        if (t == 1)
+            return 1;
+        return pow(2, -10 * t) * sin((t * 10 - 0.75f) * c4) + 1;
+    }
+
+};
+
+struct ParentChild
+{
+    entt::entity parent = entt::null;
+    std::vector<entt::entity> children;
+};
+
+struct Parent {
+    entt::entity entity = entt::null;
+};
+
+struct Children {
+    std::vector<entt::entity> entities;
 };
 
 struct AABB
@@ -90,6 +154,9 @@ struct Material
     glm::vec3 specularColor  {1.0f, 1.0f, 1.0f};  // highlight color
     float     shininess      {32.0f};             // specular exponent
     float     opacity        {1.0f};              // transparency
+
+    bool depth_test  = true;
+    bool depth_write = true;
 
     unsigned int diffuseMap  = 0;  // OpenGL texture ID
     unsigned int specularMap = 0;  // OpenGL texture ID

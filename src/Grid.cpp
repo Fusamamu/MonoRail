@@ -75,7 +75,7 @@ void Grid::generate_tiles_with_perlin(entt::registry& _registry) {
 
                 entt::entity _e = _registry.create();
 
-                Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh("tile");
+                Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh("tile_pillar");
 
                 auto& _tile = _registry.emplace<Tile>(_e, Tile(x, y));
 
@@ -90,7 +90,7 @@ void Grid::generate_tiles_with_perlin(entt::registry& _registry) {
                 _aabb.max = {  0.5f,  0.5f,  0.5f };
 
                 auto& _material = _registry.emplace<Material>(_e);
-                _material.shader_id = "toon"; // could also vary by type
+                _material.shader_id = "phong"; // could also vary by type
 
                 auto& _mesh_renderer = _registry.emplace<MeshRenderer>(_e);
                 _mesh_renderer.load_mesh      (_tile_mesh);

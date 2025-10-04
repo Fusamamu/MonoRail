@@ -1,9 +1,10 @@
 #include "Engine.h"
+#include "ApplicationConfig.h"
+
+ApplicationConfig g_app_config;
 
 Engine::Engine(): 
-    m_is_running(true),
-    SCREEN_WIDTH(1600),
-    SCREEN_HEIGHT(1200)
+    m_is_running(true)
 {
 
 }
@@ -36,8 +37,8 @@ void Engine::init()
                 "Help princess",
                 SDL_WINDOWPOS_CENTERED,
                 SDL_WINDOWPOS_CENTERED,
-                SCREEN_WIDTH,
-                SCREEN_HEIGHT,
+                g_app_config.SCREEN_WIDTH,
+                g_app_config.SCREEN_HEIGHT,
                 window_flags);
 
 
@@ -64,7 +65,7 @@ void Engine::init()
     {
         std::cerr << "Failed to initialize GLEW" << std::endl;
         SDL_GL_DeleteContext(context);
-        SDL_DestroyWindow(p_window);
+        SDL_DestroyWindow   (p_window);
         SDL_Quit();
         return;
     }
@@ -93,8 +94,25 @@ void Engine::update()
     Scene* _scene = scene_manager.create_scene("new scene", this);
     _scene->p_window = p_window;
 
-    _scene->create_object("object", "teapot", {5.0f, 0.0f, 0.0f});
-    _scene->create_object("object", "monkey", {0.0f, 1.0f, 0.0f});
+    Material _phong_material;
+    _phong_material.shader_id = "phong";
+
+    Material _toon_material;
+    _toon_material.shader_id = "toon";
+
+    Material _fog_plane_material;
+    _fog_plane_material.shader_id = "fog_plane";
+    _fog_plane_material.depth_write = false;
+
+    _scene->create_object("object", "teapot"      , {5.0f,  0.0f, 0.0f}, _phong_material);
+    _scene->create_object("object", "monkey"      , {0.0f,  1.0f, 0.0f}, _toon_material) ;
+    _scene->create_object("object", "large_plane" , {0.0f, -2.0f, 0.0f}, _fog_plane_material);
+
+    entt::entity _agent_e = _scene->create_object("player", "teapot", {0.0f, 0.0f, 5.0f}, _toon_material);
+    entt::entity _child_e = _scene->create_object("child" , "teapot", {0.0f, 0.0f, 8.0f}, _toon_material);
+
+    _scene->get_registry().emplace<Agent>   (_agent_e);
+    _scene->get_registry().emplace<Parent>  (_child_e).entity = _agent_e;
 
     _scene->on_enter();
     while(m_is_running)

@@ -38,7 +38,7 @@ Shader::Shader(std::filesystem::path _path)
             _shader_type = ShaderType::GEOMETRY;
             continue;
         }
-        if(_line.find("shader fragment") != std::string::npos)
+        if(_line.find("#shader fragment") != std::string::npos)
         {
             _shader_type = ShaderType::FRAGMENT;
             continue;

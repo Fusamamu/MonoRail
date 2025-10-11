@@ -58,9 +58,9 @@ struct Cube
         Mesh mesh;
 
         mesh.layout = {};
-        mesh.layout.addElement(VertexAttribute::POSITION  , 0                      , sizeof(float) * 3, GL_FLOAT, 3);
-        mesh.layout.addElement(VertexAttribute::NORMAL    , sizeof(float) * 3      , sizeof(float) * 3, GL_FLOAT, 3);
-        mesh.layout.addElement(VertexAttribute::TEXCOORD_0, sizeof(float) * 6      , sizeof(float) * 2, GL_FLOAT, 2);
+        mesh.layout.add_element(VertexAttribute::POSITION  , 0                      , sizeof(float) * 3, GL_FLOAT, 3);
+        mesh.layout.add_element(VertexAttribute::NORMAL    , sizeof(float) * 3      , sizeof(float) * 3, GL_FLOAT, 3);
+        mesh.layout.add_element(VertexAttribute::TEXCOORD_0, sizeof(float) * 6      , sizeof(float) * 2, GL_FLOAT, 2);
         mesh.layout.stride = sizeof(float) * 8;
 
         mesh.vertex_buffer.resize(sizeof(vertices));

@@ -41,6 +41,14 @@ public:
         glUniform2f(glGetUniformLocation(id,_name.c_str()), (float)_value.x, (float)_value.y);
     }
 
+    void set_mat4(const std::string& _name, const glm::mat4& _matrix) const
+    {
+        GLint _loc = glGetUniformLocation(id, _name.c_str());
+        // if (_loc == -1)
+        //     std::cerr << "Warning: uniform '" << _name << "' doesn't exist!\n";
+        glUniformMatrix4fv(_loc, 1, GL_FALSE, glm::value_ptr(_matrix));
+    }
+
     void block_bind(const std::string& _block_name, uint32_t _bind_point)
     {
         unsigned int uniform_block_index  = glGetUniformBlockIndex(id, _block_name.c_str());

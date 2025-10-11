@@ -51,13 +51,8 @@ private:
     RenderPipeline m_render_pipeline;
     InputSystem    m_input_system;
 
-    GLuint m_camera_data_ubo;
-    GLuint m_light_data_ubo;
     GLuint m_fog_data_ubo;
-
-    LightData m_light_data;
-    FogData   m_fog_data;
-
+    FogData m_fog_data;
     GizmosRenderer m_gizmos_renderer;
 
     void update_world_transform(entt::entity _entity, const glm::mat4& _parent_world)

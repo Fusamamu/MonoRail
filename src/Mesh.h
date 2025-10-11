@@ -1,6 +1,42 @@
 #ifndef MESH_H
 #define MESH_H
 
+#include "PCH.h"
+
+#define MAX_BONE_INFLUENCE 4
+
+struct Vertex
+{
+    glm::vec3 Position;
+    glm::vec3 Normal;
+    glm::vec2 TexCoords;
+
+    int   BoneIDs[MAX_BONE_INFLUENCE];
+    float Weights[MAX_BONE_INFLUENCE];
+
+    Vertex()
+    {
+        for(int _i = 0; _i < 4; _i++)
+        {
+            BoneIDs[_i] = -1;
+            Weights[_i] = 0.0f;
+        }
+    }
+
+    void add_bone_data(int _bone_id, float _weight)
+    {
+        for (int i = 0; i < MAX_BONE_INFLUENCE; i++)
+        {
+            if (Weights[i] == 0.0f)
+            {
+                BoneIDs[i] = _bone_id;
+                Weights[i] = _weight;
+                return;
+            }
+        }
+    }
+};
+
 enum class VertexAttribute
 {
     POSITION,
@@ -26,7 +62,7 @@ struct VertexLayout
 
     uint32_t stride;
 
-    void addElement(VertexAttribute _attr, uint32_t _offset, uint32_t _size, GLenum _glType, int _components, bool _normalized = false)
+    void add_element(VertexAttribute _attr, uint32_t _offset, uint32_t _size, GLenum _glType, int _components, bool _normalized = false)
     {
         elements.push_back({ _attr, _offset, _size, _glType, _components, _normalized });
     }
@@ -34,8 +70,8 @@ struct VertexLayout
 
 struct Mesh
 {
-    std::vector<uint8_t>      vertex_buffer;
-    std::vector<unsigned int> index_buffer;
+    std::vector<uint8_t>  vertex_buffer;
+    std::vector<uint32_t> index_buffer;
 
     VertexLayout layout;
 
@@ -90,6 +126,22 @@ struct Mesh
 
         return os;
     }
+};
+
+struct BoneInfo
+{
+    int id;
+    glm::mat4 offset_matrix;       // Bone to model space
+    glm::mat4 finalTransformation; // Final matrix passed to the shader
+};
+
+struct SkeletonMesh
+{
+    std::vector<Vertex>   vertices;
+    std::vector<uint32_t> indices;
+
+    int bone_count = 0;
+    std::map<std::string, BoneInfo> bone_mapping;
 };
 
 #endif

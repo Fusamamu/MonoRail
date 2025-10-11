@@ -6,12 +6,18 @@ RenderPipeline::RenderPipeline()
 
 RenderPipeline::~RenderPipeline()
 {
-
+    if (m_camera_data_ubo)
+        glDeleteBuffers(1, &m_camera_data_ubo);
+    if (m_light_data_ubo)
+        glDeleteBuffers(1, &m_light_data_ubo);
+    if (m_fog_data_ubo)
+        glDeleteBuffers(1, &m_fog_data_ubo);
 }
 
 void RenderPipeline::init(const entt::registry& _registry)
 {
     Shader* _phong_shader     = ResourceManager::instance().get_shader("phong"      );
+    Shader* _skeleton_shader  = ResourceManager::instance().get_shader("skeleton");
     Shader* _fog_plane_shader = ResourceManager::instance().get_shader("fog_plane"  );
     Shader* _depth_quad       = ResourceManager::instance().get_shader("depth_quad" );
     Shader* _screen_quad      = ResourceManager::instance().get_shader("screen_quad");
@@ -21,6 +27,12 @@ void RenderPipeline::init(const entt::registry& _registry)
     _phong_shader->block_bind("DirectionalLightBlock", 1);
     _phong_shader->block_bind("FogDataBlock"         , 2);
     _phong_shader->set_float("u_shininess", 100.0f);
+
+    _skeleton_shader->use();
+    _skeleton_shader->block_bind("CameraData"           , 0);
+    _skeleton_shader->block_bind("DirectionalLightBlock", 1);
+    _skeleton_shader->block_bind("FogDataBlock"         , 2);
+    _skeleton_shader->set_float("u_shininess", 100.0f);
 
     _fog_plane_shader->use();
     _fog_plane_shader->block_bind("CameraData"           , 0);
@@ -65,7 +77,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     glBufferData(GL_UNIFORM_BUFFER, sizeof(LightData), nullptr, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-    // //Gen fog ubo
+    //Gen fog ubo
     // glGenBuffers(1, &m_fog_data_ubo);
     // glBindBuffer(GL_UNIFORM_BUFFER, m_fog_data_ubo);
     // glBufferData(GL_UNIFORM_BUFFER, sizeof(FogData), nullptr, GL_STATIC_DRAW); // or nullptr if updating later
@@ -93,7 +105,7 @@ void RenderPipeline::init(const entt::registry& _registry)
         glBindBufferBase(GL_UNIFORM_BUFFER, 1, m_light_data_ubo);
     }
 
-    // //Fog
+    //Fog
     // m_fog_data.fogColor   = glm::vec3(0.5f, 0.5f, 0.5f); // gray fog
     // m_fog_data.fogStart   = -10.0f;
     // m_fog_data.fogEnd     = -4.0f;
@@ -105,10 +117,19 @@ void RenderPipeline::init(const entt::registry& _registry)
     // glBindBuffer   (GL_UNIFORM_BUFFER, 0);
     //
     // glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
+
+    SkeletonMesh* _skeleton_mesh = ResourceManager::instance().get_first_skeleton_mesh("test_idle_skeleton");
+    m_skeleton_mesh_renderer.load_mesh      (_skeleton_mesh);
+    m_skeleton_mesh_renderer.set_buffer_data(_skeleton_mesh);
+
+    m_animation = Animation("../res/models/test_idle_skeleton.fbx", _skeleton_mesh);
+    m_animator  = Animator(&m_animation);
 }
 
 void RenderPipeline::render(const entt::registry& _registry)
 {
+    m_animator.update_animation(0.016f);//!!!temp
+
     glm::mat4 _view  = _registry.ctx().get<Camera>().get_view_matrix();
 
     glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
@@ -129,9 +150,9 @@ void RenderPipeline::render(const entt::registry& _registry)
         auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
         auto& _material      = _registry.get<Material>    (_e);
 
-        Shader* _default_shader = ResourceManager::instance().get_shader(_material.shader_id);
-        _default_shader->use();
-        _default_shader->set_mat4_uniform_model(_transform.world_mat);
+        Shader* _found_shader = ResourceManager::instance().get_shader(_material.shader_id);
+        _found_shader->use();
+        _found_shader->set_mat4_uniform_model(_transform.world_mat);
 
         if (_material.depth_write)
             _mesh_renderer.draw();
@@ -182,6 +203,20 @@ void RenderPipeline::render(const entt::registry& _registry)
         if (!_material.depth_write)
             glDepthMask(GL_TRUE);    // restore
     }
+
+    glm::mat4 _model = glm::mat4(1.0f);
+    _model = glm::translate(_model, glm::vec3(5.0f, 0.0f, 5.0f));
+    _model = glm::scale    (_model, glm::vec3(0.05f));
+
+    Shader* _skeleton_shader = ResourceManager::instance().get_shader("skeleton");
+    _skeleton_shader->use();
+
+    auto transforms = m_animator.get_final_bone_matrices();
+    for (int i = 0; i < transforms.size(); ++i)
+        _skeleton_shader->set_mat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
+
+    _skeleton_shader->set_mat4_uniform_model(_model);
+    m_skeleton_mesh_renderer.draw();
 
     m_framebuffer.unbind();
 #pragma endregion

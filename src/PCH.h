@@ -17,14 +17,20 @@
 #include <random>
 #include <algorithm>
 #include <cmath>
+#include <cassert>
 
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
+// #define GLM_ENABLE_EXPERIMENTAL
+// #include <glm/gtx/transform.hpp>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/random.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

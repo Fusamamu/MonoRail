@@ -25,6 +25,9 @@ public:
     const std::vector<Mesh>* get_model(const std::string& name) const;
     Mesh* get_first_mesh(const std::string& name);
 
+    const std::vector<SkeletonMesh>* get_skeleton_model(const std::string& name) const;
+    SkeletonMesh* get_first_skeleton_mesh(const std::string& name);
+
     void load_shader(const std::filesystem::path _path);
     Shader* get_shader(const std::string& _name);
 
@@ -33,11 +36,17 @@ private:
     ~ResourceManager() = default;
 
     std::vector<Mesh>                              m_meshes;
-    std::map<std::string, std::vector<Mesh>>       m_models;
-    std::map<std::string, std::unique_ptr<Shader>> m_shaders;
+    std::vector<SkeletonMesh>                      m_skeleton_meshes;
+
+    std::map<std::string, std::vector<Mesh>>          m_models;
+    std::map<std::string, std::vector<SkeletonMesh>>  m_skeleton_models;
+    std::map<std::string, std::unique_ptr<Shader>>    m_shaders;
 
     void process_node(aiNode* node, const aiScene* scene);
     Mesh process_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene);
+
+    void process_skeleton_node(aiNode* node, const aiScene* scene);
+    SkeletonMesh process_skeleton_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene);
 };
 
 #endif

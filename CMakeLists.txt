@@ -55,7 +55,11 @@ add_executable(${PROJECT_NAME}
         src/GizmosRenderer.h
         src/RenderPipeline.cpp
         src/RenderPipeline.h
-        src/ApplicationConfig.h)
+        src/ApplicationConfig.h
+        src/SkeletonMeshRenderer.cpp
+        src/SkeletonMeshRenderer.h
+        src/Animation.cpp
+        src/Animation.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ./vendors/assimp/include)

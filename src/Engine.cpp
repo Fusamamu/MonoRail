@@ -106,6 +106,7 @@ void Engine::update()
 
     _scene->create_object("object", "teapot"      , {5.0f,  0.0f, 0.0f}, _phong_material);
     _scene->create_object("object", "monkey"      , {0.0f,  1.0f, 0.0f}, _toon_material) ;
+    _scene->create_object("object", "arrow"       , {0.0f,  5.0f, 0.0f}, _toon_material) ;
     _scene->create_object("object", "large_plane" , {0.0f, -2.0f, 0.0f}, _fog_plane_material);
 
     entt::entity _agent_e = _scene->create_object("player", "teapot", {0.0f, 0.0f, 5.0f}, _toon_material);

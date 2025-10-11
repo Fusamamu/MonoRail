@@ -10,6 +10,8 @@
 #include "Shader.h"
 #include "Component.h"
 #include "ResourceManager.h"
+#include "SkeletonMeshRenderer.h"
+#include "Animation.h"
 
 class RenderPipeline
 {
@@ -32,6 +34,12 @@ private:
     GLuint m_fog_data_ubo   ;
 
     MeshRenderer m_screen_mesh_renderer;
+
+    SkeletonMeshRenderer m_skeleton_mesh_renderer;
+
+    Animation m_animation;
+    Animator m_animator;
+
 };
 
 #endif

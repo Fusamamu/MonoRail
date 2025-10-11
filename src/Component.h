@@ -35,6 +35,11 @@ struct Transform
     }
 };
 
+struct RigidBody
+{
+    glm::vec3 velocity;
+};
+
 struct Node
 {
     std::string name;
@@ -80,6 +85,12 @@ struct Agent
         return pow(2, -10 * t) * sin((t * 10 - 0.75f) * c4) + 1;
     }
 
+};
+
+struct Boid
+{
+    uint32_t id;
+    Boid() = default;
 };
 
 struct ParentChild

@@ -5,6 +5,86 @@
 Scene::Scene() = default;
 Scene::~Scene() = default;
 
+float randomFloat(float min, float max) {
+    return min + static_cast<float>(rand()) / RAND_MAX * (max - min);
+}
+
+// sphere settings
+glm::vec3 center = glm::vec3(0.0f);
+float max_radius = 15.0f;
+
+void update_boids(entt::registry& reg, float dt) {
+    auto view = reg.view<Transform, RigidBody, Boid>();
+
+    for (auto e : view)
+    {
+        auto& _tf = view.get<Transform>(e);
+        auto& _rb = view.get<RigidBody>(e);
+
+        glm::vec3 separation{0.0f};
+        glm::vec3 alignment{0.0f};
+        glm::vec3 cohesion{0.0f};
+
+        int neighbor_count = 0;
+
+        for (auto other : view) {
+            if (other == e) continue;
+
+            auto& ot = view.get<Transform>(other);
+            auto& ov = view.get<RigidBody>(other);
+
+            float dist = glm::distance(_tf.position, ot.position);
+            if (dist < 10.0f) { // neighborhood radius
+                separation += (_tf.position - ot.position) / (dist*dist);
+                alignment  += ov.velocity;
+                cohesion   += ot.position;
+                neighbor_count++;
+            }
+        }
+
+        if (neighbor_count > 0) {
+            alignment /= neighbor_count;
+            cohesion  /= neighbor_count;
+
+            glm::vec3 cohesion_dir = cohesion - _tf.position;
+
+            _rb.velocity += (separation * 1.5f +
+                           alignment  * 1.0f +
+                           cohesion_dir * 1.0f) * dt;
+        }
+
+        if (glm::length(_rb.velocity) > 0.0001f) {
+            glm::vec3 forward = glm::normalize(_rb.velocity);
+
+            float yaw   = atan2(forward.x, forward.z);
+            float pitch = asin(-forward.y);
+            float roll  = 0.0f;
+
+            _tf.rotation = glm::vec3(pitch, yaw, roll);
+        }
+
+        // ✅ sphere containment
+        glm::vec3 to_center = center - _tf.position;
+        float dist_from_center = glm::length(to_center);
+        if (dist_from_center > max_radius) {
+            // steer strongly back if outside
+            _rb.velocity += glm::normalize(to_center) * 5.0f * dt;
+        } else if (dist_from_center > max_radius * 0.9f) {
+            // gently steer back if near boundary
+            _rb.velocity += glm::normalize(to_center) * 2.0f * dt;
+        }
+
+        // limit speed
+        float speed = glm::length(_rb.velocity);
+        if (speed > 5.0f) {
+            _rb.velocity = glm::normalize(_rb.velocity) * 5.0f;
+        }
+
+        // integrate position
+        _tf.position += _rb.velocity * dt;
+    }
+}
+
 void Scene::on_enter()
 {
     m_registry.ctx().emplace<Camera>();
@@ -15,6 +95,38 @@ void Scene::on_enter()
 
     auto _e_directional_light = m_registry.create();
     m_registry.emplace<DirectionalLight>(_e_directional_light);
+
+    for (int i = 0; i < 200; i++) {
+        auto _e = m_registry.create();
+
+        auto& _transform  = m_registry.emplace<Transform>(_e);
+        auto& _rigid_body = m_registry.emplace<RigidBody>(_e); // random unit direction
+        auto& _boid       = m_registry.emplace<Boid>     (_e);
+
+
+        _transform.position = glm::vec3(
+            randomFloat(-10.0f, 10.0f),
+            randomFloat(-10.0f, 10.0f),
+            randomFloat(-10.0f, 10.0f)
+        );
+
+        _rigid_body.velocity = glm::sphericalRand(1.0f); // radius = 1
+
+        _boid.id = i;
+
+        Mesh* _arrow_mesh = ResourceManager::instance().get_first_mesh("arrow");
+
+        auto& _material_comp = m_registry.emplace<Material>(_e);
+        _material_comp.shader_id   = "toon";
+        _material_comp.depth_test  = true;
+        _material_comp.depth_write = true;
+
+        auto& _mesh_renderer = m_registry.emplace<MeshRenderer>(_e);
+        _mesh_renderer.load_mesh      (_arrow_mesh);
+        _mesh_renderer.set_buffer_data(_arrow_mesh);
+    }
+
+
 
     m_render_pipeline.init(m_registry);
 
@@ -52,9 +164,6 @@ void Scene::on_exit()
 {
     if(on_exit_callback)
         on_exit_callback();
-
-    if(m_camera_data_ubo)
-        glDeleteBuffers(1, &m_camera_data_ubo);
 }
 
 void Scene::on_update(float delta_time)
@@ -92,6 +201,8 @@ void Scene::on_update(float delta_time)
 
         _transform.position.x += _agent.move_direction.x * _agent.move_amount;
     }
+
+    update_boids(m_registry, delta_time);
 
     auto _roots = m_registry.view<Transform>(entt::exclude<Parent>);
     for (auto _e : _roots)

@@ -6,6 +6,8 @@ namespace MGUI
     UIRenderer ui_renderer;
     Shader*    ui_shader;
 
+    std::unordered_map<std::string, WindowState> window_states;
+
     int hot_item = -1;
     int active_item = -1;
     std::vector<Window> window_stack;
@@ -27,8 +29,8 @@ namespace MGUI
         switch (e.type)
         {
             case SDL_MOUSEMOTION:
-                input.mouse_x = e.motion.x;
-                input.mouse_y = e.motion.y;
+                input.mouse_x = static_cast<float>(e.motion.x);
+                input.mouse_y = static_cast<float>(e.motion.y);
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 if (e.button.button == SDL_BUTTON_LEFT)
@@ -50,19 +52,49 @@ namespace MGUI
     }
 
     // ---------------- Window
-    void begin_window(const std::string& name, Vec2 pos, Vec2 size)
+    void begin_window(const std::string& name, MGUI::Vec2 pos, MGUI::Vec2 size)
     {
-        Window _window;
-        _window.pos    = pos;
-        _window.size   = size;
-        _window.cursor = {10, 25}; // starting inside window
+        // Get or create state
+        WindowState& state = window_states[name];
+        state.pos = state.pos.x != 0 || state.pos.y != 0 ? state.pos : pos;
+        state.size = size;
 
-        window_stack.push_back(_window);
+        bool mouse_inside = mouse_over(state.pos, state.size);
 
-        // Draw window background
-        draw_rect(pos, size, {0.2f, 0.2f, 0.2f, 1.0f});
-        //draw_text(name, {pos.x + 5, pos.y + 5});
+        if (mouse_inside && input.mouse_pressed)
+        {
+            if (!state.dragging)
+            {
+                state.dragging = true;
+                state.drag_offset.x = input.mouse_x - state.pos.x;
+                state.drag_offset.y = input.mouse_y - state.pos.y;
+            }
+        }
+
+        if (state.dragging)
+        {
+            if (input.mouse_down)
+            {
+                state.pos.x = input.mouse_x - state.drag_offset.x;
+                state.pos.y = input.mouse_y - state.drag_offset.y;
+            }
+            else
+                state.dragging = false;
+        }
+
+        // Layout cursor for widgets
+        Window w;
+        w.pos    = state.pos;
+        w.size   = state.size;
+        w.cursor = {10, 25};
+
+        window_stack.push_back(w);
+
+        // Draw window
+        draw_rect(w.pos, w.size, {0.2f,0.2f,0.2f,1.0f});
+        draw_text(name, {w.pos.x + 5, w.pos.y + 5});
     }
+
 
     void end_window()
     {

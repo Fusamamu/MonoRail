@@ -274,20 +274,9 @@ void RenderPipeline::render(const entt::registry& _registry)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    Shader* _ui_shader = ResourceManager::instance().get_shader("ui");
-    _ui_shader->use();
-
-
-
-
-
-    
-
     MGUI::begin_window("window", { 100.0f, 100.0f }, { 500.0f, 500.0f });
 
     MGUI::end_window();
-
-
 
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);

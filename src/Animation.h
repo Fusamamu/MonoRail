@@ -141,12 +141,8 @@ public:
         );
 
         if (_iter == m_bones.end())
-        {
-            //std::cout << "Bone " << _name << " not found" << std::endl;
             return nullptr;
-        }
 
-        std::cout << "Bone : " << _name << std::endl;
         return &(*_iter);
     }
 

@@ -277,6 +277,11 @@ void Scene::on_render(float delta_time)
         glBindBuffer   (GL_UNIFORM_BUFFER, 0);
     }
 
+    ImGui::Text("Mouse x: %.3f", static_cast<float>(MGUI::input.mouse_x));
+    ImGui::Text("Mouse y: %.3f", static_cast<float>(MGUI::input.mouse_y));
+
+
+
     ImGui::End();
 
     ImGui::Render();

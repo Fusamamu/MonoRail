@@ -16,12 +16,24 @@ namespace MGUI
         Vec2 pos;
         Vec2 size;
         Vec2 cursor; // for placing widgets
+        bool dragging = false;
+        Vec2 drag_offset;   // mouse offset from top-left when drag starts
     };
+
+    struct WindowState
+    {
+        Vec2 pos;
+        Vec2 size;
+        bool dragging = false;
+        Vec2 drag_offset;
+    };
+
+    extern std::unordered_map<std::string, WindowState> window_states;
 
     struct Input
     {
-        int mouse_x = 0;
-        int mouse_y = 0;
+        float mouse_x = 0;
+        float mouse_y = 0;
         bool mouse_down     = false;
         bool mouse_pressed  = false;
         bool mouse_released = false;

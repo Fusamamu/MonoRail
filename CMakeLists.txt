@@ -59,7 +59,11 @@ add_executable(${PROJECT_NAME}
         src/SkeletonMeshRenderer.cpp
         src/SkeletonMeshRenderer.h
         src/Animation.cpp
-        src/Animation.h)
+        src/Animation.h
+        src/UI/UIRenderer.cpp
+        src/UI/UIRenderer.h
+        src/UI/UI.cpp
+        src/UI/UI.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ./vendors/assimp/include)

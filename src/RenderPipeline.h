@@ -12,6 +12,7 @@
 #include "ResourceManager.h"
 #include "SkeletonMeshRenderer.h"
 #include "Animation.h"
+#include "UI/UI.h"
 
 class RenderPipeline
 {
@@ -40,6 +41,7 @@ private:
     Animation m_animation;
     Animator m_animator;
 
+    MGUI::UIRenderer m_ui_renderer;
 };
 
 #endif

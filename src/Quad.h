@@ -25,6 +25,22 @@ struct Quad
         -1.0f,  1.0f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 1.0f  // top-left
     };
 
+    // float ui_vertices[32] = {
+    //     // positions        // normals       // texcoords
+    //     0.0f, 0.0f, 0.0f,   0.0f, 0.0f, 1.0f,  0.0f, 0.0f, // bottom-left
+    //     1.0f, 0.0f, 0.0f,   0.0f, 0.0f, 1.0f,  1.0f, 0.0f, // bottom-right
+    //     1.0f, 1.0f, 0.0f,   0.0f, 0.0f, 1.0f,  1.0f, 1.0f, // top-right
+    //     0.0f, 1.0f, 0.0f,   0.0f, 0.0f, 1.0f,  0.0f, 1.0f  // top-left
+    // };
+
+    float ui_vertices[32] = {
+        // position          // normal        // uv
+        0.0f, 1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,  // top-left
+        1.0f, 0.0f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 0.0f,  // bottom-right
+        0.0f, 0.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,  // bottom-left
+        1.0f, 1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f   // top-right
+    };
+
     unsigned int indices[6] =
     {
         0, 1, 2,  // first triangle
@@ -64,6 +80,24 @@ struct Quad
 
         mesh.vertex_buffer.resize(sizeof(screen_vertices));
         std::memcpy(mesh.vertex_buffer.data(), screen_vertices, sizeof(screen_vertices));
+
+        mesh.index_buffer.assign(indices, indices + 6);
+
+        return mesh;
+    }
+
+    Mesh ui_vertices_to_mesh()
+    {
+        Mesh mesh;
+
+        mesh.layout = {};
+        mesh.layout.add_element(VertexAttribute::POSITION  , 0                      , sizeof(float) * 3, GL_FLOAT, 3);
+        mesh.layout.add_element(VertexAttribute::NORMAL    , sizeof(float) * 3      , sizeof(float) * 3, GL_FLOAT, 3);
+        mesh.layout.add_element(VertexAttribute::TEXCOORD_0, sizeof(float) * 6      , sizeof(float) * 2, GL_FLOAT, 2);
+        mesh.layout.stride = sizeof(float) * 8;
+
+        mesh.vertex_buffer.resize(sizeof(ui_vertices));
+        std::memcpy(mesh.vertex_buffer.data(), ui_vertices, sizeof(ui_vertices));
 
         mesh.index_buffer.assign(indices, indices + 6);
 

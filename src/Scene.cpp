@@ -202,7 +202,7 @@ void Scene::on_update(float delta_time)
         _transform.position.x += _agent.move_direction.x * _agent.move_amount;
     }
 
-    update_boids(m_registry, delta_time);
+    //update_boids(m_registry, delta_time);
 
     auto _roots = m_registry.view<Transform>(entt::exclude<Parent>);
     for (auto _e : _roots)

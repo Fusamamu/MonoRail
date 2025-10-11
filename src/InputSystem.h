@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <unordered_map>
+#include "UI/UI.h"
 
 class InputSystem
 {

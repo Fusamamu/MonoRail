@@ -85,6 +85,9 @@ void Engine::init()
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     ResourceManager::instance().init();
+
+    MGUI::init();
+    MGUI::ui_shader = ResourceManager::instance().get_shader("ui");
 }
 
 void Engine::update()

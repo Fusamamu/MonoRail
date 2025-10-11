@@ -13,6 +13,7 @@
 #include "ResourceManager.h"
 #include "InputSystem.h"
 #include "Component.h"
+#include "UI/UI.h"
 
 class Engine
 {

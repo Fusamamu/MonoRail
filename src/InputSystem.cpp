@@ -12,47 +12,48 @@ void InputSystem::update()
     m_key_down.clear();
     m_key_up.clear();
 
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
+    SDL_Event _event;
+    while (SDL_PollEvent(&_event))
     {
-        ImGui_ImplSDL2_ProcessEvent(&event);
+        ImGui_ImplSDL2_ProcessEvent(&_event);
+        MGUI::process_event(_event);
 
-        switch (event.type)
+        switch (_event.type)
         {
             case SDL_QUIT:
                 m_quit = true;
                 break;
 
             case SDL_KEYDOWN:
-                if (!event.key.repeat)
-                    m_key_down[event.key.keysym.scancode] = true;
-                m_key_held[event.key.keysym.scancode] = true;
+                if (!_event.key.repeat)
+                    m_key_down[_event.key.keysym.scancode] = true;
+                m_key_held[_event.key.keysym.scancode] = true;
 
-                if (event.key.keysym.sym == SDLK_ESCAPE)
+                if (_event.key.keysym.sym == SDLK_ESCAPE)
                     m_quit = true;
                 break;
 
             case SDL_KEYUP:
-                m_key_up  [event.key.keysym.scancode] = true;
-                m_key_held[event.key.keysym.scancode] = false;
+                m_key_up  [_event.key.keysym.scancode] = true;
+                m_key_held[_event.key.keysym.scancode] = false;
                 break;
 
             case SDL_MOUSEMOTION:
-                m_mouse_x = event.motion.x;
-                m_mouse_y = event.motion.y;
+                m_mouse_x = _event.motion.x;
+                m_mouse_y = _event.motion.y;
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
-                m_mouse_buttons[event.button.button] = true;
+                m_mouse_buttons[_event.button.button] = true;
                 break;
 
             case SDL_MOUSEBUTTONUP:
-                m_mouse_buttons[event.button.button] = false;
+                m_mouse_buttons[_event.button.button] = false;
                 break;
 
             case SDL_MOUSEWHEEL:
-                m_mouse_wheel_x = event.wheel.x;
-                m_mouse_wheel_y = event.wheel.y;
+                m_mouse_wheel_x = _event.wheel.x;
+                m_mouse_wheel_y = _event.wheel.y;
                 break;
         }
     }

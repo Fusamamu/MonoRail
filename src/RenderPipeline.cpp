@@ -17,10 +17,11 @@ RenderPipeline::~RenderPipeline()
 void RenderPipeline::init(const entt::registry& _registry)
 {
     Shader* _phong_shader     = ResourceManager::instance().get_shader("phong"      );
-    Shader* _skeleton_shader  = ResourceManager::instance().get_shader("skeleton");
+    Shader* _skeleton_shader  = ResourceManager::instance().get_shader("skeleton"   );
     Shader* _fog_plane_shader = ResourceManager::instance().get_shader("fog_plane"  );
     Shader* _depth_quad       = ResourceManager::instance().get_shader("depth_quad" );
     Shader* _screen_quad      = ResourceManager::instance().get_shader("screen_quad");
+    Shader* _ui_shader        = ResourceManager::instance().get_shader("ui"         );
 
     _phong_shader->use();
     _phong_shader->block_bind("CameraData"           , 0);
@@ -48,6 +49,17 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     _screen_quad->use();
     _screen_quad->set_int("u_screen_texture", 0);
+
+    glm::mat4 _ortho_proj = glm::ortho(
+        0.0f,
+        static_cast<float>(g_app_config.SCREEN_WIDTH),
+        static_cast<float>(g_app_config.SCREEN_HEIGHT),
+        0.0f,
+        -1.0f, 1.0f);
+
+
+    _ui_shader->use();
+    _ui_shader->set_mat4_uniform_projection(_ortho_proj);
 
     m_framebuffer       = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
     m_depth_framebuffer = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
@@ -124,6 +136,8 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     m_animation = Animation("../res/models/test_idle_skeleton.fbx", _skeleton_mesh);
     m_animator  = Animator(&m_animation);
+
+    m_ui_renderer.init();
 }
 
 void RenderPipeline::render(const entt::registry& _registry)
@@ -248,6 +262,36 @@ void RenderPipeline::render(const entt::registry& _registry)
         glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
     }
     _mesh_renderer.draw();
+#pragma endregion
+
+
+#pragma region render UI
+    // Bind default framebuffer or leave m_framebuffer bound if you render into it
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport  (0, 0, 2 * g_app_config.SCREEN_WIDTH, 2 * g_app_config.SCREEN_HEIGHT);
+
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    Shader* _ui_shader = ResourceManager::instance().get_shader("ui");
+    _ui_shader->use();
+
+
+
+
+
+    
+
+    MGUI::begin_window("window", { 100.0f, 100.0f }, { 500.0f, 500.0f });
+
+    MGUI::end_window();
+
+
+
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
+
 #pragma endregion
 }
 

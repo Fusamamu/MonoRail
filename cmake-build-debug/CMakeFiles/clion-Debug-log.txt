@@ -1,6 +1,7 @@
 /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/sukumduangpattra/Desktop/HelpPrincess -B /Users/sukumduangpattra/Desktop/HelpPrincess/cmake-build-debug
 -- EnTT target found as: EnTT
+-- Using the multi-header code from /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/json/include/
 -- Found Assimp library: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/assimp/lib/libassimp.a
--- Configuring done (0.0s)
+-- Configuring done (0.1s)
 -- Generating done (0.0s)
 -- Build files have been written to: /Users/sukumduangpattra/Desktop/HelpPrincess/cmake-build-debug

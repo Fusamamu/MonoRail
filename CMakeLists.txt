@@ -13,6 +13,9 @@ add_subdirectory(./vendors/entt)
 get_target_property(_aliased EnTT::EnTT ALIASED_TARGET)
 message(STATUS "EnTT target found as: ${_aliased}")
 
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory(./vendors/json)
+
 find_package(SDL2   REQUIRED COMPONENTS SDL2)
 find_package(GLEW   REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -63,13 +66,16 @@ add_executable(${PROJECT_NAME}
         src/UI/UIRenderer.cpp
         src/UI/UIRenderer.h
         src/UI/UI.cpp
-        src/UI/UI.h)
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-        ./vendors/assimp/include)
+        src/UI/UI.h
+        src/UI/TextRenderer.cpp
+        src/UI/TextRenderer.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 
+target_include_directories(${PROJECT_NAME} PUBLIC
+        ./vendors/stb
+        ./vendors/assimp/include
+        ./vendors/csv)
 target_include_directories(${PROJECT_NAME} PUBLIC ./vendors/imgui)
 target_include_directories(${PROJECT_NAME} PUBLIC ./vendors/imgui/backends)
 
@@ -84,3 +90,4 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${IOKIT_FRAMEWORK})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${COREVIDEO_FRAMEWORK})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC EnTT)
+target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)

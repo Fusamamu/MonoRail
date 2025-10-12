@@ -25,7 +25,7 @@ in vec4 vColor;
 
 out vec4 FragColor;
 
-uniform sampler2D uTexture;
+uniform sampler2D u_texture;
 uniform bool uUseTexture;
 
 void main()
@@ -46,5 +46,14 @@ void main()
     float alpha = 1.0 - smoothstep(0.0, edge, sdf);
 
     FragColor = vec4(rectColor, alpha);
+
+
+//float distance = texture(u_texture, vTexCoord).r; // SDF stored in red channel
+//float _alpha = smoothstep(0.5 - 0.1, 0.5 + 0.1, distance); // smoothing
+//FragColor = vec4(vec3(0.5), _alpha);
+
+        FragColor = vec4(0.8, 0.8, 0.8, 1.0);
+
+        //FragColor = texture(u_texture, vTexCoord);
 }
 

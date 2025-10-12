@@ -22,6 +22,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     Shader* _depth_quad       = ResourceManager::instance().get_shader("depth_quad" );
     Shader* _screen_quad      = ResourceManager::instance().get_shader("screen_quad");
     Shader* _ui_shader        = ResourceManager::instance().get_shader("ui"         );
+    Shader* _text_shader      = ResourceManager::instance().get_shader("text"       );
 
     _phong_shader->use();
     _phong_shader->block_bind("CameraData"           , 0);
@@ -60,6 +61,8 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     _ui_shader->use();
     _ui_shader->set_mat4_uniform_projection(_ortho_proj);
+    _text_shader->use();
+    _text_shader->set_mat4_uniform_projection(_ortho_proj);
 
     m_framebuffer       = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
     m_depth_framebuffer = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
@@ -263,7 +266,6 @@ void RenderPipeline::render(const entt::registry& _registry)
     }
     _mesh_renderer.draw();
 #pragma endregion
-
 
 #pragma region render UI
     // Bind default framebuffer or leave m_framebuffer bound if you render into it

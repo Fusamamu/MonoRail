@@ -1,5 +1,7 @@
 #include "Engine.h"
 #include "ApplicationConfig.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 ApplicationConfig g_app_config;
 
@@ -87,7 +89,9 @@ void Engine::init()
     ResourceManager::instance().init();
 
     MGUI::init();
-    MGUI::ui_shader = ResourceManager::instance().get_shader("ui");
+    MGUI::load_csv();
+    MGUI::ui_shader   = ResourceManager::instance().get_shader("ui");
+    MGUI::text_shader = ResourceManager::instance().get_shader("text");
 }
 
 void Engine::update()

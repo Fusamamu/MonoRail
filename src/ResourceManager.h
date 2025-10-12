@@ -4,6 +4,21 @@
 #include "PCH.h"
 #include "Mesh.h"
 #include "Shader.h"
+#include "stb_image.h"
+
+struct Texture
+{
+    GLuint texture_id;
+    GLenum texture_target = GL_TEXTURE_2D;
+    int width, height, nrComponents;
+    unsigned char* p_data;
+
+    void bind(int _slot = 0) const
+    {
+        glActiveTexture(GL_TEXTURE0 + _slot);
+        glBindTexture(texture_target, texture_id);
+    }
+};
 
 class ResourceManager
 {
@@ -21,6 +36,8 @@ public:
 
     void init();
     void load_model(std::filesystem::path _path);
+
+    void load_texture(std::filesystem::path _path);
 
     const std::vector<Mesh>* get_model(const std::string& name) const;
     Mesh* get_first_mesh(const std::string& name);
@@ -41,6 +58,7 @@ private:
     std::map<std::string, std::vector<Mesh>>          m_models;
     std::map<std::string, std::vector<SkeletonMesh>>  m_skeleton_models;
     std::map<std::string, std::unique_ptr<Shader>>    m_shaders;
+    std::map<std::string, std::unique_ptr<Texture>>   m_textures;
 
     void process_node(aiNode* node, const aiScene* scene);
     Mesh process_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene);

@@ -1,4 +1,6 @@
 #include "ResourceManager.h"
+// #define STB_IMAGE_IMPLEMENTATION
+// #include "stb_image.h"
 
 void ResourceManager::init()
 {
@@ -18,6 +20,7 @@ void ResourceManager::init()
     load_shader("../res/shaders/aabb.glsl"       );
     load_shader("../res/shaders/skeleton.glsl"   );
     load_shader("../res/shaders/ui.glsl"         );
+    load_shader("../res/shaders/text.glsl"         );
 }
 
 // Return pointer to vector<Mesh> if exists, else nullptr
@@ -51,6 +54,56 @@ SkeletonMesh* ResourceManager::get_first_skeleton_mesh(const std::string& name)
     if (it != m_skeleton_models.end() && !it->second.empty())
         return &(it->second[0]); // pointer to the first element
     return nullptr;
+}
+
+void ResourceManager::load_texture(std::filesystem::path _path)
+{
+    std::string _name   = _path.stem().string();
+    std::string _fpStr  = _path.string();
+    const char* _fpCStr = _fpStr.c_str();
+
+    if (m_textures.contains(_name))
+        return;
+
+    std::unique_ptr<Texture> p_texture = std::make_unique<Texture>();
+
+    auto& _texture = *p_texture;
+
+    _texture.p_data = stbi_load(_fpCStr, &_texture.width, &_texture.height, &_texture.nrComponents, 0);
+    if(!_texture.p_data)
+    {
+        std::cerr << "Image failed to load at path: " << _path << std::endl;
+        stbi_image_free(_texture.p_data);
+    }
+
+    assert(_texture.p_data != nullptr && "No data loaded!");
+
+    GLenum _format;
+
+    switch(_texture.nrComponents)
+    {
+        case 1: _format = GL_RED ; break;
+        case 3: _format = GL_RGB ; break;
+        case 4: _format = GL_RGBA; break;
+        default:
+            std::cerr << "Unsupported image format: " << _texture.nrComponents << " channels\n";
+            stbi_image_free(_texture.p_data);
+            assert(false && "Unsupported image format");
+    }
+
+    glGenTextures   (1, &_texture.texture_id);
+    glBindTexture   (GL_TEXTURE_2D, _texture.texture_id);
+    glTexImage2D    (GL_TEXTURE_2D, 0, _format, _texture.width, _texture.height, 0, _format, GL_UNSIGNED_BYTE, _texture.p_data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S    , GL_CLAMP_TO_EDGE);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T    , GL_CLAMP_TO_EDGE);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture   (GL_TEXTURE_2D, 0);
+
+    stbi_image_free(_texture.p_data);
+
+    m_textures[_name] = std::move(p_texture);
 }
 
 void ResourceManager::load_model(std::filesystem::path _path)

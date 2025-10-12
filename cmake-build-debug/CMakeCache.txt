@@ -17,6 +17,9 @@
 //Path to a library.
 ASSIMP_PATH:FILEPATH=/Users/sukumduangpattra/Desktop/HelpPrincess/vendors/assimp/lib/libassimp.a
 
+//Build Python Binding
+BUILD_PYTHON:BOOL=OFF
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=CMAKE_ADDR2LINE-NOTFOUND
 
@@ -285,6 +288,9 @@ COCOA_FRAMEWORK:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/Ma
 //Path to a library.
 COREVIDEO_FRAMEWORK:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/System/Library/Frameworks/CoreVideo.framework
 
+//Allow to disable building of programs
+CSV_BUILD_PROGRAMS:BOOL=ON
+
 //Enable building with documentation.
 ENTT_BUILD_DOCS:BOOL=OFF
 
@@ -343,6 +349,39 @@ HelpPrincess_SOURCE_DIR:STATIC=/Users/sukumduangpattra/Desktop/HelpPrincess
 //Path to a library.
 IOKIT_FRAMEWORK:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/System/Library/Frameworks/IOKit.framework
 
+//Enable CI build targets.
+JSON_CI:BOOL=OFF
+
+//Enable diagnostic positions.
+JSON_Diagnostic_Positions:BOOL=OFF
+
+//Use extended diagnostic messages.
+JSON_Diagnostics:BOOL=OFF
+
+//Disable default integer enum serialization.
+JSON_DisableEnumSerialization:BOOL=OFF
+
+//Place user-defined string literals in the global namespace.
+JSON_GlobalUDLs:BOOL=ON
+
+//Enable implicit conversions.
+JSON_ImplicitConversions:BOOL=ON
+
+//Install CMake targets during install step.
+JSON_Install:BOOL=OFF
+
+//Enable legacy discarded value comparison.
+JSON_LegacyDiscardedValueComparison:BOOL=OFF
+
+//Use non-amalgamated version of the library.
+JSON_MultipleHeaders:BOOL=ON
+
+//Include as system headers (skip for clang-tidy).
+JSON_SystemInclude:BOOL=OFF
+
+//Build C++ modules support
+NLOHMANN_JSON_BUILD_MODULES:BOOL=OFF
+
 //Include for the OpenGL GLU library
 OPENGL_GLU_INCLUDE_DIR:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/System/Library/Frameworks/OpenGL.framework
 
@@ -367,8 +406,26 @@ ZLIB_LIBRARY_DEBUG:FILEPATH=ZLIB_LIBRARY_DEBUG-NOTFOUND
 //Path to a library.
 ZLIB_LIBRARY_RELEASE:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/lib/libz.tbd
 
+//Value Computed by CMake
+csv_BINARY_DIR:STATIC=/Users/sukumduangpattra/Desktop/HelpPrincess/cmake-build-debug/vendors/csv-parser
+
+//Value Computed by CMake
+csv_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+csv_SOURCE_DIR:STATIC=/Users/sukumduangpattra/Desktop/HelpPrincess/vendors/csv-parser
+
 //The directory containing a CMake configuration file for glm.
 glm_DIR:PATH=/opt/homebrew/share/glm
+
+//Value Computed by CMake
+nlohmann_json_BINARY_DIR:STATIC=/Users/sukumduangpattra/Desktop/HelpPrincess/cmake-build-debug/vendors/json
+
+//Value Computed by CMake
+nlohmann_json_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+nlohmann_json_SOURCE_DIR:STATIC=/Users/sukumduangpattra/Desktop/HelpPrincess/vendors/json
 
 
 ########################
@@ -443,6 +500,8 @@ CMAKE_GENERATOR_INSTANCE:INTERNAL=
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
+//Test CMAKE_HAVE_LIBC_PTHREAD
+CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=/Users/sukumduangpattra/Desktop/HelpPrincess
@@ -495,7 +554,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -550,6 +609,9 @@ FIND_PACKAGE_MESSAGE_DETAILS_ZLIB:INTERNAL=[/Applications/Xcode.app/Contents/Dev
 GLEW_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: GLEW_LIBRARY_RELEASE
 GLEW_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//Build the unit tests when BUILD_TESTING is enabled.
+JSON_BuildTests:INTERNAL=OFF
+NLOHMANN_JSON_CONFIG_INSTALL_DIR:INTERNAL=share/cmake/nlohmann_json
 //ADVANCED property for variable: OPENGL_GLU_INCLUDE_DIR
 OPENGL_GLU_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENGL_INCLUDE_DIR

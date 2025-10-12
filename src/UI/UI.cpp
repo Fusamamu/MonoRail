@@ -5,16 +5,124 @@ namespace MGUI
     Input      input;
     UIRenderer ui_renderer;
     Shader*    ui_shader;
+    Shader*    text_shader;
+
+    Texture atlas_texture;
+    Atlas   atlas;
 
     std::unordered_map<std::string, WindowState> window_states;
 
-    int hot_item = -1;
+    int hot_item    = -1;
     int active_item = -1;
     std::vector<Window> window_stack;
+
+
+    GLuint VAO, VBO;
 
     void init()
     {
         ui_renderer.init();
+
+
+        float quadVertices[6][4]; // 6 vertices per glyph quad: x,y,u,v
+        glGenVertexArrays(1, &VAO);
+        glGenBuffers(1, &VBO);
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), nullptr, GL_DYNAMIC_DRAW);
+
+        // position
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+
+        // texcoords
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+        glBindVertexArray(0);
+    }
+
+    void load_csv()
+    {
+        atlas_texture.p_data = stbi_load("../res/fonts/H5H/H5H.png", &atlas_texture.width, &atlas_texture.height, &atlas_texture.nrComponents, 0);
+        if(!atlas_texture.p_data)
+            stbi_image_free(atlas_texture.p_data);
+
+        assert(atlas_texture.p_data != nullptr && "No data loaded!");
+
+        GLenum _format;
+
+        switch(atlas_texture.nrComponents)
+        {
+            case 1: _format = GL_RED ; break;
+            case 3: _format = GL_RGB ; break;
+            case 4: _format = GL_RGBA; break;
+            default:
+                std::cerr << "Unsupported image format: " << atlas_texture.nrComponents << " channels\n";
+            stbi_image_free(atlas_texture.p_data);
+            assert(false && "Unsupported image format");
+        }
+
+        glGenTextures   (1, &atlas_texture.id);
+        glBindTexture   (GL_TEXTURE_2D, atlas_texture.id);
+        glTexImage2D    (GL_TEXTURE_2D, 0, _format, atlas_texture.width, atlas_texture.height, 0, _format, GL_UNSIGNED_BYTE, atlas_texture.p_data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S    , GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T    , GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glBindTexture   (GL_TEXTURE_2D, 0);
+
+        stbi_image_free(atlas_texture.p_data);
+
+
+
+
+
+        csv::CSVReader reader("../res/fonts/H5H/H5H.csv");
+
+        float atlasWidth  = 444.0f;  // <-- set your atlas texture width here
+        float atlasHeight = 444.0f;  // <-- set your atlas texture height here
+
+        for (csv::CSVRow& row : reader)
+        {
+            int id = row[0].get<int>();
+
+            float advance   = row[1].get<float>();
+            float lsb       = row[2].get<float>();
+            float planeMinX = row[3].get<float>();
+            float planeMaxX = row[4].get<float>();
+            float planeMaxY = row[5].get<float>();
+            float atlasX0   = row[6].get<float>();
+            float atlasY0   = row[7].get<float>();
+            float atlasX1   = row[8].get<float>();
+            float atlasY1   = row[9].get<float>();
+
+            // --- Normalize to 0.0–1.0 UVs ---
+            float u0 = atlasX0 / atlasWidth;
+            float v0 = 1.0f - (atlasY1 / atlasHeight); // flip Y for OpenGL
+            float u1 = atlasX1 / atlasWidth;
+            float v1 = 1.0f - (atlasY0 / atlasHeight);
+
+            Glyph g = {
+                advance, lsb, planeMinX, planeMaxX, planeMaxY,
+                atlasX0, atlasY0, atlasX1, atlasY1,
+                u0, v0, u1, v1
+            };
+
+            atlas.glyphs[id] = g;
+
+            std::cout << "Glyph " << id << ": "
+                << "advance=" << advance
+                << ", lsb=" << lsb
+                << ", planeMinX=" << planeMinX
+                << ", planeMaxX=" << planeMaxX
+                << ", planeMaxY=" << planeMaxY
+                << ", u0=" << u0
+                << ", v0=" << v0
+                << ", u1=" << u1
+                << ", v1=" << v1 << std::endl;
+        }
+
     }
 
     void begin_frame()
@@ -90,9 +198,9 @@ namespace MGUI
 
         window_stack.push_back(w);
 
-        // Draw window
+        //Draw window
         draw_rect(w.pos, w.size, {0.2f,0.2f,0.2f,1.0f});
-        draw_text(name, {w.pos.x + 5, w.pos.y + 5});
+        draw_text(name, {w.pos.x, w.pos.y });
     }
 
 
@@ -144,7 +252,11 @@ namespace MGUI
     // ---------------- Drawing helpers
     void draw_rect(Vec2 pos, Vec2 size, Color color)
     {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, atlas_texture.id);
+
         ui_shader->use();
+        ui_shader->set_int("u_texture", 0);
 
         glm::mat4 _ui_model = glm::mat4(1.0f);
         _ui_model = translate(_ui_model, glm::vec3(pos.x , pos.y , 0.0f));
@@ -157,7 +269,70 @@ namespace MGUI
 
     void draw_text(const std::string& text, Vec2 pos, Color color)
     {
-        // Implement text drawing using bitmap fonts or SDF
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, atlas_texture.id);
+
+        text_shader->use();
+        text_shader->set_int("u_texture", 0);
+
+        glm::mat4 _ui_model = glm::mat4(1.0f);
+        _ui_model = translate(_ui_model, glm::vec3(pos.x , pos.y , 0.0f));
+        text_shader->set_mat4_uniform_model(_ui_model);
+        text_shader->set_vec4("u_color", glm::vec4(1.0, 1.0, 1.0, 1.0));
+
+        glBindVertexArray(VAO);
+
+        float _advance;
+
+        for (char c : text)
+        {
+            if (atlas.glyphs.find(c) == atlas.glyphs.end())
+                continue; // skip missing
+
+            float scale = 100.0f;
+
+            Glyph g = atlas.glyphs[c];
+
+            // float xpos = 0.0f + _advance;
+            // float ypos = 0.0f;
+
+            float xpos = _advance + g.planeMinX * scale;
+            float ypos = g.planeMinY * scale; // use planeMinY (relative to baseline)
+
+            float w = (g.planeMaxX - g.planeMinX) * scale;
+            float h = g.planeMaxY                 * scale;
+
+            // texture coordinates
+            float u0 = g.u0;
+            float v0 = g.v0;
+            float u1 = g.u1;
+            float v1 = g.v1;
+
+            std::cout << u0 << ", " << v0 << ", " << u1 << ", " << v1 << std::endl;
+
+            float vertices[6][4] = {
+                {xpos,     ypos + h, u0, v1},
+                {xpos,     ypos,     u0, v0},
+                {xpos + w, ypos,     u1, v0},
+
+                {xpos,     ypos + h, u0, v1},
+                {xpos + w, ypos,     u1, v0},
+                {xpos + w, ypos + h, u1, v1}
+            };
+
+            // Update VBO
+            glBindBuffer(GL_ARRAY_BUFFER, VBO);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+
+            // Draw quad
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+
+            // Advance cursor
+            _advance += g.advance * scale;
+        }
+
+        glBindVertexArray(0);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     // ---------------- Utility

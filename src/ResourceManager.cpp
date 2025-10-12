@@ -11,16 +11,18 @@ void ResourceManager::init()
     load_model ("../res/models/large_plane.fbx"       );
     load_model ("../res/models/arrow.fbx"             );
     load_model ("../res/models/test_idle_skeleton.fbx");
+    load_model ("../res/models/grass_blade.fbx"       );
 
-    load_shader("../res/shaders/toon.glsl"       );
-    load_shader("../res/shaders/phong.glsl"      );
-    load_shader("../res/shaders/screen_quad.glsl");
-    load_shader("../res/shaders/depth_quad.glsl" );
-    load_shader("../res/shaders/fog_plane.glsl"  );
-    load_shader("../res/shaders/aabb.glsl"       );
-    load_shader("../res/shaders/skeleton.glsl"   );
-    load_shader("../res/shaders/ui.glsl"         );
-    load_shader("../res/shaders/text.glsl"         );
+    load_shader("../res/shaders/instance.glsl"        );
+    load_shader("../res/shaders/toon.glsl"            );
+    load_shader("../res/shaders/phong.glsl"           );
+    load_shader("../res/shaders/screen_quad.glsl"     );
+    load_shader("../res/shaders/depth_quad.glsl"      );
+    load_shader("../res/shaders/fog_plane.glsl"       );
+    load_shader("../res/shaders/aabb.glsl"            );
+    load_shader("../res/shaders/skeleton.glsl"        );
+    load_shader("../res/shaders/ui.glsl"              );
+    load_shader("../res/shaders/text.glsl"            );
 }
 
 // Return pointer to vector<Mesh> if exists, else nullptr

@@ -23,12 +23,16 @@ void RenderPipeline::init(const entt::registry& _registry)
     Shader* _screen_quad      = ResourceManager::instance().get_shader("screen_quad");
     Shader* _ui_shader        = ResourceManager::instance().get_shader("ui"         );
     Shader* _text_shader      = ResourceManager::instance().get_shader("text"       );
+    Shader* _grass_shader     = ResourceManager::instance().get_shader("instance"   );
 
     _phong_shader->use();
     _phong_shader->block_bind("CameraData"           , 0);
     _phong_shader->block_bind("DirectionalLightBlock", 1);
     _phong_shader->block_bind("FogDataBlock"         , 2);
     _phong_shader->set_float("u_shininess", 100.0f);
+
+    _grass_shader->use();
+    _grass_shader->block_bind("CameraData"           , 0);
 
     _skeleton_shader->use();
     _skeleton_shader->block_bind("CameraData"           , 0);
@@ -146,6 +150,10 @@ void RenderPipeline::init(const entt::registry& _registry)
 void RenderPipeline::render(const entt::registry& _registry)
 {
     m_animator.update_animation(0.016f);//!!!temp
+
+    Shader* _grass_shader     = ResourceManager::instance().get_shader("instance"   );
+    _grass_shader->use();
+    _grass_shader->set_float("u_time", SDL_GetTicks() / 500.0f);
 
     glm::mat4 _view  = _registry.ctx().get<Camera>().get_view_matrix();
 

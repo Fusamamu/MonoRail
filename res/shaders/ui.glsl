@@ -32,8 +32,8 @@ void main()
 {
     // Rectangle properties
     vec2 rectCenter   = vec2(0.5, 0.5);
-    vec2 rectHalfSize = vec2(0.43, 0.43);
-    float radius      = 0.018;
+    vec2 rectHalfSize = vec2(0.48, 0.48);
+    float radius      = 0.02;
 
     vec3 rectColor = vec3(0.149, 0.125, 0.114);
 
@@ -46,14 +46,5 @@ void main()
     float alpha = 1.0 - smoothstep(0.0, edge, sdf);
 
     FragColor = vec4(rectColor, alpha);
-
-
-//float distance = texture(u_texture, vTexCoord).r; // SDF stored in red channel
-//float _alpha = smoothstep(0.5 - 0.1, 0.5 + 0.1, distance); // smoothing
-//FragColor = vec4(vec3(0.5), _alpha);
-
-        FragColor = vec4(0.8, 0.8, 0.8, 1.0);
-
-        //FragColor = texture(u_texture, vTexCoord);
 }
 

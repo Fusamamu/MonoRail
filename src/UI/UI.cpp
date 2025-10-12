@@ -123,6 +123,10 @@ namespace MGUI
                 << ", v1=" << v1 << std::endl;
         }
 
+
+
+
+
     }
 
     void begin_frame()
@@ -198,9 +202,11 @@ namespace MGUI
 
         window_stack.push_back(w);
 
+        float _padding = 15.0f;
+
         //Draw window
         draw_rect(w.pos, w.size, {0.2f,0.2f,0.2f,1.0f});
-        draw_text(name, {w.pos.x, w.pos.y });
+        draw_text(name, {w.pos.x + _padding, w.pos.y + _padding });
     }
 
 
@@ -240,6 +246,7 @@ namespace MGUI
             color = {0.9f, 0.9f, 0.9f, 1.0f};
         if (active_item == id)
             color = {0.5f, 0.5f, 0.5f, 1.0f};
+
 
         draw_rect(pos, size, color);
         draw_text(label, {pos.x + 5, pos.y + 5});
@@ -289,26 +296,20 @@ namespace MGUI
             if (atlas.glyphs.find(c) == atlas.glyphs.end())
                 continue; // skip missing
 
-            float scale = 100.0f;
+            float _scale = 18.0f;
 
             Glyph g = atlas.glyphs[c];
 
-            // float xpos = 0.0f + _advance;
-            // float ypos = 0.0f;
+            float xpos = _advance;
+            float ypos = 0.0f;
 
-            float xpos = _advance + g.planeMinX * scale;
-            float ypos = g.planeMinY * scale; // use planeMinY (relative to baseline)
+            float w = (g.planeMaxX - g.planeMinX) * _scale;
+            float h = g.planeMaxY                 * _scale;
 
-            float w = (g.planeMaxX - g.planeMinX) * scale;
-            float h = g.planeMaxY                 * scale;
-
-            // texture coordinates
             float u0 = g.u0;
             float v0 = g.v0;
             float u1 = g.u1;
             float v1 = g.v1;
-
-            std::cout << u0 << ", " << v0 << ", " << u1 << ", " << v1 << std::endl;
 
             float vertices[6][4] = {
                 {xpos,     ypos + h, u0, v1},
@@ -320,15 +321,13 @@ namespace MGUI
                 {xpos + w, ypos + h, u1, v1}
             };
 
-            // Update VBO
             glBindBuffer(GL_ARRAY_BUFFER, VBO);
             glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 
-            // Draw quad
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
             // Advance cursor
-            _advance += g.advance * scale;
+            _advance += g.advance * _scale;
         }
 
         glBindVertexArray(0);

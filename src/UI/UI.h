@@ -33,8 +33,8 @@ namespace MGUI
 
     struct Glyph {
         float advance;
-        float lsb;
-        float planeMinX, planeMaxX, planeMinY, planeMaxY;
+        float left_side_bearing;
+        float planeMinX, planeMaxX, planeMaxY;
         float atlasX0, atlasY0, atlasX1, atlasY1;
         float u0, v0, u1, v1;
     };

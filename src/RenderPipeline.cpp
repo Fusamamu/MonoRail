@@ -276,7 +276,12 @@ void RenderPipeline::render(const entt::registry& _registry)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    MGUI::begin_window("window", { 100.0f, 100.0f }, { 500.0f, 500.0f });
+    MGUI::begin_window("WINDOW", { 100.0f, 100.0f }, { 500.0f, 500.0f });
+
+    MGUI::end_window();
+
+
+    MGUI::begin_window("OTHER", { 200.0f, 100.0f }, { 500.0f, 500.0f });
 
     MGUI::end_window();
 

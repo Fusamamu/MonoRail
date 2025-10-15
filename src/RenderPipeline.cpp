@@ -24,6 +24,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     Shader* _ui_shader        = ResourceManager::instance().get_shader("ui"         );
     Shader* _text_shader      = ResourceManager::instance().get_shader("text"       );
     Shader* _grass_shader     = ResourceManager::instance().get_shader("instance"   );
+    Shader* _shell_shader     = ResourceManager::instance().get_shader("shell"      );
 
     _phong_shader->use();
     _phong_shader->block_bind("CameraData"           , 0);
@@ -33,6 +34,9 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     _grass_shader->use();
     _grass_shader->block_bind("CameraData"           , 0);
+
+    _shell_shader->use();
+    _shell_shader->block_bind("CameraData"           , 0);
 
     _skeleton_shader->use();
     _skeleton_shader->block_bind("CameraData"           , 0);
@@ -155,6 +159,11 @@ void RenderPipeline::render(const entt::registry& _registry)
     _grass_shader->use();
     _grass_shader->set_float("u_time", SDL_GetTicks() / 500.0f);
 
+
+    Shader* _shell_shader     = ResourceManager::instance().get_shader("shell"   );
+    _shell_shader->use();
+    _shell_shader->set_float("u_time", SDL_GetTicks() / 16000.0f);
+
     glm::mat4 _view  = _registry.ctx().get<Camera>().get_view_matrix();
 
     glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
@@ -223,7 +232,20 @@ void RenderPipeline::render(const entt::registry& _registry)
             glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
         }
 
-        _mesh_renderer.draw();
+        if (_material.diffuseMap != 0)
+        {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, _material.diffuseMap);
+            _found_shader->set_int("grassPattern", 0);
+
+            _mesh_renderer.draw();
+
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+        else
+        {
+            _mesh_renderer.draw();
+        }
 
         if (!_material.depth_write)
             glDepthMask(GL_TRUE);    // restore

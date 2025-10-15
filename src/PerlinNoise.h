@@ -7,12 +7,15 @@ class PerlinNoise {
 public:
     explicit PerlinNoise(unsigned int seed = 2025);
     float noise(float x, float y) const;
+
+    GLuint generate_perlin_texture(int _width, int _height, float _scale, unsigned int _seed);
 private:
     std::vector<int> p;
 
     static float fade(float t);
     static float lerp(float t, float a, float b);
     static float grad(int hash, float x, float y);
+
 };
 
 #endif //PERLINNOISE_H

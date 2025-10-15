@@ -52,3 +52,34 @@ float PerlinNoise::grad(int hash, float x, float y) {
     float v = h < 4 ? y : x;
     return ((h & 1) ? -u : u) + ((h & 2) ? -v : v);
 }
+
+GLuint PerlinNoise::generate_perlin_texture(int _width, int _height, float _scale, unsigned int _seed)
+{
+    std::vector<float> data(_width * _height);
+
+    for (int y = 0; y < _height; ++y)
+    {
+        for (int x = 0; x < _width; ++x)
+        {
+            float fx = (float)x / _width  * _scale;
+            float fy = (float)y / _height * _scale;
+
+            float n = noise(fx, fy);
+
+            data[y * _width + x] = n;
+        }
+    }
+
+    GLuint _texture_id;
+    glGenTextures(1, &_texture_id);
+    glBindTexture(GL_TEXTURE_2D, _texture_id);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, _width, _height, 0, GL_RED, GL_FLOAT, data.data());
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    return _texture_id;
+}

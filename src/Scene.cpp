@@ -311,6 +311,7 @@ entt::entity Scene::create_object(const std::string& _name, const std::string& _
     _material_comp.shader_id   = _material.shader_id;
     _material_comp.depth_test  = _material.depth_test;
     _material_comp.depth_write = _material.depth_write;
+    _material_comp.diffuseMap  = _material.diffuseMap;
 
     auto& _mesh_renderer = m_registry.emplace<MeshRenderer>(_e);
     _mesh_renderer.load_mesh      (_teapot);

@@ -168,9 +168,9 @@ struct Material
     bool depth_test  = true;
     bool depth_write = true;
 
-    unsigned int diffuseMap  = 0;  // OpenGL texture ID
-    unsigned int specularMap = 0;  // OpenGL texture ID
-    unsigned int normalMap   = 0;  // OpenGL texture ID
+    GLuint diffuseMap  = 0;  // OpenGL texture ID
+    GLuint specularMap = 0;  // OpenGL texture ID
+    GLuint normalMap   = 0;  // OpenGL texture ID
 
     Material() = default;
 

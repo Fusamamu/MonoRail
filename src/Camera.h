@@ -73,7 +73,7 @@ struct Camera
         target   -= dir * distance;
     }
 
-    // // Convert screen coordinates (pixels) to world ray
+    // Convert screen coordinates (pixels) to world ray
     Ray screen_point_to_ray(const glm::vec2& screen_pos, const glm::vec2& screen_size) const
     {
         // Normalize screen coords to NDC

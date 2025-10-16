@@ -30,7 +30,8 @@ void RenderPipeline::init(const entt::registry& _registry)
     _phong_shader->block_bind("CameraData"           , 0);
     _phong_shader->block_bind("DirectionalLightBlock", 1);
     _phong_shader->block_bind("FogDataBlock"         , 2);
-    _phong_shader->set_float("u_shininess", 100.0f);
+    _phong_shader->set_float ("u_shininess", 100.0f);
+    _phong_shader->set_vec3  ("u_color", glm::vec3(1.0f, 1.0f, 1.0f));
 
     _grass_shader->use();
     _grass_shader->block_bind("CameraData"           , 0);
@@ -153,7 +154,7 @@ void RenderPipeline::init(const entt::registry& _registry)
 
 void RenderPipeline::render(const entt::registry& _registry)
 {
-    m_animator.update_animation(0.016f);//!!!temp
+    //m_animator.update_animation(0.016f);//!!!temp
 
     Shader* _grass_shader     = ResourceManager::instance().get_shader("instance"   );
     _grass_shader->use();
@@ -251,19 +252,20 @@ void RenderPipeline::render(const entt::registry& _registry)
             glDepthMask(GL_TRUE);    // restore
     }
 
-    glm::mat4 _model = glm::mat4(1.0f);
-    _model = glm::translate(_model, glm::vec3(5.0f, 0.0f, 5.0f));
-    _model = glm::scale    (_model, glm::vec3(0.05f));
-
-    Shader* _skeleton_shader = ResourceManager::instance().get_shader("skeleton");
-    _skeleton_shader->use();
-
-    auto transforms = m_animator.get_final_bone_matrices();
-    for (int i = 0; i < transforms.size(); ++i)
-        _skeleton_shader->set_mat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
-
-    _skeleton_shader->set_mat4_uniform_model(_model);
-    m_skeleton_mesh_renderer.draw();
+    //Render skeleton mesh renderer
+    // glm::mat4 _model = glm::mat4(1.0f);
+    // _model = glm::translate(_model, glm::vec3(5.0f, 0.0f, 5.0f));
+    // _model = glm::scale    (_model, glm::vec3(0.05f));
+    //
+    // Shader* _skeleton_shader = ResourceManager::instance().get_shader("skeleton");
+    // _skeleton_shader->use();
+    //
+    // auto transforms = m_animator.get_final_bone_matrices();
+    // for (int i = 0; i < transforms.size(); ++i)
+    //     _skeleton_shader->set_mat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
+    //
+    // _skeleton_shader->set_mat4_uniform_model(_model);
+    // m_skeleton_mesh_renderer.draw();
 
     m_framebuffer.unbind();
 #pragma endregion

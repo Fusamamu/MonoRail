@@ -44,6 +44,8 @@ struct Node
 {
     std::string name;
 
+    bool is_active = false;
+
     Node() = default;
     Node(const std::string& name) : name(name) {}
 };
@@ -53,6 +55,29 @@ struct Tile
     uint32_t idx, idy;
     Tile() = default;
     Tile(uint32_t x, uint32_t y) : idx(x), idy(y) {}
+};
+
+struct Tile3D
+{
+    uint32_t idx;
+    uint32_t idy;
+    uint32_t idz;
+
+    bool is_occupied = false;
+
+    Tile3D() = default;
+    Tile3D(uint32_t x, uint32_t y, uint32_t z)
+        : idx(x), idy(y), idz(z) {}
+
+    void print() const
+    {
+        std::cout << "Tile3D("
+                  << idx << ", "
+                  << idy << ", "
+                  << idz << ")"
+                  << " occupied=" << std::boolalpha << is_occupied
+                  << "\n";
+    }
 };
 
 struct Agent

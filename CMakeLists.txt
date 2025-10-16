@@ -68,7 +68,11 @@ add_executable(${PROJECT_NAME}
         src/UI/UI.cpp
         src/UI/UI.h
         src/UI/TextRenderer.cpp
-        src/UI/TextRenderer.h)
+        src/UI/TextRenderer.h
+        src/Grid3D.cpp
+        src/Grid3D.h
+        src/MMath.cpp
+        src/MMath.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

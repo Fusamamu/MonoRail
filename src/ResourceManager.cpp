@@ -12,6 +12,7 @@ void ResourceManager::init()
     load_model ("../res/models/arrow.fbx"             );
     load_model ("../res/models/test_idle_skeleton.fbx");
     load_model ("../res/models/grass_blade.fbx"       );
+    load_model ("../res/models/base.fbx"              );
 
     load_shader("../res/shaders/instance.glsl"        );
     load_shader("../res/shaders/toon.glsl"            );

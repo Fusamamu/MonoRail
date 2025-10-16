@@ -5,6 +5,73 @@
 
 ApplicationConfig g_app_config;
 
+std::vector<glm::mat4> generateRandomInstances(int count)
+{
+    std::srand(static_cast<unsigned int>(std::time(0)));
+    std::vector<glm::mat4> instanceModels;
+    instanceModels.reserve(count);
+
+    for (int i = 0; i < count; ++i)
+    {
+        // Random position in a 50x50 area
+        float x = static_cast<float>(std::rand() % 5000) / 100.0f - 25.0f;
+        float z = static_cast<float>(std::rand() % 5000) / 100.0f - 25.0f;
+        float y = 0.0f; // ground level
+
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
+
+        // Random rotation around Y axis
+        float angle = static_cast<float>(std::rand() % 360);
+        model = glm::rotate(model, glm::radians(angle), glm::vec3(0, 1, 0));
+        //
+        // // Random uniform scale
+        float scale = 0.5f + static_cast<float>(std::rand() % 50) / 100.0f; // 0.5 - 1.0
+        model = glm::scale(model, glm::vec3(scale));
+
+        instanceModels.push_back(model);
+    }
+
+    return instanceModels;
+}
+
+// Generate instance transforms for grass
+std::vector<glm::mat4> generateGrassInstances(int patchCount, int bladesPerPatch, int layers)
+{
+    std::vector<glm::mat4> instanceModels;
+    for (int p = 0; p < patchCount; p++)
+    {
+        // Random patch position
+        float patchX = ((rand() % 1000) / 1000.0f - 0.5f) * 50.0f;
+        float patchZ = ((rand() % 1000) / 1000.0f - 0.5f) * 50.0f;
+
+        for (int b = 0; b < bladesPerPatch; b++)
+        {
+            float offsetX = ((rand() % 1000) / 1000.0f - 0.5f);
+            float offsetZ = ((rand() % 1000) / 1000.0f - 0.5f);
+
+            for (int l = 0; l < layers; l++)
+            {
+                glm::mat4 model = glm::mat4(1.0f);
+
+                // Position
+                model = glm::translate(model, glm::vec3(patchX + offsetX, l * 0.1f, patchZ + offsetZ));
+
+                // Random rotation
+                float angle = ((rand() % 1000) / 1000.0f) * 360.0f;
+                model = glm::rotate(model, glm::radians(angle), glm::vec3(0,1,0));
+
+                // Random scale
+                float scale = 0.8f + ((rand() % 200) / 1000.0f); // 0.8 - 1.0
+                model = glm::scale(model, glm::vec3(scale, 1.0f, scale));
+
+                instanceModels.push_back(model);
+            }
+        }
+    }
+    return instanceModels;
+}
+
+
 Engine::Engine(): 
     m_is_running(true)
 {
@@ -14,6 +81,37 @@ Engine::Engine():
 Engine::~Engine()
 {
 
+}
+
+void create_grass(Scene* _scene)
+{
+    Material _grass_material;
+    _grass_material.shader_id = "instance";
+
+    entt::entity _grass_e = _scene->create_object("grass" , "grass_blade" , {10.0f, 10.0f, 0.0f}  , _grass_material) ;
+    auto& _grass_mesh_renderer = _scene->get_registry().get<MeshRenderer>(_grass_e);
+    std::vector<glm::mat4> instanceModels = generateRandomInstances(40000);
+    //std::vector<glm::mat4> instanceModels = generateGrassInstances(100, 5, 5 );
+    _grass_mesh_renderer.use_instancing = true;
+    _grass_mesh_renderer.instance_count = instanceModels.size();
+    _grass_mesh_renderer.set_instance_data(instanceModels);
+}
+
+void create_grass_shell(Scene* _scene)
+{
+    PerlinNoise _perlin_noise;
+    GLuint _noise_id = _perlin_noise.generate_perlin_texture(512, 512, 100.0f, 1337);
+
+    Material _shell_material;
+    _shell_material.shader_id = "shell";
+    _shell_material.diffuseMap = _noise_id;
+
+    entt::entity _shell_e = _scene->create_object("shell" , "large_plane" , { 0.0f,  1.0f, 0.0f}  , _shell_material) ;
+    auto& _shell_transform     = _scene->get_registry().get<Transform>   (_shell_e);
+    auto& _shell_mesh_renderer = _scene->get_registry().get<MeshRenderer>(_shell_e);
+    _shell_transform.scale = glm::vec3(0.3f, 0.3f, 0.3f);
+    _shell_mesh_renderer.use_instancing = true;
+    _shell_mesh_renderer.instance_count = 20;
 }
 
 void Engine::init()
@@ -94,74 +192,6 @@ void Engine::init()
     MGUI::text_shader = ResourceManager::instance().get_shader("text");
 }
 
-
-
-std::vector<glm::mat4> generateRandomInstances(int count)
-{
-    std::srand(static_cast<unsigned int>(std::time(0)));
-    std::vector<glm::mat4> instanceModels;
-    instanceModels.reserve(count);
-
-    for (int i = 0; i < count; ++i)
-    {
-        // Random position in a 50x50 area
-        float x = static_cast<float>(std::rand() % 5000) / 100.0f - 25.0f;
-        float z = static_cast<float>(std::rand() % 5000) / 100.0f - 25.0f;
-        float y = 0.0f; // ground level
-
-        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
-
-        // Random rotation around Y axis
-        float angle = static_cast<float>(std::rand() % 360);
-        model = glm::rotate(model, glm::radians(angle), glm::vec3(0, 1, 0));
-        //
-        // // Random uniform scale
-        float scale = 0.5f + static_cast<float>(std::rand() % 50) / 100.0f; // 0.5 - 1.0
-        model = glm::scale(model, glm::vec3(scale));
-
-        instanceModels.push_back(model);
-    }
-
-    return instanceModels;
-}
-
-// Generate instance transforms for grass
-std::vector<glm::mat4> generateGrassInstances(int patchCount, int bladesPerPatch, int layers)
-{
-    std::vector<glm::mat4> instanceModels;
-    for (int p = 0; p < patchCount; p++)
-    {
-        // Random patch position
-        float patchX = ((rand() % 1000) / 1000.0f - 0.5f) * 50.0f;
-        float patchZ = ((rand() % 1000) / 1000.0f - 0.5f) * 50.0f;
-
-        for (int b = 0; b < bladesPerPatch; b++)
-        {
-            float offsetX = ((rand() % 1000) / 1000.0f - 0.5f);
-            float offsetZ = ((rand() % 1000) / 1000.0f - 0.5f);
-
-            for (int l = 0; l < layers; l++)
-            {
-                glm::mat4 model = glm::mat4(1.0f);
-
-                // Position
-                model = glm::translate(model, glm::vec3(patchX + offsetX, l * 0.1f, patchZ + offsetZ));
-
-                // Random rotation
-                float angle = ((rand() % 1000) / 1000.0f) * 360.0f;
-                model = glm::rotate(model, glm::radians(angle), glm::vec3(0,1,0));
-
-                // Random scale
-                float scale = 0.8f + ((rand() % 200) / 1000.0f); // 0.8 - 1.0
-                model = glm::scale(model, glm::vec3(scale, 1.0f, scale));
-
-                instanceModels.push_back(model);
-            }
-        }
-    }
-    return instanceModels;
-}
-
 void Engine::update()
 {
     glEnable(GL_DEPTH_TEST);
@@ -170,7 +200,8 @@ void Engine::update()
     _scene->p_window = p_window;
 
     Material _phong_material;
-    _phong_material.shader_id = "phong";
+    _phong_material.shader_id    = "phong";
+    _phong_material.diffuseColor = glm::vec3(1.0f, 1.0f, 1.0f);
 
     Material _toon_material;
     _toon_material.shader_id = "toon";
@@ -179,45 +210,18 @@ void Engine::update()
     _fog_plane_material.shader_id = "fog_plane";
     _fog_plane_material.depth_write = false;
 
-    Material _grass_material;
-    _grass_material.shader_id = "instance";
-
-    PerlinNoise _perlin_noise;
-
-    GLuint _noise_id = _perlin_noise.generate_perlin_texture(512, 512, 100.0f, 1337);
-
-    Material _shell_material;
-    _shell_material.shader_id = "shell";
-    _shell_material.diffuseMap = _noise_id;
-
-    _scene->create_object("object", "teapot"      , {5.0f,  0.0f, 0.0f}, _phong_material);
-    _scene->create_object("object", "monkey"      , {0.0f,  1.0f, 0.0f}, _toon_material) ;
-    _scene->create_object("object", "arrow"       , {0.0f,  5.0f, 0.0f}, _toon_material) ;
     _scene->create_object("object", "large_plane" , {0.0f, -2.0f, 0.0f}, _fog_plane_material);
+
+    // _scene->create_object("object", "teapot"      , {5.0f,  0.0f, 0.0f}, _phong_material);
+    // _scene->create_object("object", "monkey"      , {0.0f,  1.0f, 0.0f}, _toon_material) ;
 
     entt::entity _agent_e = _scene->create_object("player", "teapot"      , { 0.0f,  0.0f, 5.0f}  , _toon_material);
     entt::entity _child_e = _scene->create_object("child" , "teapot"      , { 0.0f,  0.0f, 8.0f}  , _toon_material);
-    //entt::entity _grass_e = _scene->create_object("grass" , "grass_blade" , {10.0f, 10.0f, 0.0f}  , _grass_material) ;
-
-
-    entt::entity _shell_e = _scene->create_object("shell" , "large_plane" , { 0.0f,  1.0f, 0.0f}  , _shell_material) ;
-    auto& _shell_transform     = _scene->get_registry().get<Transform>   (_shell_e);
-    auto& _shell_mesh_renderer = _scene->get_registry().get<MeshRenderer>(_shell_e);
-    _shell_transform.scale = glm::vec3(0.3f, 0.3f, 0.3f);
-    _shell_mesh_renderer.use_instancing = true;
-    _shell_mesh_renderer.instance_count = 20;
-
-    // auto& _grass_mesh_renderer = _scene->get_registry().get<MeshRenderer>(_grass_e);
-    //
-    // std::vector<glm::mat4> instanceModels = generateRandomInstances(40000);
-    // //std::vector<glm::mat4> instanceModels = generateGrassInstances(100, 5, 5 );
-    //
-    // _grass_mesh_renderer.use_instancing = true;
-    // _grass_mesh_renderer.instance_count = instanceModels.size();
-    // _grass_mesh_renderer.set_instance_data(instanceModels);
-
     _scene->get_registry().emplace<Agent>   (_agent_e);
     _scene->get_registry().emplace<Parent>  (_child_e).entity = _agent_e;
+
+    // create_grass      (_scene);
+    // create_grass_shell(_scene);
 
     _scene->on_enter();
     while(m_is_running)

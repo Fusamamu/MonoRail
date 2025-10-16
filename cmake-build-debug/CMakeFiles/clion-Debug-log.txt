@@ -2,6 +2,19 @@
 -- EnTT target found as: EnTT
 -- Using the multi-header code from /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/json/include/
 -- Found Assimp library: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/assimp/lib/libassimp.a
--- Configuring done (0.1s)
--- Generating done (0.0s)
--- Build files have been written to: /Users/sukumduangpattra/Desktop/HelpPrincess/cmake-build-debug
+-- Configuring done (0.0s)
+CMake Error at CMakeLists.txt:36 (add_executable):
+  Cannot find source file:
+
+    src/Math.cpp
+
+  Tried extensions .c .C .c++ .cc .cpp .cxx .cu .mpp .m .M .mm .ixx .cppm
+  .ccm .cxxm .c++m .h .hh .h++ .hm .hpp .hxx .in .txx .f .F .for .f77 .f90
+  .f95 .f03 .hip .ispc
+
+
+CMake Error at CMakeLists.txt:36 (add_executable):
+  No SOURCES given to target: HelpPrincess
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.

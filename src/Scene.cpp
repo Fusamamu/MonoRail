@@ -88,7 +88,7 @@ void update_boids(entt::registry& reg, float dt) {
 void Scene::on_enter()
 {
     m_registry.ctx().emplace<Camera>();
-    m_registry.ctx().emplace<Grid>  (Grid(12, 12));
+    m_registry.ctx().emplace<Grid3D> (Grid3D(20, 2, 20));
 
     auto& _camera = m_registry.ctx().get<Camera>();
     _camera.position = { 20.0f, 20.0f, 20.0f };
@@ -96,35 +96,35 @@ void Scene::on_enter()
     auto _e_directional_light = m_registry.create();
     m_registry.emplace<DirectionalLight>(_e_directional_light);
 
-    for (int i = 0; i < 200; i++) {
-        auto _e = m_registry.create();
-
-        auto& _transform  = m_registry.emplace<Transform>(_e);
-        auto& _rigid_body = m_registry.emplace<RigidBody>(_e); // random unit direction
-        auto& _boid       = m_registry.emplace<Boid>     (_e);
-
-
-        _transform.position = glm::vec3(
-            randomFloat(-10.0f, 10.0f),
-            randomFloat(-10.0f, 10.0f),
-            randomFloat(-10.0f, 10.0f)
-        );
-
-        _rigid_body.velocity = glm::sphericalRand(1.0f); // radius = 1
-
-        _boid.id = i;
-
-        Mesh* _arrow_mesh = ResourceManager::instance().get_first_mesh("arrow");
-
-        auto& _material_comp = m_registry.emplace<Material>(_e);
-        _material_comp.shader_id   = "toon";
-        _material_comp.depth_test  = true;
-        _material_comp.depth_write = true;
-
-        auto& _mesh_renderer = m_registry.emplace<MeshRenderer>(_e);
-        _mesh_renderer.load_mesh      (_arrow_mesh);
-        _mesh_renderer.set_buffer_data(_arrow_mesh);
-    }
+    //create boid
+    // for (int i = 0; i < 200; i++) {
+    //     auto _e = m_registry.create();
+    //
+    //     auto& _transform  = m_registry.emplace<Transform>(_e);
+    //     auto& _rigid_body = m_registry.emplace<RigidBody>(_e); // random unit direction
+    //     auto& _boid       = m_registry.emplace<Boid>     (_e);
+    //
+    //     _transform.position = glm::vec3(
+    //         randomFloat(-10.0f, 10.0f),
+    //         randomFloat(-10.0f, 10.0f),
+    //         randomFloat(-10.0f, 10.0f)
+    //     );
+    //
+    //     _rigid_body.velocity = glm::sphericalRand(1.0f); // radius = 1
+    //
+    //     _boid.id = i;
+    //
+    //     Mesh* _arrow_mesh = ResourceManager::instance().get_first_mesh("arrow");
+    //
+    //     auto& _material_comp = m_registry.emplace<Material>(_e);
+    //     _material_comp.shader_id   = "toon";
+    //     _material_comp.depth_test  = true;
+    //     _material_comp.depth_write = true;
+    //
+    //     auto& _mesh_renderer = m_registry.emplace<MeshRenderer>(_e);
+    //     _mesh_renderer.load_mesh      (_arrow_mesh);
+    //     _mesh_renderer.set_buffer_data(_arrow_mesh);
+    // }
 
 
 
@@ -148,8 +148,8 @@ void Scene::on_enter()
 
     glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
 
-    auto& _grid = m_registry.ctx().get<Grid>();
-    _grid.generate_tiles_with_perlin(m_registry);
+    auto& _grid = m_registry.ctx().get<Grid3D>();
+    _grid.generate_tiles(m_registry);
 
     AABB _aabb;
     _aabb.min = glm::vec3(0.0f);
@@ -171,6 +171,7 @@ void Scene::on_update(float delta_time)
     m_input_system.update();
 
     auto& _camera = m_registry.ctx().get<Camera>();
+    auto& _grid   = m_registry.ctx().get<Grid3D>();
 
     if (m_input_system.get_quit_requested())
         m_engine_owner->request_quit();
@@ -183,6 +184,20 @@ void Scene::on_update(float delta_time)
         _camera.camera_move_up(0.25f);
     if (m_input_system.is_key_held(SDL_SCANCODE_S))
         _camera.camera_move_down(0.25f);
+
+    if (m_input_system.left_mouse_pressed())
+    {
+        Ray _ray = _camera.screen_point_to_ray(m_input_system.get_mouse_pos(), g_app_config.screen_size());
+        float _dist = 0.0f;
+        entt::entity _entity = ray_cast_select_entity(m_registry, _ray, _dist);
+        if (_entity != entt::null)
+        {
+            if (Tile3D* _tile = m_registry.try_get<Tile3D>(_entity))
+            {
+                _grid.add_tile_above(m_registry, _tile->idx, _tile->idy, _tile->idz);
+            }
+        }
+    }
 
     auto _object_view = m_registry.view<Transform, AABB>();
     for (auto _e : _object_view)
@@ -201,6 +216,8 @@ void Scene::on_update(float delta_time)
 
         _transform.position.x += _agent.move_direction.x * _agent.move_amount;
     }
+
+    _grid.update(m_registry);
 
     //update_boids(m_registry, delta_time);
 
@@ -238,7 +255,6 @@ void Scene::on_render(float delta_time)
         _screen_quad->use();
         _screen_quad->set_float("near_plane", _camera.near_plane);
 
-
         Shader* _fog_plane = ResourceManager::instance().get_shader("fog_plane");
         _fog_plane->use();
         _fog_plane->set_float("u_near_plane", _camera.near_plane);
@@ -249,7 +265,6 @@ void Scene::on_render(float delta_time)
         Shader* _screen_quad = ResourceManager::instance().get_shader("depth_quad");
         _screen_quad->use();
         _screen_quad->set_float("far_plane", _camera.far_plane);
-
 
         Shader* _fog_plane = ResourceManager::instance().get_shader("fog_plane");
         _fog_plane->use();
@@ -279,8 +294,6 @@ void Scene::on_render(float delta_time)
 
     ImGui::Text("Mouse x: %.3f", static_cast<float>(MGUI::input.mouse_x));
     ImGui::Text("Mouse y: %.3f", static_cast<float>(MGUI::input.mouse_y));
-
-
 
     ImGui::End();
 

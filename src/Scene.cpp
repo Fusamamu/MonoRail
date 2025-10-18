@@ -27,8 +27,10 @@ void update_boids(entt::registry& reg, float dt) {
 
         int neighbor_count = 0;
 
-        for (auto other : view) {
-            if (other == e) continue;
+        for (auto other : view)
+        {
+            if (other == e)
+                continue;
 
             auto& ot = view.get<Transform>(other);
             auto& ov = view.get<RigidBody>(other);
@@ -63,7 +65,7 @@ void update_boids(entt::registry& reg, float dt) {
             _tf.rotation = glm::vec3(pitch, yaw, roll);
         }
 
-        // ✅ sphere containment
+        // sphere containment
         glm::vec3 to_center = center - _tf.position;
         float dist_from_center = glm::length(to_center);
         if (dist_from_center > max_radius) {
@@ -149,7 +151,8 @@ void Scene::on_enter()
     glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
 
     auto& _grid = m_registry.ctx().get<Grid3D>();
-    _grid.generate_tiles(m_registry);
+    _grid.generate_tiles       (m_registry, "bevel_cube");
+    _grid.generate_corner_nodes(m_registry);
 
     AABB _aabb;
     _aabb.min = glm::vec3(0.0f);

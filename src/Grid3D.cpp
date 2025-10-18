@@ -10,7 +10,8 @@ void Grid3D::resize(size_t width, size_t height, size_t depth)
     m_width  = width;
     m_height = height;
     m_depth  = depth;
-    m_data.assign(width * height * depth, entt::null);
+    m_data       .assign(width * height * depth, entt::null);
+    m_corner_data.assign((width + 1) * (height + 1) * (depth + 1), entt::null);
 }
 
 void Grid3D::update(entt::registry &_registry)
@@ -30,7 +31,19 @@ const entt::entity& Grid3D::at(size_t x, size_t y, size_t z) const
     return m_data[index(x, y, z)];
 }
 
-void Grid3D::generate_tiles(entt::registry& _registry)
+entt::entity& Grid3D::node_at(size_t x, size_t y, size_t z)
+{
+    //check_bounds(x, y, z);
+    return m_corner_data[index(x, y, z)];
+}
+
+const entt::entity& Grid3D::node_at(size_t x, size_t y, size_t z) const
+{
+    //check_bounds(x, y, z);
+    return m_corner_data[index(x, y, z)];
+}
+
+void Grid3D::generate_tiles(entt::registry& _registry, const std::string& _mesh)
 {
     for (size_t z = 0; z < m_depth; ++z) {
         for (size_t y = 0; y < m_height; ++y) {
@@ -38,7 +51,7 @@ void Grid3D::generate_tiles(entt::registry& _registry)
 
                 entt::entity _e = _registry.create();
 
-                Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh("base");
+                Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh(_mesh);
 
                 auto& _node      = _registry.emplace<Node>     (_e);
                 auto& _tile      = _registry.emplace<Tile3D>   (_e, Tile3D(x, y, z));
@@ -58,6 +71,7 @@ void Grid3D::generate_tiles(entt::registry& _registry)
 
                     auto& _material = _registry.emplace<Material>(_e);
                     _material.shader_id = "phong";
+                    _material.diffuse_color = glm::vec3(1.0f, 0.2f, 0.2f);
 
                     auto& _mesh_renderer = _registry.emplace<MeshRenderer>(_e);
                     _mesh_renderer.load_mesh      (_tile_mesh);
@@ -124,6 +138,45 @@ void Grid3D::generate_tiles_with_perlin(entt::registry& _registry) {
                 }
 
                 at(x, y, z) = _e;
+            }
+        }
+    }
+}
+
+void Grid3D::generate_corner_nodes(entt::registry& _registry)
+{
+    for (size_t z = 0; z < m_depth + 1; ++z) {
+        for (size_t y = 0; y < m_height + 1; ++y) {
+            for (size_t x = 0; x < m_width + 1; ++x) {
+
+                entt::entity _e = _registry.create();
+
+                Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh("sphere");
+
+                auto& _node      = _registry.emplace<Node>     (_e);
+                auto& _tile      = _registry.emplace<Tile3D>   (_e, Tile3D(x, y, z));
+                auto& _transform = _registry.emplace<Transform>(_e);
+                auto& _aabb      = _registry.emplace<AABB>     (_e);
+
+                _node     .name     = "tile";
+                _transform.position = glm::vec3(x, y, z) - glm::vec3(0.5f);
+                _transform.scale    = glm::vec3(0.2f, 0.2f, 0.2f);
+
+                _aabb.min = { -0.5f, -0.5f, -0.5f };
+                _aabb.max = {  0.5f,  0.5f,  0.5f };
+
+                _node.is_active   = true;
+                _tile.is_occupied = true;
+
+                auto& _material = _registry.emplace<Material>(_e);
+                _material.shader_id     = "phong";
+                _material.diffuse_color = glm::vec3(1.0f, 1.0f, 1.0f);
+
+                auto& _mesh_renderer = _registry.emplace<MeshRenderer>(_e);
+                _mesh_renderer.load_mesh      (_tile_mesh);
+                _mesh_renderer.set_buffer_data(_tile_mesh);
+
+                node_at(x, y, z) = _e;
             }
         }
     }

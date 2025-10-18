@@ -201,7 +201,7 @@ void Engine::update()
 
     Material _phong_material;
     _phong_material.shader_id    = "phong";
-    _phong_material.diffuseColor = glm::vec3(1.0f, 1.0f, 1.0f);
+    _phong_material.diffuse_color = glm::vec3(1.0f, 1.0f, 1.0f);
 
     Material _toon_material;
     _toon_material.shader_id = "toon";

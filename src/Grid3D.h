@@ -30,8 +30,12 @@ public:
     entt::entity&       at(size_t x, size_t y, size_t z);
     const entt::entity& at(size_t x, size_t y, size_t z) const;
 
-    void generate_tiles            (entt::registry& _registry);
+    entt::entity&       node_at(size_t x, size_t y, size_t z);
+    const entt::entity& node_at(size_t x, size_t y, size_t z) const;
+
+    void generate_tiles            (entt::registry& _registry, const std::string& _mesh);
     void generate_tiles_with_perlin(entt::registry& _registry);
+    void generate_corner_nodes     (entt::registry& _registry);
 
     void add_tile_at   (entt::registry& _registry, size_t x, size_t y, size_t z);
     void add_tile_above(entt::registry& _registry, size_t x, size_t y, size_t z);
@@ -50,6 +54,7 @@ private:
     size_t m_depth  {0};
 
     std::vector<entt::entity> m_data;
+    std::vector<entt::entity> m_corner_data;
 
     std::vector<TileAnim> active_tile_anims;
 

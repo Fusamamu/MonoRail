@@ -1,6 +1,4 @@
 #include "ResourceManager.h"
-// #define STB_IMAGE_IMPLEMENTATION
-// #include "stb_image.h"
 
 void ResourceManager::init()
 {
@@ -13,6 +11,9 @@ void ResourceManager::init()
     load_model ("../res/models/test_idle_skeleton.fbx");
     load_model ("../res/models/grass_blade.fbx"       );
     load_model ("../res/models/base.fbx"              );
+    load_model ("../res/models/sphere.fbx"            );
+    load_model ("../res/models/cube.fbx"              );
+    load_model ("../res/models/bevel_cube.fbx"        );
 
     load_shader("../res/shaders/instance.glsl"        );
     load_shader("../res/shaders/toon.glsl"            );

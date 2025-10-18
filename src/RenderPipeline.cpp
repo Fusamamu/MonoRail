@@ -213,6 +213,7 @@ void RenderPipeline::render(const entt::registry& _registry)
         Shader* _found_shader = ResourceManager::instance().get_shader(_material.shader_id);
         _found_shader->use();
         _found_shader->set_mat4_uniform_model(_transform.world_mat);
+        _found_shader->set_vec3("u_color", _material.diffuse_color);
 
         if (!_material.depth_write)
         {

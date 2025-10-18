@@ -185,7 +185,7 @@ struct Material
 {
     std::string shader_id;
 
-    glm::vec3 diffuseColor   {1.0f, 1.0f, 1.0f};  // base color
+    glm::vec3 diffuse_color   {1.0f, 1.0f, 1.0f};  // base color
     glm::vec3 specularColor  {1.0f, 1.0f, 1.0f};  // highlight color
     float     shininess      {32.0f};             // specular exponent
     float     opacity        {1.0f};              // transparency
@@ -200,7 +200,7 @@ struct Material
     Material() = default;
 
     Material(const glm::vec3& _diff, const glm::vec3& _spec, float _shin)
-        : diffuseColor(_diff), specularColor(_spec), shininess(_shin)
+        : diffuse_color(_diff), specularColor(_spec), shininess(_shin)
     {
 
     }

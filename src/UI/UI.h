@@ -116,8 +116,13 @@ namespace MGUI
     void begin_frame();
     void process_event(const SDL_Event& e);
 
+    void begin(const std::string& name);
+
     void begin_window(const std::string& name, Vec2 pos, Vec2 size);
     void end_window();
+
+    void foo();
+
 
     bool button(int id, const std::string& label, Vec2 size);
 

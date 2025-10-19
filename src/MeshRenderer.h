@@ -19,7 +19,8 @@ public:
     void load_mesh      (Mesh* _mesh);
     void set_buffer_data(Mesh* _mesh);
     void set_instance_data(const std::vector<InstanceData>& _data);
-    void update_instance_color(size_t _index, const glm::vec4& _color);
+    void update_instance_color(std::vector<InstanceData>& _data, size_t _index, const glm::vec4& _color);
+    void update_all_instance_colors( std::vector<InstanceData>& _data, const glm::vec4& color);
     void draw() const;
 
     bool use_instancing = false;

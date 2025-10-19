@@ -90,6 +90,8 @@ void Grid3D::create_tile_instance(entt::registry& _registry)
 {
     auto _e = _registry.create();
 
+    m_tile_mesh_e = _e;
+
     Mesh* _p_mesh = ResourceManager::instance().get_first_mesh("bevel_cube");
 
     auto& _node = _registry.emplace<Node>(_e, Node());

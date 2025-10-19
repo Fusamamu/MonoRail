@@ -70,8 +70,11 @@ public:
 
     void select_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z)
     {
-        // MeshRenderer& _mesh_renderer = _registry.get<MeshRenderer>(m_grid_mesh_e);
-        // _mesh_renderer.update_instance_color(0, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+        std::cout << "select_tile_at" << std::endl;
+        MeshRenderer& _mesh_renderer = _registry.get<MeshRenderer>(m_tile_mesh_e);
+        _mesh_renderer.update_instance_color(m_tile_instance_data, 1, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+        //_mesh_renderer.update_all_instance_colors(m_tile_instance_data, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
     void update(entt::registry& _registry);
@@ -89,6 +92,8 @@ private:
     std::vector<InstanceData> m_corner_instance_data;
 
     std::vector<TileAnim> active_tile_anims;
+
+    entt::entity m_tile_mesh_e = entt::null;
 
     void add_tile_animation(entt::registry& reg, entt::entity _tile_e)
     {

@@ -19,6 +19,11 @@ namespace MGUI
 
     GLuint VAO, VBO;
 
+    void foo(  )
+    {
+
+    }
+
     void init()
     {
         ui_renderer.init();
@@ -163,6 +168,12 @@ namespace MGUI
         }
     }
 
+    void begin(const std::string& name)
+    {
+
+    }
+
+
     // ---------------- Window
     void begin_window(const std::string& name, MGUI::Vec2 pos, MGUI::Vec2 size)
     {
@@ -259,6 +270,7 @@ namespace MGUI
     // ---------------- Drawing helpers
     void draw_rect(Vec2 pos, Vec2 size, Color color)
     {
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, atlas_texture.id);
 

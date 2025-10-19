@@ -52,7 +52,7 @@ void MeshRenderer::set_instance_data(const std::vector<InstanceData>& _data)
     if (!m_instance_vbo)
         glGenBuffers(1, &m_instance_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_instance_vbo);
-    glBufferData(GL_ARRAY_BUFFER, _data.size() * sizeof(InstanceData), _data.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, _data.size() * sizeof(InstanceData), _data.data(), GL_DYNAMIC_DRAW);
 
     glBindVertexArray(m_vao);
 
@@ -75,11 +75,24 @@ void MeshRenderer::set_instance_data(const std::vector<InstanceData>& _data)
     glBindVertexArray(0);
 }
 
-void MeshRenderer::update_instance_color(size_t _index, const glm::vec4& _color)
+void MeshRenderer::update_instance_color(std::vector<InstanceData>& _data, size_t _index, const glm::vec4& _color)
 {
-    // glBindBuffer   (GL_ARRAY_BUFFER, m_instance_vbo);
-    // glBufferSubData(GL_ARRAY_BUFFER, _index * sizeof(InstanceData) + offsetof(InstanceData, color), sizeof(glm::vec4), glm::value_ptr(_color));
-    // glBindBuffer   (GL_ARRAY_BUFFER, 0);
+    size_t offset = _index * sizeof(InstanceData) + sizeof(glm::mat4);
+    glBindBuffer   (GL_ARRAY_BUFFER, m_instance_vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(glm::vec4), glm::value_ptr(_color));
+    glBindBuffer   (GL_ARRAY_BUFFER, 0);
+}
+
+void MeshRenderer::update_all_instance_colors( std::vector<InstanceData>& _data, const glm::vec4& color)
+{
+    // Update CPU-side copy
+    for (auto& instance : _data)
+        instance.color = color;
+
+    // Send entire buffer to GPU
+    glBindBuffer   (GL_ARRAY_BUFFER, m_instance_vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, _data.size() * sizeof(InstanceData), _data.data());
+    glBindBuffer   (GL_ARRAY_BUFFER, 0);
 }
 
 void MeshRenderer::draw() const

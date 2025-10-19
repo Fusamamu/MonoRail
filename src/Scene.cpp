@@ -151,13 +151,13 @@ void Scene::on_enter()
 
 
     Grid3D& _grid = m_registry.ctx().emplace<Grid3D>();
-    _grid.init(5, 5, 5);
+    _grid.init(3, 3, 3);
     _grid.generate_tiles        (m_registry);
     _grid.create_tile_instance  (m_registry);
-    _grid.generate_corner_nodes (m_registry);
-    _grid.create_corner_instance(m_registry);
-    _grid.store_corners_refs    (m_registry);
-    _grid.store_tile_refs       (m_registry);
+    // _grid.generate_corner_nodes (m_registry);
+    // _grid.create_corner_instance(m_registry);
+    // _grid.store_corners_refs    (m_registry);
+    // _grid.store_tile_refs       (m_registry);
 
     AABB _aabb;
     _aabb.min = glm::vec3(0.0f);
@@ -220,7 +220,8 @@ void Scene::on_update(float delta_time)
             {
                 //_grid.add_tile_above(m_registry, _tile->idx, _tile->idy, _tile->idz);
 
-               // _grid.select_tile_at(m_registry, 0, 0, 0);
+                auto& _grid   = m_registry.ctx().get<Grid3D>();
+               _grid.select_tile_at(m_registry, 0, 0, 0);
             }
 
 
@@ -261,6 +262,19 @@ void Scene::on_render(float _dt)
 
 void Scene::on_render_gui(float _dt)
 {
+    // glDisable(GL_DEPTH_TEST);
+    // glEnable(GL_BLEND);
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //
+    // MGUI::begin_window("WINDOW", { 100.0f, 100.0f }, { 500.0f, 500.0f });
+    // MGUI::end_window();
+    //
+    // MGUI::begin_window("OTHER", { 200.0f, 100.0f }, { 500.0f, 500.0f });
+    // MGUI::end_window();
+    //
+    // glEnable(GL_DEPTH_TEST);
+    // glDisable(GL_BLEND);
+
     //ImGui
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();

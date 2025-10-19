@@ -57,26 +57,45 @@ struct Tile
     Tile(uint32_t x, uint32_t y) : idx(x), idy(y) {}
 };
 
-struct Tile3D
+struct Node3D
 {
     uint32_t idx;
     uint32_t idy;
     uint32_t idz;
 
+    std::array<entt::entity, 8> corner_nodes;
+
     bool is_occupied = false;
 
-    Tile3D() = default;
-    Tile3D(uint32_t x, uint32_t y, uint32_t z)
+    Node3D() = default;
+    Node3D(uint32_t x, uint32_t y, uint32_t z)
         : idx(x), idy(y), idz(z) {}
 
     void print() const
     {
-        std::cout << "Tile3D("
-                  << idx << ", "
-                  << idy << ", "
-                  << idz << ")"
-                  << " occupied=" << std::boolalpha << is_occupied
-                  << "\n";
+        std::cout << *this;
+    }
+
+    // Friend function for stream output
+    friend std::ostream& operator<<(std::ostream& os, const Node3D& node)
+    {
+        os << "Node3D("
+           << node.idx << ", "
+           << node.idy << ", "
+           << node.idz << ") "
+           << "occupied=" << std::boolalpha << node.is_occupied;
+
+        // Build 8-bit mask for corner nodes
+        uint8_t mask = 0;
+        for (size_t i = 0; i < node.corner_nodes.size(); ++i)
+        {
+            if (node.corner_nodes[i] != entt::null) // occupied
+                mask |= (1 << i);
+        }
+
+        os << " corner_mask=0b" << std::bitset<8>(mask);
+
+        return os;
     }
 };
 
@@ -185,7 +204,8 @@ struct Material
 {
     std::string shader_id;
 
-    glm::vec3 diffuse_color   {1.0f, 1.0f, 1.0f};  // base color
+    glm::vec4 rgba           { 1.0f, 1.0f, 1.0f, 1.0f };
+    glm::vec3 diffuse_color  {1.0f, 1.0f, 1.0f};  // base color
     glm::vec3 specularColor  {1.0f, 1.0f, 1.0f};  // highlight color
     float     shininess      {32.0f};             // specular exponent
     float     opacity        {1.0f};              // transparency

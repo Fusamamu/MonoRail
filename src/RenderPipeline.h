@@ -42,6 +42,7 @@ private:
     Animator m_animator;
 
     MGUI::UIRenderer m_ui_renderer;
+
 };
 
 #endif

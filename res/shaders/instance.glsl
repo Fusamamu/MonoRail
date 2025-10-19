@@ -20,25 +20,9 @@ layout(std140) uniform CameraData
     float pad1; // padding for std140
 };
 
-//void main()
-//{
-//    // Apply per-instance model
-//    vec4 worldPos = instanceModel * vec4(position, 1.0);
-//
-//    FragPos  = vec3(worldPos);
-//    Normal   = mat3(transpose(inverse(instanceModel))) * normal;
-//    TexCoord = texCoord;
-//
-//    gl_Position = proj * view * worldPos;
-//}
-
-//uniform float time;       ;// pass glfwGetTime() or similar
-//uniform float windStrength; // e.g., 0.1 - 0.3
-//uniform float bladeHeight ;  // max height of a blade
-
-        uniform float u_time = 1.0;
-        uniform float u_wind_strength = 0.1;
-        uniform float u_blade_height = 1.0;
+uniform float u_time = 1.0;
+uniform float u_wind_strength = 0.1;
+uniform float u_blade_height = 1.0;
 
 void main()
 {
@@ -66,7 +50,6 @@ layout(location = 0) out vec4 FragColor;
 in vec3 FragPos;
 in vec3 Normal;
 in vec2 TexCoord;
-
 
 uniform float bladeHeight = 1.0; // maximum height of the grass blade
 

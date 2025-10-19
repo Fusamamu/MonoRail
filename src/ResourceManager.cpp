@@ -26,6 +26,7 @@ void ResourceManager::init()
     load_shader("../res/shaders/ui.glsl"              );
     load_shader("../res/shaders/text.glsl"            );
     load_shader("../res/shaders/shell.glsl"           );
+    load_shader("../res/shaders/object_instance.glsl" );
 }
 
 // Return pointer to vector<Mesh> if exists, else nullptr

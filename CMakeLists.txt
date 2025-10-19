@@ -72,7 +72,9 @@ add_executable(${PROJECT_NAME}
         src/Grid3D.cpp
         src/Grid3D.h
         src/MMath.cpp
-        src/MMath.h)
+        src/MMath.h
+        src/Time.cpp
+        src/Time.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

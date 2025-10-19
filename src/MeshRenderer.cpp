@@ -47,30 +47,39 @@ void MeshRenderer::set_buffer_data(Mesh* _mesh)
 }
 
 // Add instance buffer
-void MeshRenderer::set_instance_data(const std::vector<glm::mat4>& _instance_models)
+void MeshRenderer::set_instance_data(const std::vector<InstanceData>& _data)
 {
     if (!m_instance_vbo)
         glGenBuffers(1, &m_instance_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, m_instance_vbo);
+    glBufferData(GL_ARRAY_BUFFER, _data.size() * sizeof(InstanceData), _data.data(), GL_STATIC_DRAW);
 
     glBindVertexArray(m_vao);
-    glBindBuffer(GL_ARRAY_BUFFER, m_instance_vbo);
-
-    glBufferData(GL_ARRAY_BUFFER, _instance_models.size() * sizeof(glm::mat4), _instance_models.data(), GL_STATIC_DRAW);
 
     std::size_t vec4Size = sizeof(glm::vec4);
 
-    u_int32_t _meshAttribIndex = 3;
-
-    // mat4 consumes 4 attribute slots
+    // Model matrix (locations 3–6)
     for (int i = 0; i < 4; i++)
     {
-        glEnableVertexAttribArray(_meshAttribIndex + i); // pick the next available attribute index
-        glVertexAttribPointer    (_meshAttribIndex + i, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(i * vec4Size));
-        glVertexAttribDivisor    (_meshAttribIndex + i, 1); // per-instance
+        glEnableVertexAttribArray(3 + i);
+        glVertexAttribPointer    (3 + i, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(i * vec4Size));
+        glVertexAttribDivisor    (3 + i, 1);
     }
+
+    // Color (location 7)
+    glEnableVertexAttribArray(7);
+    glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(sizeof(glm::mat4)));
+    glVertexAttribDivisor(7, 1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+}
+
+void MeshRenderer::update_instance_color(size_t _index, const glm::vec4& _color)
+{
+    // glBindBuffer   (GL_ARRAY_BUFFER, m_instance_vbo);
+    // glBufferSubData(GL_ARRAY_BUFFER, _index * sizeof(InstanceData) + offsetof(InstanceData, color), sizeof(glm::vec4), glm::value_ptr(_color));
+    // glBindBuffer   (GL_ARRAY_BUFFER, 0);
 }
 
 void MeshRenderer::draw() const

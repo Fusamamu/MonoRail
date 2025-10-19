@@ -14,6 +14,7 @@
 #include "InputSystem.h"
 #include "Component.h"
 #include "UI/UI.h"
+#include "Time.h"
 
 class Engine
 {

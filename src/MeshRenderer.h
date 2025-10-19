@@ -4,6 +4,12 @@
 #include "PCH.h"
 #include "Mesh.h"
 
+struct InstanceData
+{
+    glm::mat4 model;
+    glm::vec4 color;
+};
+
 class MeshRenderer
 {
 public:
@@ -12,7 +18,8 @@ public:
    
     void load_mesh      (Mesh* _mesh);
     void set_buffer_data(Mesh* _mesh);
-    void set_instance_data(const std::vector<glm::mat4>& _instance_models);
+    void set_instance_data(const std::vector<InstanceData>& _data);
+    void update_instance_color(size_t _index, const glm::vec4& _color);
     void draw() const;
 
     bool use_instancing = false;

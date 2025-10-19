@@ -1,9 +1,9 @@
 #ifndef GRID3D_H
 #define GRID3D_H
 
+#include "PCH.h"
 #include "ResourceManager.h"
 #include "Component.h"
-#include "PCH.h"
 #include "MeshRenderer.h"
 #include "PerlinNoise.h"
 #include "MMath.h"
@@ -15,12 +15,32 @@ struct TileAnim
     float duration = 0.25f; // seconds
 };
 
+class NodeM
+{
+public:
+    uint32_t idx;
+
+
+    NodeM(uint32_t i): idx(i) {}
+
+    NodeM(): idx(0)
+    {
+
+    }
+
+    ~NodeM()
+    {
+
+    }
+};
+
 class Grid3D {
 public:
-    Grid3D() = default;
     Grid3D(size_t width, size_t height, size_t depth);
+    Grid3D() = default;
     ~Grid3D() = default;
 
+    void init(size_t width, size_t height, size_t depth);
     void resize(size_t width, size_t height, size_t depth);
 
     size_t get_width()  const { return m_width;  }
@@ -33,21 +53,30 @@ public:
     entt::entity&       node_at(size_t x, size_t y, size_t z);
     const entt::entity& node_at(size_t x, size_t y, size_t z) const;
 
-    void generate_tiles            (entt::registry& _registry, const std::string& _mesh);
+    bool out_of_bounds(size_t x, size_t y, size_t z) const;
+    bool is_occupied(entt::registry& _registry, size_t x, size_t y, size_t z);
+
+    void create_tile_instance      (entt::registry& _registry);
+    void create_corner_instance     (entt::registry& _registry);
+    void generate_tiles            (entt::registry& _registry);
     void generate_tiles_with_perlin(entt::registry& _registry);
     void generate_corner_nodes     (entt::registry& _registry);
+
+    void store_corners_refs(entt::registry& _registry);
+    void store_tile_refs   (entt::registry& _registry);
 
     void add_tile_at   (entt::registry& _registry, size_t x, size_t y, size_t z);
     void add_tile_above(entt::registry& _registry, size_t x, size_t y, size_t z);
 
-    bool out_of_bounds(size_t x, size_t y, size_t z) const;
-
-    void print_layer(size_t z) const;
-
-    bool is_occupied(entt::registry& _registry, size_t x, size_t y, size_t z);
+    void select_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z)
+    {
+        // MeshRenderer& _mesh_renderer = _registry.get<MeshRenderer>(m_grid_mesh_e);
+        // _mesh_renderer.update_instance_color(0, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    }
 
     void update(entt::registry& _registry);
 
+    void print_layer(size_t z) const;
 private:
     size_t m_width  {0};
     size_t m_height {0};
@@ -55,6 +84,9 @@ private:
 
     std::vector<entt::entity> m_data;
     std::vector<entt::entity> m_corner_data;
+
+    std::vector<InstanceData> m_tile_instance_data;
+    std::vector<InstanceData> m_corner_instance_data;
 
     std::vector<TileAnim> active_tile_anims;
 
@@ -82,8 +114,12 @@ private:
         }
     }
 
-    inline size_t index(size_t x, size_t y, size_t z) const {
+    inline size_t tile_index(size_t x, size_t y, size_t z) const {
         return z * (m_width * m_height) + y * m_width + x;
+    }
+
+    inline size_t corner_index(size_t x, size_t y, size_t z) const {
+        return z * ((m_width + 1) * (m_height + 1)) + y * (m_width + 1) + x;
     }
 
     void check_bounds(size_t x, size_t y, size_t z) const;

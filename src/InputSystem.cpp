@@ -10,6 +10,11 @@ InputSystem::~InputSystem() = default;
 
 void InputSystem::update()
 {
+    previous_mouse_pos = current_mouse_pos;
+    int x, y;
+    Uint32 buttons    = SDL_GetMouseState(&x, &y);
+    current_mouse_pos = glm::vec2(float(x), float(y));
+
     // Clear per-frame states
     m_key_down.clear();
     m_key_up  .clear();
@@ -97,7 +102,10 @@ bool InputSystem::is_key_held(SDL_Scancode sc) const
 int InputSystem::get_mouse_x() const { return m_mouse_x; }
 int InputSystem::get_mouse_y() const { return m_mouse_y; }
 
-glm::vec2 InputSystem::get_mouse_pos() const { return glm::vec2(m_mouse_x, m_mouse_y); }
+glm::vec2 InputSystem::get_mouse_pos() const
+{
+    return glm::vec2(m_mouse_x, m_mouse_y);
+}
 
 bool InputSystem::is_mouse_down(Uint8 button) const
 {

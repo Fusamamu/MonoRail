@@ -40,6 +40,9 @@ public:
     // --- Quit ---
     bool get_quit_requested() const;
 
+
+    glm::vec2 get_mouse_delta() const { return current_mouse_pos - previous_mouse_pos; }
+
 private:
     bool m_quit;
 
@@ -58,6 +61,9 @@ private:
 
     int m_mouse_wheel_x = 0;
     int m_mouse_wheel_y = 0;
+
+    glm::vec2 current_mouse_pos {0.0f, 0.0f};
+    glm::vec2 previous_mouse_pos{0.0f, 0.0f};
 };
 
 #endif

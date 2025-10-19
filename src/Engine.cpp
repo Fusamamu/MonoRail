@@ -94,7 +94,7 @@ void create_grass(Scene* _scene)
     //std::vector<glm::mat4> instanceModels = generateGrassInstances(100, 5, 5 );
     _grass_mesh_renderer.use_instancing = true;
     _grass_mesh_renderer.instance_count = instanceModels.size();
-    _grass_mesh_renderer.set_instance_data(instanceModels);
+    //_grass_mesh_renderer.set_instance_data(instanceModels);
 }
 
 void create_grass_shell(Scene* _scene)
@@ -106,7 +106,7 @@ void create_grass_shell(Scene* _scene)
     _shell_material.shader_id = "shell";
     _shell_material.diffuseMap = _noise_id;
 
-    entt::entity _shell_e = _scene->create_object("shell" , "large_plane" , { 0.0f,  1.0f, 0.0f}  , _shell_material) ;
+    entt::entity _shell_e      = _scene->create_object("shell" , "large_plane" , { 0.0f,  1.0f, 0.0f}  , _shell_material) ;
     auto& _shell_transform     = _scene->get_registry().get<Transform>   (_shell_e);
     auto& _shell_mesh_renderer = _scene->get_registry().get<MeshRenderer>(_shell_e);
     _shell_transform.scale = glm::vec3(0.3f, 0.3f, 0.3f);
@@ -210,24 +210,30 @@ void Engine::update()
     _fog_plane_material.shader_id = "fog_plane";
     _fog_plane_material.depth_write = false;
 
-    _scene->create_object("object", "large_plane" , {0.0f, -2.0f, 0.0f}, _fog_plane_material);
+    //_scene->create_object("object", "large_plane" , {0.0f, -2.0f, 0.0f}, _fog_plane_material);
 
-    // _scene->create_object("object", "teapot"      , {5.0f,  0.0f, 0.0f}, _phong_material);
-    // _scene->create_object("object", "monkey"      , {0.0f,  1.0f, 0.0f}, _toon_material) ;
+    _scene->create_object("object", "teapot"      , {5.0f,  0.0f, 0.0f}, _phong_material);
+    _scene->create_object("object", "monkey"      , {0.0f,  1.0f, 0.0f}, _toon_material) ;
 
-    entt::entity _agent_e = _scene->create_object("player", "teapot"      , { 0.0f,  0.0f, 5.0f}  , _toon_material);
-    entt::entity _child_e = _scene->create_object("child" , "teapot"      , { 0.0f,  0.0f, 8.0f}  , _toon_material);
-    _scene->get_registry().emplace<Agent>   (_agent_e);
-    _scene->get_registry().emplace<Parent>  (_child_e).entity = _agent_e;
+    // entt::entity _agent_e = _scene->create_object("player", "teapot"      , { 0.0f,  0.0f, 5.0f}  , _toon_material);
+    // entt::entity _child_e = _scene->create_object("child" , "teapot"      , { 0.0f,  0.0f, 8.0f}  , _toon_material);
+    // _scene->get_registry().emplace<Agent>   (_agent_e);
+    // _scene->get_registry().emplace<Parent>  (_child_e).entity = _agent_e;
 
     // create_grass      (_scene);
     // create_grass_shell(_scene);
 
+
+    Time::init();
+
     _scene->on_enter();
     while(m_is_running)
     {
-        _scene->on_update(0.016f);
-        _scene->on_render(0.016f);
+        Time::update();
+        _scene->on_update    (0.016f);
+        _scene->on_render    (0.016f);
+        _scene->on_render_gui(0.016f);
+        SDL_GL_SwapWindow(p_window);
     }
     _scene->on_exit();
 }

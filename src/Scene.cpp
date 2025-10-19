@@ -90,7 +90,6 @@ void update_boids(entt::registry& reg, float dt) {
 void Scene::on_enter()
 {
     m_registry.ctx().emplace<Camera>();
-    m_registry.ctx().emplace<Grid3D> (Grid3D(20, 2, 20));
 
     auto& _camera = m_registry.ctx().get<Camera>();
     _camera.position = { 20.0f, 20.0f, 20.0f };
@@ -150,9 +149,15 @@ void Scene::on_enter()
 
     glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
 
-    auto& _grid = m_registry.ctx().get<Grid3D>();
-    _grid.generate_tiles       (m_registry, "bevel_cube");
-    _grid.generate_corner_nodes(m_registry);
+
+    Grid3D& _grid = m_registry.ctx().emplace<Grid3D>();
+    _grid.init(5, 5, 5);
+    _grid.generate_tiles        (m_registry);
+    _grid.create_tile_instance  (m_registry);
+    _grid.generate_corner_nodes (m_registry);
+    _grid.create_corner_instance(m_registry);
+    _grid.store_corners_refs    (m_registry);
+    _grid.store_tile_refs       (m_registry);
 
     AABB _aabb;
     _aabb.min = glm::vec3(0.0f);
@@ -174,19 +179,35 @@ void Scene::on_update(float delta_time)
     m_input_system.update();
 
     auto& _camera = m_registry.ctx().get<Camera>();
-    auto& _grid   = m_registry.ctx().get<Grid3D>();
+    //auto& _grid   = m_registry.ctx().get<Grid3D>();
 
     if (m_input_system.get_quit_requested())
         m_engine_owner->request_quit();
 
-    if (m_input_system.is_key_held(SDL_SCANCODE_A))
-        _camera.camera_move_left(0.25f);
-    if (m_input_system.is_key_held(SDL_SCANCODE_D))
-        _camera.camera_move_right(0.25f);
-    if (m_input_system.is_key_held(SDL_SCANCODE_W))
-        _camera.camera_move_up(0.25f);
-    if (m_input_system.is_key_held(SDL_SCANCODE_S))
-        _camera.camera_move_down(0.25f);
+
+    // --- Camera rotation (mouse) ---
+    if (m_input_system.is_mouse_button_held(SDL_BUTTON_RIGHT))
+    {
+        glm::vec2 mouse_delta = m_input_system.get_mouse_delta(); // implement delta since last frame
+        float sensitivity = 0.1f; // adjust for faster/slower rotation
+        _camera.rotate(mouse_delta.x * sensitivity, -mouse_delta.y * sensitivity);
+
+        if (m_input_system.is_key_held(SDL_SCANCODE_W)) _camera.move_forward (0.25f);
+        if (m_input_system.is_key_held(SDL_SCANCODE_S)) _camera.move_backward(0.25f);
+        if (m_input_system.is_key_held(SDL_SCANCODE_A)) _camera.move_left    (0.25f);
+        if (m_input_system.is_key_held(SDL_SCANCODE_D)) _camera.move_right   (0.25f);
+    }
+    else
+    {
+        if (m_input_system.is_key_held(SDL_SCANCODE_A))
+            _camera.camera_move_left(0.25f);
+        if (m_input_system.is_key_held(SDL_SCANCODE_D))
+            _camera.camera_move_right(0.25f);
+        if (m_input_system.is_key_held(SDL_SCANCODE_W))
+            _camera.camera_move_up(0.25f);
+        if (m_input_system.is_key_held(SDL_SCANCODE_S))
+            _camera.camera_move_down(0.25f);
+    }
 
     if (m_input_system.left_mouse_pressed())
     {
@@ -195,10 +216,14 @@ void Scene::on_update(float delta_time)
         entt::entity _entity = ray_cast_select_entity(m_registry, _ray, _dist);
         if (_entity != entt::null)
         {
-            if (Tile3D* _tile = m_registry.try_get<Tile3D>(_entity))
+            if (Node3D* _tile = m_registry.try_get<Node3D>(_entity))
             {
-                _grid.add_tile_above(m_registry, _tile->idx, _tile->idy, _tile->idz);
+                //_grid.add_tile_above(m_registry, _tile->idx, _tile->idy, _tile->idz);
+
+               // _grid.select_tile_at(m_registry, 0, 0, 0);
             }
+
+
         }
     }
 
@@ -220,7 +245,7 @@ void Scene::on_update(float delta_time)
         _transform.position.x += _agent.move_direction.x * _agent.move_amount;
     }
 
-    _grid.update(m_registry);
+    //_grid.update(m_registry);
 
     //update_boids(m_registry, delta_time);
 
@@ -229,16 +254,21 @@ void Scene::on_update(float delta_time)
         update_world_transform(_e, glm::mat4(1.0f));
 }
 
-void Scene::on_render(float delta_time)
+void Scene::on_render(float _dt)
 {
     m_render_pipeline.render(m_registry);
+}
 
+void Scene::on_render_gui(float _dt)
+{
     //ImGui
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 
     ImGui::Begin("Scene debug");
+
+    ImGui::Text("FPS: %.1f", Time::fps);
 
     auto _directional_light_view = m_registry.view<DirectionalLight>();
     for (auto _e : _directional_light_view)
@@ -302,10 +332,8 @@ void Scene::on_render(float delta_time)
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-    SDL_GL_SwapWindow(p_window);
-    SDL_Delay(16);
 }
+
 
 entt::entity Scene::create_object(const std::string& _name, const std::string& _mesh_name, glm::vec3 _position, const Material& _material)
 {

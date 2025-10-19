@@ -55,9 +55,6 @@ void FrameBuffer::attach_depth_texture()
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depth_texture, 0);
 
-    // glDrawBuffer(GL_NONE);
-    // glReadBuffer(GL_NONE);
-
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         std::cerr << "ERROR: Framebuffer is not complete!" << std::endl;
 

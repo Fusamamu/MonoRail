@@ -43,7 +43,8 @@ public:
     void on_enter();
     void on_exit();
     void on_update(float delta_time);
-    void on_render(float delta_time);
+    void on_render(float _dt);
+    void on_render_gui(float _dt);
 
 private:
     entt::registry m_registry;

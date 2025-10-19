@@ -151,13 +151,15 @@ void Scene::on_enter()
 
 
     Grid3D& _grid = m_registry.ctx().emplace<Grid3D>();
-    _grid.init(3, 3, 3);
+    _grid.init(20, 3, 20);
     _grid.generate_tiles        (m_registry);
     _grid.create_tile_instance  (m_registry);
-    // _grid.generate_corner_nodes (m_registry);
-    // _grid.create_corner_instance(m_registry);
-    // _grid.store_corners_refs    (m_registry);
-    // _grid.store_tile_refs       (m_registry);
+    _grid.generate_corner_nodes (m_registry);
+    _grid.create_corner_instance(m_registry);
+    _grid.store_corners_refs    (m_registry);
+    _grid.store_tile_refs       (m_registry);
+
+    _grid.fill_tile_at_level(m_registry, 0);
 
     AABB _aabb;
     _aabb.min = glm::vec3(0.0f);
@@ -179,11 +181,10 @@ void Scene::on_update(float delta_time)
     m_input_system.update();
 
     auto& _camera = m_registry.ctx().get<Camera>();
-    //auto& _grid   = m_registry.ctx().get<Grid3D>();
+    auto& _grid   = m_registry.ctx().get<Grid3D>();
 
     if (m_input_system.get_quit_requested())
         m_engine_owner->request_quit();
-
 
     // --- Camera rotation (mouse) ---
     if (m_input_system.is_mouse_button_held(SDL_BUTTON_RIGHT))
@@ -218,7 +219,7 @@ void Scene::on_update(float delta_time)
         {
             if (Node3D* _tile = m_registry.try_get<Node3D>(_entity))
             {
-                //_grid.add_tile_above(m_registry, _tile->idx, _tile->idy, _tile->idz);
+                _grid.add_tile_above(m_registry, _tile->idx, _tile->idy, _tile->idz);
 
                 auto& _grid   = m_registry.ctx().get<Grid3D>();
                _grid.select_tile_at(m_registry, 0, 0, 0);
@@ -246,7 +247,7 @@ void Scene::on_update(float delta_time)
         _transform.position.x += _agent.move_direction.x * _agent.move_amount;
     }
 
-    //_grid.update(m_registry);
+    _grid.update(m_registry);
 
     //update_boids(m_registry, delta_time);
 

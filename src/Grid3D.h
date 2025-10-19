@@ -15,25 +15,6 @@ struct TileAnim
     float duration = 0.25f; // seconds
 };
 
-class NodeM
-{
-public:
-    uint32_t idx;
-
-
-    NodeM(uint32_t i): idx(i) {}
-
-    NodeM(): idx(0)
-    {
-
-    }
-
-    ~NodeM()
-    {
-
-    }
-};
-
 class Grid3D {
 public:
     Grid3D(size_t width, size_t height, size_t depth);
@@ -62,6 +43,8 @@ public:
     void generate_tiles_with_perlin(entt::registry& _registry);
     void generate_corner_nodes     (entt::registry& _registry);
 
+    void fill_tile_at_level(entt::registry& _registry, uint32_t _level);
+
     void store_corners_refs(entt::registry& _registry);
     void store_tile_refs   (entt::registry& _registry);
 
@@ -71,6 +54,7 @@ public:
     void select_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z)
     {
         std::cout << "select_tile_at" << std::endl;
+
         MeshRenderer& _mesh_renderer = _registry.get<MeshRenderer>(m_tile_mesh_e);
         _mesh_renderer.update_instance_color(m_tile_instance_data, 1, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 

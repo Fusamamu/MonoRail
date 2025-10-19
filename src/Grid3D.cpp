@@ -60,19 +60,19 @@ void Grid3D::generate_tiles(entt::registry& _registry)
                 entt::entity _e = _registry.create();
 
                 auto& _node         = _registry.emplace<Node>     (_e);
-                auto& _tile= _registry.emplace<Node3D>   (_e, Node3D(x, y, z));
+                auto& _node3D       = _registry.emplace<Node3D>   (_e, Node3D(x, y, z));
                 auto& _transform    = _registry.emplace<Transform>(_e);
-                auto& _aabb         = _registry.emplace<AABB>     (_e);
+                //auto& _aabb         = _registry.emplace<AABB>     (_e);
 
-                _node.name        = "tile";
-                _node.is_active   = true;
-                _tile.is_occupied = true;
+                _node.name          = "tile";
+                _node.is_active     = true;
+                _node3D.is_occupied = false;
 
                 _transform.position = glm::vec3(x, y, z);
                 _transform.scale    = glm::vec3(0.2f);
 
-                _aabb.min = { -0.5f, -0.5f, -0.5f };
-                _aabb.max = {  0.5f,  0.5f,  0.5f };
+                // _aabb.min = { -0.05f, -0.05f, -0.05f };
+                // _aabb.max = {  0.05f,  0.05f,  0.05f };
 
                 InstanceData _instance_data;
                 _instance_data.model = _transform.get_local_mat4();
@@ -82,6 +82,15 @@ void Grid3D::generate_tiles(entt::registry& _registry)
 
                 at(x, y, z) = _e;
             }
+        }
+    }
+}
+
+void Grid3D::fill_tile_at_level(entt::registry& _registry, uint32_t _level)
+{
+    for (size_t z = 0; z < m_depth; ++z) {
+        for (size_t x = 0; x < m_width; ++x) {
+            add_tile_at(_registry, x, _level, z);
         }
     }
 }
@@ -196,7 +205,7 @@ void Grid3D::generate_corner_nodes(entt::registry& _registry)
                 auto& _node      = _registry.emplace<Node>     (_e);
                 auto& _tile      = _registry.emplace<Node3D>   (_e, Node3D(x, y, z));
                 auto& _transform = _registry.emplace<Transform>(_e);
-                auto& _aabb      = _registry.emplace<AABB>     (_e);
+                //auto& _aabb      = _registry.emplace<AABB>     (_e);
 
                 _node.name        = "corner_node";
                 _node.is_active   = true;
@@ -205,8 +214,8 @@ void Grid3D::generate_corner_nodes(entt::registry& _registry)
                 _transform.position = glm::vec3(x, y, z) - glm::vec3(0.5f);
                 _transform.scale    = glm::vec3(0.1f, 0.1f, 0.1f);
 
-                _aabb.min = { -0.1f, -0.1f, -0.1f };
-                _aabb.max = {  0.1f,  0.1f,  0.1f };
+                // _aabb.min = { -0.1f, -0.1f, -0.1f };
+                // _aabb.max = {  0.1f,  0.1f,  0.1f };
 
                 InstanceData _instance_data;
                 _instance_data.model = _transform.get_local_mat4();
@@ -232,9 +241,9 @@ void Grid3D::create_corner_instance(entt::registry& _registry)
     auto& _transform = _registry.emplace<Transform>(_e);
     _transform.position = glm::vec3(0.0f);
 
-    auto& _aabb = _registry.emplace<AABB>(_e, AABB());
-    _aabb.min = { -0.5f, -0.5f, -0.5f };
-    _aabb.max = {  0.5f,  0.5f,  0.5f };
+    // auto& _aabb = _registry.emplace<AABB>(_e, AABB());
+    // _aabb.min = { -0.5f, -0.5f, -0.5f };
+    // _aabb.max = {  0.5f,  0.5f,  0.5f };
 
     Material _material;
     _material.shader_id     = "object_instance";
@@ -374,33 +383,31 @@ void Grid3D::add_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z
 
     std::cout << " add tile at " << x << ", " << y << ", " << z << std::endl;
 
-    entt::entity _e = _registry.create();
+    entt::entity& _e = at(x, y, z);
 
-    Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh("base");
+    auto& _node      = _registry.get<Node>     (_e);
+    auto& _node3D    = _registry.get<Node3D>   (_e);
+    auto& _transform = _registry.get<Transform>(_e);
 
-    auto& _node      = _registry.emplace<Node>     (_e);
-    auto& _tile      = _registry.emplace<Node3D>   (_e, Node3D(x, y, z));
-    auto& _transform = _registry.emplace<Transform>(_e);
-    auto& _aabb      = _registry.emplace<AABB>     (_e);
+    _node  .is_active   = true;
+    _node3D.is_occupied = true;
+    _transform.scale = glm::vec3(1.0f);
 
-    _node.name        = "tile";
-    _node.is_active   = true;
-    _tile.is_occupied = true;
-    _transform.position = glm::vec3(x, y, z);
+    auto& _aabb          = _registry.emplace<AABB> (_e);
+    auto& _material      = _registry.emplace<Material>(_e);
+    auto& _mesh_renderer = _registry.emplace<MeshRenderer>(_e);
 
     _aabb.min = { -0.5f, -0.5f, -0.5f };
     _aabb.max = {  0.5f,  0.5f,  0.5f };
 
-    auto& _material = _registry.emplace<Material>(_e);
     _material.shader_id = "phong";
 
-    auto& _mesh_renderer = _registry.emplace<MeshRenderer>(_e);
+    Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh("c_1000_0000");
+
     _mesh_renderer.load_mesh      (_tile_mesh);
     _mesh_renderer.set_buffer_data(_tile_mesh);
 
     add_tile_animation(_registry, _e);
-
-    at(x, y, z) = _e;
 }
 
 bool Grid3D::out_of_bounds(size_t x, size_t y, size_t z) const

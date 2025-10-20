@@ -116,16 +116,16 @@ namespace MGUI
 
             atlas.glyphs[id] = g;
 
-            std::cout << "Glyph " << id << ": "
-                << "advance=" << advance
-                << ", lsb=" << lsb
-                << ", planeMinX=" << planeMinX
-                << ", planeMaxX=" << planeMaxX
-                << ", planeMaxY=" << planeMaxY
-                << ", u0=" << u0
-                << ", v0=" << v0
-                << ", u1=" << u1
-                << ", v1=" << v1 << std::endl;
+            // std::cout << "Glyph " << id << ": "
+            //     << "advance=" << advance
+            //     << ", lsb=" << lsb
+            //     << ", planeMinX=" << planeMinX
+            //     << ", planeMaxX=" << planeMaxX
+            //     << ", planeMaxY=" << planeMaxY
+            //     << ", u0=" << u0
+            //     << ", v0=" << v0
+            //     << ", u1=" << u1
+            //     << ", v1=" << v1 << std::endl;
         }
 
 

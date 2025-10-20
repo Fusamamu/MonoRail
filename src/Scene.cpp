@@ -89,10 +89,12 @@ void update_boids(entt::registry& reg, float dt) {
 
 void Scene::on_enter()
 {
-    m_registry.ctx().emplace<Camera>();
+    auto& _camera = m_registry.ctx().emplace<Camera>();
 
-    auto& _camera = m_registry.ctx().get<Camera>();
     _camera.position = { 20.0f, 20.0f, 20.0f };
+    _camera.target   = { 0.0f, 0.0f, 0.0f };
+    _camera.front    = glm::normalize(_camera.target - _camera.position);
+    _camera.update_angles_from_vectors();
 
     auto _e_directional_light = m_registry.create();
     m_registry.emplace<DirectionalLight>(_e_directional_light);
@@ -127,8 +129,6 @@ void Scene::on_enter()
     //     _mesh_renderer.set_buffer_data(_arrow_mesh);
     // }
 
-
-
     m_render_pipeline.init(m_registry);
 
     //Fog
@@ -149,17 +149,7 @@ void Scene::on_enter()
 
     glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
 
-
-    Grid3D& _grid = m_registry.ctx().emplace<Grid3D>();
-    _grid.init(20, 3, 20);
-    _grid.generate_tiles        (m_registry);
-    _grid.create_tile_instance  (m_registry);
-    _grid.generate_corner_nodes (m_registry);
-    _grid.create_corner_instance(m_registry);
-    _grid.store_corners_refs    (m_registry);
-    _grid.store_tile_refs       (m_registry);
-
-    _grid.fill_tile_at_level(m_registry, 0);
+    create_tile_grid();
 
     AABB _aabb;
     _aabb.min = glm::vec3(0.0f);
@@ -168,6 +158,14 @@ void Scene::on_enter()
 
     if(on_enter_callback)
         on_enter_callback();
+
+    // Quad _quad;
+    // screen_mesh = new Mesh();
+    // *screen_mesh = _quad.screen_vertices_to_mesh();
+    //
+    // m_screen_mesh_renderer = new MeshRenderer();
+    // m_screen_mesh_renderer->load_mesh      (screen_mesh);
+    // m_screen_mesh_renderer->set_buffer_data(screen_mesh);
 }
 
 void Scene::on_exit()
@@ -180,13 +178,11 @@ void Scene::on_update(float delta_time)
 {
     m_input_system.update();
 
-    auto& _camera = m_registry.ctx().get<Camera>();
-    auto& _grid   = m_registry.ctx().get<Grid3D>();
-
     if (m_input_system.get_quit_requested())
         m_engine_owner->request_quit();
 
-    // --- Camera rotation (mouse) ---
+    auto& _camera = m_registry.ctx().get<Camera>();
+
     if (m_input_system.is_mouse_button_held(SDL_BUTTON_RIGHT))
     {
         glm::vec2 mouse_delta = m_input_system.get_mouse_delta(); // implement delta since last frame
@@ -210,24 +206,8 @@ void Scene::on_update(float delta_time)
             _camera.camera_move_down(0.25f);
     }
 
-    if (m_input_system.left_mouse_pressed())
-    {
-        Ray _ray = _camera.screen_point_to_ray(m_input_system.get_mouse_pos(), g_app_config.screen_size());
-        float _dist = 0.0f;
-        entt::entity _entity = ray_cast_select_entity(m_registry, _ray, _dist);
-        if (_entity != entt::null)
-        {
-            if (Node3D* _tile = m_registry.try_get<Node3D>(_entity))
-            {
-                _grid.add_tile_above(m_registry, _tile->idx, _tile->idy, _tile->idz);
-
-                auto& _grid   = m_registry.ctx().get<Grid3D>();
-               _grid.select_tile_at(m_registry, 0, 0, 0);
-            }
-
-
-        }
-    }
+    auto& _grid = m_registry.ctx().get<Grid3D>();
+    _grid.update(m_registry, _camera, m_input_system);
 
     auto _object_view = m_registry.view<Transform, AABB>();
     for (auto _e : _object_view)
@@ -246,10 +226,6 @@ void Scene::on_update(float delta_time)
 
         _transform.position.x += _agent.move_direction.x * _agent.move_amount;
     }
-
-    _grid.update(m_registry);
-
-    //update_boids(m_registry, delta_time);
 
     auto _roots = m_registry.view<Transform>(entt::exclude<Parent>);
     for (auto _e : _roots)
@@ -349,6 +325,18 @@ void Scene::on_render_gui(float _dt)
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
+void Scene::create_tile_grid()
+{
+    Grid3D& _grid = m_registry.ctx().emplace<Grid3D>();
+    _grid.init(20, 3, 20);
+    _grid.generate_tiles        (m_registry);
+    _grid.create_tile_instance  (m_registry);
+    _grid.generate_corner_nodes (m_registry);
+    _grid.create_corner_instance(m_registry);
+    _grid.store_corners_refs    (m_registry);
+    _grid.store_tile_refs       (m_registry);
+    _grid.fill_tile_at_level    (m_registry, 0);
+}
 
 entt::entity Scene::create_object(const std::string& _name, const std::string& _mesh_name, glm::vec3 _position, const Material& _material)
 {

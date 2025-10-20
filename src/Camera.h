@@ -27,12 +27,10 @@ struct Camera
     float yaw   = -90.0f; // horizontal rotation
     float pitch = 0.0f;   // vertical rotation
 
-    Camera() = default;
-
-    // glm::mat4 get_view_matrix() const
-    // {
-    //     return glm::lookAt(position, target, up);
-    // }
+    Camera()
+    {
+        std::cout << "Camera constructor" << std::endl;
+    }
 
     glm::mat4 get_view_matrix() const
     {
@@ -96,7 +94,6 @@ struct Camera
         yaw   += yaw_offset;
         pitch += pitch_offset;
 
-        // Clamp pitch
         if (pitch > 89.0f)
             pitch = 89.0f;
         if (pitch < -89.0f)
@@ -116,6 +113,21 @@ struct Camera
 
         // Recalculate right and up vectors
         right = glm::normalize(glm::cross(front, glm::vec3(0.0f,1.0f,0.0f)));
+        up    = glm::normalize(glm::cross(right, front));
+    }
+
+    void update_angles_from_vectors()
+    {
+        glm::vec3 f = glm::normalize(front);
+        yaw   = glm::degrees(atan2(f.z, f.x));
+        pitch = glm::degrees(asin(f.y));
+
+        if (pitch > 89.0f)
+            pitch = 89.0f;
+        if (pitch < -89.0f)
+            pitch = -89.0f;
+
+        right = glm::normalize(glm::cross(front, glm::vec3(0.0f, 1.0f, 0.0f)));
         up    = glm::normalize(glm::cross(right, front));
     }
 

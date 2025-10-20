@@ -14,7 +14,7 @@ void ResourceManager::init()
     load_model ("../res/models/sphere.fbx"            );
     load_model ("../res/models/cube.fbx"              );
     load_model ("../res/models/bevel_cube.fbx"        );
-    load_model ("../res/models/c_1000_0000.fbx"        );
+    load_model ("../res/tiles/c_1000_0000.fbx"        );
 
     load_shader("../res/shaders/instance.glsl"        );
     load_shader("../res/shaders/toon.glsl"            );

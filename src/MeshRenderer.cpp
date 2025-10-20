@@ -110,3 +110,10 @@ void MeshRenderer::draw() const
         glBindVertexArray(0);
     }
 }
+
+void MeshRenderer::draw_mesh() const
+{
+    glBindVertexArray(m_vao);
+    glDrawElements(GL_TRIANGLES, (GLsizei)m_mesh->index_buffer.size(), GL_UNSIGNED_INT, nullptr);
+    glBindVertexArray(0);
+}

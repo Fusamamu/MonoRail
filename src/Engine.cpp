@@ -223,7 +223,6 @@ void Engine::update()
     // create_grass      (_scene);
     // create_grass_shell(_scene);
 
-
     Time::init();
 
     _scene->on_enter();
@@ -233,20 +232,6 @@ void Engine::update()
         _scene->on_update    (0.016f);
         _scene->on_render    (0.016f);
         _scene->on_render_gui(0.016f);
-
-        // glDisable(GL_DEPTH_TEST);
-        // glEnable(GL_BLEND);
-        // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        //
-        // MGUI::begin_window("WINDOW", { 100.0f, 100.0f }, { 500.0f, 500.0f });
-        // MGUI::end_window();
-        //
-        // MGUI::begin_window("OTHER", { 200.0f, 100.0f }, { 500.0f, 500.0f });
-        // MGUI::end_window();
-        //
-        // glEnable(GL_DEPTH_TEST);
-        // glDisable(GL_BLEND);
-
         SDL_GL_SwapWindow(p_window);
     }
     _scene->on_exit();

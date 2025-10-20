@@ -22,6 +22,7 @@ public:
     void update_instance_color(std::vector<InstanceData>& _data, size_t _index, const glm::vec4& _color);
     void update_all_instance_colors( std::vector<InstanceData>& _data, const glm::vec4& color);
     void draw() const;
+    void draw_mesh() const;
 
     bool use_instancing = false;
     GLsizei instance_count = 1000;

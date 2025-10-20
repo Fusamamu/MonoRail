@@ -22,8 +22,9 @@ public:
     RenderPipeline();
     ~RenderPipeline();
 
-    void init  (const entt::registry& _registry);
-    void render(const entt::registry& _registry);
+    void init          (const entt::registry& _registry);
+    void render        (const entt::registry& _registry);
+    void render_default(const entt::registry& _registry);
 
     void update_light_ubo(DirectionalLight& _directional_light);
 private:
@@ -34,6 +35,7 @@ private:
     GLuint m_light_data_ubo ;
     GLuint m_fog_data_ubo   ;
 
+    Mesh         m_screen_mesh;
     MeshRenderer m_screen_mesh_renderer;
 
     SkeletonMeshRenderer m_skeleton_mesh_renderer;

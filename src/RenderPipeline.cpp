@@ -89,9 +89,9 @@ void RenderPipeline::init(const entt::registry& _registry)
     m_depth_framebuffer.attach_depth_texture();
 
     Quad _quad;
-    Mesh _mesh = _quad.screen_vertices_to_mesh();
-    m_screen_mesh_renderer.load_mesh      (&_mesh);
-    m_screen_mesh_renderer.set_buffer_data(&_mesh);
+    m_screen_mesh = _quad.screen_vertices_to_mesh();
+    m_screen_mesh_renderer.load_mesh      (&m_screen_mesh);
+    m_screen_mesh_renderer.set_buffer_data(&m_screen_mesh);
 
     //Gen camera ubo
     glGenBuffers(1, &m_camera_data_ubo);
@@ -237,23 +237,23 @@ void RenderPipeline::render(const entt::registry& _registry)
             glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
         }
 
-        // if (_material.diffuseMap != 0)
-        // {
-        //     glActiveTexture(GL_TEXTURE0);
-        //     glBindTexture(GL_TEXTURE_2D, _material.diffuseMap);
-        //     _found_shader->set_int("grassPattern", 0);
-        //
-        //     _mesh_renderer.draw();
-        //
-        //     glBindTexture(GL_TEXTURE_2D, 0);
-        // }
-        // else
-        // {
-            _mesh_renderer.draw();
-        //}
+        if (_material.diffuseMap != 0)
+        {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, _material.diffuseMap);
+            _found_shader->set_int("grassPattern", 0);
 
-        if (!_material.depth_write)
-            glDepthMask(GL_TRUE);    // restore
+            _mesh_renderer.draw();
+
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+        else
+        {
+            _mesh_renderer.draw();
+        }
+
+         if (!_material.depth_write)
+             glDepthMask(GL_TRUE);    // restore
     }
 
     glDisable (GL_BLEND);
@@ -282,38 +282,70 @@ void RenderPipeline::render(const entt::registry& _registry)
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear     (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    if (!display_depth)
+    {
+        Shader* _screen_quad = ResourceManager::instance().get_shader("screen_quad");
+        _screen_quad->use();
+        _screen_quad->set_int("u_screen_texture", 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_framebuffer.get_color_texture());
+    }
+    else
+    {
+        Shader* _depth_quad = ResourceManager::instance().get_shader("depth_quad");
+        _depth_quad->use();
+        _depth_quad->set_int("u_depth_texture", 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
+    }
+
+    m_screen_mesh_renderer.draw();
+
+#pragma endregion
+}
+
+void RenderPipeline::render_default(const entt::registry& _registry)
+{
+    m_framebuffer.bind();
+
+    glViewport  (0, 0, g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT);
+    glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
+    glClear     (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glEnable    (GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    auto _mesh_view = _registry.view<Transform, MeshRenderer, Material>();
+
+    for (auto _e : _mesh_view)
+    {
+        auto& _transform     = _registry.get<Transform>   (_e);
+        auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
+        auto& _material      = _registry.get<Material>    (_e);
+
+        Shader* _found_shader = ResourceManager::instance().get_shader(_material.shader_id);
+        _found_shader->use();
+        _found_shader->set_mat4_uniform_model(_transform.world_mat);
+
+        _mesh_renderer.draw();
+    }
+
+    m_framebuffer.unbind();
+
+    glDisable (GL_BLEND);
+
+    glViewport  (0, 0, 2* g_app_config.SCREEN_WIDTH, 2 * g_app_config.SCREEN_HEIGHT);
+    glClearColor(0.1f, 0.0f, 0.0f, 1.0f);
+    glClear     (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     Shader* _screen_quad = ResourceManager::instance().get_shader("screen_quad");
+
     _screen_quad->use();
     _screen_quad->set_int("u_screen_texture", 0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_framebuffer.get_color_texture());
 
-    // Shader* _depth_quad = ResourceManager::instance().get_shader("depth_quad");
-    // _depth_quad->use();
-    // _depth_quad->set_int("u_depth_texture", 0);
-    // glActiveTexture(GL_TEXTURE0);
-    // glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
-
-    // if (!display_depth)
-    // {
-    //     Shader* _screen_quad = ResourceManager::instance().get_shader("screen_quad");
-    //     _screen_quad->use();
-    //     _screen_quad->set_int("u_screen_texture", 0);
-    //     glActiveTexture(GL_TEXTURE0);
-    //     glBindTexture(GL_TEXTURE_2D, m_framebuffer.get_color_texture());
-    // }
-    // else
-    // {
-    //     Shader* _depth_quad = ResourceManager::instance().get_shader("depth_quad");
-    //     _depth_quad->use();
-    //     _depth_quad->set_int("u_depth_texture", 0);
-    //     glActiveTexture(GL_TEXTURE0);
-    //     glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
-    // }
-
-    m_screen_mesh_renderer.draw();
-
-#pragma endregion
+    m_screen_mesh_renderer.draw_mesh();
 }
 
 void RenderPipeline::update_light_ubo(DirectionalLight &_directional_light)

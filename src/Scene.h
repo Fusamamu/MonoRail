@@ -38,14 +38,15 @@ public:
         return m_registry;
     }
 
-    entt::entity create_object(const std::string& _name, const std::string& _mesh_name, glm::vec3 _position, const Material& _material);
-
     void on_enter();
     void on_exit();
     void on_update(float delta_time);
     void on_render(float _dt);
     void on_render_gui(float _dt);
 
+    entt::entity create_object(const std::string& _name, const std::string& _mesh_name, glm::vec3 _position, const Material& _material);
+
+    void create_tile_grid();
 private:
     entt::registry m_registry;
     Engine*        m_engine_owner;
@@ -56,6 +57,9 @@ private:
     GLuint m_fog_data_ubo;
     FogData m_fog_data;
     GizmosRenderer m_gizmos_renderer;
+
+    // Mesh* screen_mesh;
+    // MeshRenderer* m_screen_mesh_renderer;
 
     void update_world_transform(entt::entity _entity, const glm::mat4& _parent_world)
     {

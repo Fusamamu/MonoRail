@@ -7,6 +7,9 @@
 #include "MeshRenderer.h"
 #include "PerlinNoise.h"
 #include "MMath.h"
+#include "Ray.h"
+#include "InputSystem.h"
+#include "Camera.h"
 
 struct TileAnim
 {
@@ -61,7 +64,8 @@ public:
         //_mesh_renderer.update_all_instance_colors(m_tile_instance_data, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
-    void update(entt::registry& _registry);
+    //void update(entt::registry& _registry);
+    void update(entt::registry &_registry, Camera _camera, InputSystem& _input_system);
 
     void print_layer(size_t z) const;
 private:

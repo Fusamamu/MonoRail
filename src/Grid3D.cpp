@@ -1,5 +1,7 @@
 #include "Grid3D.h"
 
+#include "ApplicationConfig.h"
+
 Grid3D::Grid3D(size_t width, size_t height, size_t depth)
     : m_width(width), m_height(height), m_depth(depth)
 {
@@ -20,8 +22,24 @@ void Grid3D::resize(size_t width, size_t height, size_t depth)
     m_corner_data.assign((width + 1) * (height + 1) * (depth + 1), entt::null);
 }
 
-void Grid3D::update(entt::registry &_registry)
+void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _input_system)
 {
+    if (_input_system.left_mouse_pressed())
+    {
+        Ray _ray = _camera.screen_point_to_ray(_input_system.get_mouse_pos(), g_app_config.screen_size());
+        float _dist = 0.0f;
+        entt::entity _entity = ray_cast_select_entity(_registry, _ray, _dist);
+        if (_entity != entt::null)
+        {
+            if (Node3D* _tile = _registry.try_get<Node3D>(_entity))
+            {
+                add_tile_above(_registry, _tile->idx, _tile->idy, _tile->idz);
+                auto& _grid   = _registry.ctx().get<Grid3D>();
+                _grid.select_tile_at(_registry, 0, 0, 0);
+            }
+        }
+    }
+
     update_tile_animations(_registry, 0.016f);
 }
 
@@ -327,7 +345,7 @@ void Grid3D::store_tile_refs(entt::registry& _registry)
                             int ty = static_cast<int>(y) + dy;
                             int tz = static_cast<int>(z) + dz;
 
-                            std::cout << tx << " " << ty << " " << tz << "\n";
+                           // std::cout << tx << " " << ty << " " << tz << "\n";
 
                             // skip tiles out of bounds
                             if (tx < 0 || ty < 0 || tz < 0)       continue;
@@ -342,7 +360,7 @@ void Grid3D::store_tile_refs(entt::registry& _registry)
 
                             corner.corner_nodes[_idx] = tile_entity;
 
-                            std::cout << corner << std::endl;
+                            //std::cout << corner << std::endl;
 
                             // std::cout << "Corner (" << x << "," << y << "," << z << ") -> "
                             //         << "Tile[" << tx << " " <<  ty << " " << tz <<  " ] = " << static_cast<int>(tile_entity) << "\n";
@@ -380,8 +398,6 @@ void Grid3D::add_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z
         std::cout << "Cannot add tile at " << x << ", " << y << ", " << z << std::endl;
         return;
     }
-
-    std::cout << " add tile at " << x << ", " << y << ", " << z << std::endl;
 
     entt::entity& _e = at(x, y, z);
 

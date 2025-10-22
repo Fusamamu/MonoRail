@@ -13,6 +13,8 @@
 #include "SkeletonMeshRenderer.h"
 #include "Animation.h"
 #include "UI/UI.h"
+#include "GizmosRenderer.h"
+#include "MMath.h"
 
 class RenderPipeline
 {
@@ -44,6 +46,8 @@ private:
     Animator m_animator;
 
     MGUI::UIRenderer m_ui_renderer;
+
+    GizmosRenderer m_gizmos_renderer;
 
 };
 

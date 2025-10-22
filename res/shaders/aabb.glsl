@@ -22,18 +22,26 @@ void main()
 layout(points) in;
 layout(line_strip, max_vertices = 24) out;
 
-uniform mat4 uMVP;
+layout(std140) uniform CameraData
+{
+    mat4 proj;
+    mat4 view;
+    vec3 view_position;
+    float pad1; // padding for std140
+};
+
+uniform mat4 model;
 
 in VS_OUT {
     vec3 min;
     vec3 max;
 } gs_in[];
 
-void emitLine(vec3 a, vec3 b)
+void emitLine(vec3 a, vec3 b, mat4 viewProj)
 {
-    gl_Position = uMVP * vec4(a, 1.0);
+    gl_Position = viewProj * vec4(a, 1.0);
     EmitVertex();
-    gl_Position = uMVP * vec4(b, 1.0);
+    gl_Position = viewProj * vec4(b, 1.0);
     EmitVertex();
     EndPrimitive();
 }
@@ -53,6 +61,12 @@ void main()
     corners[6] = vec3(max.x, max.y, max.z);
     corners[7] = vec3(min.x, max.y, max.z);
 
+    // Precompute combined matrix
+    mat4 viewProj = proj * view;
+
+    for (int i = 0; i < 8; ++i)
+        corners[i] = vec3(model * vec4(corners[i], 1.0));
+
     // Edges: 12 lines
     int edges[24] = int[]
     (
@@ -63,7 +77,7 @@ void main()
 
     for (int i = 0; i < 24; i += 2)
     {
-        emitLine(corners[edges[i]], corners[edges[i + 1]]);
+        emitLine(corners[edges[i]], corners[edges[i + 1]], viewProj);
     }
 }
 
@@ -71,9 +85,11 @@ void main()
 #version 330 core
 out vec4 FragColor;
 
-uniform vec3 uColor;
+//uniform vec3 uColor;
 
-void main() {
-    FragColor = vec4(uColor, 1.0);
+void main()
+{
+        //uColor = vec3(1.0);
+    FragColor = vec4(vec3(1.0), 1.0);
 }
 

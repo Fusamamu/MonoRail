@@ -108,10 +108,8 @@ namespace MGUI
     extern int active_item;
     extern std::vector<Window> window_stack;
 
-
     void init();
     void load_csv();
-
 
     void begin_frame();
     void process_event(const SDL_Event& e);
@@ -121,15 +119,10 @@ namespace MGUI
     void begin_window(const std::string& name, Vec2 pos, Vec2 size);
     void end_window();
 
-    void foo();
-
-
     bool button(int id, const std::string& label, Vec2 size);
 
     void draw_rect(Vec2 pos, Vec2 size, Color color);
     void draw_text(const std::string& text, Vec2 pos, Color color = {1,1,1,1});
-
-
 
     // Utility
     bool mouse_over(Vec2 pos, Vec2 size);

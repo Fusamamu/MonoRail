@@ -12,6 +12,7 @@
 #include <memory>
 #include <filesystem>
 #include <functional>
+#include <optional>
 #include <limits>
 #include <numeric>
 #include <random>

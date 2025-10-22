@@ -57,6 +57,21 @@ struct Tile
     Tile(uint32_t x, uint32_t y) : idx(x), idy(y) {}
 };
 
+struct NodeIndex
+{
+    uint32_t idx;
+    uint32_t idy;
+    uint32_t idz;
+
+    NodeIndex(uint32_t _idx, uint32_t _idy, uint32_t _idz) : idx(_idx), idy(_idy), idz(_idz) {}
+    NodeIndex() = default;
+    ~NodeIndex() = default;
+
+    NodeIndex operator+(const NodeIndex& _other) const{
+        return NodeIndex(idx + _other.idx, idy + _other.idy, idz + _other.idz);
+    }
+};
+
 struct Node3D
 {
     uint32_t idx;
@@ -70,6 +85,11 @@ struct Node3D
     Node3D() = default;
     Node3D(uint32_t x, uint32_t y, uint32_t z)
         : idx(x), idy(y), idz(z) {}
+
+    NodeIndex to_node_index() const
+    {
+        return NodeIndex(idx, idy, idz);
+    }
 
     void print() const
     {

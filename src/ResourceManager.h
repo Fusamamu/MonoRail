@@ -35,7 +35,8 @@ public:
     }
 
     void init();
-    void load_model(std::filesystem::path _path);
+    void load_model    (std::filesystem::path _path);
+    void load_model_raw(std::filesystem::path _path);
 
     void load_texture(std::filesystem::path _path);
 
@@ -52,16 +53,19 @@ private:
     ResourceManager() = default;   // private constructor
     ~ResourceManager() = default;
 
-    std::vector<Mesh>                              m_meshes;
-    std::vector<SkeletonMesh>                      m_skeleton_meshes;
+    std::vector<Mesh>           m_meshes;
+    std::vector<MeshRawData>    m_meshes_raw_data;
+    std::vector<SkeletonMesh>   m_skeleton_meshes;
 
     std::map<std::string, std::vector<Mesh>>          m_models;
     std::map<std::string, std::vector<SkeletonMesh>>  m_skeleton_models;
     std::map<std::string, std::unique_ptr<Shader>>    m_shaders;
     std::map<std::string, std::unique_ptr<Texture>>   m_textures;
 
-    void process_node(aiNode* node, const aiScene* scene);
-    Mesh process_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene);
+    void process_node    (aiNode* node    , const aiScene* scene);
+    Mesh process_mesh    (aiMesh* _ai_mesh, const aiScene* _ai_scene);
+    void process_node_raw(aiNode* node    , const aiScene* scene);
+    MeshRawData process_mesh_raw(aiMesh* _ai_mesh, const aiScene* _ai_scene);
 
     void process_skeleton_node(aiNode* node, const aiScene* scene);
     SkeletonMesh process_skeleton_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene);

@@ -74,7 +74,8 @@ add_executable(${PROJECT_NAME}
         src/MMath.cpp
         src/MMath.h
         src/Time.cpp
-        src/Time.h)
+        src/Time.h
+        src/Mesh.cpp)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

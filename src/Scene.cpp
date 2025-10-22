@@ -150,6 +150,7 @@ void Scene::on_enter()
     glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
 
     create_tile_grid();
+    //prototype_corners();
 
     AABB _aabb;
     _aabb.min = glm::vec3(0.0f);
@@ -159,13 +160,6 @@ void Scene::on_enter()
     if(on_enter_callback)
         on_enter_callback();
 
-    // Quad _quad;
-    // screen_mesh = new Mesh();
-    // *screen_mesh = _quad.screen_vertices_to_mesh();
-    //
-    // m_screen_mesh_renderer = new MeshRenderer();
-    // m_screen_mesh_renderer->load_mesh      (screen_mesh);
-    // m_screen_mesh_renderer->set_buffer_data(screen_mesh);
 }
 
 void Scene::on_exit()
@@ -239,19 +233,6 @@ void Scene::on_render(float _dt)
 
 void Scene::on_render_gui(float _dt)
 {
-    // glDisable(GL_DEPTH_TEST);
-    // glEnable(GL_BLEND);
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    //
-    // MGUI::begin_window("WINDOW", { 100.0f, 100.0f }, { 500.0f, 500.0f });
-    // MGUI::end_window();
-    //
-    // MGUI::begin_window("OTHER", { 200.0f, 100.0f }, { 500.0f, 500.0f });
-    // MGUI::end_window();
-    //
-    // glEnable(GL_DEPTH_TEST);
-    // glDisable(GL_BLEND);
-
     //ImGui
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
@@ -319,6 +300,16 @@ void Scene::on_render_gui(float _dt)
     ImGui::Text("Mouse x: %.3f", static_cast<float>(MGUI::input.mouse_x));
     ImGui::Text("Mouse y: %.3f", static_cast<float>(MGUI::input.mouse_y));
 
+
+
+    auto& _grid = m_registry.ctx().get<Grid3D>();
+    const char* DirectionNames[] = { "NONE", "ADD TILE", "REMOVE TILE", "MARK TILE", "ADD AGENT" };
+    int current = static_cast<int>(_grid.mode);
+    if (ImGui::Combo("Tile mode", &current, DirectionNames, IM_ARRAYSIZE(DirectionNames))) {
+        _grid.mode = static_cast<Grid3D::Mode>(current);
+    }
+
+
     ImGui::End();
 
     ImGui::Render();
@@ -344,26 +335,39 @@ entt::entity Scene::create_object(const std::string& _name, const std::string& _
 
     Mesh* _teapot = ResourceManager::instance().get_first_mesh(_mesh_name);
 
-    auto& _node = m_registry.emplace<Node>(_e, Node());
+    auto& _node          = m_registry.emplace<Node>          (_e, Node());
+    auto& _transform     = m_registry.emplace<Transform>     (_e);
+    auto& _aabb          = m_registry.emplace<AABB>          (_e, AABB());
+    auto& _material_comp = m_registry.emplace<Material>      (_e);
+    auto& _mesh_renderer = m_registry.emplace<MeshRenderer>  (_e);
+    auto& _gizmos        = m_registry.emplace<GizmosRenderer>(_e);
+
     _node.name = _name;
 
-    auto& _transform = m_registry.emplace<Transform>(_e);
     _transform.position = _position;
 
-    auto& _aabb = m_registry.emplace<AABB>(_e, AABB());
     _aabb.min = { -0.5f, -0.5f, -0.5f };
     _aabb.max = {  0.5f,  0.5f,  0.5f };
 
-    auto& _material_comp = m_registry.emplace<Material>(_e);
     _material_comp.shader_id   = _material.shader_id;
     _material_comp.depth_test  = _material.depth_test;
     _material_comp.depth_write = _material.depth_write;
     _material_comp.diffuseMap  = _material.diffuseMap;
 
-    auto& _mesh_renderer = m_registry.emplace<MeshRenderer>(_e);
     _mesh_renderer.load_mesh      (_teapot);
     _mesh_renderer.set_buffer_data(_teapot);
 
+    _gizmos.create_aabb_gizmos(_aabb);
+
     return _e;
+}
+
+void Scene::prototype_corners()
+{
+    Material _phong_material;
+    _phong_material.shader_id    = "phong";
+    _phong_material.diffuse_color = glm::vec3(1.0f, 1.0f, 1.0f);
+
+    entt::entity _e = create_object("corner", "c_1000_0000", glm::vec3(0.0f), _phong_material);
 }
 

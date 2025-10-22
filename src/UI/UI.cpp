@@ -16,18 +16,11 @@ namespace MGUI
     int active_item = -1;
     std::vector<Window> window_stack;
 
-
     GLuint VAO, VBO;
-
-    void foo(  )
-    {
-
-    }
 
     void init()
     {
         ui_renderer.init();
-
 
         float quadVertices[6][4]; // 6 vertices per glyph quad: x,y,u,v
         glGenVertexArrays(1, &VAO);
@@ -79,10 +72,6 @@ namespace MGUI
 
         stbi_image_free(atlas_texture.p_data);
 
-
-
-
-
         csv::CSVReader reader("../res/fonts/H5H/H5H.csv");
 
         float atlasWidth  = 444.0f;  // <-- set your atlas texture width here
@@ -127,11 +116,6 @@ namespace MGUI
             //     << ", u1=" << u1
             //     << ", v1=" << v1 << std::endl;
         }
-
-
-
-
-
     }
 
     void begin_frame()
@@ -172,7 +156,6 @@ namespace MGUI
     {
 
     }
-
 
     // ---------------- Window
     void begin_window(const std::string& name, MGUI::Vec2 pos, MGUI::Vec2 size)

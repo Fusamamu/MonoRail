@@ -2,14 +2,16 @@
 #define GRID3D_H
 
 #include "PCH.h"
+#include "MMath.h"
 #include "ResourceManager.h"
 #include "Component.h"
 #include "MeshRenderer.h"
 #include "PerlinNoise.h"
-#include "MMath.h"
 #include "Ray.h"
-#include "InputSystem.h"
 #include "Camera.h"
+#include "InputSystem.h"
+
+static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b);
 
 struct TileAnim
 {
@@ -20,6 +22,20 @@ struct TileAnim
 
 class Grid3D {
 public:
+    enum class Mode
+    {
+        NONE        = 0,
+        ADD_TILE    = 1,
+        REMOVE_TILE = 2,
+        MARK_TILE   = 3,
+        ADD_AGENT   = 4,
+    };
+
+    Mode mode = Mode::NONE;
+
+    entt::entity start_e = entt::null;
+    entt::entity dest_e  = entt::null;
+
     Grid3D(size_t width, size_t height, size_t depth);
     Grid3D() = default;
     ~Grid3D() = default;
@@ -38,7 +54,9 @@ public:
     const entt::entity& node_at(size_t x, size_t y, size_t z) const;
 
     bool out_of_bounds(size_t x, size_t y, size_t z) const;
+    bool out_of_bounds(NodeIndex _node_index) const;
     bool is_occupied(entt::registry& _registry, size_t x, size_t y, size_t z);
+    bool is_occupied(entt::registry& _registry, NodeIndex _node_index);
 
     void create_tile_instance      (entt::registry& _registry);
     void create_corner_instance     (entt::registry& _registry);
@@ -56,16 +74,14 @@ public:
 
     void select_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z)
     {
-        std::cout << "select_tile_at" << std::endl;
-
         MeshRenderer& _mesh_renderer = _registry.get<MeshRenderer>(m_tile_mesh_e);
         _mesh_renderer.update_instance_color(m_tile_instance_data, 1, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-
-        //_mesh_renderer.update_all_instance_colors(m_tile_instance_data, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
-    //void update(entt::registry& _registry);
     void update(entt::registry &_registry, Camera _camera, InputSystem& _input_system);
+
+    std::optional<std::vector<entt::entity>> find_path(entt::registry& __restrict, NodeIndex _start_node, NodeIndex _dest_node);
+    std::optional<std::vector<entt::entity>> find_path(entt::registry& _registry);
 
     void print_layer(size_t z) const;
 private:
@@ -109,6 +125,20 @@ private:
 
     inline size_t tile_index(size_t x, size_t y, size_t z) const {
         return z * (m_width * m_height) + y * m_width + x;
+    }
+
+    inline size_t tile_index(NodeIndex _node_index) const {
+        return _node_index.idz * (m_width * m_height) + _node_index.idy * m_width + _node_index.idx;
+    }
+
+    inline NodeIndex tile_index_to_node_coord(size_t _tile_index)
+    {
+        NodeIndex _result;
+        size_t rem  = _tile_index % (m_width * m_height);
+        _result.idz = _tile_index / (m_width * m_height);
+        _result.idy = rem / m_width;
+        _result.idx = rem % m_width;
+        return _result;
     }
 
     inline size_t corner_index(size_t x, size_t y, size_t z) const {

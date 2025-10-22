@@ -2,6 +2,13 @@
 
 #include "ApplicationConfig.h"
 
+static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b)
+{
+    return std::abs((int)_node_a.idx - (int)_node_b.idx)
+         + std::abs((int)_node_a.idy - (int)_node_b.idy)
+         + std::abs((int)_node_a.idz - (int)_node_b.idz);
+}
+
 Grid3D::Grid3D(size_t width, size_t height, size_t depth)
     : m_width(width), m_height(height), m_depth(depth)
 {
@@ -24,23 +31,88 @@ void Grid3D::resize(size_t width, size_t height, size_t depth)
 
 void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _input_system)
 {
-    if (_input_system.left_mouse_pressed())
+    switch (mode)
     {
-        Ray _ray = _camera.screen_point_to_ray(_input_system.get_mouse_pos(), g_app_config.screen_size());
-        float _dist = 0.0f;
-        entt::entity _entity = ray_cast_select_entity(_registry, _ray, _dist);
-        if (_entity != entt::null)
-        {
-            if (Node3D* _tile = _registry.try_get<Node3D>(_entity))
+        case Mode::NONE:
+            break;
+        case Mode::ADD_TILE:
+            if (_input_system.left_mouse_pressed())
             {
-                add_tile_above(_registry, _tile->idx, _tile->idy, _tile->idz);
-                auto& _grid   = _registry.ctx().get<Grid3D>();
-                _grid.select_tile_at(_registry, 0, 0, 0);
+                Ray _ray = _camera.screen_point_to_ray(_input_system.get_mouse_pos(), g_app_config.screen_size());
+                float _dist = 0.0f;
+                entt::entity _entity = ray_cast_select_entity(_registry, _ray, _dist);
+                if (_entity != entt::null)
+                {
+                    if (Node3D* _tile = _registry.try_get<Node3D>(_entity))
+                    {
+                        add_tile_above(_registry, _tile->idx, _tile->idy, _tile->idz);
+                        auto& _grid   = _registry.ctx().get<Grid3D>();
+                        _grid.select_tile_at(_registry, 0, 0, 0);
+                    }
+                }
             }
-        }
-    }
 
-    update_tile_animations(_registry, 0.016f);
+            update_tile_animations(_registry, 0.016f);
+            break;
+        case Mode::REMOVE_TILE:
+            break;
+        case Mode::MARK_TILE:
+            if (_input_system.left_mouse_pressed())
+            {
+                Ray _ray = _camera.screen_point_to_ray(_input_system.get_mouse_pos(), g_app_config.screen_size());
+                float _dist = 0.0f;
+                entt::entity _entity = ray_cast_select_entity(_registry, _ray, _dist);
+                if (_entity != entt::null)
+                {
+                    if (start_e != entt::null)
+                    {
+                        auto& _material = _registry.get<Material>(start_e);
+                        _material.diffuse_color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+                    }
+                    start_e = _entity;
+                    if (Material* _mat = _registry.try_get<Material>(_entity))
+                    {
+                        _mat->diffuse_color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                    }
+                }
+            }
+
+            if (_input_system.right_mouse_pressed())
+            {
+                Ray _ray = _camera.screen_point_to_ray(_input_system.get_mouse_pos(), g_app_config.screen_size());
+                float _dist = 0.0f;
+                entt::entity _entity = ray_cast_select_entity(_registry, _ray, _dist);
+                if (_entity != entt::null)
+                {
+                    if (dest_e != entt::null)
+                    {
+                        auto& _material = _registry.get<Material>(dest_e);
+                        _material.diffuse_color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+                    }
+                    dest_e = _entity;
+                    if (Material* _mat = _registry.try_get<Material>(_entity))
+                    {
+                        _mat->diffuse_color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+                    }
+                }
+            }
+
+            if (_input_system.is_key_down(SDL_SCANCODE_SPACE))
+            {
+                std::optional<std::vector<entt::entity>> _path = find_path(_registry);
+                if (_path.has_value())
+                {
+                    auto _path_v = _path.value();
+                    for (entt::entity _entity : _path_v)
+                    {
+                        if (Node3D* _tile = _registry.try_get<Node3D>(_entity))
+                        {
+                        }
+                    }
+                }
+            }
+            break;
+    }
 }
 
 entt::entity& Grid3D::at(size_t x, size_t y, size_t z)
@@ -384,6 +456,14 @@ bool Grid3D::is_occupied(entt::registry& _registry, size_t _x, size_t _y, size_t
     return false;
 }
 
+bool Grid3D::is_occupied(entt::registry& _registry, NodeIndex _node_index)
+{
+    auto& _e = at(_node_index.idx, _node_index.idy, _node_index.idz);
+    if (auto* _tile = _registry.try_get<Node3D>(_e))
+        return _tile->is_occupied;
+    return false;
+}
+
 void Grid3D::add_tile_above(entt::registry& _registry, size_t x, size_t y, size_t z)
 {
     add_tile_at(_registry, x, y + 1, z);
@@ -418,7 +498,7 @@ void Grid3D::add_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z
 
     _material.shader_id = "phong";
 
-    Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh("c_1000_0000");
+    Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh("bevel_cube");
 
     _mesh_renderer.load_mesh      (_tile_mesh);
     _mesh_renderer.set_buffer_data(_tile_mesh);
@@ -430,6 +510,16 @@ bool Grid3D::out_of_bounds(size_t x, size_t y, size_t z) const
 {
     if (x >= m_width || y >= m_height || z >= m_depth)
         return true;
+    return false;
+}
+
+bool Grid3D::out_of_bounds(NodeIndex _node_index) const
+{
+    if (_node_index.idx >= m_width  || _node_index.idx < 0 ||
+        _node_index.idy >= m_height || _node_index.idy < 0 ||
+        _node_index.idz >= m_depth  || _node_index.idz < 0)
+        return true;
+
     return false;
 }
 
@@ -456,3 +546,125 @@ void Grid3D::check_bounds(size_t x, size_t y, size_t z) const
         throw std::out_of_range("Grid3D index out of bounds");
     }
 }
+
+std::optional<std::vector<entt::entity>> Grid3D::find_path(entt::registry& _registry, NodeIndex _start_node, NodeIndex _dest_node)
+{
+    if (out_of_bounds(_start_node) || out_of_bounds(_dest_node))
+        return std::nullopt;
+
+    const size_t _total     = m_width * m_height * m_depth;
+    const size_t _start_idx = tile_index(_start_node);
+    const size_t _goal_idx  = tile_index(_dest_node );
+
+    if (_start_idx == _goal_idx)
+    {
+        entt::entity e = m_data[_start_idx];
+        if (e == entt::null)
+            return std::nullopt;
+        return std::vector<entt::entity>{ e };
+    }
+
+    const float INF = std::numeric_limits<float>::infinity();
+
+    std::vector<float>  g_score(_total, INF);          // g_score = cost from start to node
+    std::vector<float>  f_score(_total, INF);          // f_score = g + heuristic
+    std::vector<size_t> came_from(_total, SIZE_MAX);   // came_from: previous index (SIZE_MAX means none)
+
+    // min-heap ordered by f_score; pair<f_score, index>
+    using PQItem = std::pair<float, size_t>;
+    struct Compare {
+        bool operator()(const PQItem& a, const PQItem& b) const
+        {
+            return a.first > b.first;
+        }
+    };
+    std::priority_queue<PQItem, std::vector<PQItem>, Compare> open_set;
+
+    // initialize
+    g_score[_start_idx] = 0.0f;
+    f_score[_start_idx] = heuristic_manhattan(_start_node, _dest_node);
+
+    open_set.push({ f_score[_start_idx], _start_idx });
+
+    const std::array<NodeIndex, 6> _vicinity_dir =
+        {
+            NodeIndex( 1, 0, 0),
+            NodeIndex(-1, 0, 0),
+            NodeIndex( 0, 1, 0),
+            NodeIndex( 0,-1, 0),
+            NodeIndex( 0, 0, 1),
+            NodeIndex( 0, 0,-1),
+        };
+
+    std::vector<char> closed(_total, 0);
+
+    while (!open_set.empty())
+    {
+        auto [current_f, current_idx] = open_set.top();
+        open_set.pop();
+
+        if (closed[current_idx])
+            continue; // already processed (stale PQ entries)
+        closed[current_idx] = 1;
+
+        if (current_idx == _goal_idx)
+        {
+            std::vector<entt::entity> _path; // reconstruct path
+            size_t cur = _goal_idx;
+            while (cur != SIZE_MAX)
+            {
+                entt::entity e = m_data[cur];
+                if (e == entt::null)
+                    return std::nullopt; // if any tile in path is null, consider path invalid
+                _path.push_back(e);
+                cur = came_from[cur];
+            }
+            std::reverse(_path.begin(), _path.end());
+            return _path;
+        }
+
+        NodeIndex _current_node = tile_index_to_node_coord(current_idx);
+
+        for (NodeIndex _vicinity : _vicinity_dir)
+        {
+            NodeIndex _neighbor = _current_node + _vicinity;
+
+            if (out_of_bounds(_neighbor))
+                continue;
+
+            size_t neighbor_idx = tile_index(_neighbor);
+
+            if (neighbor_idx != _goal_idx && is_occupied(_registry, _neighbor))
+                continue;
+
+            float tentative_g = g_score[current_idx] + 1.0f;
+
+            if (tentative_g < g_score[neighbor_idx])
+            {
+                came_from[neighbor_idx] = current_idx;
+
+                g_score[neighbor_idx] = tentative_g;
+                f_score[neighbor_idx] = tentative_g + heuristic_manhattan(_neighbor, _dest_node);
+
+                open_set.push({ f_score[neighbor_idx], neighbor_idx });
+            }
+        }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<std::vector<entt::entity>> Grid3D::find_path(entt::registry& _registry)
+{
+    if (start_e == entt::null || dest_e == entt::null)
+        return std::nullopt;
+
+    Node3D* _start = _registry.try_get<Node3D>(start_e);
+    Node3D* _dest  = _registry.try_get<Node3D>(dest_e);
+    if (!_start || !_dest)
+        return std::nullopt;
+
+    return find_path(_registry, _start->to_node_index(), _dest->to_node_index());
+}
+
+

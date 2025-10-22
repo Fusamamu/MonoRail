@@ -40,7 +40,6 @@ public:
     // --- Quit ---
     bool get_quit_requested() const;
 
-
     glm::vec2 get_mouse_delta() const { return current_mouse_pos - previous_mouse_pos; }
 
 private:

@@ -52,7 +52,6 @@ void Grid::generate_tiles(entt::registry& _registry) {
     }
 }
 
-
 void Grid::generate_tiles_with_perlin(entt::registry& _registry) {
     PerlinNoise noise(12345); // fixed seed for reproducibility
 
@@ -106,7 +105,6 @@ void Grid::generate_tiles_with_perlin(entt::registry& _registry) {
         }
     }
 }
-
 
 void Grid::print() const {
     for (size_t y = 0; y < m_height; ++y) {

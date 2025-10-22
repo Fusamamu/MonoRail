@@ -1,5 +1,7 @@
 #include "RenderPipeline.h"
 
+#include "MMath.h"
+
 RenderPipeline::RenderPipeline()
 {
 }
@@ -26,6 +28,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     Shader* _grass_shader     = ResourceManager::instance().get_shader("instance"       );
     Shader* _shell_shader     = ResourceManager::instance().get_shader("shell"          );
     Shader* _object_instance  = ResourceManager::instance().get_shader("object_instance");
+    Shader* _aabb_shader      = ResourceManager::instance().get_shader("aabb");
 
     _phong_shader->use();
     _phong_shader->block_bind("CameraData"           , 0);
@@ -39,6 +42,9 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     _shell_shader->use();
     _shell_shader->block_bind("CameraData"           , 0);
+
+    _aabb_shader->use();
+    _aabb_shader->block_bind("CameraData"           , 0);
 
     _skeleton_shader->use();
     _skeleton_shader->block_bind("CameraData"           , 0);
@@ -154,6 +160,11 @@ void RenderPipeline::init(const entt::registry& _registry)
     m_animator  = Animator(&m_animation);
 
     m_ui_renderer.init();
+
+    AABB _aabb;
+    _aabb.min = glm::vec3(-0.5f, -0.5f, -0.5f);
+    _aabb.max = glm::vec3( 0.5f,  0.5f,  0.5f);
+    m_gizmos_renderer.create_aabb_gizmos(_aabb);
 }
 
 void RenderPipeline::render(const entt::registry& _registry)
@@ -217,6 +228,7 @@ void RenderPipeline::render(const entt::registry& _registry)
 
         Shader* _found_shader = ResourceManager::instance().get_shader(_material.shader_id);
         _found_shader->use();
+        _found_shader->set_vec3("u_color", _material.diffuse_color);
         _found_shader->set_mat4_uniform_model(_transform.world_mat);
 
         if (!_material.depth_write)
@@ -254,6 +266,20 @@ void RenderPipeline::render(const entt::registry& _registry)
 
          if (!_material.depth_write)
              glDepthMask(GL_TRUE);    // restore
+    }
+
+    auto _gizmos_view = _registry.view<Transform, AABB, GizmosRenderer>();
+    for (auto _e : _gizmos_view)
+    {
+        auto& _transform      = _registry.get<Transform>(_e);
+        auto& _aabb           = _registry.get<AABB>(_e);
+        auto& _gizmo_renderer = _registry.get<GizmosRenderer>(_e);
+
+        Shader* _aabb_shader = ResourceManager::instance().get_shader("aabb");
+        _aabb_shader->use();
+        _aabb_shader->set_mat4_uniform_model(_transform.world_mat);
+
+        _gizmo_renderer.draw();
     }
 
     glDisable (GL_BLEND);
@@ -300,6 +326,34 @@ void RenderPipeline::render(const entt::registry& _registry)
     }
 
     m_screen_mesh_renderer.draw();
+
+#pragma endregion
+
+#pragma region render UI
+
+    // glClear(GL_DEPTH_BUFFER_BIT);
+    //
+    // glDisable(GL_DEPTH_TEST);
+    // glEnable(GL_BLEND);
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //
+    // auto& _camera = _registry.ctx().get<Camera>();
+    // glm::mat4 _view_mat = _camera.get_view_matrix      ();
+    // glm::mat4 _proj_mat = _camera.get_projection_matrix();
+    //
+    // for (auto _e : _mesh_view)
+    // {
+    //     auto& _transform = _registry.get<Transform>(_e);
+    //
+    //     glm::vec3 _screen_pos = Util::world_to_screen(_transform.position, _view_mat, _proj_mat, g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT);
+    //     _screen_pos.x -= 60.0f;
+    //     _screen_pos.y += 60.0f;
+    //
+    //     MGUI::draw_text("C_1000_0000", { _screen_pos.x, _screen_pos.y } , { 1, 1,1, 1});
+    // }
+    //
+    // glEnable(GL_DEPTH_TEST);
+    // glDisable(GL_BLEND);
 
 #pragma endregion
 }

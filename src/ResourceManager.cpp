@@ -145,6 +145,28 @@ void ResourceManager::load_model(std::filesystem::path _path)
     }
 }
 
+void ResourceManager::load_model_raw(std::filesystem::path _path)
+{
+    Assimp::Importer _importer;
+
+    const aiScene* _scene = _importer.ReadFile(_path,
+        aiProcess_Triangulate      |
+        aiProcess_FlipUVs          |
+        aiProcess_CalcTangentSpace |
+        aiProcess_GenNormals);
+
+    if (!_scene || _scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !_scene->mRootNode)
+    {
+        std::cerr << "ERROR::ASSIMP:: " << _importer.GetErrorString() << std::endl;
+        return;
+    }
+
+    std::cout << "Loading mesh..." << _path.stem().string() << std::endl;
+    m_meshes_raw_data.clear();
+    process_node_raw(_scene->mRootNode, _scene);
+    //m_models[_path.stem().string()] = m_meshes_raw_data;
+}
+
 void ResourceManager::process_skeleton_node(aiNode* node, const aiScene* scene)
 {
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -289,6 +311,82 @@ Mesh ResourceManager::process_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene)
     _outMesh.layout.stride = sizeof(float) * 8;
 
     return _outMesh;
+}
+
+void ResourceManager::process_node_raw(aiNode* node    , const aiScene* scene)
+{
+    for (unsigned int i = 0; i < node->mNumMeshes; i++)
+    {
+        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+        m_meshes_raw_data.push_back(process_mesh_raw(mesh, scene));
+    }
+
+    for (unsigned int i = 0; i < node->mNumChildren; i++)
+        process_node_raw(node->mChildren[i], scene);
+}
+
+MeshRawData ResourceManager::process_mesh_raw(aiMesh* _ai_mesh, const aiScene* _ai_scene)
+{
+    MeshRawData meshData;
+
+    meshData.vertex_buffer.reserve(_ai_mesh->mNumVertices);
+    meshData.index_buffer.reserve(_ai_mesh->mNumFaces * 3); // assuming triangles
+
+    for (unsigned int i = 0; i < _ai_mesh->mNumVertices; ++i)
+    {
+        Vertex_PNT vertex;
+
+        // Position
+        vertex.Position = glm::vec3(
+            _ai_mesh->mVertices[i].x,
+            _ai_mesh->mVertices[i].y,
+            _ai_mesh->mVertices[i].z
+        );
+
+        // Normal (check if available)
+        if (_ai_mesh->HasNormals())
+        {
+            vertex.Normal = glm::vec3(
+                _ai_mesh->mNormals[i].x,
+                _ai_mesh->mNormals[i].y,
+                _ai_mesh->mNormals[i].z
+            );
+        }
+        else
+        {
+            vertex.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
+        }
+
+        // Texture coordinates (Assimp supports 8 sets, we use first one)
+        if (_ai_mesh->HasTextureCoords(0))
+        {
+            vertex.TexCoords = glm::vec2(
+                _ai_mesh->mTextureCoords[0][i].x,
+                _ai_mesh->mTextureCoords[0][i].y
+            );
+        }
+        else
+        {
+            vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+        }
+
+        meshData.vertex_buffer.push_back(vertex);
+    }
+
+    // --- Indices ---
+    for (unsigned int i = 0; i < _ai_mesh->mNumFaces; ++i)
+    {
+        const aiFace& face = _ai_mesh->mFaces[i];
+        // Ensure face is a triangle (common for triangulated models)
+        if (face.mNumIndices == 3)
+        {
+            meshData.index_buffer.push_back(face.mIndices[0]);
+            meshData.index_buffer.push_back(face.mIndices[1]);
+            meshData.index_buffer.push_back(face.mIndices[2]);
+        }
+    }
+
+    return meshData;
 }
 
 void ResourceManager::load_shader(const std::filesystem::path _path)

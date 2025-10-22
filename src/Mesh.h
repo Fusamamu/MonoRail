@@ -37,6 +37,13 @@ struct Vertex
     }
 };
 
+struct Vertex_PNT
+{
+    glm::vec3 Position;
+    glm::vec3 Normal;
+    glm::vec2 TexCoords;
+};
+
 enum class VertexAttribute
 {
     POSITION,
@@ -128,6 +135,12 @@ struct Mesh
     }
 };
 
+struct MeshRawData
+{
+    std::vector<Vertex_PNT> vertex_buffer;
+    std::vector<uint32_t>   index_buffer;
+};
+
 struct BoneInfo
 {
     int id;
@@ -143,5 +156,12 @@ struct SkeletonMesh
     int bone_count = 0;
     std::map<std::string, BoneInfo> bone_mapping;
 };
+
+namespace Geometry::Util
+{
+    void rotate_mesh(MeshRawData& mesh, const glm::vec3& axis, float angleDegrees);
+    MeshRawData get_rotated_mesh(const MeshRawData& mesh, const glm::vec3& axis, float angleDegrees);
+}
+
 
 #endif

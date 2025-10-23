@@ -78,6 +78,8 @@ struct Node3D
     uint32_t idy;
     uint32_t idz;
 
+    uint8_t bit;
+
     std::array<entt::entity, 8> corner_nodes;
 
     bool is_occupied = false;
@@ -123,11 +125,57 @@ struct Agent
 {
     glm::vec2 move_direction { 1.0f, 0.0f };
 
-    float move_amount   = 0.1f;
-    float move_duration = 0.5f;
+    float move_amount   = 1.0f;
+    float move_duration = 0.2f;
     float move_elapsed  = 0.0f;
 
+    bool following_path = false;
+    std::vector<glm::vec3> target_path;
+
+    size_t current_target_index = 0;
+
     Agent() = default;
+
+    void update(Transform& _transform, float dt)
+    {
+        if (!following_path || target_path.empty())
+            return;
+
+        // current target node
+        glm::vec3 target_pos = target_path[current_target_index];
+
+        // direction toward target
+        glm::vec3 dir = target_pos - _transform.position;
+        float dist = glm::length(dir);
+
+        // if already at or very close to target, move to next node
+        const float epsilon = 0.1f;
+        if (dist < epsilon)
+        {
+            current_target_index++;
+
+            if (current_target_index >= target_path.size())
+            {
+                following_path = false; // finished
+                return;
+            }
+
+            target_pos = target_path[current_target_index];
+            dir  = target_pos - _transform.position;
+            dist = glm::length(dir);
+        }
+
+        // normalize direction
+        if (dist > 0.0f)
+            dir /= dist;
+
+        // move toward target
+        float speed = move_amount / move_duration; // units per second
+        _transform.position += dir * speed * dt;
+
+        move_elapsed += dt;
+    }
+
 
     void update_move(float _dt, Transform& _transform)
     {

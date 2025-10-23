@@ -5,6 +5,7 @@ namespace Time
 {
     extern Uint64 now;
     extern Uint64 last;
+    extern float delta_f;
     extern double delta;
 
     extern double fps;

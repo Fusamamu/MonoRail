@@ -45,9 +45,14 @@ void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _inp
                 {
                     if (Node3D* _tile = _registry.try_get<Node3D>(_entity))
                     {
-                        add_tile_above(_registry, _tile->idx, _tile->idy, _tile->idz);
-                        auto& _grid   = _registry.ctx().get<Grid3D>();
-                        _grid.select_tile_at(_registry, 0, 0, 0);
+                        uint8_t _bitmask = get_surrounding_bit(_registry, _tile->to_node_index() + NodeIndex(0 , 1, 0));
+
+                        TileTable _tile_table;
+                        std::string _mesh = _tile_table.get_tile(_bitmask);
+
+                        Transform& _transform = _registry.get<Transform>(_entity);
+
+                        add_tile_above(_registry, _mesh, _tile->idx, _tile->idy, _tile->idz, _transform.position + glm::vec3(0.0f, 0.5f, 0.0f));
                     }
                 }
             }
@@ -127,6 +132,38 @@ const entt::entity& Grid3D::at(size_t x, size_t y, size_t z) const
     return m_data[tile_index(x, y, z)];
 }
 
+uint8_t Grid3D::get_surrounding_bit(entt::registry& _registry, NodeIndex _node_index)
+{
+    const std::array<NodeIndex, 8> _vicinity_dir =
+       {
+            NodeIndex( 1, 0,  1),
+            NodeIndex( 0, 0,  1),
+            NodeIndex(-1, 0,  1),
+            NodeIndex( 1, 0,  0),
+            NodeIndex(-1, 0,  0),
+            NodeIndex( 1, 0, -1),
+            NodeIndex( 0, 0, -1),
+            NodeIndex(-1, 0, -1),
+
+       };
+
+    uint8_t _bitmask = 0b00000000;
+
+    for (size_t i = 0; i < _vicinity_dir.size(); ++i)
+    {
+        NodeIndex neighbor = _node_index + _vicinity_dir[i];
+
+        if (out_of_bounds(neighbor))
+            continue;
+
+        if (is_occupied(_registry, neighbor))
+            _bitmask |= (1 << i);
+    }
+
+    std::cout << std::bitset<8>(_bitmask) << '\n';
+    return _bitmask;
+}
+
 entt::entity& Grid3D::node_at(size_t x, size_t y, size_t z)
 {
     //check_bounds(x, y, z);
@@ -180,7 +217,7 @@ void Grid3D::fill_tile_at_level(entt::registry& _registry, uint32_t _level)
 {
     for (size_t z = 0; z < m_depth; ++z) {
         for (size_t x = 0; x < m_width; ++x) {
-            add_tile_at(_registry, x, _level, z);
+            add_tile_at(_registry, "bevel_cube",  x, _level, z, glm::vec3(static_cast<float>(x), static_cast<float>(_level), static_cast<float>(z)));
         }
     }
 }
@@ -464,12 +501,12 @@ bool Grid3D::is_occupied(entt::registry& _registry, NodeIndex _node_index)
     return false;
 }
 
-void Grid3D::add_tile_above(entt::registry& _registry, size_t x, size_t y, size_t z)
+void Grid3D::add_tile_above(entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position)
 {
-    add_tile_at(_registry, x, y + 1, z);
+    add_tile_at(_registry, _mesh, x, y + 1, z, _position);
 }
 
-void Grid3D::add_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z)
+void Grid3D::add_tile_at(entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position)
 {
     if (out_of_bounds(x, y, z))
         return;
@@ -487,7 +524,9 @@ void Grid3D::add_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z
 
     _node  .is_active   = true;
     _node3D.is_occupied = true;
-    _transform.scale = glm::vec3(1.0f);
+
+    _transform.position = _position;
+    _transform.scale    = glm::vec3(1.0f);
 
     auto& _aabb          = _registry.emplace<AABB> (_e);
     auto& _material      = _registry.emplace<Material>(_e);
@@ -498,7 +537,7 @@ void Grid3D::add_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z
 
     _material.shader_id = "phong";
 
-    Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh("bevel_cube");
+    Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh(_mesh);
 
     _mesh_renderer.load_mesh      (_tile_mesh);
     _mesh_renderer.set_buffer_data(_tile_mesh);

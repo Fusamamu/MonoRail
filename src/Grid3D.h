@@ -10,6 +10,7 @@
 #include "Ray.h"
 #include "Camera.h"
 #include "InputSystem.h"
+#include "TileTable.h"
 
 static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b);
 
@@ -50,6 +51,8 @@ public:
     entt::entity&       at(size_t x, size_t y, size_t z);
     const entt::entity& at(size_t x, size_t y, size_t z) const;
 
+    uint8_t get_surrounding_bit(entt::registry& _registry, NodeIndex _node_index);
+
     entt::entity&       node_at(size_t x, size_t y, size_t z);
     const entt::entity& node_at(size_t x, size_t y, size_t z) const;
 
@@ -69,8 +72,8 @@ public:
     void store_corners_refs(entt::registry& _registry);
     void store_tile_refs   (entt::registry& _registry);
 
-    void add_tile_at   (entt::registry& _registry, size_t x, size_t y, size_t z);
-    void add_tile_above(entt::registry& _registry, size_t x, size_t y, size_t z);
+    void add_tile_at   (entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position);
+    void add_tile_above(entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position);
 
     void select_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z)
     {

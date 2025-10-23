@@ -14,6 +14,7 @@
 #include "RenderPipeline.h"
 #include "ApplicationConfig.h"
 #include "Ray.h"
+#include "Time.h"
 
 class Engine;
 

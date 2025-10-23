@@ -203,11 +203,41 @@ void Scene::on_update(float delta_time)
     auto& _grid = m_registry.ctx().get<Grid3D>();
     _grid.update(m_registry, _camera, m_input_system);
 
-    auto _object_view = m_registry.view<Transform, AABB>();
-    for (auto _e : _object_view)
+    auto _create_agent = [&]()
     {
-        auto& _transform = m_registry.get<Transform>(_e);
-        auto& _aabb      = m_registry.get<AABB>     (_e);
+        std::optional<std::vector<entt::entity>> _path = _grid.find_path(m_registry, NodeIndex(0, 1, 0), NodeIndex(10, 1, 10));
+        if (_path.has_value())
+        {
+            Material _material;
+            _material.shader_id = "toon";
+            entt::entity _e = create_object("agent", "bevel_cube", glm::vec3(0.0f, 0.0f, 0.0f), _material);
+
+            Agent& _agent = m_registry.emplace<Agent>(_e);
+
+            _agent.target_path.reserve(_path.value().size());
+
+            for (entt::entity _entity : _path.value())
+            {
+                if (Node3D* _node = m_registry.try_get<Node3D>(_entity))
+                {
+                    float _x = static_cast<float>(_node->idx);
+                    float _y = static_cast<float>(_node->idy);
+                    float _z = static_cast<float>(_node->idz);
+
+                    glm::vec3 _path_position = glm::vec3(_x, _y, _z);
+
+                    std::cout << _path_position.x << ", " << _path_position.y << ", " << _path_position.z << std::endl;
+
+                    _agent.target_path.emplace_back(_path_position);
+                    _agent.following_path = true;
+                }
+            }
+        }
+    };
+
+    if (m_input_system.is_key_down(SDL_SCANCODE_SPACE))
+    {
+        _create_agent();
     }
 
     auto _agent_view = m_registry.view<Transform, Agent>();
@@ -216,9 +246,9 @@ void Scene::on_update(float delta_time)
         auto& _transform = m_registry.get<Transform>(_e);
         auto& _agent     = m_registry.get<Agent>    (_e);
 
-        _agent.update_move(0.016f, _transform);
-
-        _transform.position.x += _agent.move_direction.x * _agent.move_amount;
+        _agent.update(_transform, Time::delta_f/1000.0f);
+        // _agent.update_move(0.016f, _transform);
+        // _transform.position.x += _agent.move_direction.x * _agent.move_amount;
     }
 
     auto _roots = m_registry.view<Transform>(entt::exclude<Parent>);
@@ -240,7 +270,8 @@ void Scene::on_render_gui(float _dt)
 
     ImGui::Begin("Scene debug");
 
-    ImGui::Text("FPS: %.1f", Time::fps);
+    ImGui::Text("FPS: %.1f"       , Time::fps);
+    ImGui::Text("Time delta: %.4f", Time::delta_f);
 
     auto _directional_light_view = m_registry.view<DirectionalLight>();
     for (auto _e : _directional_light_view)
@@ -300,15 +331,12 @@ void Scene::on_render_gui(float _dt)
     ImGui::Text("Mouse x: %.3f", static_cast<float>(MGUI::input.mouse_x));
     ImGui::Text("Mouse y: %.3f", static_cast<float>(MGUI::input.mouse_y));
 
-
-
     auto& _grid = m_registry.ctx().get<Grid3D>();
     const char* DirectionNames[] = { "NONE", "ADD TILE", "REMOVE TILE", "MARK TILE", "ADD AGENT" };
     int current = static_cast<int>(_grid.mode);
     if (ImGui::Combo("Tile mode", &current, DirectionNames, IM_ARRAYSIZE(DirectionNames))) {
         _grid.mode = static_cast<Grid3D::Mode>(current);
     }
-
 
     ImGui::End();
 

@@ -170,6 +170,8 @@ void Scene::on_exit()
 
 void Scene::on_update(float delta_time)
 {
+    PROFILE_SCOPE("Update");
+
     m_input_system.update();
 
     if (m_input_system.get_quit_requested())
@@ -200,8 +202,12 @@ void Scene::on_update(float delta_time)
             _camera.camera_move_down(0.25f);
     }
 
+
     auto& _grid = m_registry.ctx().get<Grid3D>();
-    _grid.update(m_registry, _camera, m_input_system);
+    {
+        PROFILE_SCOPE("Grid update");
+        _grid.update(m_registry, _camera, m_input_system);
+    }
 
     auto _create_agent = [&]()
     {
@@ -245,24 +251,26 @@ void Scene::on_update(float delta_time)
     {
         auto& _transform = m_registry.get<Transform>(_e);
         auto& _agent     = m_registry.get<Agent>    (_e);
-
         _agent.update(_transform, Time::delta_f/1000.0f);
-        // _agent.update_move(0.016f, _transform);
-        // _transform.position.x += _agent.move_direction.x * _agent.move_amount;
     }
 
-    auto _roots = m_registry.view<Transform>(entt::exclude<Parent>);
-    for (auto _e : _roots)
-        update_world_transform(_e, glm::mat4(1.0f));
+    {
+        PROFILE_SCOPE("Scene graph");
+        auto _roots = m_registry.view<Transform>(entt::exclude<Parent>);
+        for (auto _e : _roots)
+            update_world_transform(_e, glm::mat4(1.0f));
+    }
 }
 
 void Scene::on_render(float _dt)
 {
+    PROFILE_SCOPE("Render");
     m_render_pipeline.render(m_registry);
 }
 
 void Scene::on_render_gui(float _dt)
 {
+    PROFILE_SCOPE("RenderGUI");
     //ImGui
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
@@ -282,6 +290,7 @@ void Scene::on_render_gui(float _dt)
     }
 
     ImGui::Checkbox("Display depth", &m_render_pipeline.display_depth);
+    ImGui::Checkbox("Display DOF"  , &m_render_pipeline.display_dof);
 
     auto& _camera = m_registry.ctx().get<Camera>();
 
@@ -305,6 +314,20 @@ void Scene::on_render_gui(float _dt)
         Shader* _fog_plane = ResourceManager::instance().get_shader("fog_plane");
         _fog_plane->use();
         _fog_plane->set_float("u_far_plane", _camera.far_plane);
+    }
+
+    if (ImGui::DragFloat("focus distance", &_camera.focus_distance))
+    {
+        Shader* _dof = ResourceManager::instance().get_shader("depth_of_field");
+        _dof->use();
+        _dof->set_float("u_focus_dist", _camera.focus_distance);
+    }
+
+    if (ImGui::DragFloat("focus range", &_camera.focus_range))
+    {
+        Shader* _dof = ResourceManager::instance().get_shader("depth_of_field");
+        _dof->use();
+        _dof->set_float("u_focus_range", _camera.focus_range);
     }
 
     if (ImGui::ColorEdit3("Fog color", (float*)&m_fog_data.fogColor[0]))

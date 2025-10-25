@@ -228,11 +228,22 @@ void Engine::update()
     _scene->on_enter();
     while(m_is_running)
     {
+        g_profiler.new_frame();
+
+        PROFILE_SCOPE("Frame");
+
         Time::update();
         _scene->on_update    (0.016f);
         _scene->on_render    (0.016f);
         _scene->on_render_gui(0.016f);
+
+        {
+            PROFILE_SCOPE("Swap");
         SDL_GL_SwapWindow(p_window);
+        }
+
+        g_profiler.end_frame();
+        g_profiler.print();
     }
     _scene->on_exit();
 }

@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cassert>
+#include <chrono>
 
 #include <GL/glew.h>
 #include <SDL2/SDL.h>

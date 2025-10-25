@@ -22,6 +22,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     Shader* _skeleton_shader  = ResourceManager::instance().get_shader("skeleton"       );
     Shader* _fog_plane_shader = ResourceManager::instance().get_shader("fog_plane"      );
     Shader* _depth_quad       = ResourceManager::instance().get_shader("depth_quad"     );
+    Shader* _depth_of_field   = ResourceManager::instance().get_shader("depth_of_field" );
     Shader* _screen_quad      = ResourceManager::instance().get_shader("screen_quad"    );
     Shader* _ui_shader        = ResourceManager::instance().get_shader("ui"             );
     Shader* _text_shader      = ResourceManager::instance().get_shader("text"           );
@@ -63,6 +64,16 @@ void RenderPipeline::init(const entt::registry& _registry)
     _depth_quad->set_int("u_depth_texture", 0);
     _depth_quad->set_float("near_plane", 1);
     _depth_quad->set_float("far_plane", 550);
+
+    _depth_of_field->use();
+    _depth_of_field->set_int("u_depth_texture", 0);
+    _depth_of_field->set_float("near_plane", 1);
+    _depth_of_field->set_float("far_plane", 550);
+
+    auto& _camera = _registry.ctx().get<Camera>();
+    _depth_of_field->set_float("u_focus_dist" , _camera.focus_distance);
+    _depth_of_field->set_float("u_focus_range", _camera.focus_range);
+
 
     _screen_quad->use();
     _screen_quad->set_int("u_screen_texture", 0);
@@ -318,11 +329,22 @@ void RenderPipeline::render(const entt::registry& _registry)
     }
     else
     {
-        Shader* _depth_quad = ResourceManager::instance().get_shader("depth_quad");
-        _depth_quad->use();
-        _depth_quad->set_int("u_depth_texture", 0);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
+        if (!display_dof)
+        {
+            Shader* _depth_quad = ResourceManager::instance().get_shader("depth_quad");
+            _depth_quad->use();
+            _depth_quad->set_int("u_depth_texture", 0);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
+        }
+        else
+        {
+            Shader* _depth_quad = ResourceManager::instance().get_shader("depth_of_field");
+            _depth_quad->use();
+            _depth_quad->set_int("u_depth_texture", 0);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
+        }
     }
 
     m_screen_mesh_renderer.draw();

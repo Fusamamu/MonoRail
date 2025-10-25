@@ -27,6 +27,9 @@ struct Camera
     float yaw   = -90.0f; // horizontal rotation
     float pitch = 0.0f;   // vertical rotation
 
+    float focus_distance = 10.0f;
+    float focus_range    = 5.0f;
+
     Camera()
     {
         std::cout << "Camera constructor" << std::endl;

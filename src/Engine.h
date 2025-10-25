@@ -15,6 +15,7 @@
 #include "Component.h"
 #include "UI/UI.h"
 #include "Time.h"
+#include "Profiler.h"
 
 class Engine
 {

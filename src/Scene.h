@@ -67,7 +67,7 @@ private:
         _transform.world_mat = _parent_world * _transform.get_local_mat4();
 
         auto _view = m_registry.view<Parent>();
-
+        
         for (auto _child : _view)
         {
             if (_view.get<Parent>(_child).entity == _entity)

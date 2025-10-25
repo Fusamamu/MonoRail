@@ -30,6 +30,7 @@ void ResourceManager::init()
     load_shader("../res/shaders/text.glsl"            );
     load_shader("../res/shaders/shell.glsl"           );
     load_shader("../res/shaders/object_instance.glsl" );
+    load_shader("../res/shaders/depth_of_field.glsl"  );
 }
 
 // Return pointer to vector<Mesh> if exists, else nullptr

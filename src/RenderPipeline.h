@@ -15,11 +15,13 @@
 #include "UI/UI.h"
 #include "GizmosRenderer.h"
 #include "MMath.h"
+#include "Profiler.h"
 
 class RenderPipeline
 {
 public:
     bool display_depth = false;
+    bool display_dof   = false;
 
     RenderPipeline();
     ~RenderPipeline();

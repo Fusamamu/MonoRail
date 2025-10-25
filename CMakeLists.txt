@@ -77,7 +77,9 @@ add_executable(${PROJECT_NAME}
         src/Time.h
         src/Mesh.cpp
         src/TileTable.cpp
-        src/TileTable.h)
+        src/TileTable.h
+        src/Profiler.cpp
+        src/Profiler.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

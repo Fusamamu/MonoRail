@@ -1,6 +1,8 @@
 #ifndef TIME_H
 #define TIME_H
 
+#include "Profiler.h"
+
 namespace Time
 {
     extern Uint64 now;

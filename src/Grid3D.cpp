@@ -1,5 +1,4 @@
 #include "Grid3D.h"
-
 #include "ApplicationConfig.h"
 
 static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b)
@@ -45,14 +44,50 @@ void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _inp
                 {
                     if (Node3D* _tile = _registry.try_get<Node3D>(_entity))
                     {
-                        uint8_t _bitmask = get_surrounding_bit(_registry, _tile->to_node_index() + NodeIndex(0 , 1, 0));
+                        NodeIndex _target_index = _tile->to_node_index() + NodeIndex(0, 1, 0);
+
+                        uint8_t _bitmask = get_surrounding_bitmask_4direction(_registry, _target_index);
 
                         TileTable _tile_table;
                         std::string _mesh = _tile_table.get_tile(_bitmask);
 
                         Transform& _transform = _registry.get<Transform>(_entity);
 
-                        add_tile_above(_registry, _mesh, _tile->idx, _tile->idy, _tile->idz, _transform.position + glm::vec3(0.0f, 0.5f, 0.0f));
+                        add_tile_above(_registry, _mesh,
+                            _tile->idx, _tile->idy, _tile->idz,
+                            _transform.position + glm::vec3(0.0f, 0.5f, 0.0f));
+
+                        const std::array<NodeIndex, 8> _vicinity_dir =
+                        {
+                            NodeIndex( 1, 0,  1),
+                            NodeIndex( 0, 0,  1),
+                            NodeIndex(-1, 0,  1),
+                            NodeIndex( 1, 0,  0),
+                            NodeIndex(-1, 0,  0),
+                            NodeIndex( 1, 0, -1),
+                            NodeIndex( 0, 0, -1),
+                            NodeIndex(-1, 0, -1),
+                        };
+
+                        for (size_t i = 0; i < _vicinity_dir.size(); ++i)
+                        {
+                            NodeIndex _neighbor = _target_index + _vicinity_dir[i];
+                            if (out_of_bounds(_neighbor))
+                                continue;
+
+                            uint8_t _bitmask = get_surrounding_bitmask_4direction(_registry, _neighbor);
+                            TileTable _tile_table;
+                            std::string _mesh = _tile_table.get_tile(_bitmask);
+
+                            entt::entity _e = at(_neighbor.idx, _neighbor.idy, _neighbor.idz);
+
+                            if (MeshRenderer* _mesh_renderer = _registry.try_get<MeshRenderer>(_e))
+                            {
+                                Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh(_mesh);
+                                _mesh_renderer->load_mesh      (_tile_mesh);
+                                _mesh_renderer->set_buffer_data(_tile_mesh);
+                            }
+                        }
                     }
                 }
             }
@@ -144,10 +179,35 @@ uint8_t Grid3D::get_surrounding_bit(entt::registry& _registry, NodeIndex _node_i
             NodeIndex( 1, 0, -1),
             NodeIndex( 0, 0, -1),
             NodeIndex(-1, 0, -1),
-
        };
 
     uint8_t _bitmask = 0b00000000;
+
+    for (size_t i = 0; i < _vicinity_dir.size(); ++i)
+    {
+        NodeIndex neighbor = _node_index + _vicinity_dir[i];
+        if (out_of_bounds(neighbor))
+            continue;
+        if (is_occupied(_registry, neighbor))
+            _bitmask |= (1 << i);
+    }
+
+    std::cout << std::bitset<8>(_bitmask) << '\n';
+
+    return _bitmask;
+}
+
+uint8_t Grid3D::get_surrounding_bitmask_4direction(entt::registry& _registry, NodeIndex _node_index)
+{
+    const std::array<NodeIndex, 4> _vicinity_dir =
+    {
+        NodeIndex( 0, 0,  1),
+        NodeIndex( 1, 0,  0),
+        NodeIndex(-1, 0,  0),
+        NodeIndex( 0, 0, -1),
+    };
+
+    uint8_t _bitmask = 0;
 
     for (size_t i = 0; i < _vicinity_dir.size(); ++i)
     {
@@ -157,12 +217,17 @@ uint8_t Grid3D::get_surrounding_bit(entt::registry& _registry, NodeIndex _node_i
             continue;
 
         if (is_occupied(_registry, neighbor))
-            _bitmask |= (1 << i);
+            _bitmask |= (1 << i); // set bit i
     }
 
-    std::cout << std::bitset<8>(_bitmask) << '\n';
+    // Ensure only lower 4 bits are used
+    _bitmask &= 0b00001111;
+
+    std::cout << "4-dir bitmask: " << std::bitset<4>(_bitmask) << '\n';
+
     return _bitmask;
 }
+
 
 entt::entity& Grid3D::node_at(size_t x, size_t y, size_t z)
 {
@@ -193,10 +258,12 @@ void Grid3D::generate_tiles(entt::registry& _registry)
 
                 _node.name          = "tile";
                 _node.is_active     = true;
+                _node.is_static     = true;
                 _node3D.is_occupied = false;
 
-                _transform.position = glm::vec3(x, y, z);
-                _transform.scale    = glm::vec3(0.2f);
+                _transform.position  = glm::vec3(x, y, z);
+                _transform.scale     = glm::vec3(0.2f);
+                _transform.world_mat = _transform.get_local_mat4();
 
                 // _aabb.min = { -0.05f, -0.05f, -0.05f };
                 // _aabb.max = {  0.05f,  0.05f,  0.05f };
@@ -330,16 +397,19 @@ void Grid3D::generate_corner_nodes(entt::registry& _registry)
                 entt::entity _e = _registry.create();
 
                 auto& _node      = _registry.emplace<Node>     (_e);
-                auto& _tile      = _registry.emplace<Node3D>   (_e, Node3D(x, y, z));
+                auto& _node3D    = _registry.emplace<Node3D>   (_e, Node3D(x, y, z));
                 auto& _transform = _registry.emplace<Transform>(_e);
                 //auto& _aabb      = _registry.emplace<AABB>     (_e);
 
                 _node.name        = "corner_node";
                 _node.is_active   = true;
-                _tile.is_occupied = true;
+                _node.is_static   = true;
+                _node3D.is_occupied = true;
 
                 _transform.position = glm::vec3(x, y, z) - glm::vec3(0.5f);
                 _transform.scale    = glm::vec3(0.1f, 0.1f, 0.1f);
+
+                _transform.world_mat = _transform.get_local_mat4();
 
                 // _aabb.min = { -0.1f, -0.1f, -0.1f };
                 // _aabb.max = {  0.1f,  0.1f,  0.1f };

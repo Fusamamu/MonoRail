@@ -37,6 +37,7 @@ void Profiler::end_frame()
 
 void Profiler::print() const
 {
+    return;
     std::cout << "\n--- Frame Profile (" << std::fixed << std::setprecision(2) << m_frame_time << " ms) ---\n";
 
     for (auto& [name, rec] : m_records)

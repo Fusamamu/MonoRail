@@ -45,6 +45,8 @@ struct Node
     std::string name;
 
     bool is_active = false;
+    bool is_dirty  = false;
+    bool is_static = false;
 
     Node() = default;
     Node(const std::string& name) : name(name) {}

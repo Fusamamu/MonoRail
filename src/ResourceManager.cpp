@@ -17,6 +17,19 @@ void ResourceManager::init()
     load_model ("../res/tiles/c_1000_0000.fbx"        );
     load_model ("../res/rails/r_0100_0010.fbx"        );
     load_model ("../res/rails/r_0001_1000.fbx"        );
+    load_model ("../res/rails/r_0000_0001.fbx"        );
+    load_model ("../res/rails/r_0000_1000.fbx"        );
+    load_model ("../res/rails/r_0000_0100.fbx"        );
+    load_model ("../res/rails/r_0000_0010.fbx"        );
+    load_model ("../res/rails/r_0000_0011.fbx"        );
+    load_model ("../res/rails/r_0000_1100.fbx"        );
+    load_model ("../res/rails/r_0000_0101.fbx"        );
+    load_model ("../res/rails/r_0000_1010.fbx"        );
+    load_model ("../res/rails/r_0000_1110.fbx"        );
+    load_model ("../res/rails/r_0000_0111.fbx"        );
+    load_model ("../res/rails/r_0000_1101.fbx"        );
+    load_model ("../res/rails/r_0000_1011.fbx"        );
+    load_model ("../res/rails/r_0000_1111.fbx"        );
 
     load_shader("../res/shaders/instance.glsl"        );
     load_shader("../res/shaders/toon.glsl"            );

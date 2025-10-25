@@ -32,6 +32,13 @@ public:
         ADD_AGENT   = 4,
     };
 
+    struct TileData
+    {
+        std::string mesh_name;
+        NodeIndex node_index;
+        glm::vec3 position;
+    };
+
     Mode mode = Mode::NONE;
 
     entt::entity start_e = entt::null;
@@ -41,20 +48,20 @@ public:
     Grid3D() = default;
     ~Grid3D() = default;
 
-    void init(size_t width, size_t height, size_t depth);
+    void init  (size_t width, size_t height, size_t depth);
     void resize(size_t width, size_t height, size_t depth);
 
     size_t get_width()  const { return m_width;  }
     size_t get_height() const { return m_height; }
     size_t get_depth()  const { return m_depth;  }
 
-    entt::entity&       at(size_t x, size_t y, size_t z);
-    const entt::entity& at(size_t x, size_t y, size_t z) const;
-
-    uint8_t get_surrounding_bit(entt::registry& _registry, NodeIndex _node_index);
-
+    entt::entity&       at     (size_t x, size_t y, size_t z);
+    const entt::entity& at     (size_t x, size_t y, size_t z) const;
     entt::entity&       node_at(size_t x, size_t y, size_t z);
     const entt::entity& node_at(size_t x, size_t y, size_t z) const;
+
+    uint8_t get_surrounding_bit               (entt::registry& _registry, NodeIndex _node_index);
+    uint8_t get_surrounding_bitmask_4direction(entt::registry& _registry, NodeIndex _node_index);
 
     bool out_of_bounds(size_t x, size_t y, size_t z) const;
     bool out_of_bounds(NodeIndex _node_index) const;
@@ -62,7 +69,7 @@ public:
     bool is_occupied(entt::registry& _registry, NodeIndex _node_index);
 
     void create_tile_instance      (entt::registry& _registry);
-    void create_corner_instance     (entt::registry& _registry);
+    void create_corner_instance    (entt::registry& _registry);
     void generate_tiles            (entt::registry& _registry);
     void generate_tiles_with_perlin(entt::registry& _registry);
     void generate_corner_nodes     (entt::registry& _registry);
@@ -108,21 +115,28 @@ private:
         active_tile_anims.push_back({ _tile_e, 0.0f, 0.25f });
     }
 
-    void update_tile_animations(entt::registry& reg, float dt)
+    void update_tile_animations(entt::registry& _registry, float dt)
     {
-        for (auto it = active_tile_anims.begin(); it != active_tile_anims.end();)
+        for (auto _it = active_tile_anims.begin(); _it != active_tile_anims.end();)
         {
-            it->elapsed += dt * 2.5f;
+            auto& _node      = _registry.get<Node>(_it->entity);
+            auto& _transform = _registry.get<Transform>(_it->entity);
 
-            float t        = glm::clamp(it->elapsed / it->duration, 0.0f, 1.0f);
+            _it->elapsed += dt * 2.5f;
+
+            float t        = glm::clamp(_it->elapsed / _it->duration, 0.0f, 1.0f);
             float smooth_t = EASE::ease_out_back(t); // or smoothstep, ease_in_out, etc.
 
-            reg.get<Transform>(it->entity).scale = glm::vec3(smooth_t);
+            _transform.scale     = glm::vec3(smooth_t);
+            _transform.world_mat = _transform.get_local_mat4();
 
             if (t >= 1.0f)
-                it = active_tile_anims.erase(it); // remove finished
+            {
+                _it = active_tile_anims.erase(_it); // remove finished
+                _node.is_dirty = false;
+            }
             else
-                ++it;
+                ++_it;
         }
     }
 

@@ -254,12 +254,7 @@ void Scene::on_update(float delta_time)
         _agent.update(_transform, Time::delta_f/1000.0f);
     }
 
-    {
-        PROFILE_SCOPE("Scene graph");
-        auto _roots = m_registry.view<Transform>(entt::exclude<Parent>);
-        for (auto _e : _roots)
-            update_world_transform(_e, glm::mat4(1.0f));
-    }
+    update_scene_graph();
 }
 
 void Scene::on_render(float _dt)

@@ -56,24 +56,38 @@ private:
     RenderPipeline m_render_pipeline;
     InputSystem    m_input_system;
 
-    GLuint m_fog_data_ubo;
+    GLuint  m_fog_data_ubo;
     FogData m_fog_data;
     GizmosRenderer m_gizmos_renderer;
 
+    void update_scene_graph()
+    {
+        PROFILE_SCOPE("Scene graph");
+        auto _roots = m_registry.view<Node, Transform>(entt::exclude<Parent>);
+
+        for (auto _e : _roots)
+        {
+            auto& _node = m_registry.get<Node>(_e);
+            if (_node.is_static)
+                continue;
+            update_world_transform(_e, glm::mat4(1.0f));
+        }
+    }
+
     void update_world_transform(entt::entity _entity, const glm::mat4& _parent_world)
     {
-        auto &_transform = m_registry.get<Transform>(_entity);
+        PROFILE_SCOPE("Scene transform");
+        auto& _node      = m_registry.get<Node>     (_entity);
+        auto& _transform = m_registry.get<Transform>(_entity);
 
-        _transform.world_mat = _parent_world * _transform.get_local_mat4();
+        if (!_node.is_static || _node.is_dirty)
+            _transform.world_mat = _parent_world * _transform.get_local_mat4();
 
         auto _view = m_registry.view<Parent>();
-        
         for (auto _child : _view)
         {
             if (_view.get<Parent>(_child).entity == _entity)
-            {
                 update_world_transform(_child, _transform.world_mat);
-            }
         }
     }
 };

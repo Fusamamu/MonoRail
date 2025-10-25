@@ -25,6 +25,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     Shader* _depth_of_field   = ResourceManager::instance().get_shader("depth_of_field" );
     Shader* _screen_quad      = ResourceManager::instance().get_shader("screen_quad"    );
     Shader* _ui_shader        = ResourceManager::instance().get_shader("ui"             );
+    Shader* _ui_texture       = ResourceManager::instance().get_shader("ui_texture"     );
     Shader* _text_shader      = ResourceManager::instance().get_shader("text"           );
     Shader* _grass_shader     = ResourceManager::instance().get_shader("instance"       );
     Shader* _shell_shader     = ResourceManager::instance().get_shader("shell"          );
@@ -91,11 +92,15 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     _ui_shader->use();
     _ui_shader->set_mat4_uniform_projection(_ortho_proj);
+    _ui_texture->use();
+    _ui_texture->set_mat4_uniform_projection(_ortho_proj);
     _text_shader->use();
     _text_shader->set_mat4_uniform_projection(_ortho_proj);
 
-    m_framebuffer       = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
-    m_depth_framebuffer = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
+    m_framebuffer                  = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
+    m_depth_framebuffer            = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
+    m_depth_shadow_map_framebuffer = FrameBuffer(2 * g_app_config.SCREEN_WIDTH, 2 * g_app_config.SCREEN_HEIGHT, true);
+    //m_depth_shadow_map_framebuffer = FrameBuffer(2048, 2048, true);
 
     m_framebuffer.init();
     m_framebuffer.attach_color_texture();
@@ -104,6 +109,9 @@ void RenderPipeline::init(const entt::registry& _registry)
     m_depth_framebuffer.init();
     m_depth_framebuffer.attach_color_texture();
     m_depth_framebuffer.attach_depth_texture();
+
+    m_depth_shadow_map_framebuffer.init();
+    m_depth_shadow_map_framebuffer.attach_depth_texture();
 
     Quad _quad;
     m_screen_mesh = _quad.screen_vertices_to_mesh();
@@ -189,13 +197,66 @@ void RenderPipeline::render(const entt::registry& _registry)
     // _shell_shader->use();
     // _shell_shader->set_float("u_time", SDL_GetTicks() / 16000.0f);
 
-    glm::mat4 _view  = _registry.ctx().get<Camera>().get_view_matrix();
-
-    glBindBuffer(GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(_view));
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
     auto _mesh_view = _registry.view<Transform, MeshRenderer, Material>();
+
+#pragma region reneder shadow make_public
+
+    auto _light_view = _registry.view<DirectionalLight>();
+    for (auto _e : _light_view)
+    {
+        auto& _light = _registry.get<DirectionalLight>(_e);
+
+        if (!_light.cast_shadow)
+            continue;
+
+        CameraData _camera_data;
+        _camera_data.viewPos    = _light.position;
+        _camera_data.projection = _light.get_projection_matrix();
+        _camera_data.view       = _light.get_view_matrix();
+
+        glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraData), &_camera_data);
+        glBindBuffer   (GL_UNIFORM_BUFFER, 0);
+
+        m_depth_shadow_map_framebuffer.bind();
+
+        glViewport  (0, 0, 2 * g_app_config.SCREEN_WIDTH, 2 * g_app_config.SCREEN_HEIGHT);
+        glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
+        glClear     (GL_DEPTH_BUFFER_BIT);
+
+        for (auto _e : _mesh_view)
+        {
+            auto& _transform     = _registry.get<Transform>   (_e);
+            auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
+            auto& _material      = _registry.get<Material>    (_e);
+
+            if (!_material.cast_shadow)
+                continue;
+
+            Shader* _found_shader = ResourceManager::instance().get_shader(_material.shader_id);
+            _found_shader->use();
+            _found_shader->set_mat4_uniform_model(_transform.world_mat);
+
+            if (_material.depth_write)
+                _mesh_renderer.draw();
+        }
+
+        m_depth_shadow_map_framebuffer.unbind();
+    }
+
+#pragma endregion
+
+    // glm::mat4 _camera_view  = _registry.ctx().get<Camera>().get_view_matrix();
+    //
+    // glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
+    // glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(_camera_view));
+    // glBindBuffer   (GL_UNIFORM_BUFFER, 0);
+
+    CameraData _camera_data = _registry.ctx().get<Camera>().get_camera_data();
+
+    glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraData), &_camera_data);
+    glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
 #pragma region render color n depth texture pass
     m_depth_framebuffer.bind();
@@ -241,6 +302,12 @@ void RenderPipeline::render(const entt::registry& _registry)
         _found_shader->use();
         _found_shader->set_vec3("u_color", _material.diffuse_color);
         _found_shader->set_mat4_uniform_model(_transform.world_mat);
+
+        if (_material.shader_id == "phong")
+        {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, m_depth_shadow_map_framebuffer.get_depth_texture());
+        }
 
         if (!_material.depth_write)
         {
@@ -334,8 +401,17 @@ void RenderPipeline::render(const entt::registry& _registry)
             Shader* _depth_quad = ResourceManager::instance().get_shader("depth_quad");
             _depth_quad->use();
             _depth_quad->set_int("u_depth_texture", 0);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
+
+            if (!display_shadow_map)
+            {
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
+            }
+            else
+            {
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, m_depth_shadow_map_framebuffer.get_depth_texture());
+            }
         }
         else
         {
@@ -353,12 +429,15 @@ void RenderPipeline::render(const entt::registry& _registry)
 
 #pragma region render UI
 
-    // glClear(GL_DEPTH_BUFFER_BIT);
-    //
-    // glDisable(GL_DEPTH_TEST);
-    // glEnable(GL_BLEND);
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    //
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+    MGUI::draw_texture({0.0f, 0.0f}, { 200.0f, 200.0f }, m_depth_framebuffer.get_depth_texture());
+
     // auto& _camera = _registry.ctx().get<Camera>();
     // glm::mat4 _view_mat = _camera.get_view_matrix      ();
     // glm::mat4 _proj_mat = _camera.get_projection_matrix();
@@ -373,9 +452,9 @@ void RenderPipeline::render(const entt::registry& _registry)
     //
     //     MGUI::draw_text("C_1000_0000", { _screen_pos.x, _screen_pos.y } , { 1, 1,1, 1});
     // }
-    //
-    // glEnable(GL_DEPTH_TEST);
-    // glDisable(GL_BLEND);
+
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
 
 #pragma endregion
 }

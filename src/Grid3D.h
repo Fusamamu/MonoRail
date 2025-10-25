@@ -79,8 +79,9 @@ public:
     void store_corners_refs(entt::registry& _registry);
     void store_tile_refs   (entt::registry& _registry);
 
-    void add_tile_at   (entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position);
-    void add_tile_above(entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position);
+    void add_tile_at   (entt::registry& _registry, const TileData& _tile_data);
+    void add_tile_at   (entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position, TileType _tile_type);
+    void add_tile_above(entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position, TileType _tile_type);
 
     void select_tile_at(entt::registry& _registry, size_t x, size_t y, size_t z)
     {

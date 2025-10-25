@@ -280,12 +280,23 @@ void Scene::on_render_gui(float _dt)
     for (auto _e : _directional_light_view)
     {
         auto& _directional_light = m_registry.get<DirectionalLight>(_e);
+
+        if (ImGui::Checkbox("Cast shadows", &_directional_light.cast_shadow))
+        {
+
+        }
+
         if (ImGui::DragFloat3("Light direction", &_directional_light.direction[0], 0.1f, -100.0f, 100.0f))
+            m_render_pipeline.update_light_ubo(_directional_light);
+        if (ImGui::DragFloat3("Light position", &_directional_light.position[0],  0.1f, -100.0f, 100.0f))
+            m_render_pipeline.update_light_ubo(_directional_light);
+        if (ImGui::DragFloat("Light orthograph size", &_directional_light.orthographic_size, 0.01f, 25.0f, 100.0f))
             m_render_pipeline.update_light_ubo(_directional_light);
     }
 
-    ImGui::Checkbox("Display depth", &m_render_pipeline.display_depth);
-    ImGui::Checkbox("Display DOF"  , &m_render_pipeline.display_dof);
+    ImGui::Checkbox("Display depth"     , &m_render_pipeline.display_depth);
+    ImGui::Checkbox("Display shadow map", &m_render_pipeline.display_shadow_map);
+    ImGui::Checkbox("Display DOF"       , &m_render_pipeline.display_dof);
 
     auto& _camera = m_registry.ctx().get<Camera>();
 

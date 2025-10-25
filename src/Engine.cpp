@@ -188,8 +188,9 @@ void Engine::init()
 
     MGUI::init();
     MGUI::load_csv();
-    MGUI::ui_shader   = ResourceManager::instance().get_shader("ui");
-    MGUI::text_shader = ResourceManager::instance().get_shader("text");
+    MGUI::ui_shader         = ResourceManager::instance().get_shader("ui");
+    MGUI::ui_texture_shader = ResourceManager::instance().get_shader("ui_texture");
+    MGUI::text_shader       = ResourceManager::instance().get_shader("text");
 }
 
 void Engine::update()

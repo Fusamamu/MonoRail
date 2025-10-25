@@ -44,6 +44,9 @@ void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _inp
                 {
                     if (Node3D* _tile = _registry.try_get<Node3D>(_entity))
                     {
+                        if (_tile->type != TileType::GROUND)
+                            return;
+
                         NodeIndex _target_index = _tile->to_node_index() + NodeIndex(0, 1, 0);
 
                         uint8_t _bitmask = get_surrounding_bitmask_4direction(_registry, _target_index);
@@ -55,7 +58,8 @@ void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _inp
 
                         add_tile_above(_registry, _mesh,
                             _tile->idx, _tile->idy, _tile->idz,
-                            _transform.position + glm::vec3(0.0f, 0.5f, 0.0f));
+                            _transform.position + glm::vec3(0.0f, 0.5f, 0.0f),
+                            TileType::NONE);
 
                         const std::array<NodeIndex, 8> _vicinity_dir =
                         {
@@ -228,7 +232,6 @@ uint8_t Grid3D::get_surrounding_bitmask_4direction(entt::registry& _registry, No
     return _bitmask;
 }
 
-
 entt::entity& Grid3D::node_at(size_t x, size_t y, size_t z)
 {
     //check_bounds(x, y, z);
@@ -284,7 +287,7 @@ void Grid3D::fill_tile_at_level(entt::registry& _registry, uint32_t _level)
 {
     for (size_t z = 0; z < m_depth; ++z) {
         for (size_t x = 0; x < m_width; ++x) {
-            add_tile_at(_registry, "bevel_cube",  x, _level, z, glm::vec3(static_cast<float>(x), static_cast<float>(_level), static_cast<float>(z)));
+            add_tile_at(_registry, "bevel_cube",  x, _level, z, glm::vec3(static_cast<float>(x), static_cast<float>(_level), static_cast<float>(z)), TileType::GROUND);
         }
     }
 }
@@ -317,6 +320,7 @@ void Grid3D::create_tile_instance(entt::registry& _registry)
     _material_comp.depth_write = _material.depth_write;
     _material_comp.diffuseMap  = _material.diffuseMap;
     _material_comp.rgba        = _material.rgba;
+    _material_comp.cast_shadow = false;
 
     auto& _mesh_renderer = _registry.emplace<MeshRenderer>(_e);
     _mesh_renderer.load_mesh      (_p_mesh);
@@ -438,10 +442,6 @@ void Grid3D::create_corner_instance(entt::registry& _registry)
     auto& _transform = _registry.emplace<Transform>(_e);
     _transform.position = glm::vec3(0.0f);
 
-    // auto& _aabb = _registry.emplace<AABB>(_e, AABB());
-    // _aabb.min = { -0.5f, -0.5f, -0.5f };
-    // _aabb.max = {  0.5f,  0.5f,  0.5f };
-
     Material _material;
     _material.shader_id     = "object_instance";
     _material.rgba          = glm::vec4(1.0f, 0.0f, 0.0f, 0.1f);
@@ -452,6 +452,7 @@ void Grid3D::create_corner_instance(entt::registry& _registry)
     _material_comp.depth_write = _material.depth_write;
     _material_comp.diffuseMap  = _material.diffuseMap;
     _material_comp.rgba        = _material.rgba;
+    _material_comp.cast_shadow = false;
 
     auto& _mesh_renderer = _registry.emplace<MeshRenderer>(_e);
     _mesh_renderer.load_mesh      (_p_mesh);
@@ -571,12 +572,20 @@ bool Grid3D::is_occupied(entt::registry& _registry, NodeIndex _node_index)
     return false;
 }
 
-void Grid3D::add_tile_above(entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position)
+void Grid3D::add_tile_above(entt::registry& _registry,
+    const std::string& _mesh,
+    size_t x, size_t y, size_t z,
+    glm::vec3 _position,
+    TileType _tile_type)
 {
-    add_tile_at(_registry, _mesh, x, y + 1, z, _position);
+    add_tile_at(_registry, _mesh, x, y + 1, z, _position, _tile_type);
 }
 
-void Grid3D::add_tile_at(entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position)
+void Grid3D::add_tile_at(entt::registry& _registry,
+    const std::string& _mesh,
+    size_t x, size_t y, size_t z,
+    glm::vec3 _position,
+    TileType _tile_type)
 {
     if (out_of_bounds(x, y, z))
         return;
@@ -594,6 +603,7 @@ void Grid3D::add_tile_at(entt::registry& _registry, const std::string& _mesh, si
 
     _node  .is_active   = true;
     _node3D.is_occupied = true;
+    _node3D.type        = _tile_type;
 
     _transform.position = _position;
     _transform.scale    = glm::vec3(1.0f);
@@ -608,6 +618,42 @@ void Grid3D::add_tile_at(entt::registry& _registry, const std::string& _mesh, si
     _material.shader_id = "phong";
 
     Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh(_mesh);
+
+    _mesh_renderer.load_mesh      (_tile_mesh);
+    _mesh_renderer.set_buffer_data(_tile_mesh);
+
+    add_tile_animation(_registry, _e);
+}
+
+void Grid3D::add_tile_at(entt::registry& _registry, const TileData& _tile_data)
+{
+    if (out_of_bounds(_tile_data.node_index))
+        return;
+    if (is_occupied(_registry, _tile_data.node_index))
+        return;
+
+    entt::entity& _e = at(_tile_data.node_index.idx, _tile_data.node_index.idy, _tile_data.node_index.idz);
+
+    auto& _node      = _registry.get<Node>     (_e);
+    auto& _node3D    = _registry.get<Node3D>   (_e);
+    auto& _transform = _registry.get<Transform>(_e);
+
+    _node  .is_active   = true;
+    _node3D.is_occupied = true;
+
+    _transform.position = _tile_data.position;
+    _transform.scale    = glm::vec3(1.0f);
+
+    auto& _aabb          = _registry.emplace<AABB> (_e);
+    auto& _material      = _registry.emplace<Material>(_e);
+    auto& _mesh_renderer = _registry.emplace<MeshRenderer>(_e);
+
+    _aabb.min = { -0.5f, -0.5f, -0.5f };
+    _aabb.max = {  0.5f,  0.5f,  0.5f };
+
+    _material.shader_id = "phong";
+
+    Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh(_tile_data.mesh_name);
 
     _mesh_renderer.load_mesh      (_tile_mesh);
     _mesh_renderer.set_buffer_data(_tile_mesh);

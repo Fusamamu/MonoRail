@@ -98,6 +98,7 @@ namespace MGUI
     extern Input      input;
     extern UIRenderer ui_renderer;
     extern Shader*    ui_shader;
+    extern Shader*    ui_texture_shader;
     extern Shader*    text_shader;
 
     extern Texture atlas_texture;
@@ -123,6 +124,7 @@ namespace MGUI
 
     void draw_rect(Vec2 pos, Vec2 size, Color color);
     void draw_text(const std::string& text, Vec2 pos, Color color = {1,1,1,1});
+    void draw_texture(Vec2 _position, Vec2 _size, GLuint _texture_id);
 
     // Utility
     bool mouse_over(Vec2 pos, Vec2 size);

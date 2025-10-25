@@ -5,6 +5,7 @@ namespace MGUI
     Input      input;
     UIRenderer ui_renderer;
     Shader*    ui_shader;
+    Shader*    ui_texture_shader;
     Shader*    text_shader;
 
     Texture atlas_texture;
@@ -253,7 +254,6 @@ namespace MGUI
     // ---------------- Drawing helpers
     void draw_rect(Vec2 pos, Vec2 size, Color color)
     {
-
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, atlas_texture.id);
 
@@ -265,6 +265,23 @@ namespace MGUI
         _ui_model = scale    (_ui_model, glm::vec3(size.x, size.y, 1.0f));
 
         ui_shader->set_mat4_uniform_model(_ui_model);
+
+        ui_renderer.draw();
+    }
+
+    void draw_texture(Vec2 _position, Vec2 _size, GLuint _texture_id)
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, _texture_id);
+
+        ui_texture_shader->use();
+        ui_texture_shader->set_int("u_texture", 0);
+
+        glm::mat4 _ui_model = glm::mat4(1.0f);
+        _ui_model = translate(_ui_model, glm::vec3(_position.x , _position.y , 0.0f));
+        _ui_model = scale    (_ui_model, glm::vec3(_size.x, _size.y, 1.0f));
+
+        ui_texture_shader->set_mat4_uniform_model(_ui_model);
 
         ui_renderer.draw();
     }

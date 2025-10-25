@@ -20,8 +20,9 @@
 class RenderPipeline
 {
 public:
-    bool display_depth = false;
-    bool display_dof   = false;
+    bool display_depth      = false;
+    bool display_dof        = false;
+    bool display_shadow_map = false;
 
     RenderPipeline();
     ~RenderPipeline();
@@ -34,6 +35,7 @@ public:
 private:
     FrameBuffer m_framebuffer;
     FrameBuffer m_depth_framebuffer;
+    FrameBuffer m_depth_shadow_map_framebuffer;
 
     GLuint m_camera_data_ubo;
     GLuint m_light_data_ubo ;
@@ -50,7 +52,6 @@ private:
     MGUI::UIRenderer m_ui_renderer;
 
     GizmosRenderer m_gizmos_renderer;
-
 };
 
 #endif

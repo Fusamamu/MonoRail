@@ -74,6 +74,12 @@ struct NodeIndex
     }
 };
 
+enum class TileType : uint8_t
+{
+    NONE   = 0,
+    GROUND = 1 << 0,
+};
+
 struct Node3D
 {
     uint32_t idx;
@@ -81,6 +87,8 @@ struct Node3D
     uint32_t idz;
 
     uint8_t bit;
+
+    TileType type = TileType::NONE;
 
     std::array<entt::entity, 8> corner_nodes;
 
@@ -280,6 +288,7 @@ struct Material
     float     shininess      {32.0f};             // specular exponent
     float     opacity        {1.0f};              // transparency
 
+    bool cast_shadow = true;
     bool depth_test  = true;
     bool depth_write = true;
 
@@ -302,14 +311,35 @@ struct LightData
     alignas(16) glm::vec3 ambient;
     alignas(16) glm::vec3 diffuse;
     alignas(16) glm::vec3 specular;
+    alignas(16) glm::mat4 light_space_mat;
 };
 
 struct DirectionalLight
 {
+    bool cast_shadow = true;
+    float orthographic_size = 20.0f;
+
+    glm::vec3 position    = glm::vec3(30.0f, 30.0f, 30.0f);
     glm::vec3 direction   = glm::vec3(-0.2f, -1.0f, -0.3f);
     glm::vec3 ambient     = glm::vec3(0.2f);
     glm::vec3 diffuse     = glm::vec3(0.5f);
     glm::vec3 specular    = glm::vec3(1.0f);
+
+    glm::mat4 get_view_matrix() const
+    {
+        glm::vec3 dir = glm::normalize(direction);
+        return glm::lookAt(position, position + dir, glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+
+    glm::mat4 get_projection_matrix(float orthoSize = 100.0f, float nearPlane = 0.1f, float farPlane = 100.0f) const
+    {
+        return glm::ortho(-orthographic_size, orthographic_size, -orthographic_size, orthographic_size, nearPlane, farPlane);
+    }
+
+    glm::mat4 get_light_space_matrix() const
+    {
+        return get_projection_matrix() * get_view_matrix();
+    }
 
     LightData to_light_data() const
     {
@@ -318,6 +348,7 @@ struct DirectionalLight
         data.ambient   = ambient;
         data.diffuse   = diffuse;
         data.specular  = specular;
+        data.light_space_mat = get_light_space_matrix();
         return data;
     }
 };

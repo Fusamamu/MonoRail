@@ -79,7 +79,11 @@ add_executable(${PROJECT_NAME}
         src/TileTable.cpp
         src/TileTable.h
         src/Profiler.cpp
-        src/Profiler.h)
+        src/Profiler.h
+        src/AgentSystem.cpp
+        src/AgentSystem.h
+        src/Navigation.cpp
+        src/Navigation.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

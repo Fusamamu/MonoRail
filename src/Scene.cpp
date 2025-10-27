@@ -152,6 +152,8 @@ void Scene::on_enter()
     create_tile_grid();
     //prototype_corners();
 
+    m_agent_system.init(m_registry, glm::vec2(0.0f));
+
     AABB _aabb;
     _aabb.min = glm::vec3(0.0f);
     _aabb.max = glm::vec3(5.0f);
@@ -201,7 +203,6 @@ void Scene::on_update(float delta_time)
         if (m_input_system.is_key_held(SDL_SCANCODE_S))
             _camera.camera_move_down(0.25f);
     }
-
 
     auto& _grid = m_registry.ctx().get<Grid3D>();
     {
@@ -253,6 +254,8 @@ void Scene::on_update(float delta_time)
         auto& _agent     = m_registry.get<Agent>    (_e);
         _agent.update(_transform, Time::delta_f/1000.0f);
     }
+
+    m_agent_system.update(m_registry);
 
     update_scene_graph();
 }

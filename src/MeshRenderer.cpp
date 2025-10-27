@@ -46,7 +46,6 @@ void MeshRenderer::set_buffer_data(Mesh* _mesh)
     glBindVertexArray(0);
 }
 
-// Add instance buffer
 void MeshRenderer::set_instance_data(const std::vector<InstanceData>& _data)
 {
     if (!m_instance_vbo)

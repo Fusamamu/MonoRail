@@ -15,6 +15,8 @@
 #include "ApplicationConfig.h"
 #include "Ray.h"
 #include "Time.h"
+#include "AgentSystem.h"
+#include "Navigation.h"
 
 class Engine;
 
@@ -55,10 +57,13 @@ private:
 
     RenderPipeline m_render_pipeline;
     InputSystem    m_input_system;
+    AgentSystem    m_agent_system;
 
     GLuint  m_fog_data_ubo;
     FogData m_fog_data;
     GizmosRenderer m_gizmos_renderer;
+
+    NAV::TrackGraph m_track_graph;
 
     void update_scene_graph()
     {

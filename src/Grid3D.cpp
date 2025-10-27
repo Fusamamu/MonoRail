@@ -44,54 +44,14 @@ void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _inp
                 {
                     if (Node3D* _tile = _registry.try_get<Node3D>(_entity))
                     {
+                        Transform& _transform = _registry.get<Transform>(_entity);
+
                         if (_tile->type != TileType::GROUND)
                             return;
 
-                        NodeIndex _target_index = _tile->to_node_index() + NodeIndex(0, 1, 0);
+                        NodeIndex _target_index = _tile->to_node_index(0, 1, 0);
 
-                        uint8_t _bitmask = get_surrounding_bitmask_4direction(_registry, _target_index);
-
-                        TileTable _tile_table;
-                        std::string _mesh = _tile_table.get_tile(_bitmask);
-
-                        Transform& _transform = _registry.get<Transform>(_entity);
-
-                        add_tile_above(_registry, _mesh,
-                            _tile->idx, _tile->idy, _tile->idz,
-                            _transform.position + glm::vec3(0.0f, 0.5f, 0.0f),
-                            TileType::NONE);
-
-                        const std::array<NodeIndex, 8> _vicinity_dir =
-                        {
-                            NodeIndex( 1, 0,  1),
-                            NodeIndex( 0, 0,  1),
-                            NodeIndex(-1, 0,  1),
-                            NodeIndex( 1, 0,  0),
-                            NodeIndex(-1, 0,  0),
-                            NodeIndex( 1, 0, -1),
-                            NodeIndex( 0, 0, -1),
-                            NodeIndex(-1, 0, -1),
-                        };
-
-                        for (size_t i = 0; i < _vicinity_dir.size(); ++i)
-                        {
-                            NodeIndex _neighbor = _target_index + _vicinity_dir[i];
-                            if (out_of_bounds(_neighbor))
-                                continue;
-
-                            uint8_t _bitmask = get_surrounding_bitmask_4direction(_registry, _neighbor);
-                            TileTable _tile_table;
-                            std::string _mesh = _tile_table.get_tile(_bitmask);
-
-                            entt::entity _e = at(_neighbor.idx, _neighbor.idy, _neighbor.idz);
-
-                            if (MeshRenderer* _mesh_renderer = _registry.try_get<MeshRenderer>(_e))
-                            {
-                                Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh(_mesh);
-                                _mesh_renderer->load_mesh      (_tile_mesh);
-                                _mesh_renderer->set_buffer_data(_tile_mesh);
-                            }
-                        }
+                        add_track(_registry, _target_index, _transform.position + glm::vec3(0.0f, 0.5f, 0.0f));
                     }
                 }
             }
@@ -156,6 +116,7 @@ void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _inp
                 }
             }
             break;
+        default: ;
     }
 }
 
@@ -173,62 +134,30 @@ const entt::entity& Grid3D::at(size_t x, size_t y, size_t z) const
 
 uint8_t Grid3D::get_surrounding_bit(entt::registry& _registry, NodeIndex _node_index)
 {
-    const std::array<NodeIndex, 8> _vicinity_dir =
-       {
-            NodeIndex( 1, 0,  1),
-            NodeIndex( 0, 0,  1),
-            NodeIndex(-1, 0,  1),
-            NodeIndex( 1, 0,  0),
-            NodeIndex(-1, 0,  0),
-            NodeIndex( 1, 0, -1),
-            NodeIndex( 0, 0, -1),
-            NodeIndex(-1, 0, -1),
-       };
-
     uint8_t _bitmask = 0b00000000;
-
-    for (size_t i = 0; i < _vicinity_dir.size(); ++i)
+    for (size_t i = 0; i < VICINITY_8_DIR.size(); ++i)
     {
-        NodeIndex neighbor = _node_index + _vicinity_dir[i];
+        NodeIndex neighbor = _node_index + VICINITY_8_DIR[i];
         if (out_of_bounds(neighbor))
             continue;
         if (is_occupied(_registry, neighbor))
             _bitmask |= (1 << i);
     }
-
-    std::cout << std::bitset<8>(_bitmask) << '\n';
-
     return _bitmask;
 }
 
 uint8_t Grid3D::get_surrounding_bitmask_4direction(entt::registry& _registry, NodeIndex _node_index)
 {
-    const std::array<NodeIndex, 4> _vicinity_dir =
-    {
-        NodeIndex( 0, 0,  1),
-        NodeIndex( 1, 0,  0),
-        NodeIndex(-1, 0,  0),
-        NodeIndex( 0, 0, -1),
-    };
-
     uint8_t _bitmask = 0;
-
-    for (size_t i = 0; i < _vicinity_dir.size(); ++i)
+    for (size_t i = 0; i < VICINITY_4_DIR.size(); ++i)
     {
-        NodeIndex neighbor = _node_index + _vicinity_dir[i];
-
+        NodeIndex neighbor = _node_index + VICINITY_4_DIR[i];
         if (out_of_bounds(neighbor))
             continue;
-
         if (is_occupied(_registry, neighbor))
-            _bitmask |= (1 << i); // set bit i
+            _bitmask |= (1 << i);
     }
-
-    // Ensure only lower 4 bits are used
-    _bitmask &= 0b00001111;
-
-    std::cout << "4-dir bitmask: " << std::bitset<4>(_bitmask) << '\n';
-
+    _bitmask &= 0b00001111; // Ensure only lower 4 bits are used
     return _bitmask;
 }
 
@@ -257,7 +186,6 @@ void Grid3D::generate_tiles(entt::registry& _registry)
                 auto& _node         = _registry.emplace<Node>     (_e);
                 auto& _node3D       = _registry.emplace<Node3D>   (_e, Node3D(x, y, z));
                 auto& _transform    = _registry.emplace<Transform>(_e);
-                //auto& _aabb         = _registry.emplace<AABB>     (_e);
 
                 _node.name          = "tile";
                 _node.is_active     = true;
@@ -267,9 +195,6 @@ void Grid3D::generate_tiles(entt::registry& _registry)
                 _transform.position  = glm::vec3(x, y, z);
                 _transform.scale     = glm::vec3(0.2f);
                 _transform.world_mat = _transform.get_local_mat4();
-
-                // _aabb.min = { -0.05f, -0.05f, -0.05f };
-                // _aabb.max = {  0.05f,  0.05f,  0.05f };
 
                 InstanceData _instance_data;
                 _instance_data.model = _transform.get_local_mat4();
@@ -572,6 +497,65 @@ bool Grid3D::is_occupied(entt::registry& _registry, NodeIndex _node_index)
     return false;
 }
 
+void Grid3D::add_track(entt::registry& _registry, NodeIndex _at_node_index, glm::vec3 _position)
+{
+    if (out_of_bounds(_at_node_index))
+        return;
+    if (is_occupied(_registry, _at_node_index.idx, _at_node_index.idy, _at_node_index.idz))
+        return;
+
+    entt::entity& _e = at(_at_node_index.idx, _at_node_index.idy, _at_node_index.idz);
+
+    auto& _node      = _registry.get<Node>     (_e);
+    auto& _node3D    = _registry.get<Node3D>   (_e);
+    auto& _transform = _registry.get<Transform>(_e);
+
+    _node  .is_active   = true;
+    _node3D.is_occupied = true;
+    _node3D.type        = TileType::NONE;
+
+    _transform.position = _position;
+    _transform.scale    = glm::vec3(1.0f);
+
+    auto& _aabb          = _registry.emplace<AABB>        (_e);
+    auto& _material      = _registry.emplace<Material>    (_e);
+    auto& _mesh_renderer = _registry.emplace<MeshRenderer>(_e);
+
+    _aabb.min = { -0.5f, -0.5f, -0.5f };
+    _aabb.max = {  0.5f,  0.5f,  0.5f };
+
+    _material.shader_id = "phong";
+
+    uint8_t _bitmask  = get_surrounding_bitmask_4direction(_registry, _at_node_index);
+    std::string _mesh = TILE_TABLE::get_tile_name(_bitmask);
+    Mesh* _tile_mesh  = ResourceManager::instance().get_first_mesh(_mesh);
+
+    _mesh_renderer.load_mesh      (_tile_mesh);
+    _mesh_renderer.set_buffer_data(_tile_mesh);
+
+    for (size_t i = 0; i < VICINITY_8_DIR.size(); ++i)
+    {
+        NodeIndex _neighbor = _at_node_index + VICINITY_8_DIR[i];
+
+        if (out_of_bounds(_neighbor))
+            continue;
+
+        uint8_t _bitmask = get_surrounding_bitmask_4direction(_registry, _neighbor);
+        std::string _mesh = TILE_TABLE::get_tile_name(_bitmask);
+
+        entt::entity _e = at(_neighbor.idx, _neighbor.idy, _neighbor.idz);
+
+        if (MeshRenderer* _mesh_renderer = _registry.try_get<MeshRenderer>(_e))
+        {
+            Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh(_mesh);
+            _mesh_renderer->load_mesh      (_tile_mesh);
+            _mesh_renderer->set_buffer_data(_tile_mesh);
+        }
+    }
+
+    add_tile_animation(_registry, _e);
+}
+
 void Grid3D::add_tile_above(entt::registry& _registry,
     const std::string& _mesh,
     size_t x, size_t y, size_t z,
@@ -608,8 +592,8 @@ void Grid3D::add_tile_at(entt::registry& _registry,
     _transform.position = _position;
     _transform.scale    = glm::vec3(1.0f);
 
-    auto& _aabb          = _registry.emplace<AABB> (_e);
-    auto& _material      = _registry.emplace<Material>(_e);
+    auto& _aabb          = _registry.emplace<AABB>        (_e);
+    auto& _material      = _registry.emplace<Material>    (_e);
     auto& _mesh_renderer = _registry.emplace<MeshRenderer>(_e);
 
     _aabb.min = { -0.5f, -0.5f, -0.5f };

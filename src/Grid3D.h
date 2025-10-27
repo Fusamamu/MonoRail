@@ -14,6 +14,26 @@
 
 static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b);
 
+const std::array<NodeIndex, 8> VICINITY_8_DIR =
+                        {
+    NodeIndex( 1, 0,  1),
+    NodeIndex( 0, 0,  1),
+    NodeIndex(-1, 0,  1),
+    NodeIndex( 1, 0,  0),
+    NodeIndex(-1, 0,  0),
+    NodeIndex( 1, 0, -1),
+    NodeIndex( 0, 0, -1),
+    NodeIndex(-1, 0, -1),
+};
+
+const std::array<NodeIndex, 4> VICINITY_4_DIR =
+   {
+    NodeIndex( 0, 0,  1),
+    NodeIndex( 1, 0,  0),
+    NodeIndex(-1, 0,  0),
+    NodeIndex( 0, 0, -1),
+};
+
 struct TileAnim
 {
     entt::entity entity;
@@ -78,6 +98,8 @@ public:
 
     void store_corners_refs(entt::registry& _registry);
     void store_tile_refs   (entt::registry& _registry);
+
+    void add_track(entt::registry& _registry, NodeIndex _at_node_index, glm::vec3 _position);
 
     void add_tile_at   (entt::registry& _registry, const TileData& _tile_data);
     void add_tile_at   (entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position, TileType _tile_type);

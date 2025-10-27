@@ -17,9 +17,11 @@
 #include <numeric>
 #include <random>
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cassert>
-#include <chrono>
+#include <cstdlib>
+#include <ctime>
 
 #include <GL/glew.h>
 #include <SDL2/SDL.h>

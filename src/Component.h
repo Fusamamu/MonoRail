@@ -72,7 +72,23 @@ struct NodeIndex
     NodeIndex operator+(const NodeIndex& _other) const{
         return NodeIndex(idx + _other.idx, idy + _other.idy, idz + _other.idz);
     }
+    
+    bool operator==(const NodeIndex& _other) const{
+        return idx == _other.idx && idy == _other.idy && idz == _other.idz; 
+    }
 };
+
+namespace std
+{
+    template<>
+    struct hash<NodeIndex>
+    {
+        std::size_t operator()(const NodeIndex& k) const noexcept
+        {
+            return (std::hash<int>()(k.idx) * 73856093) ^ (std::hash<int>()(k.idz) * 19349663);
+        }
+    };
+}
 
 enum class TileType : uint8_t
 {
@@ -82,9 +98,9 @@ enum class TileType : uint8_t
 
 struct Node3D
 {
-    uint32_t idx;
-    uint32_t idy;
-    uint32_t idz;
+    int32_t idx;
+    int32_t idy;
+    int32_t idz;
 
     uint8_t bit;
 
@@ -98,9 +114,11 @@ struct Node3D
     Node3D(uint32_t x, uint32_t y, uint32_t z)
         : idx(x), idy(y), idz(z) {}
 
-    NodeIndex to_node_index() const
-    {
+    NodeIndex to_node_index() const{
         return NodeIndex(idx, idy, idz);
+    }
+    NodeIndex to_node_index(int32_t _idx, int32_t _idy, int32_t _idz){
+        return NodeIndex(idx + _idx, idy + _idy, idz + _idz);
     }
 
     void print() const

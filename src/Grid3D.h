@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "InputSystem.h"
 #include "TileTable.h"
+#include "Navigation.h"
 
 static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b);
 
@@ -75,6 +76,8 @@ public:
     size_t get_height() const { return m_height; }
     size_t get_depth()  const { return m_depth;  }
 
+    const entt::entity& entity_at(NodeIndex _node_index) const;
+
     entt::entity&       at     (size_t x, size_t y, size_t z);
     const entt::entity& at     (size_t x, size_t y, size_t z) const;
     entt::entity&       node_at(size_t x, size_t y, size_t z);
@@ -99,7 +102,7 @@ public:
     void store_corners_refs(entt::registry& _registry);
     void store_tile_refs   (entt::registry& _registry);
 
-    void add_track(entt::registry& _registry, NodeIndex _at_node_index, glm::vec3 _position);
+    NAV::Track* add_track(entt::registry& _registry, NodeIndex _at_node_index, glm::vec3 _position);
 
     void add_tile_at   (entt::registry& _registry, const TileData& _tile_data);
     void add_tile_at   (entt::registry& _registry, const std::string& _mesh, size_t x, size_t y, size_t z, glm::vec3 _position, TileType _tile_type);
@@ -117,26 +120,6 @@ public:
     std::optional<std::vector<entt::entity>> find_path(entt::registry& _registry);
 
     void print_layer(size_t z) const;
-private:
-    size_t m_width  {0};
-    size_t m_height {0};
-    size_t m_depth  {0};
-
-    std::vector<entt::entity> m_data;
-    std::vector<entt::entity> m_corner_data;
-
-    std::vector<InstanceData> m_tile_instance_data;
-    std::vector<InstanceData> m_corner_instance_data;
-
-    std::vector<TileAnim> active_tile_anims;
-
-    entt::entity m_tile_mesh_e = entt::null;
-
-    void add_tile_animation(entt::registry& reg, entt::entity _tile_e)
-    {
-        reg.get<Transform>(_tile_e).scale = glm::vec3(0.0f);
-        active_tile_anims.push_back({ _tile_e, 0.0f, 0.25f });
-    }
 
     void update_tile_animations(entt::registry& _registry, float dt)
     {
@@ -161,6 +144,26 @@ private:
             else
                 ++_it;
         }
+    }
+private:
+    size_t m_width  {0};
+    size_t m_height {0};
+    size_t m_depth  {0};
+
+    std::vector<entt::entity> m_data;
+    std::vector<entt::entity> m_corner_data;
+
+    std::vector<InstanceData> m_tile_instance_data;
+    std::vector<InstanceData> m_corner_instance_data;
+
+    std::vector<TileAnim> active_tile_anims;
+
+    entt::entity m_tile_mesh_e = entt::null;
+
+    void add_tile_animation(entt::registry& reg, entt::entity _tile_e)
+    {
+        reg.get<Transform>(_tile_e).scale = glm::vec3(0.0f);
+        active_tile_anims.push_back({ _tile_e, 0.0f, 0.25f });
     }
 
     inline size_t tile_index(size_t x, size_t y, size_t z) const {

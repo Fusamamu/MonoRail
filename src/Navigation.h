@@ -15,7 +15,7 @@ namespace NAV
         SOUTH =  3,
     };
 
-    inline ConnectDirection opposite_dir(ConnectDirection dir);
+    ConnectDirection opposite_dir(ConnectDirection dir);
 
     constexpr std::array<uint8_t, 4> OPPOSITE_DIR =
     {
@@ -215,13 +215,18 @@ namespace NAV
         TrackGraph () = default;
         ~TrackGraph() = default;
 
+        void add_track(entt::registry& _registry, Track* _track)
+        {
+            tracks.push_back(_track->self_entity);
+            track_map[_track->node_index] = _track->self_entity;
+            update_connections(_registry, _track->node_index);
+        }
+
         void add_track(entt::registry& _registry, entt::entity _track_entity)
         {
             auto& _track = _registry.get<Track>(_track_entity);
-
             tracks.push_back(_track_entity);
             track_map[_track.node_index] = _track_entity;
-
             update_connections(_registry, _track.node_index);
         }
 

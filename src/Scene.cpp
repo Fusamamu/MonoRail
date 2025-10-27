@@ -207,6 +207,44 @@ void Scene::on_update(float delta_time)
     auto& _grid = m_registry.ctx().get<Grid3D>();
     {
         PROFILE_SCOPE("Grid update");
+
+        switch (_grid.mode)
+        {
+            case Grid3D::Mode::NONE:
+                break;
+            case Grid3D::Mode::ADD_TILE:
+                if (m_input_system.left_mouse_pressed())
+                {
+                    Ray _ray = _camera.screen_point_to_ray(m_input_system.get_mouse_pos(), g_app_config.screen_size());
+                    float _dist = 0.0f;
+                    entt::entity _entity = ray_cast_select_entity(m_registry, _ray, _dist);
+                    if (_entity != entt::null)
+                    {
+                        if (auto [tile, transform] = m_registry.try_get<Node3D, Transform>(_entity); tile && transform)
+                        {
+                            if (tile->type != TileType::GROUND)
+                                return;
+                            NAV::Track* _track = _grid.add_track(m_registry,
+                                tile     ->to_node_index(0, 1, 0),
+                                transform->position + glm::vec3(0.0f, 0.5f, 0.0f));
+                            if (_track)
+                            {
+                                m_track_graph.add_track     (m_registry, _track);
+                                m_track_graph.generate_edges(m_registry);
+                            }
+                        }
+                    }
+                }
+                _grid.update_tile_animations(m_registry, 0.016f);
+                break;
+            case Grid3D::Mode::REMOVE_TILE:
+                break;
+            case Grid3D::Mode::MARK_TILE:
+                break;
+            case Grid3D::Mode::ADD_AGENT:
+                break;
+        }
+
         _grid.update(m_registry, _camera, m_input_system);
     }
 

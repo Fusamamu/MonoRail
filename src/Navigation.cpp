@@ -2,7 +2,7 @@
 
 namespace NAV
 {
-    inline ConnectDirection opposite_dir(ConnectDirection dir)
+    ConnectDirection opposite_dir(ConnectDirection dir)
     {
         switch(dir)
         {

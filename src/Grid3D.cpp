@@ -1,5 +1,6 @@
 #include "Grid3D.h"
 #include "ApplicationConfig.h"
+#include "Navigation.h"
 
 static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b)
 {
@@ -35,28 +36,25 @@ void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _inp
         case Mode::NONE:
             break;
         case Mode::ADD_TILE:
-            if (_input_system.left_mouse_pressed())
-            {
-                Ray _ray = _camera.screen_point_to_ray(_input_system.get_mouse_pos(), g_app_config.screen_size());
-                float _dist = 0.0f;
-                entt::entity _entity = ray_cast_select_entity(_registry, _ray, _dist);
-                if (_entity != entt::null)
-                {
-                    if (Node3D* _tile = _registry.try_get<Node3D>(_entity))
-                    {
-                        Transform& _transform = _registry.get<Transform>(_entity);
-
-                        if (_tile->type != TileType::GROUND)
-                            return;
-
-                        NodeIndex _target_index = _tile->to_node_index(0, 1, 0);
-
-                        add_track(_registry, _target_index, _transform.position + glm::vec3(0.0f, 0.5f, 0.0f));
-                    }
-                }
-            }
-
-            update_tile_animations(_registry, 0.016f);
+            // if (_input_system.left_mouse_pressed())
+            // {
+            //     Ray _ray = _camera.screen_point_to_ray(_input_system.get_mouse_pos(), g_app_config.screen_size());
+            //     float _dist = 0.0f;
+            //     entt::entity _entity = ray_cast_select_entity(_registry, _ray, _dist);
+            //     if (_entity != entt::null)
+            //     {
+            //         if (auto [tile, transform] = _registry.try_get<Node3D, Transform>(_entity); tile && transform)
+            //         {
+            //             if (tile->type != TileType::GROUND)
+            //                 return;
+            //
+            //             add_track(_registry,
+            //                 tile     ->to_node_index(0, 1, 0),
+            //                 transform->position + glm::vec3(0.0f, 0.5f, 0.0f));
+            //         }
+            //     }
+            // }
+            // update_tile_animations(_registry, 0.016f);
             break;
         case Mode::REMOVE_TILE:
             break;
@@ -118,6 +116,13 @@ void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _inp
             break;
         default: ;
     }
+}
+
+const entt::entity& Grid3D::entity_at(NodeIndex _node_index) const
+{
+    if (out_of_bounds(_node_index))
+        return entt::null;
+    return m_data[tile_index(_node_index)];
 }
 
 entt::entity& Grid3D::at(size_t x, size_t y, size_t z)
@@ -497,14 +502,14 @@ bool Grid3D::is_occupied(entt::registry& _registry, NodeIndex _node_index)
     return false;
 }
 
-void Grid3D::add_track(entt::registry& _registry, NodeIndex _at_node_index, glm::vec3 _position)
+NAV::Track* Grid3D::add_track(entt::registry& _registry, NodeIndex _at_node_index, glm::vec3 _position)
 {
     if (out_of_bounds(_at_node_index))
-        return;
+        return nullptr;
     if (is_occupied(_registry, _at_node_index.idx, _at_node_index.idy, _at_node_index.idz))
-        return;
+        return nullptr;
 
-    entt::entity& _e = at(_at_node_index.idx, _at_node_index.idy, _at_node_index.idz);
+    const entt::entity& _e = entity_at(_at_node_index);
 
     auto& _node      = _registry.get<Node>     (_e);
     auto& _node3D    = _registry.get<Node3D>   (_e);
@@ -520,40 +525,47 @@ void Grid3D::add_track(entt::registry& _registry, NodeIndex _at_node_index, glm:
     auto& _aabb          = _registry.emplace<AABB>        (_e);
     auto& _material      = _registry.emplace<Material>    (_e);
     auto& _mesh_renderer = _registry.emplace<MeshRenderer>(_e);
+    auto& _track         = _registry.emplace<NAV::Track>  (_e);
 
-    _aabb.min = { -0.5f, -0.5f, -0.5f };
-    _aabb.max = {  0.5f,  0.5f,  0.5f };
+    _aabb.min = { -0.5f, -0.1f, -0.5f };
+    _aabb.max = {  0.5f,  0.1f,  0.5f };
 
     _material.shader_id = "phong";
 
-    uint8_t _bitmask  = get_surrounding_bitmask_4direction(_registry, _at_node_index);
-    std::string _mesh = TILE_TABLE::get_tile_name(_bitmask);
-    Mesh* _tile_mesh  = ResourceManager::instance().get_first_mesh(_mesh);
+    {
+        uint8_t _bitmask  = get_surrounding_bitmask_4direction(_registry, _at_node_index);
+        std::string _mesh = TILE_TABLE::get_tile_name(_bitmask);
+        Mesh* _tile_mesh  = ResourceManager::instance().get_first_mesh(_mesh);
 
-    _mesh_renderer.load_mesh      (_tile_mesh);
-    _mesh_renderer.set_buffer_data(_tile_mesh);
+        _mesh_renderer.load_mesh      (_tile_mesh);
+        _mesh_renderer.set_buffer_data(_tile_mesh);
+
+        _track.init(_bitmask);
+        _track.self_entity = _e;
+    }
 
     for (size_t i = 0; i < VICINITY_8_DIR.size(); ++i)
     {
-        NodeIndex _neighbor = _at_node_index + VICINITY_8_DIR[i];
-
-        if (out_of_bounds(_neighbor))
+        NodeIndex _at_n_node_index = _at_node_index + VICINITY_8_DIR[i];
+        if (out_of_bounds(_at_n_node_index))
             continue;
 
-        uint8_t _bitmask = get_surrounding_bitmask_4direction(_registry, _neighbor);
-        std::string _mesh = TILE_TABLE::get_tile_name(_bitmask);
-
-        entt::entity _e = at(_neighbor.idx, _neighbor.idy, _neighbor.idz);
-
-        if (MeshRenderer* _mesh_renderer = _registry.try_get<MeshRenderer>(_e))
+        if (MeshRenderer* _mesh_renderer = _registry.try_get<MeshRenderer>(entity_at(_at_n_node_index)))
         {
-            Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh(_mesh);
-            _mesh_renderer->load_mesh      (_tile_mesh);
-            _mesh_renderer->set_buffer_data(_tile_mesh);
+            {
+                uint8_t _bitmask  = get_surrounding_bitmask_4direction(_registry, _at_n_node_index);
+                std::string _mesh = TILE_TABLE::get_tile_name(_bitmask);
+                Mesh* _tile_mesh  = ResourceManager::instance().get_first_mesh(_mesh);
+
+                _mesh_renderer->load_mesh      (_tile_mesh);
+                _mesh_renderer->set_buffer_data(_tile_mesh);
+            }
         }
     }
 
     add_tile_animation(_registry, _e);
+
+    return &_track;
 }
 
 void Grid3D::add_tile_above(entt::registry& _registry,

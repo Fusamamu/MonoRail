@@ -76,6 +76,12 @@ struct NodeIndex
     bool operator==(const NodeIndex& _other) const{
         return idx == _other.idx && idy == _other.idy && idz == _other.idz; 
     }
+
+    friend std::ostream& operator<<(std::ostream& os, const NodeIndex& _other)
+    {
+        os << _other.idx << ", " << _other.idy << ", " << _other.idz;
+        return os;
+    }
 };
 
 namespace std

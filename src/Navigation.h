@@ -15,6 +15,19 @@ namespace NAV
         SOUTH =  3,
     };
 
+    inline std::string dir_to_string(ConnectDirection dir)
+    {
+        switch (dir)
+        {
+            case ConnectDirection::NORTH: return "NORTH";
+            case ConnectDirection::WEST:  return "WEST";
+            case ConnectDirection::EAST:  return "EAST";
+            case ConnectDirection::SOUTH: return "SOUTH";
+            case ConnectDirection::NONE:  return "NONE";
+            default:                      return "UNKNOWN";
+        }
+    }
+
     ConnectDirection opposite_dir(ConnectDirection dir);
 
     constexpr std::array<uint8_t, 4> OPPOSITE_DIR =
@@ -38,46 +51,6 @@ namespace NAV
         T_JUNCTION,
         CROSS
     };
-
-    // TrackType get_track_type(uint8_t _bitmask)
-    // {
-    //     /*_bitmask N-W-E-S*/
-    //     switch (_bitmask)
-    //     {
-    //         case 0b00001001: /*1001*/
-    //             return TrackType::STRAIGHT;
-    //         case 0b00000110: /*0110*/
-    //             return TrackType::STRAIGHT;
-    //         // case 0b00000001:
-    //         //     return "r_0000_0001";
-    //         // case 0b00001000:
-    //         //     return "r_0000_1000";
-    //         // case 0b00000100:
-    //         //     return "r_0000_0100";
-    //         // case 0b00000010:
-    //         //     return "r_0000_0010";
-    //         // case 0b00000011:
-    //         //     return "r_0000_0011";
-    //         // case 0b00001100:
-    //         //     return "r_0000_1100";
-    //         // case 0b00000101:
-    //         //     return "r_0000_0101";
-    //         // case 0b00001010:
-    //         //     return "r_0000_1010";
-    //         // case 0b00001110:
-    //         //     return "r_0000_1110";
-    //         // case 0b00000111:
-    //         //     return "r_0000_0111";
-    //         // case 0b00001101:
-    //         //     return "r_0000_1101";
-    //         // case 0b00001011:
-    //         //     return "r_0000_1011";
-    //         // case 0b00001111:
-    //         //     return "r_0000_1111";
-    //         default:
-    //             return TrackType::NONE;
-    //     }
-    // }
 
     struct TrackNode;
 
@@ -135,7 +108,10 @@ namespace NAV
         void init(uint8_t _bitmask)
         {
             for (TrackNode& _track_node : track_nodes)
+            {
                 _track_node.reset();
+                _track_node.track_entity = self_entity;
+            }
 
             switch (_bitmask)
             {
@@ -159,13 +135,13 @@ namespace NAV
                     break;
                 case 0b00000001: /*0001*/
                     track_nodes[1].is_active = true;
-                    track_nodes[1].entry_dir = ConnectDirection::NORTH;
-                    track_nodes[1].exit_dir  = ConnectDirection::NORTH;
+                    track_nodes[1].entry_dir = ConnectDirection::SOUTH;
+                    track_nodes[1].exit_dir  = ConnectDirection::SOUTH;
                     break;
                 case 0b00001000: /*1000*/
                     track_nodes[7].is_active = true;
-                    track_nodes[7].entry_dir = ConnectDirection::SOUTH;
-                    track_nodes[7].exit_dir  = ConnectDirection::SOUTH;
+                    track_nodes[7].entry_dir = ConnectDirection::NORTH;
+                    track_nodes[7].exit_dir  = ConnectDirection::NORTH;
                     break;
                 case 0b00000100:
                     break;
@@ -189,8 +165,15 @@ namespace NAV
                     break;
                 case 0b00001111:
                     break;
-                // case default:
-                //     break;
+                default:
+                    track_nodes[1].is_active = true;
+                    track_nodes[1].entry_dir = ConnectDirection::NORTH;
+                    track_nodes[1].exit_dir  = ConnectDirection::SOUTH;
+
+                    track_nodes[7].is_active = true;
+                    track_nodes[7].entry_dir = ConnectDirection::SOUTH;
+                    track_nodes[7].exit_dir  = ConnectDirection::NORTH;
+                    break;
             }
         }
 
@@ -202,6 +185,12 @@ namespace NAV
         entt::entity get_connection(ConnectDirection _dir)
         {
             return connected_tracks[static_cast<uint8_t>(_dir)];
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, const Track& _track)
+        {
+            os << "Track : " << _track.node_index.idx << ", " << _track.node_index.idy  << ", " << _track.node_index.idz;
+            return os;
         }
     };
 
@@ -238,6 +227,10 @@ namespace NAV
             {
                 Track& _track = _registry.get<Track>(_e);
 
+                std::cout << "------------------------" << std::endl;
+                std::cout << _track << std::endl;
+                std::cout << "------------------------" << std::endl;
+
                 for (auto& _track_node : _track.track_nodes)
                 {
                     if (!_track_node.is_active)
@@ -253,6 +246,8 @@ namespace NAV
                         case ConnectDirection::EAST : _neighbor_index.idx++; break;
                         case ConnectDirection::SOUTH: _neighbor_index.idz++; break;
                     }
+
+                    std::cout << "Neighbor : " << dir_to_string(_track_node.exit_dir) << " " << _neighbor_index << std::endl;
 
                     auto _it = track_map.find(_neighbor_index);
                     if(_it != track_map.end())
@@ -316,6 +311,31 @@ namespace NAV
                     neighbor_track.connected_tracks[OPPOSITE_DIR[_i]] = _self;
                 }
             }
+        }
+
+        void print_edges(entt::registry& registry)
+        {
+            std::cout << std::endl;
+            std::cout << "=== TrackGraph Edges ===\n";
+            for (const Edge& edge : edges)
+            {
+                if (!edge.from || !edge.to)
+                    continue;
+
+                // Optionally, get entity IDs or track directions
+                entt::entity fromEntity = edge.from->track_entity;
+                entt::entity toEntity   = edge.to  ->track_entity;
+
+                if (Track* _from_t = registry.try_get<Track>(fromEntity))
+                {
+                    if (Track* _to_t = registry.try_get<Track>(toEntity))
+                    {
+                        std::cout << "Edge: [from] " << _from_t->node_index << " [to] " << _to_t->node_index << "\n";
+                    }
+                }
+            }
+
+            std::cout << std::endl;
         }
     };
 }

@@ -540,8 +540,9 @@ NAV::Track* Grid3D::add_track(entt::registry& _registry, NodeIndex _at_node_inde
         _mesh_renderer.load_mesh      (_tile_mesh);
         _mesh_renderer.set_buffer_data(_tile_mesh);
 
-        _track.init(_bitmask);
+        _track.node_index  = _at_node_index;
         _track.self_entity = _e;
+        _track.init(_bitmask);
     }
 
     for (size_t i = 0; i < VICINITY_8_DIR.size(); ++i)
@@ -550,7 +551,7 @@ NAV::Track* Grid3D::add_track(entt::registry& _registry, NodeIndex _at_node_inde
         if (out_of_bounds(_at_n_node_index))
             continue;
 
-        if (MeshRenderer* _mesh_renderer = _registry.try_get<MeshRenderer>(entity_at(_at_n_node_index)))
+        if (auto [_track, _mesh_renderer] = _registry.try_get<NAV::Track, MeshRenderer>(entity_at(_at_n_node_index)); _track && _mesh_renderer)
         {
             {
                 uint8_t _bitmask  = get_surrounding_bitmask_4direction(_registry, _at_n_node_index);
@@ -559,6 +560,8 @@ NAV::Track* Grid3D::add_track(entt::registry& _registry, NodeIndex _at_node_inde
 
                 _mesh_renderer->load_mesh      (_tile_mesh);
                 _mesh_renderer->set_buffer_data(_tile_mesh);
+
+                _track->init(_bitmask);
             }
         }
     }

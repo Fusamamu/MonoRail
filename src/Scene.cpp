@@ -224,13 +224,16 @@ void Scene::on_update(float delta_time)
                         {
                             if (tile->type != TileType::GROUND)
                                 return;
+
                             NAV::Track* _track = _grid.add_track(m_registry,
                                 tile     ->to_node_index(0, 1, 0),
                                 transform->position + glm::vec3(0.0f, 0.5f, 0.0f));
+
                             if (_track)
                             {
                                 m_track_graph.add_track     (m_registry, _track);
                                 m_track_graph.generate_edges(m_registry);
+                                m_track_graph.print_edges   (m_registry);
                             }
                         }
                     }

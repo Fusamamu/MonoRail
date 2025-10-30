@@ -31,6 +31,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     Shader* _shell_shader     = ResourceManager::instance().get_shader("shell"          );
     Shader* _object_instance  = ResourceManager::instance().get_shader("object_instance");
     Shader* _aabb_shader      = ResourceManager::instance().get_shader("aabb");
+    Shader* _line_shader      = ResourceManager::instance().get_shader("line");
 
     _phong_shader->use();
     _phong_shader->block_bind("CameraData"           , 0);
@@ -41,12 +42,12 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     _grass_shader->use();
     _grass_shader->block_bind("CameraData"           , 0);
-
     _shell_shader->use();
     _shell_shader->block_bind("CameraData"           , 0);
-
     _aabb_shader->use();
     _aabb_shader->block_bind("CameraData"           , 0);
+    _line_shader->use();
+    _line_shader->block_bind("CameraData"           , 0);
 
     _skeleton_shader->use();
     _skeleton_shader->block_bind("CameraData"           , 0);
@@ -180,10 +181,12 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     m_ui_renderer.init();
 
-    AABB _aabb;
-    _aabb.min = glm::vec3(-0.5f, -0.5f, -0.5f);
-    _aabb.max = glm::vec3( 0.5f,  0.5f,  0.5f);
-    m_gizmos_renderer.create_aabb_gizmos(_aabb);
+    // AABB _aabb;
+    // _aabb.min = glm::vec3(-0.5f, -0.5f, -0.5f);
+    // _aabb.max = glm::vec3( 0.5f,  0.5f,  0.5f);
+    // m_gizmos_renderer.create_aabb_gizmos(_aabb);
+
+    m_gizmos_renderer.init(GizmosType::LINE);
 }
 
 void RenderPipeline::render(const entt::registry& _registry)
@@ -359,6 +362,10 @@ void RenderPipeline::render(const entt::registry& _registry)
 
         _gizmo_renderer.draw();
     }
+
+    Shader* _line_shader = ResourceManager::instance().get_shader("line");
+    _line_shader->use();
+    m_gizmos_renderer.draw();
 
     glDisable (GL_BLEND);
 

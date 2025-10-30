@@ -154,10 +154,10 @@ void Scene::on_enter()
 
     m_agent_system.init(m_registry, glm::vec2(0.0f));
 
-    AABB _aabb;
-    _aabb.min = glm::vec3(0.0f);
-    _aabb.max = glm::vec3(5.0f);
-    m_gizmos_renderer.create_aabb_gizmos(_aabb);
+    // AABB _aabb;
+    // _aabb.min = glm::vec3(0.0f);
+    // _aabb.max = glm::vec3(5.0f);
+    // m_gizmos_renderer.create_aabb_gizmos(_aabb);
 
     if(on_enter_callback)
         on_enter_callback();
@@ -234,6 +234,8 @@ void Scene::on_update(float delta_time)
                                 m_track_graph.add_track     (m_registry, _track);
                                 m_track_graph.generate_edges(m_registry);
                                 m_track_graph.print_edges   (m_registry);
+
+                                m_render_pipeline.update_line_gizmos(m_track_graph.get_track_positions(m_registry));
                             }
                         }
                     }

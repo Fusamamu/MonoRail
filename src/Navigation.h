@@ -143,19 +143,60 @@ namespace NAV
                     track_nodes[7].entry_dir = ConnectDirection::NORTH;
                     track_nodes[7].exit_dir  = ConnectDirection::NORTH;
                     break;
-                case 0b00000100:
+                case 0b00000100: /*0100*/
+                    track_nodes[4].is_active = true;
+                    track_nodes[4].entry_dir = ConnectDirection::WEST;
+                    track_nodes[4].exit_dir  = ConnectDirection::WEST;
                     break;
-                case 0b00000010:
+                case 0b00000010: /*0010*/
+                    track_nodes[10].is_active = true;
+                    track_nodes[10].entry_dir = ConnectDirection::EAST;
+                    track_nodes[10].exit_dir  = ConnectDirection::EAST;
                     break;
-                case 0b00000011:
+                case 0b00000011: /*0011*/
+                    track_nodes[10].is_active = true;
+                    track_nodes[10].entry_dir = ConnectDirection::EAST;
+                    track_nodes[10].exit_dir  = ConnectDirection::SOUTH;
+
+                    track_nodes[7].is_active = true;
+                    track_nodes[7].entry_dir = ConnectDirection::SOUTH;
+                    track_nodes[7].exit_dir  = ConnectDirection::NORTH;
                     break;
-                case 0b00001100:
+                case 0b00001100: /*1100*/
+                    track_nodes[1].is_active = true;
+                    track_nodes[1].entry_dir = ConnectDirection::NORTH;
+                    track_nodes[1].exit_dir  = ConnectDirection::WEST;
+
+                    track_nodes[4].is_active = true;
+                    track_nodes[4].entry_dir = ConnectDirection::WEST;
+                    track_nodes[4].exit_dir  = ConnectDirection::NORTH;
                     break;
-                case 0b00000101:
+                case 0b00000101: /*0101*/
+                    track_nodes[4].is_active = true;
+                    track_nodes[4].entry_dir = ConnectDirection::WEST;
+                    track_nodes[4].exit_dir  = ConnectDirection::SOUTH;
+
+                    track_nodes[7].is_active = true;
+                    track_nodes[7].entry_dir = ConnectDirection::SOUTH;
+                    track_nodes[7].exit_dir  = ConnectDirection::WEST;
                     break;
                 case 0b00001010:
+                    track_nodes[1].is_active = true;
+                    track_nodes[1].entry_dir = ConnectDirection::NORTH;
+                    track_nodes[1].exit_dir  = ConnectDirection::EAST;
+
+                    track_nodes[10].is_active = true;
+                    track_nodes[10].entry_dir = ConnectDirection::EAST;
+                    track_nodes[10].exit_dir  = ConnectDirection::NORTH;
                     break;
                 case 0b00001110:
+                    track_nodes[1].is_active = true;
+                    track_nodes[1].entry_dir = ConnectDirection::NORTH;
+                    track_nodes[1].exit_dir  = ConnectDirection::EAST;
+
+                    track_nodes[4].is_active = true;
+                    track_nodes[4].entry_dir = ConnectDirection::WEST;
+                    track_nodes[4].exit_dir  = ConnectDirection::NORTH;
                     break;
                 case 0b00000111:
                     break;
@@ -313,6 +354,20 @@ namespace NAV
             }
         }
 
+        std::vector<glm::vec3> get_track_positions(entt::registry& _registry)
+        {
+            std::vector<glm::vec3> _positions;
+            for (entt::entity& _e : tracks)
+            {
+                Track&     _track     = _registry.get<Track>(_e);
+                Transform& _transform = _registry.get<Transform>(_e);
+
+                _positions.push_back(_transform.position);
+            }
+
+            return _positions;
+        }
+
         void print_edges(entt::registry& registry)
         {
             std::cout << std::endl;
@@ -327,12 +382,8 @@ namespace NAV
                 entt::entity toEntity   = edge.to  ->track_entity;
 
                 if (Track* _from_t = registry.try_get<Track>(fromEntity))
-                {
                     if (Track* _to_t = registry.try_get<Track>(toEntity))
-                    {
                         std::cout << "Edge: [from] " << _from_t->node_index << " [to] " << _to_t->node_index << "\n";
-                    }
-                }
             }
 
             std::cout << std::endl;

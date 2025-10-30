@@ -5,6 +5,12 @@
 
 #define MAX_BONE_INFLUENCE 4
 
+struct LineVertex
+{
+    glm::vec3 position;
+    glm::vec3 color;
+};
+
 struct Vertex
 {
     glm::vec3 Position;

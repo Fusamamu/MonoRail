@@ -32,6 +32,11 @@ public:
     void render_default(const entt::registry& _registry);
 
     void update_light_ubo(DirectionalLight& _directional_light);
+
+    void update_line_gizmos(const std::vector<glm::vec3>& _line_gizmos)
+    {
+        m_gizmos_renderer.update_line_vertice(_line_gizmos);
+    }
 private:
     FrameBuffer m_framebuffer;
     FrameBuffer m_depth_framebuffer;

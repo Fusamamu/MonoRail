@@ -15,6 +15,7 @@ void ResourceManager::init()
     load_model ("../res/models/cube.fbx"              );
     load_model ("../res/models/bevel_cube.fbx"        );
     load_model ("../res/models/agent.fbx"             );
+    load_model ("../res/models/train.fbx"             );
     load_model ("../res/tiles/c_1000_0000.fbx"        );
     load_model ("../res/rails/r_0100_0010.fbx"        );
     load_model ("../res/rails/r_0001_1000.fbx"        );

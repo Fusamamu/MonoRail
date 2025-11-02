@@ -155,14 +155,16 @@ void Scene::on_enter()
 
     m_agent_system.init(m_registry, glm::vec2(0.0f));
 
-    // AABB _aabb;
-    // _aabb.min = glm::vec3(0.0f);
-    // _aabb.max = glm::vec3(5.0f);
-    // m_gizmos_renderer.create_aabb_gizmos(_aabb);
-
     if(on_enter_callback)
         on_enter_callback();
 
+    Material _phong_material;
+    _phong_material.shader_id    = "phong";
+    _phong_material.diffuse_color = glm::vec3(1.0f, 1.0f, 1.0f);
+
+    m_train_entity = create_object("Train", "train", glm::vec3(0.0f, 0.5f, 0.0f), _phong_material);
+    auto& _train_agent = m_registry.emplace<NAV::Agent>(m_train_entity);
+    _train_agent.following_path = true;
 }
 
 void Scene::on_exit()
@@ -243,9 +245,12 @@ void Scene::on_update(float delta_time)
                                 NAV::print_edges(m_registry, _edges);
 
                                 std::vector<NAV::TrackNode*> _track_nodes    = NAV::translate_to_track_nodes(_path);
-                                std::vector<glm::vec3>       _path_positions = NAV::translate_to_world_position(m_registry, _track_nodes);
+                                m_track_paths = NAV::translate_to_world_position(m_registry, _track_nodes);
 
-                                m_render_pipeline.update_line_gizmos(_path_positions);
+                                NAV::Agent& _train_agent = m_registry.get<NAV::Agent>(m_train_entity);
+                                _train_agent.target_path = m_track_paths;
+
+                                m_render_pipeline.update_line_gizmos(m_track_paths);
                             }
                         }
                     }
@@ -272,7 +277,7 @@ void Scene::on_update(float delta_time)
             _material.shader_id = "toon";
             entt::entity _e = create_object("agent", "bevel_cube", glm::vec3(0.0f, 0.0f, 0.0f), _material);
 
-            Agent& _agent = m_registry.emplace<Agent>(_e);
+            NAV::Agent& _agent = m_registry.emplace<NAV::Agent>(_e);
 
             _agent.target_path.reserve(_path.value().size());
 
@@ -297,14 +302,18 @@ void Scene::on_update(float delta_time)
 
     if (m_input_system.is_key_down(SDL_SCANCODE_SPACE))
     {
-        _create_agent();
+        //_create_agent();
+
+        NAV::Agent& _train_agent = m_registry.get<NAV::Agent>(m_train_entity);
+        _train_agent.current_path_index = 0;
+        _train_agent.following_path       = true;
     }
 
-    auto _agent_view = m_registry.view<Transform, Agent>();
+    auto _agent_view = m_registry.view<Transform, NAV::Agent>();
     for (auto _e : _agent_view)
     {
         auto& _transform = m_registry.get<Transform>(_e);
-        auto& _agent     = m_registry.get<Agent>    (_e);
+        auto& _agent     = m_registry.get<NAV::Agent>    (_e);
         _agent.update(_transform, Time::delta_f/1000.0f);
     }
 

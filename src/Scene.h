@@ -17,6 +17,7 @@
 #include "Time.h"
 #include "AgentSystem.h"
 #include "Navigation/Navigation.h"
+#include "Navigation/Agent.h"
 
 class Engine;
 
@@ -63,7 +64,9 @@ private:
     FogData m_fog_data;
     GizmosRenderer m_gizmos_renderer;
 
+    entt::entity m_train_entity;
     NAV::TrackGraph m_track_graph;
+    std::vector<glm::vec3> m_track_paths;
 
     void update_scene_graph()
     {

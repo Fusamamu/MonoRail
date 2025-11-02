@@ -224,6 +224,9 @@ void Engine::update()
     // create_grass      (_scene);
     // create_grass_shell(_scene);
 
+    // auto _train_e = _scene->create_object("train", "train", { 0.0f, 0.5f, 0.0f }, _phong_material);
+    // auto& _train_agent = _scene->get_registry().emplace<Agent>(_train_e);
+
     Time::init();
 
     _scene->on_enter();

@@ -116,6 +116,8 @@ namespace NAV
                     cur = it->second;
                 }
                 std::reverse(path.begin(), path.end());
+
+                std::cout << "Found path" << std::endl;
                 return path;
             }
 
@@ -147,13 +149,16 @@ namespace NAV
             }
         }
 
-        return {}; // no path
+        std::cout << "Fail path" << std::endl;
+        return {};
     }
 
     void print_edges(entt::registry& _registry, const std::vector<Edge>& _edges)
     {
         std::cout << std::endl;
         std::cout << "=== TrackGraph Edges ===\n";
+
+        std::cout << "Edge size : " << _edges.size() << std::endl;
 
         for (const Edge& edge : _edges)
         {

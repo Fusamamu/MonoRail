@@ -93,7 +93,7 @@ void GizmosRenderer::draw() const
             glBindVertexArray(m_vao);
             glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
             glBufferSubData(GL_ARRAY_BUFFER, 0, m_line_vertices.size() * sizeof(LineVertex), m_line_vertices.data());
-            glDrawArrays(GL_LINES, 0, (GLsizei)m_line_vertices.size());
+            glDrawArrays(GL_LINE_STRIP, 0, (GLsizei)m_line_vertices.size());
             glBindVertexArray(0);
             break;
         default:

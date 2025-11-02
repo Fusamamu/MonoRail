@@ -234,11 +234,18 @@ void Scene::on_update(float delta_time)
                             {
                                 m_track_graph.add_track(m_registry, _track);
 
-                                std::vector<NAV::Edge> _edges                                  = NAV::generate_edges(m_registry, m_track_graph.tracks, m_track_graph.track_map);
-                                std::unordered_map<NAV::Track*, std::vector<NAV::Track*>> _adj = NAV::build_track_adjacency(m_registry, _edges);
-                                std::vector<NAV::Track*> _path                                 = NAV::a_star_search_tracks(m_registry, nullptr, _track, _adj);
+                                NAV::Track* _origin_track = m_track_graph.try_get_track_at(m_registry, NodeIndex(0, 1, 0));
 
-                                m_render_pipeline.update_line_gizmos(m_track_graph.get_track_positions(m_registry));
+                                std::vector<NAV::Edge> _edges                                  = NAV::generate_edges       (m_registry, m_track_graph.tracks, m_track_graph.track_map);
+                                std::unordered_map<NAV::Track*, std::vector<NAV::Track*>> _adj = NAV::build_track_adjacency(m_registry, _edges);
+                                std::vector<NAV::Track*> _path                                 = NAV::a_star_search_tracks (m_registry, _origin_track, _track, _adj);
+
+                                NAV::print_edges(m_registry, _edges);
+
+                                std::vector<NAV::TrackNode*> _track_nodes    = NAV::translate_to_track_nodes(_path);
+                                std::vector<glm::vec3>       _path_positions = NAV::translate_to_world_position(m_registry, _track_nodes);
+
+                                m_render_pipeline.update_line_gizmos(_path_positions);
                             }
                         }
                     }

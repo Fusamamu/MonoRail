@@ -363,9 +363,11 @@ void RenderPipeline::render(const entt::registry& _registry)
         _gizmo_renderer.draw();
     }
 
+    glDisable(GL_DEPTH_TEST);
     Shader* _line_shader = ResourceManager::instance().get_shader("line");
     _line_shader->use();
     m_gizmos_renderer.draw();
+    glEnable(GL_DEPTH_TEST);
 
     glDisable (GL_BLEND);
 

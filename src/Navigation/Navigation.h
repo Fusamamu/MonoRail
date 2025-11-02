@@ -103,6 +103,18 @@ namespace NAV
 
         ~TrackNode() = default;
 
+        glm::vec3 entry_world_pos(entt::registry& _registry)
+        {
+            if(track_entity == entt::null)
+                return entry_position; //fallback
+            if(_registry.try_get<Transform>(track_entity))
+            {
+                const Transform& _transform = _registry.get<Transform>(track_entity);
+                return _transform.position + entry_position;
+            }
+            return entry_position; //fallback
+        }
+
         glm::vec3 exit_world_pos(entt::registry& _registry)
         {
             if(track_entity == entt::null)
@@ -232,7 +244,7 @@ namespace NAV
                     track_nodes[10].entry_dir = ConnectDirection::EAST;
                     track_nodes[10].exit_dir  = ConnectDirection::NORTH;
                     break;
-                case 0b00001110:
+                case 0b00001110: /*1110*/
                     track_nodes[1].is_active = true;
                     track_nodes[1].entry_dir = ConnectDirection::NORTH;
                     track_nodes[1].exit_dir  = ConnectDirection::EAST;
@@ -241,7 +253,18 @@ namespace NAV
                     track_nodes[4].entry_dir = ConnectDirection::WEST;
                     track_nodes[4].exit_dir  = ConnectDirection::NORTH;
                     break;
-                case 0b00000111:
+                case 0b00000111: /*0111*/
+                    track_nodes[4] .is_active = true;
+                    track_nodes[4].entry_dir = ConnectDirection::WEST;
+                    track_nodes[4].exit_dir  = ConnectDirection::SOUTH;
+
+                    track_nodes[10].is_active = true;
+                    track_nodes[10].entry_dir = ConnectDirection::EAST;
+                    track_nodes[10].exit_dir  = ConnectDirection::SOUTH;
+
+                    track_nodes[7] .is_active = true;
+                    track_nodes[7].entry_dir = ConnectDirection::SOUTH;
+                    track_nodes[7].exit_dir  = ConnectDirection::WEST;
                     break;
                 case 0b00001101:
                     break;
@@ -262,6 +285,37 @@ namespace NAV
 
             for (TrackNode& _track : track_nodes)
                 _track.update_position();
+        }
+
+        TrackNode* get_track_node(ConnectDirection _entry_dir, ConnectDirection _exit_dir)
+        {
+            if (_entry_dir == ConnectDirection::NORTH && _exit_dir == ConnectDirection::WEST)
+                return &track_nodes[2];
+            if (_entry_dir == ConnectDirection::NORTH && _exit_dir == ConnectDirection::SOUTH)
+                return &track_nodes[1];
+            if (_entry_dir == ConnectDirection::NORTH && _exit_dir == ConnectDirection::EAST)
+                return &track_nodes[0];
+
+            if (_entry_dir == ConnectDirection::WEST && _exit_dir == ConnectDirection::NORTH)
+                return &track_nodes[3];
+            if (_entry_dir == ConnectDirection::WEST && _exit_dir == ConnectDirection::EAST)
+                return &track_nodes[4];
+            if (_entry_dir == ConnectDirection::WEST && _exit_dir == ConnectDirection::SOUTH)
+                return &track_nodes[5];
+
+            if (_entry_dir == ConnectDirection::EAST && _exit_dir == ConnectDirection::NORTH)
+                return &track_nodes[11];
+            if (_entry_dir == ConnectDirection::EAST && _exit_dir == ConnectDirection::WEST)
+                return &track_nodes[10];
+            if (_entry_dir == ConnectDirection::EAST && _exit_dir == ConnectDirection::SOUTH)
+                return &track_nodes[9];
+
+            if (_entry_dir == ConnectDirection::SOUTH && _exit_dir == ConnectDirection::WEST)
+                return &track_nodes[6];
+            if (_entry_dir == ConnectDirection::SOUTH && _exit_dir == ConnectDirection::NORTH)
+                return &track_nodes[7];
+            if (_entry_dir == ConnectDirection::SOUTH && _exit_dir == ConnectDirection::EAST)
+                return &track_nodes[8];
         }
 
         void connect(ConnectDirection _dir, entt::entity _target_track)
@@ -298,51 +352,19 @@ namespace NAV
             update_connections(_registry, _track->node_index);
         }
 
-        void generate_edges(entt::registry& _registry)
+        Track* try_get_track_at(entt::registry& _registry, NodeIndex _node_index)
         {
-            edges.clear();
-
-            for (entt::entity& _e : tracks)
+            auto _it = track_map.find(_node_index);
+            if (_it != track_map.end())
             {
-                Track& _track = _registry.get<Track>(_e);
-
-                std::cout << "------------------------" << std::endl;
-                std::cout << _track << std::endl;
-                std::cout << "------------------------" << std::endl;
-
-                for (auto& _track_node : _track.track_nodes)
+                auto& _e = _it->second;
+                if(Track* _found_track = _registry.try_get<Track>(_e))
                 {
-                    if (!_track_node.is_active)
-                        continue;
-
-                    NodeIndex _neighbor_index = _track.node_index;
-
-                    switch (_track_node.exit_dir)
-                    {
-                        case ConnectDirection::NONE :                        break;
-                        case ConnectDirection::NORTH: _neighbor_index.idz--; break;
-                        case ConnectDirection::WEST : _neighbor_index.idx--; break;
-                        case ConnectDirection::EAST : _neighbor_index.idx++; break;
-                        case ConnectDirection::SOUTH: _neighbor_index.idz++; break;
-                    }
-
-                    std::cout << "Neighbor : " << dir_to_string(_track_node.exit_dir) << " " << _neighbor_index << std::endl;
-
-                    auto _it = track_map.find(_neighbor_index);
-                    if(_it != track_map.end())
-                    {
-                        Track& neighbor = _registry.get<Track>(_it->second);
-
-                        ConnectDirection _opposite = opposite_dir(_track_node.exit_dir);
-
-                        for(auto& _neighbor_track_node : neighbor.track_nodes)
-                        {
-                            if(_neighbor_track_node.is_active && _neighbor_track_node.entry_dir == _opposite)
-                                edges.push_back(Edge(&_track_node, &_neighbor_track_node));
-                        }
-                    }
+                    std::cout << "Found track at : " << _node_index << std::endl;
+                    return _found_track;
                 }
             }
+            return nullptr;
         }
 
         void update_connections(entt::registry& _registry, const NodeIndex& _node_idx)
@@ -378,148 +400,9 @@ namespace NAV
             {
                 Track&     _track     = _registry.get<Track>(_e);
                 Transform& _transform = _registry.get<Transform>(_e);
-
                 _positions.push_back(_transform.position);
             }
-
             return _positions;
-        }
-
-        //Remove?
-        float heuristic_dist(entt::registry& _registry, TrackNode* _a, TrackNode* _b)
-        {
-            glm::vec3 _exit_a = _a->exit_world_pos(_registry);
-            glm::vec3 _exit_b = _b->exit_world_pos(_registry);
-            glm::vec3 _dist = _exit_a - _exit_b;
-            return std::sqrt(_dist.x*_dist.x + _dist.y*_dist.y + _dist.z*_dist.z);
-        }
-
-        std::unordered_map<TrackNode*, std::vector<TrackNode*>> build_adjacency_from_edges()
-        {
-            std::unordered_map<TrackNode*, std::vector<TrackNode*>> _adj;
-
-            _adj.reserve(edges.size() * 2);
-
-            for(Edge& _e : edges)
-            {
-                if(!_e.from || !_e.to)
-                    continue;
-                _adj[_e.from].push_back(_e.to);
-            }
-            return _adj;
-        }
-
-        std::vector<TrackNode*> a_star_search(entt::registry& reg, TrackNode* _start, TrackNode* _goal, const std::unordered_map<TrackNode*, std::vector<TrackNode*>>& adjacency)
-        {
-            if (!_start || !_goal)
-                return {};
-
-            // Min-heap keyed by f = g + h. store pair<fscore, node>
-            using PQItem = std::pair<float, TrackNode*>;
-            struct Compare {
-                bool operator()(PQItem const& a, PQItem const& b) const { return a.first > b.first; } // min-heap
-            };
-
-            std::priority_queue<PQItem, std::vector<PQItem>, Compare> open_queue;
-            std::unordered_set<TrackNode*> open_set;
-            std::unordered_set<TrackNode*> closed_set;
-
-            std::unordered_map<TrackNode*, TrackNode*> came_from;
-            std::unordered_map<TrackNode*, float> g_score;
-            std::unordered_map<TrackNode*, float> f_score;
-
-            const float INF = std::numeric_limits<float>::infinity();
-
-            g_score[_start] = 0.0f;
-            f_score[_start] = heuristic_dist(reg, _start, _goal);
-
-            open_queue.push({ f_score[_start], _start });
-
-            open_set.insert(_start);
-
-            while (!open_queue.empty())
-            {
-                TrackNode* current = open_queue.top().second;
-                open_queue.pop();
-
-                open_set.erase(current);
-
-                if (current == _goal)
-                {
-                    std::vector<TrackNode*> path;
-                    TrackNode* cur = _goal;
-                    while (cur)
-                    {
-                        path.push_back(cur);
-                        auto it = came_from.find(cur);
-                        if (it == came_from.end()) break;
-                        cur = it->second;
-                    }
-                    std::reverse(path.begin(), path.end());
-                    return path;
-                }
-
-                closed_set.insert(current);
-
-                auto neigh_it = adjacency.find(current);
-                if (neigh_it == adjacency.end())
-                    continue;
-
-                for (TrackNode* neighbor : neigh_it->second)
-                {
-                    if (!neighbor)
-                        continue;
-
-                    if (closed_set.find(neighbor) != closed_set.end())
-                        continue;
-
-                    float tentative_g = g_score[current] +
-                        glm::distance(
-                            current ->exit_world_pos(reg),
-                            neighbor->exit_world_pos(reg)
-                            );
-
-                    auto g_it = g_score.find(neighbor);
-                    if (g_it == g_score.end() || tentative_g < g_it->second)
-                    {
-                        // This path to neighbor is better
-                        came_from[neighbor] = current;
-                        g_score[neighbor] = tentative_g;
-                        float h = heuristic_dist(reg, neighbor, _goal);
-                        f_score[neighbor] = tentative_g + h;
-
-                        // push to open if not already there
-                        if (open_set.find(neighbor) == open_set.end())
-                        {
-                            open_queue.push({ f_score[neighbor], neighbor });
-                            open_set.insert(neighbor);
-                        }
-                    }
-                }
-            }
-            return {};
-        }
-        //-----
-
-        void print_edges(entt::registry& registry)
-        {
-            std::cout << std::endl;
-            std::cout << "=== TrackGraph Edges ===\n";
-            for (const Edge& edge : edges)
-            {
-                if (!edge.from || !edge.to)
-                    continue;
-
-                // Optionally, get entity IDs or track directions
-                entt::entity fromEntity = edge.from->track_entity;
-                entt::entity toEntity   = edge.to  ->track_entity;
-
-                if (Track* _from_t = registry.try_get<Track>(fromEntity))
-                    if (Track* _to_t = registry.try_get<Track>(toEntity))
-                        std::cout << "Edge: [from] " << _from_t->node_index << " [to] " << _to_t->node_index << "\n";
-            }
-
-            std::cout << std::endl;
         }
     };
 }

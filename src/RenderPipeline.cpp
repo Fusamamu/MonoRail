@@ -1,6 +1,7 @@
 #include "RenderPipeline.h"
 
 #include "MMath.h"
+#include "PerlinNoise.h"
 
 RenderPipeline::RenderPipeline()
 {
@@ -25,7 +26,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     Shader* _depth_of_field   = ResourceManager::instance().get_shader("depth_of_field" );
     Shader* _screen_quad      = ResourceManager::instance().get_shader("screen_quad"    );
     Shader* _ui_shader        = ResourceManager::instance().get_shader("ui"             );
-    Shader* _ui_texture       = ResourceManager::instance().get_shader("ui_texture"     );
+    Shader* _ui_texture       = ResourceManager::instance().get_shader("ui_noise_texture");
     Shader* _text_shader      = ResourceManager::instance().get_shader("text"           );
     Shader* _grass_shader     = ResourceManager::instance().get_shader("instance"       );
     Shader* _shell_shader     = ResourceManager::instance().get_shader("shell"          );
@@ -187,6 +188,10 @@ void RenderPipeline::init(const entt::registry& _registry)
     // m_gizmos_renderer.create_aabb_gizmos(_aabb);
 
     m_gizmos_renderer.init(GizmosType::LINE);
+
+    PerlinNoise perlin_noise;
+    std::vector<float> perlin_noise_data = perlin_noise.generate_perlin_data(256, 256, 6.0f, 2035);
+    m_perlin_noise_texture.generate_texture(256, 256, perlin_noise_data);
 }
 
 void RenderPipeline::render(const entt::registry& _registry)
@@ -445,7 +450,7 @@ void RenderPipeline::render(const entt::registry& _registry)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-    MGUI::draw_texture({0.0f, 0.0f}, { 200.0f, 200.0f }, m_depth_framebuffer.get_depth_texture());
+    MGUI::draw_texture({20.0f, 20.0f}, { 400.0f, 400.0f }, m_perlin_noise_texture.texture_id);
 
     // auto& _camera = _registry.ctx().get<Camera>();
     // glm::mat4 _view_mat = _camera.get_view_matrix      ();

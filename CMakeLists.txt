@@ -87,7 +87,9 @@ add_executable(${PROJECT_NAME}
         src/Navigation/AStar.cpp
         src/Navigation/AStar.h
         src/Navigation/Agent.cpp
-        src/Navigation/Agent.h)
+        src/Navigation/Agent.h
+        src/Texture.cpp
+        src/Texture.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

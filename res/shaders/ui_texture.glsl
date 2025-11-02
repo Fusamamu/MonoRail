@@ -31,5 +31,8 @@ void main()
 {
     vec4 color = texture(u_texture, vTexCoord);
     FragColor = color;
+
+//    float noiseValue = texture(u_texture, vTexCoord).r; // take red channel
+//    FragColor = vec4(noiseValue, noiseValue, noiseValue, 1.0); // grayscale
 }
 

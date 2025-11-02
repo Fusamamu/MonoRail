@@ -16,6 +16,7 @@
 #include "GizmosRenderer.h"
 #include "MMath.h"
 #include "Profiler.h"
+#include "Texture.h"
 
 class RenderPipeline
 {
@@ -53,6 +54,9 @@ private:
 
     Animation m_animation;
     Animator m_animator;
+
+
+    Texture m_perlin_noise_texture;
 
     MGUI::UIRenderer m_ui_renderer;
 

@@ -189,7 +189,7 @@ void Engine::init()
     MGUI::init();
     MGUI::load_csv();
     MGUI::ui_shader         = ResourceManager::instance().get_shader("ui");
-    MGUI::ui_texture_shader = ResourceManager::instance().get_shader("ui_texture");
+    MGUI::ui_texture_shader = ResourceManager::instance().get_shader("ui_noise_texture");
     MGUI::text_shader       = ResourceManager::instance().get_shader("text");
 }
 
@@ -226,6 +226,8 @@ void Engine::update()
 
     // auto _train_e = _scene->create_object("train", "train", { 0.0f, 0.5f, 0.0f }, _phong_material);
     // auto& _train_agent = _scene->get_registry().emplace<Agent>(_train_e);
+
+    _scene->create_object("floor", "large_plane" , {0.0f, 0.52f, 0.0f}, _phong_material);
 
     Time::init();
 

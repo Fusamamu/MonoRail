@@ -425,6 +425,46 @@ void Scene::on_render_gui(float _dt)
     ImGui::Text("Mouse x: %.3f", static_cast<float>(MGUI::input.mouse_x));
     ImGui::Text("Mouse y: %.3f", static_cast<float>(MGUI::input.mouse_y));
 
+    static int level = 0;
+    if (ImGui::DragInt("Level", &level))
+    {
+        Shader* _ui_noise_shader = ResourceManager::instance().get_shader("ui_noise_texture");
+        _ui_noise_shader->use();
+        _ui_noise_shader->set_int("u_levels", level);
+    }
+    static glm::vec3 _base_color;
+
+
+    ImVec4 temp = ImVec4(_base_color.r, _base_color.g, _base_color.b, 1.0f);
+    if (ImGui::ColorEdit3("Base color", (float*)&temp, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_InputRGB))
+    {
+        _base_color = glm::vec3(temp.x, temp.y, temp.z);
+
+        Shader* _ui_noise_shader = ResourceManager::instance().get_shader("ui_noise_texture");
+        _ui_noise_shader->use();
+        _ui_noise_shader->set_vec3("u_base_color", _base_color);
+    }
+
+    static glm::vec3 _effect_color;
+
+    ImVec4 _effect_temp = ImVec4(_effect_color.r, _effect_color.g, _effect_color.b, 1.0f);
+    if (ImGui::ColorEdit3("Effect color", (float*)&_effect_temp, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_InputRGB))
+    {
+        _effect_color = glm::vec3(_effect_temp.x, _effect_temp.y, _effect_temp.z);
+
+        Shader* _ui_noise_shader = ResourceManager::instance().get_shader("ui_noise_texture");
+        _ui_noise_shader->use();
+        _ui_noise_shader->set_vec3("u_effect_color", _effect_color);
+    }
+
+
+    // if (ImGui::DragFloat3("Effect color", glm::value_ptr(_effect_color)))
+    // {
+    //     Shader* _ui_noise_shader = ResourceManager::instance().get_shader("ui_noise_texture");
+    //     _ui_noise_shader->use();
+    //     _ui_noise_shader->set_vec3("u_effect_color", _effect_color);
+    // }
+
     auto& _grid = m_registry.ctx().get<Grid3D>();
     const char* DirectionNames[] = { "NONE", "ADD TILE", "REMOVE TILE", "MARK TILE", "ADD AGENT" };
     int current = static_cast<int>(_grid.mode);

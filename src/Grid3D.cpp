@@ -1,6 +1,6 @@
 #include "Grid3D.h"
 #include "ApplicationConfig.h"
-#include "Navigation.h"
+#include "Navigation/Navigation.h"
 
 static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b)
 {
@@ -540,8 +540,9 @@ NAV::Track* Grid3D::add_track(entt::registry& _registry, NodeIndex _at_node_inde
         _mesh_renderer.load_mesh      (_tile_mesh);
         _mesh_renderer.set_buffer_data(_tile_mesh);
 
-        _track.node_index  = _at_node_index;
-        _track.self_entity = _e;
+        _track.node_index     = _at_node_index;
+        _track.world_position = _transform.position;
+        _track.self_entity    = _e;
         _track.init(_bitmask);
     }
 

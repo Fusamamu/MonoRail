@@ -1,6 +1,7 @@
 #include "Scene.h"
 
 #include "Engine.h"
+#include "Navigation/AStar.h"
 
 Scene::Scene() = default;
 Scene::~Scene() = default;
@@ -231,9 +232,11 @@ void Scene::on_update(float delta_time)
 
                             if (_track)
                             {
-                                m_track_graph.add_track     (m_registry, _track);
-                                m_track_graph.generate_edges(m_registry);
-                                m_track_graph.print_edges   (m_registry);
+                                m_track_graph.add_track(m_registry, _track);
+
+                                std::vector<NAV::Edge> _edges                                  = NAV::generate_edges(m_registry, m_track_graph.tracks, m_track_graph.track_map);
+                                std::unordered_map<NAV::Track*, std::vector<NAV::Track*>> _adj = NAV::build_track_adjacency(m_registry, _edges);
+                                std::vector<NAV::Track*> _path                                 = NAV::a_star_search_tracks(m_registry, nullptr, _track, _adj);
 
                                 m_render_pipeline.update_line_gizmos(m_track_graph.get_track_positions(m_registry));
                             }

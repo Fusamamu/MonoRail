@@ -16,7 +16,7 @@
 #include "Ray.h"
 #include "Time.h"
 #include "AgentSystem.h"
-#include "Navigation.h"
+#include "Navigation/Navigation.h"
 
 class Engine;
 

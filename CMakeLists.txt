@@ -82,8 +82,10 @@ add_executable(${PROJECT_NAME}
         src/Profiler.h
         src/AgentSystem.cpp
         src/AgentSystem.h
-        src/Navigation.cpp
-        src/Navigation.h)
+        src/Navigation/Navigation.cpp
+        src/Navigation/Navigation.h
+        src/Navigation/AStar.cpp
+        src/Navigation/AStar.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

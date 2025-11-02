@@ -11,7 +11,7 @@
 #include "Camera.h"
 #include "InputSystem.h"
 #include "TileTable.h"
-#include "Navigation.h"
+#include "Navigation/Navigation.h"
 
 static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b);
 

@@ -184,13 +184,13 @@ void Engine::init()
     ImGui_ImplSDL2_InitForOpenGL(p_window, context);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    ResourceManager::instance().init();
+    AssetManager::instance().init();
 
     MGUI::init();
     MGUI::load_csv();
-    MGUI::ui_shader         = ResourceManager::instance().get_shader("ui");
-    MGUI::ui_texture_shader = ResourceManager::instance().get_shader("ui_noise_texture");
-    MGUI::text_shader       = ResourceManager::instance().get_shader("text");
+    MGUI::ui_shader         = AssetManager::instance().get_shader("ui");
+    MGUI::ui_texture_shader = AssetManager::instance().get_shader("ui_noise_texture");
+    MGUI::text_shader       = AssetManager::instance().get_shader("text");
 }
 
 void Engine::update()
@@ -227,7 +227,7 @@ void Engine::update()
     // auto _train_e = _scene->create_object("train", "train", { 0.0f, 0.5f, 0.0f }, _phong_material);
     // auto& _train_agent = _scene->get_registry().emplace<Agent>(_train_e);
 
-    _scene->create_object("floor", "large_plane" , {0.0f, 0.52f, 0.0f}, _phong_material);
+    //_scene->create_object("floor", "large_plane" , {0.0f, 0.52f, 0.0f}, _phong_material);
 
     Time::init();
 

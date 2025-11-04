@@ -3,7 +3,7 @@
 
 #include "PCH.h"
 #include "Component.h"
-#include "Mesh.h"
+#include "Core/Mesh.h"
 
 enum class GizmosType : int8_t
 {

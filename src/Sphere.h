@@ -2,7 +2,7 @@
 #define SPHERE_H
 
 #include "PCH.h"
-#include "Mesh.h"
+#include "Core/Mesh.h"
 
 struct Sphere
 {

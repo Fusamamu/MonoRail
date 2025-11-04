@@ -1,7 +1,7 @@
 #ifndef QUAD_H
 #define QUAD_H
 
-#include "Mesh.h"
+#include "Core/Mesh.h"
 #include <cstring>
 
 struct Quad

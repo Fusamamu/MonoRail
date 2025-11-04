@@ -1,7 +1,7 @@
 #include "AgentSystem.h"
 
 #include "Component.h"
-#include "ResourceManager.h"
+#include "Asset/AssetManager.h"
 
 void AgentSystem::init(entt::registry& _registry, glm::vec2 _bounds)
 {
@@ -55,7 +55,7 @@ void AgentSystem::init(entt::registry& _registry, glm::vec2 _bounds)
 
     m_instance_entity = _registry.create();
 
-    Mesh* _p_mesh = ResourceManager::instance().get_first_mesh("agent");
+    Mesh* _p_mesh = AssetManager::instance().get_first_mesh("agent");
 
     auto& _node = _registry.emplace<Node>(m_instance_entity, Node());
     _node.name = "agent_instances";

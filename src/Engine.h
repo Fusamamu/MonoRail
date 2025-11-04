@@ -2,7 +2,7 @@
 #define ENGINE_H 
 
 #include "PCH.h"
-#include "Mesh.h"
+#include "Core/Mesh.h"
 #include "Sphere.h"
 #include "Cube.h"
 #include "Quad.h"
@@ -10,7 +10,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "SceneManager.h"
-#include "ResourceManager.h"
+#include "Asset/AssetManager.h"
 #include "InputSystem.h"
 #include "Component.h"
 #include "UI/UI.h"

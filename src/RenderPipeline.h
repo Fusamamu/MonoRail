@@ -9,7 +9,7 @@
 #include "ApplicationConfig.h"
 #include "Shader.h"
 #include "Component.h"
-#include "ResourceManager.h"
+#include "Asset/AssetManager.h"
 #include "SkeletonMeshRenderer.h"
 #include "Animation.h"
 #include "UI/UI.h"

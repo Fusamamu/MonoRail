@@ -150,21 +150,22 @@ void Scene::on_enter()
 
     glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
 
-    create_tile_grid();
-    //prototype_corners();
-
-    m_agent_system.init(m_registry, glm::vec2(0.0f));
-
     if(on_enter_callback)
         on_enter_callback();
 
-    Material _phong_material;
-    _phong_material.shader_id    = "phong";
-    _phong_material.diffuse_color = glm::vec3(1.0f, 1.0f, 1.0f);
+    prototype_corners();
 
-    m_train_entity = create_object("Train", "train", glm::vec3(0.0f, 0.5f, 0.0f), _phong_material);
-    auto& _train_agent = m_registry.emplace<NAV::Agent>(m_train_entity);
-    _train_agent.following_path = true;
+    // create_tile_grid();
+    //
+    // m_agent_system.init(m_registry, glm::vec2(0.0f));
+    //
+    // Material _phong_material;
+    // _phong_material.shader_id    = "phong";
+    // _phong_material.diffuse_color = glm::vec3(1.0f, 1.0f, 1.0f);
+    //
+    // m_train_entity = create_object("Train", "train", glm::vec3(0.0f, 0.5f, 0.0f), _phong_material);
+    // auto& _train_agent = m_registry.emplace<NAV::Agent>(m_train_entity);
+    // _train_agent.following_path = true;
 }
 
 void Scene::on_exit()
@@ -207,103 +208,72 @@ void Scene::on_update(float delta_time)
             _camera.camera_move_down(0.25f);
     }
 
-    auto& _grid = m_registry.ctx().get<Grid3D>();
+    if (auto* _grid = m_registry.ctx().find<Grid3D>())
     {
-        PROFILE_SCOPE("Grid update");
-
-        switch (_grid.mode)
         {
-            case Grid3D::Mode::NONE:
-                break;
-            case Grid3D::Mode::ADD_TILE:
-                if (m_input_system.left_mouse_pressed())
-                {
-                    Ray _ray = _camera.screen_point_to_ray(m_input_system.get_mouse_pos(), g_app_config.screen_size());
-                    float _dist = 0.0f;
-                    entt::entity _entity = ray_cast_select_entity(m_registry, _ray, _dist);
-                    if (_entity != entt::null)
+            PROFILE_SCOPE("Grid update");
+
+            switch (_grid->mode)
+            {
+                case Grid3D::Mode::NONE:
+                    break;
+                case Grid3D::Mode::ADD_TILE:
+                    if (m_input_system.left_mouse_pressed())
                     {
-                        if (auto [tile, transform] = m_registry.try_get<Node3D, Transform>(_entity); tile && transform)
+                        Ray _ray = _camera.screen_point_to_ray(m_input_system.get_mouse_pos(), g_app_config.screen_size());
+                        float _dist = 0.0f;
+                        entt::entity _entity = ray_cast_select_entity(m_registry, _ray, _dist);
+                        if (_entity != entt::null)
                         {
-                            if (tile->type != TileType::GROUND)
-                                return;
-
-                            NAV::Track* _track = _grid.add_track(m_registry,
-                                tile     ->to_node_index(0, 1, 0),
-                                transform->position + glm::vec3(0.0f, 0.5f, 0.0f));
-
-                            if (_track)
+                            if (auto [tile, transform] = m_registry.try_get<Node3D, Transform>(_entity); tile && transform)
                             {
-                                m_track_graph.add_track(m_registry, _track);
+                                if (tile->type != TileType::GROUND)
+                                    return;
 
-                                NAV::Track* _origin_track = m_track_graph.try_get_track_at(m_registry, NodeIndex(0, 1, 0));
+                                NAV::Track* _track = _grid->add_track(m_registry,
+                                    tile     ->to_node_index(0, 1, 0),
+                                    transform->position + glm::vec3(0.0f, 0.5f, 0.0f));
 
-                                std::vector<NAV::Edge> _edges                                  = NAV::generate_edges       (m_registry, m_track_graph.tracks, m_track_graph.track_map);
-                                std::unordered_map<NAV::Track*, std::vector<NAV::Track*>> _adj = NAV::build_track_adjacency(m_registry, _edges);
-                                std::vector<NAV::Track*> _path                                 = NAV::a_star_search_tracks (m_registry, _origin_track, _track, _adj);
+                                if (_track)
+                                {
+                                    m_track_graph.add_track(m_registry, _track);
 
-                                NAV::print_edges(m_registry, _edges);
+                                    NAV::Track* _origin_track = m_track_graph.try_get_track_at(m_registry, NodeIndex(0, 1, 0));
 
-                                std::vector<NAV::TrackNode*> _track_nodes    = NAV::translate_to_track_nodes(_path);
-                                m_track_paths = NAV::translate_to_world_position(m_registry, _track_nodes);
+                                    std::vector<NAV::Edge> _edges                                  = NAV::generate_edges       (m_registry, m_track_graph.tracks, m_track_graph.track_map);
+                                    std::unordered_map<NAV::Track*, std::vector<NAV::Track*>> _adj = NAV::build_track_adjacency(m_registry, _edges);
+                                    std::vector<NAV::Track*> _path                                 = NAV::a_star_search_tracks (m_registry, _origin_track, _track, _adj);
 
-                                NAV::Agent& _train_agent = m_registry.get<NAV::Agent>(m_train_entity);
-                                _train_agent.target_path = m_track_paths;
+                                    NAV::print_edges(m_registry, _edges);
 
-                                m_render_pipeline.update_line_gizmos(m_track_paths);
+                                    std::vector<NAV::TrackNode*> _track_nodes    = NAV::translate_to_track_nodes(_path);
+                                    m_track_paths = NAV::translate_to_world_position(m_registry, _track_nodes);
+
+                                    NAV::Agent& _train_agent = m_registry.get<NAV::Agent>(m_train_entity);
+                                    _train_agent.target_path = m_track_paths;
+
+                                    m_render_pipeline.update_line_gizmos(m_track_paths);
+                                }
                             }
                         }
                     }
-                }
-                _grid.update_tile_animations(m_registry, 0.016f);
-                break;
-            case Grid3D::Mode::REMOVE_TILE:
-                break;
-            case Grid3D::Mode::MARK_TILE:
-                break;
-            case Grid3D::Mode::ADD_AGENT:
-                break;
-        }
+                    _grid->update_tile_animations(m_registry, 0.016f);
+                    break;
+                case Grid3D::Mode::REMOVE_TILE:
+                    break;
+                case Grid3D::Mode::MARK_TILE:
+                    break;
+                case Grid3D::Mode::ADD_AGENT:
+                    break;
+            }
 
-        _grid.update(m_registry, _camera, m_input_system);
+            _grid->update(m_registry, _camera, m_input_system);
+        }
     }
 
-    auto _create_agent = [&]()
-    {
-        std::optional<std::vector<entt::entity>> _path = _grid.find_path(m_registry, NodeIndex(0, 1, 0), NodeIndex(10, 1, 10));
-        if (_path.has_value())
-        {
-            Material _material;
-            _material.shader_id = "toon";
-            entt::entity _e = create_object("agent", "bevel_cube", glm::vec3(0.0f, 0.0f, 0.0f), _material);
-
-            NAV::Agent& _agent = m_registry.emplace<NAV::Agent>(_e);
-
-            _agent.target_path.reserve(_path.value().size());
-
-            for (entt::entity _entity : _path.value())
-            {
-                if (Node3D* _node = m_registry.try_get<Node3D>(_entity))
-                {
-                    float _x = static_cast<float>(_node->idx);
-                    float _y = static_cast<float>(_node->idy);
-                    float _z = static_cast<float>(_node->idz);
-
-                    glm::vec3 _path_position = glm::vec3(_x, _y, _z);
-
-                    std::cout << _path_position.x << ", " << _path_position.y << ", " << _path_position.z << std::endl;
-
-                    _agent.target_path.emplace_back(_path_position);
-                    _agent.following_path = true;
-                }
-            }
-        }
-    };
 
     if (m_input_system.is_key_down(SDL_SCANCODE_SPACE))
     {
-        //_create_agent();
-
         NAV::Agent& _train_agent = m_registry.get<NAV::Agent>(m_train_entity);
         _train_agent.current_path_index = 0;
         _train_agent.following_path       = true;
@@ -317,7 +287,7 @@ void Scene::on_update(float delta_time)
         _agent.update(_transform, Time::delta_f/1000.0f);
     }
 
-    m_agent_system.update(m_registry);
+    //m_agent_system.update(m_registry);
 
     update_scene_graph();
 }
@@ -367,36 +337,36 @@ void Scene::on_render_gui(float _dt)
 
     if (ImGui::DragFloat("near", &_camera.near_plane))
     {
-        Shader* _screen_quad = ResourceManager::instance().get_shader("depth_quad");
+        Shader* _screen_quad = AssetManager::instance().get_shader("depth_quad");
         _screen_quad->use();
         _screen_quad->set_float("near_plane", _camera.near_plane);
 
-        Shader* _fog_plane = ResourceManager::instance().get_shader("fog_plane");
+        Shader* _fog_plane = AssetManager::instance().get_shader("fog_plane");
         _fog_plane->use();
         _fog_plane->set_float("u_near_plane", _camera.near_plane);
     }
 
     if (ImGui::DragFloat("far", &_camera.far_plane))
     {
-        Shader* _screen_quad = ResourceManager::instance().get_shader("depth_quad");
+        Shader* _screen_quad = AssetManager::instance().get_shader("depth_quad");
         _screen_quad->use();
         _screen_quad->set_float("far_plane", _camera.far_plane);
 
-        Shader* _fog_plane = ResourceManager::instance().get_shader("fog_plane");
+        Shader* _fog_plane = AssetManager::instance().get_shader("fog_plane");
         _fog_plane->use();
         _fog_plane->set_float("u_far_plane", _camera.far_plane);
     }
 
     if (ImGui::DragFloat("focus distance", &_camera.focus_distance))
     {
-        Shader* _dof = ResourceManager::instance().get_shader("depth_of_field");
+        Shader* _dof = AssetManager::instance().get_shader("depth_of_field");
         _dof->use();
         _dof->set_float("u_focus_dist", _camera.focus_distance);
     }
 
     if (ImGui::DragFloat("focus range", &_camera.focus_range))
     {
-        Shader* _dof = ResourceManager::instance().get_shader("depth_of_field");
+        Shader* _dof = AssetManager::instance().get_shader("depth_of_field");
         _dof->use();
         _dof->set_float("u_focus_range", _camera.focus_range);
     }
@@ -428,7 +398,7 @@ void Scene::on_render_gui(float _dt)
     static int level = 0;
     if (ImGui::DragInt("Level", &level))
     {
-        Shader* _ui_noise_shader = ResourceManager::instance().get_shader("ui_noise_texture");
+        Shader* _ui_noise_shader = AssetManager::instance().get_shader("ui_noise_texture");
         _ui_noise_shader->use();
         _ui_noise_shader->set_int("u_levels", level);
     }
@@ -440,7 +410,7 @@ void Scene::on_render_gui(float _dt)
     {
         _base_color = glm::vec3(temp.x, temp.y, temp.z);
 
-        Shader* _ui_noise_shader = ResourceManager::instance().get_shader("ui_noise_texture");
+        Shader* _ui_noise_shader = AssetManager::instance().get_shader("ui_noise_texture");
         _ui_noise_shader->use();
         _ui_noise_shader->set_vec3("u_base_color", _base_color);
     }
@@ -452,7 +422,7 @@ void Scene::on_render_gui(float _dt)
     {
         _effect_color = glm::vec3(_effect_temp.x, _effect_temp.y, _effect_temp.z);
 
-        Shader* _ui_noise_shader = ResourceManager::instance().get_shader("ui_noise_texture");
+        Shader* _ui_noise_shader = AssetManager::instance().get_shader("ui_noise_texture");
         _ui_noise_shader->use();
         _ui_noise_shader->set_vec3("u_effect_color", _effect_color);
     }
@@ -465,12 +435,15 @@ void Scene::on_render_gui(float _dt)
     //     _ui_noise_shader->set_vec3("u_effect_color", _effect_color);
     // }
 
-    auto& _grid = m_registry.ctx().get<Grid3D>();
-    const char* DirectionNames[] = { "NONE", "ADD TILE", "REMOVE TILE", "MARK TILE", "ADD AGENT" };
-    int current = static_cast<int>(_grid.mode);
-    if (ImGui::Combo("Tile mode", &current, DirectionNames, IM_ARRAYSIZE(DirectionNames))) {
-        _grid.mode = static_cast<Grid3D::Mode>(current);
+    if (Grid3D* _grid = m_registry.ctx().find<Grid3D>())
+    {
+        const char* DirectionNames[] = { "NONE", "ADD TILE", "REMOVE TILE", "MARK TILE", "ADD AGENT" };
+        int current = static_cast<int>(_grid->mode);
+        if (ImGui::Combo("Tile mode", &current, DirectionNames, IM_ARRAYSIZE(DirectionNames))) {
+            _grid->mode = static_cast<Grid3D::Mode>(current);
+        }
     }
+
 
     ImGui::End();
 
@@ -495,7 +468,7 @@ entt::entity Scene::create_object(const std::string& _name, const std::string& _
 {
     entt::entity _e = m_registry.create();
 
-    Mesh* _teapot = ResourceManager::instance().get_first_mesh(_mesh_name);
+    Mesh* _teapot = AssetManager::instance().get_first_mesh(_mesh_name);
 
     auto& _node          = m_registry.emplace<Node>          (_e, Node());
     auto& _transform     = m_registry.emplace<Transform>     (_e);

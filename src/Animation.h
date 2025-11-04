@@ -2,7 +2,7 @@
 #define ANIMATION_H
 
 #include "PCH.h"
-#include "Mesh.h"
+#include "Core/Mesh.h"
 
 // ----------------------------
 // Inline Assimp → GLM helpers

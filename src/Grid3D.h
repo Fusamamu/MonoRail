@@ -3,7 +3,7 @@
 
 #include "PCH.h"
 #include "MMath.h"
-#include "ResourceManager.h"
+#include "Asset/AssetManager.h"
 #include "Component.h"
 #include "MeshRenderer.h"
 #include "PerlinNoise.h"

@@ -2,7 +2,7 @@
 #define MESHRENDERER_H
 
 #include "PCH.h"
-#include "Mesh.h"
+#include "Core/Mesh.h"
 
 struct InstanceData
 {

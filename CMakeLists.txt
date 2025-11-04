@@ -41,7 +41,7 @@ add_executable(${PROJECT_NAME}
         ./src/Engine.cpp
         ./src/Shader.cpp
         ./src/MeshRenderer.cpp
-        ./src/ResourceManager.cpp
+        src/Asset/AssetManager.cpp
         ./src/InputSystem.cpp
         ./src/Grid.cpp
         src/Scene.cpp
@@ -75,7 +75,7 @@ add_executable(${PROJECT_NAME}
         src/MMath.h
         src/Time.cpp
         src/Time.h
-        src/Mesh.cpp
+        src/Core/Mesh.cpp
         src/TileTable.cpp
         src/TileTable.h
         src/Profiler.cpp
@@ -89,7 +89,11 @@ add_executable(${PROJECT_NAME}
         src/Navigation/Agent.cpp
         src/Navigation/Agent.h
         src/Texture.cpp
-        src/Texture.h)
+        src/Texture.h
+        src/Asset/Importer.cpp
+        src/Asset/Importer.h
+        src/Core/Vertex.cpp
+        src/Core/Vertex.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

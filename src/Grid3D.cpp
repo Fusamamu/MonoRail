@@ -228,7 +228,7 @@ void Grid3D::create_tile_instance(entt::registry& _registry)
 
     m_tile_mesh_e = _e;
 
-    Mesh* _p_mesh = ResourceManager::instance().get_first_mesh("bevel_cube");
+    Mesh* _p_mesh = AssetManager::instance().get_first_mesh("bevel_cube");
 
     auto& _node = _registry.emplace<Node>(_e, Node());
     _node.name = "cube grid";
@@ -290,7 +290,7 @@ void Grid3D::generate_tiles_with_perlin(entt::registry& _registry) {
                 entt::entity _e = _registry.create();
 
                 std::string mesh_name = "tile";
-                Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh(mesh_name);
+                Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(mesh_name);
 
                 auto& _tile = _registry.emplace<Node3D>(_e, Node3D(x, y, z));
 
@@ -364,7 +364,7 @@ void Grid3D::create_corner_instance(entt::registry& _registry)
 {
     entt::entity _e = _registry.create();
 
-    Mesh* _p_mesh = ResourceManager::instance().get_first_mesh("sphere");
+    Mesh* _p_mesh = AssetManager::instance().get_first_mesh("sphere");
 
     auto& _node = _registry.emplace<Node>(_e, Node());
     _node.name = "corner_grid";
@@ -535,7 +535,7 @@ NAV::Track* Grid3D::add_track(entt::registry& _registry, NodeIndex _at_node_inde
     {
         uint8_t _bitmask  = get_surrounding_bitmask_4direction(_registry, _at_node_index);
         std::string _mesh = TILE_TABLE::get_tile_name(_bitmask);
-        Mesh* _tile_mesh  = ResourceManager::instance().get_first_mesh(_mesh);
+        Mesh* _tile_mesh  = AssetManager::instance().get_first_mesh(_mesh);
 
         _mesh_renderer.load_mesh      (_tile_mesh);
         _mesh_renderer.set_buffer_data(_tile_mesh);
@@ -557,7 +557,7 @@ NAV::Track* Grid3D::add_track(entt::registry& _registry, NodeIndex _at_node_inde
             {
                 uint8_t _bitmask  = get_surrounding_bitmask_4direction(_registry, _at_n_node_index);
                 std::string _mesh = TILE_TABLE::get_tile_name(_bitmask);
-                Mesh* _tile_mesh  = ResourceManager::instance().get_first_mesh(_mesh);
+                Mesh* _tile_mesh  = AssetManager::instance().get_first_mesh(_mesh);
 
                 _mesh_renderer->load_mesh      (_tile_mesh);
                 _mesh_renderer->set_buffer_data(_tile_mesh);
@@ -617,7 +617,7 @@ void Grid3D::add_tile_at(entt::registry& _registry,
 
     _material.shader_id = "phong";
 
-    Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh(_mesh);
+    Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(_mesh);
 
     _mesh_renderer.load_mesh      (_tile_mesh);
     _mesh_renderer.set_buffer_data(_tile_mesh);
@@ -653,7 +653,7 @@ void Grid3D::add_tile_at(entt::registry& _registry, const TileData& _tile_data)
 
     _material.shader_id = "phong";
 
-    Mesh* _tile_mesh = ResourceManager::instance().get_first_mesh(_tile_data.mesh_name);
+    Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(_tile_data.mesh_name);
 
     _mesh_renderer.load_mesh      (_tile_mesh);
     _mesh_renderer.set_buffer_data(_tile_mesh);

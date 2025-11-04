@@ -19,20 +19,20 @@ RenderPipeline::~RenderPipeline()
 
 void RenderPipeline::init(const entt::registry& _registry)
 {
-    Shader* _phong_shader     = ResourceManager::instance().get_shader("phong"          );
-    Shader* _skeleton_shader  = ResourceManager::instance().get_shader("skeleton"       );
-    Shader* _fog_plane_shader = ResourceManager::instance().get_shader("fog_plane"      );
-    Shader* _depth_quad       = ResourceManager::instance().get_shader("depth_quad"     );
-    Shader* _depth_of_field   = ResourceManager::instance().get_shader("depth_of_field" );
-    Shader* _screen_quad      = ResourceManager::instance().get_shader("screen_quad"    );
-    Shader* _ui_shader        = ResourceManager::instance().get_shader("ui"             );
-    Shader* _ui_texture       = ResourceManager::instance().get_shader("ui_noise_texture");
-    Shader* _text_shader      = ResourceManager::instance().get_shader("text"           );
-    Shader* _grass_shader     = ResourceManager::instance().get_shader("instance"       );
-    Shader* _shell_shader     = ResourceManager::instance().get_shader("shell"          );
-    Shader* _object_instance  = ResourceManager::instance().get_shader("object_instance");
-    Shader* _aabb_shader      = ResourceManager::instance().get_shader("aabb");
-    Shader* _line_shader      = ResourceManager::instance().get_shader("line");
+    Shader* _phong_shader     = AssetManager::instance().get_shader("phong"          );
+    Shader* _skeleton_shader  = AssetManager::instance().get_shader("skeleton"       );
+    Shader* _fog_plane_shader = AssetManager::instance().get_shader("fog_plane"      );
+    Shader* _depth_quad       = AssetManager::instance().get_shader("depth_quad"     );
+    Shader* _depth_of_field   = AssetManager::instance().get_shader("depth_of_field" );
+    Shader* _screen_quad      = AssetManager::instance().get_shader("screen_quad"    );
+    Shader* _ui_shader        = AssetManager::instance().get_shader("ui"             );
+    Shader* _ui_texture       = AssetManager::instance().get_shader("ui_noise_texture");
+    Shader* _text_shader      = AssetManager::instance().get_shader("text"           );
+    Shader* _grass_shader     = AssetManager::instance().get_shader("instance"       );
+    Shader* _shell_shader     = AssetManager::instance().get_shader("shell"          );
+    Shader* _object_instance  = AssetManager::instance().get_shader("object_instance");
+    Shader* _aabb_shader      = AssetManager::instance().get_shader("aabb");
+    Shader* _line_shader      = AssetManager::instance().get_shader("line");
 
     _phong_shader->use();
     _phong_shader->block_bind("CameraData"           , 0);
@@ -173,7 +173,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     //
     // glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
 
-    SkeletonMesh* _skeleton_mesh = ResourceManager::instance().get_first_skeleton_mesh("test_idle_skeleton");
+    SkeletonMesh* _skeleton_mesh = AssetManager::instance().get_first_skeleton_mesh("test_idle_skeleton");
     m_skeleton_mesh_renderer.load_mesh      (_skeleton_mesh);
     m_skeleton_mesh_renderer.set_buffer_data(_skeleton_mesh);
 
@@ -241,7 +241,7 @@ void RenderPipeline::render(const entt::registry& _registry)
             if (!_material.cast_shadow)
                 continue;
 
-            Shader* _found_shader = ResourceManager::instance().get_shader(_material.shader_id);
+            Shader* _found_shader = AssetManager::instance().get_shader(_material.shader_id);
             _found_shader->use();
             _found_shader->set_mat4_uniform_model(_transform.world_mat);
 
@@ -279,7 +279,7 @@ void RenderPipeline::render(const entt::registry& _registry)
         auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
         auto& _material      = _registry.get<Material>    (_e);
 
-        Shader* _found_shader = ResourceManager::instance().get_shader(_material.shader_id);
+        Shader* _found_shader = AssetManager::instance().get_shader(_material.shader_id);
         _found_shader->use();
         _found_shader->set_mat4_uniform_model(_transform.world_mat);
 
@@ -306,7 +306,7 @@ void RenderPipeline::render(const entt::registry& _registry)
         auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
         auto& _material      = _registry.get<Material>    (_e);
 
-        Shader* _found_shader = ResourceManager::instance().get_shader(_material.shader_id);
+        Shader* _found_shader = AssetManager::instance().get_shader(_material.shader_id);
         _found_shader->use();
         _found_shader->set_vec3("u_color", _material.diffuse_color);
         _found_shader->set_mat4_uniform_model(_transform.world_mat);
@@ -361,7 +361,7 @@ void RenderPipeline::render(const entt::registry& _registry)
         auto& _aabb           = _registry.get<AABB>(_e);
         auto& _gizmo_renderer = _registry.get<GizmosRenderer>(_e);
 
-        Shader* _aabb_shader = ResourceManager::instance().get_shader("aabb");
+        Shader* _aabb_shader = AssetManager::instance().get_shader("aabb");
         _aabb_shader->use();
         _aabb_shader->set_mat4_uniform_model(_transform.world_mat);
 
@@ -369,7 +369,7 @@ void RenderPipeline::render(const entt::registry& _registry)
     }
 
     glDisable(GL_DEPTH_TEST);
-    Shader* _line_shader = ResourceManager::instance().get_shader("line");
+    Shader* _line_shader = AssetManager::instance().get_shader("line");
     _line_shader->use();
     m_gizmos_renderer.draw();
     glEnable(GL_DEPTH_TEST);
@@ -402,7 +402,7 @@ void RenderPipeline::render(const entt::registry& _registry)
 
     if (!display_depth)
     {
-        Shader* _screen_quad = ResourceManager::instance().get_shader("screen_quad");
+        Shader* _screen_quad = AssetManager::instance().get_shader("screen_quad");
         _screen_quad->use();
         _screen_quad->set_int("u_screen_texture", 0);
         glActiveTexture(GL_TEXTURE0);
@@ -412,7 +412,7 @@ void RenderPipeline::render(const entt::registry& _registry)
     {
         if (!display_dof)
         {
-            Shader* _depth_quad = ResourceManager::instance().get_shader("depth_quad");
+            Shader* _depth_quad = AssetManager::instance().get_shader("depth_quad");
             _depth_quad->use();
             _depth_quad->set_int("u_depth_texture", 0);
 
@@ -429,7 +429,7 @@ void RenderPipeline::render(const entt::registry& _registry)
         }
         else
         {
-            Shader* _depth_quad = ResourceManager::instance().get_shader("depth_of_field");
+            Shader* _depth_quad = AssetManager::instance().get_shader("depth_of_field");
             _depth_quad->use();
             _depth_quad->set_int("u_depth_texture", 0);
             glActiveTexture(GL_TEXTURE0);
@@ -492,7 +492,7 @@ void RenderPipeline::render_default(const entt::registry& _registry)
         auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
         auto& _material      = _registry.get<Material>    (_e);
 
-        Shader* _found_shader = ResourceManager::instance().get_shader(_material.shader_id);
+        Shader* _found_shader = AssetManager::instance().get_shader(_material.shader_id);
         _found_shader->use();
         _found_shader->set_mat4_uniform_model(_transform.world_mat);
 
@@ -507,7 +507,7 @@ void RenderPipeline::render_default(const entt::registry& _registry)
     glClearColor(0.1f, 0.0f, 0.0f, 1.0f);
     glClear     (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    Shader* _screen_quad = ResourceManager::instance().get_shader("screen_quad");
+    Shader* _screen_quad = AssetManager::instance().get_shader("screen_quad");
 
     _screen_quad->use();
     _screen_quad->set_int("u_screen_texture", 0);

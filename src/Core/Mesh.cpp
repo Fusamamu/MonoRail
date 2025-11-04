@@ -16,22 +16,28 @@ namespace Geometry::Util
         }
     }
 
-    MeshRawData get_rotated_mesh(const MeshRawData& mesh, const glm::vec3& axis, float angleDegrees)
+
+    MeshRawData get_rotated_mesh(const MeshRawData& src, const glm::vec3& axis, float angleDegrees)
     {
-        MeshRawData _new_mesh;
+        MeshRawData dst;
 
         glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(angleDegrees), glm::normalize(axis));
 
-        for (auto& vertex : mesh.vertex_buffer)
-        {
-            Vertex_PNT _vertex;
-            _vertex.position  = rotation * glm::vec4(vertex.position, 1.0f);
-            _vertex.normal    = rotation * glm::vec4(vertex.normal, 0.0f);
-            _vertex.texCoords = vertex.texCoords;
+        dst.vertex_buffer.reserve(src.vertex_buffer.size());
+        dst.index_buffer  = src.index_buffer;
+        dst.sub_meshes    = src.sub_meshes;
 
-            _new_mesh.vertex_buffer.push_back(_vertex);
+        for (const auto& vertex : src.vertex_buffer)
+        {
+            Vertex_PNT v;
+            v.position  = glm::vec3(rotation * glm::vec4(vertex.position, 1.0f));
+            v.normal    = glm::vec3(rotation * glm::vec4(vertex.normal, 0.0f));
+            v.texCoords = vertex.texCoords;
+
+            dst.vertex_buffer.push_back(v);
         }
 
-        return std::move(_new_mesh);
+        return dst;
     }
+
 }

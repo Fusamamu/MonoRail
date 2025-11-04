@@ -503,6 +503,14 @@ void Scene::prototype_corners()
     _phong_material.shader_id    = "phong";
     _phong_material.diffuse_color = glm::vec3(1.0f, 1.0f, 1.0f);
 
-    entt::entity _e = create_object("corner", "c_1000_0000", glm::vec3(0.0f), _phong_material);
+    create_object("corner", "c_1000_0000", glm::vec3(0.0f), _phong_material);
+    create_object("corner", "c_0100_0000", glm::vec3(2.0f, 0.0f, 0.0f), _phong_material);
+    create_object("corner", "c_0010_0000", glm::vec3(4.0f, 0.0f, 0.0f), _phong_material);
+    create_object("corner", "c_0001_0000", glm::vec3(6.0f, 0.0f, 0.0f), _phong_material);
+
+    create_object("corner", "c_1100_0000", glm::vec3(0.0f, 0.0f, 2.0f), _phong_material);
+    create_object("corner", "c_0110_0000", glm::vec3(2.0f, 0.0f, 2.0f), _phong_material);
+    create_object("corner", "c_0011_0000", glm::vec3(4.0f, 0.0f, 2.0f), _phong_material);
+    create_object("corner", "c_1001_0000", glm::vec3(6.0f, 0.0f, 2.0f), _phong_material);
 }
 

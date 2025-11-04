@@ -9,6 +9,14 @@
 
 #include "Importer.h"
 
+inline std::string to_formatted_name(uint8_t value)
+{
+    std::string bits = std::bitset<8>(value).to_string();
+    bits.insert(4, "_");
+    return "c_" + bits;
+}
+
+
 class AssetManager
 {
 public:
@@ -27,7 +35,7 @@ public:
     void load_model    (std::filesystem::path _path);
     void load_model_raw(std::filesystem::path _path);
 
-    void load_mesh_raw_data(std::filesystem::path _path);
+    void load_mesh_raw_data(uint8_t _bit, std::filesystem::path _path);
 
     void load_texture(std::filesystem::path _path);
 

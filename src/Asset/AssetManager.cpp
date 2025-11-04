@@ -51,21 +51,63 @@ void AssetManager::init()
     load_shader("../res/shaders/line.glsl"            );
 
 
-    std::filesystem::path _path = "../res/tiles/c_1000_0000.fbx";
 
-    load_mesh_raw_data(_path);
+    load_mesh_raw_data(0b10000000, "../res/tiles/c_1000_0000.fbx");
+    load_mesh_raw_data(0b11000000, "../res/tiles/c_1100_0000.fbx");
 }
 
-void AssetManager::load_mesh_raw_data(std::filesystem::path _path)
+// shifts bits right by one, wrapping the lowest bit to the top
+uint8_t shift_two_bit_pattern(uint8_t bits)
+{
+    // Save the lowest 2 bits
+    uint8_t wrap = bits & 0b00000011;
+    // Shift right by 1
+    bits >>= 1;
+    // If wrap bit(s) exist, move them back to the left side
+    if (wrap & 0b00000001) bits |= 0b10000000;
+    if (wrap & 0b00000010) bits |= 0b01000000;
+    return bits;
+}
+
+void AssetManager::load_mesh_raw_data(uint8_t _bit, std::filesystem::path _path)
 {
     MeshRawData _mesh_raw_data;
     ASSET::load_mesh_raw_data(_path, _mesh_raw_data);
-    m_mesh_raw_data_map[_path.stem().string()] = _mesh_raw_data;
+    //m_mesh_raw_data_map[_path.stem().string()] = _mesh_raw_data;
 
     Mesh _mesh = convert_to_mesh(_mesh_raw_data);
     std::vector<Mesh> _meshes;
     _meshes.push_back(_mesh);
-    m_mesh_map[_path.stem().string()] = _meshes;
+
+    uint8_t     _start_bit   = _bit;
+    std::string _format_name = to_formatted_name(_start_bit);
+    m_mesh_map[_format_name] = _meshes;
+
+    uint8_t value = 0b00010000;
+    uint8_t high  = (value >> 4) & 0x0F;
+    uint8_t low   = value & 0x0F;
+    high = ((high >> 1) | ((high & 1) << 3)) & 0x0F;
+    uint8_t result = (high << 4) | low; //Combine
+
+    for (size_t i = 0; i < 3; i++)
+    {
+        float angle = 90.0f * static_cast<float>(i + 1);
+
+        MeshRawData _rotated_mesh_raw_data = Geometry::Util::get_rotated_mesh(_mesh_raw_data, glm::vec3(0.0f, 1.0f, 0.0f), angle);
+
+        Mesh _mesh = convert_to_mesh(_rotated_mesh_raw_data);
+        std::vector<Mesh> _meshes;
+        _meshes.push_back(_mesh);
+
+        uint8_t high  = (_start_bit >> 4) & 0x0F;
+        uint8_t low   = _start_bit & 0x0F;
+        high = ((high >> 1) | ((high & 1) << 3)) & 0x0F;
+        _start_bit = (high << 4) | low; //Combine
+
+        _format_name = to_formatted_name(_start_bit);
+
+        m_mesh_map[_format_name] = _meshes;
+    }
 }
 
 const std::vector<Mesh>* AssetManager::get_model(const std::string& name) const

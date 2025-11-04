@@ -39,7 +39,6 @@ struct Mesh
         os << "Mesh:" << std::endl;
         os << "Stride: " << mesh.layout.stride << " bytes" << std::endl;
 
-        // Print layout
         os << "Vertex layout:" << std::endl;
         for (const auto& elem : mesh.layout.elements)
         {
@@ -52,7 +51,6 @@ struct Mesh
                << std::endl;
         }
 
-        // Print vertices
         os << "Vertices (" << mesh.vertex_buffer.size() / sizeof(float) << " floats):" << std::endl;
         const float* verts = reinterpret_cast<const float*>(mesh.vertex_buffer.data());
         size_t num_floats = mesh.vertex_buffer.size() / sizeof(float);
@@ -67,7 +65,6 @@ struct Mesh
             os << std::endl;
         }
 
-        // Print indices
         os << "Indices (" << mesh.index_buffer.size() << "): ";
         for (auto idx : mesh.index_buffer)
             os << idx << " ";
@@ -113,7 +110,7 @@ inline Mesh convert_to_mesh(const MeshRawData& _mesh_raw_data)
 namespace Geometry::Util
 {
     void rotate_mesh(MeshRawData& mesh, const glm::vec3& axis, float angleDegrees);
-    MeshRawData get_rotated_mesh(const MeshRawData& mesh, const glm::vec3& axis, float angleDegrees);
+    MeshRawData get_rotated_mesh(const MeshRawData& _mesh_raw_data, const glm::vec3& _axis, float _angle_degree);
 }
 
 #endif

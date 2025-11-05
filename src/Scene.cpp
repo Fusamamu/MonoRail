@@ -153,9 +153,9 @@ void Scene::on_enter()
     if(on_enter_callback)
         on_enter_callback();
 
-    prototype_corners();
+    //prototype_corners();
 
-    // create_tile_grid();
+    create_tile_grid();
     //
     // m_agent_system.init(m_registry, glm::vec2(0.0f));
     //
@@ -454,14 +454,14 @@ void Scene::on_render_gui(float _dt)
 void Scene::create_tile_grid()
 {
     Grid3D& _grid = m_registry.ctx().emplace<Grid3D>();
-    _grid.init(20, 3, 20);
+    _grid.init(2, 2, 2);
     _grid.generate_tiles        (m_registry);
     _grid.create_tile_instance  (m_registry);
     _grid.generate_corner_nodes (m_registry);
     _grid.create_corner_instance(m_registry);
     _grid.store_corners_refs    (m_registry);
-    _grid.store_tile_refs       (m_registry);
     _grid.fill_tile_at_level    (m_registry, 0);
+    _grid.store_tile_refs       (m_registry);
 }
 
 entt::entity Scene::create_object(const std::string& _name, const std::string& _mesh_name, glm::vec3 _position, const Material& _material)

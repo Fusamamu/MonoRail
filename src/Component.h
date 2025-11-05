@@ -61,11 +61,11 @@ struct Tile
 
 struct NodeIndex
 {
-    uint32_t idx;
-    uint32_t idy;
-    uint32_t idz;
+    int32_t idx;
+    int32_t idy;
+    int32_t idz;
 
-    NodeIndex(uint32_t _idx, uint32_t _idy, uint32_t _idz) : idx(_idx), idy(_idy), idz(_idz) {}
+    NodeIndex(int32_t _idx, int32_t _idy, int32_t _idz) : idx(_idx), idy(_idy), idz(_idz) {}
     NodeIndex() = default;
     ~NodeIndex() = default;
 
@@ -127,10 +127,18 @@ struct Node3D
         return NodeIndex(idx + _idx, idy + _idy, idz + _idz);
     }
 
-    void print() const
+    uint8_t to_bitmask()
     {
-        std::cout << *this;
+        std::uint8_t mask = 0;
+        for (std::size_t i = 0; i < corner_nodes.size(); ++i)
+        {
+            if (corner_nodes[i] != entt::null)
+                mask |= (1 << i);
+        }
+        return mask;
     }
+
+    void print() const{ std::cout << *this; }
 
     // Friend function for stream output
     friend std::ostream& operator<<(std::ostream& os, const Node3D& node)

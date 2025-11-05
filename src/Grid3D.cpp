@@ -36,25 +36,6 @@ void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _inp
         case Mode::NONE:
             break;
         case Mode::ADD_TILE:
-            // if (_input_system.left_mouse_pressed())
-            // {
-            //     Ray _ray = _camera.screen_point_to_ray(_input_system.get_mouse_pos(), g_app_config.screen_size());
-            //     float _dist = 0.0f;
-            //     entt::entity _entity = ray_cast_select_entity(_registry, _ray, _dist);
-            //     if (_entity != entt::null)
-            //     {
-            //         if (auto [tile, transform] = _registry.try_get<Node3D, Transform>(_entity); tile && transform)
-            //         {
-            //             if (tile->type != TileType::GROUND)
-            //                 return;
-            //
-            //             add_track(_registry,
-            //                 tile     ->to_node_index(0, 1, 0),
-            //                 transform->position + glm::vec3(0.0f, 0.5f, 0.0f));
-            //         }
-            //     }
-            // }
-            // update_tile_animations(_registry, 0.016f);
             break;
         case Mode::REMOVE_TILE:
             break;
@@ -166,13 +147,13 @@ uint8_t Grid3D::get_surrounding_bitmask_4direction(entt::registry& _registry, No
     return _bitmask;
 }
 
-entt::entity& Grid3D::node_at(size_t x, size_t y, size_t z)
+entt::entity& Grid3D::corner_node_at(size_t x, size_t y, size_t z)
 {
     //check_bounds(x, y, z);
     return m_corner_data[corner_index(x, y, z)];
 }
 
-const entt::entity& Grid3D::node_at(size_t x, size_t y, size_t z) const
+const entt::entity& Grid3D::corner_node_at(size_t x, size_t y, size_t z) const
 {
     //check_bounds(x, y, z);
     return m_corner_data[corner_index(x, y, z)];
@@ -333,11 +314,10 @@ void Grid3D::generate_corner_nodes(entt::registry& _registry)
                 auto& _node      = _registry.emplace<Node>     (_e);
                 auto& _node3D    = _registry.emplace<Node3D>   (_e, Node3D(x, y, z));
                 auto& _transform = _registry.emplace<Transform>(_e);
-                //auto& _aabb      = _registry.emplace<AABB>     (_e);
 
-                _node.name        = "corner_node";
-                _node.is_active   = true;
-                _node.is_static   = true;
+                _node.name          = "corner_node";
+                _node.is_active     = true;
+                _node.is_static     = true;
                 _node3D.is_occupied = true;
 
                 _transform.position = glm::vec3(x, y, z) - glm::vec3(0.5f);
@@ -345,16 +325,13 @@ void Grid3D::generate_corner_nodes(entt::registry& _registry)
 
                 _transform.world_mat = _transform.get_local_mat4();
 
-                // _aabb.min = { -0.1f, -0.1f, -0.1f };
-                // _aabb.max = {  0.1f,  0.1f,  0.1f };
-
                 InstanceData _instance_data;
                 _instance_data.model = _transform.get_local_mat4();
                 _instance_data.color = glm::vec4(0.1f, 1.0f, 1.0f, 0.1f);
 
                 m_corner_instance_data.push_back(_instance_data);
 
-                node_at(x, y, z) = _e;
+                corner_node_at(x, y, z) = _e;
             }
         }
     }
@@ -417,15 +394,8 @@ void Grid3D::store_corners_refs(entt::registry& _registry)
                     size_t cidx = corner_index(cx, cy, cz);
                     tile.corner_nodes[i] = m_corner_data[cidx];
 
-                    // std::cout << "  Corner[" << i << "]: "
-                    //          << "offset(" << dx << "," << dy << "," << dz << ") "
-                    //          << "-> corner(" << cx << "," << cy << "," << cz << ") "
-                    //          << "index=" << cidx
-                    //          << " entity=" << (int)tile.corner_nodes[i]
-                    //          << "\n";
+                    std::cout << "corner index: " << cx << " " << cz << " " << cy << std::endl;
                 }
-
-                //std::cout << "\n";
             }
         }
     }
@@ -437,51 +407,68 @@ void Grid3D::store_tile_refs(entt::registry& _registry)
         for (size_t y = 0; y < m_height + 1; ++y) {
             for (size_t x = 0; x < m_width + 1; ++x) {
 
-                entt::entity corner_entity = node_at(x, y, z);
+                entt::entity corner_entity = corner_node_at(x, y, z);
                 auto& corner = _registry.get<Node3D>(corner_entity); // must be Corner3D
 
-                // reset
                 for (size_t i = 0; i < 8; ++i)
                     corner.corner_nodes[i] = entt::null;
 
                 size_t _idx = 0;
 
-                // Each corner may belong to up to 8 tiles
-                for (int dz = -1; dz <= 0; ++dz) {
-                    for (int dy = -1; dy <= 0; ++dy) {
-                        for (int dx = -1; dx <= 0; ++dx) {
+                for (int dy = -1; dy <= 0; ++dy){
+                    for (int dz = -1; dz <= 0; ++dz){
 
-                            int tx = static_cast<int>(x) + dx;
-                            int ty = static_cast<int>(y) + dy;
-                            int tz = static_cast<int>(z) + dz;
+                        int tx, ty, tz;
 
-                           // std::cout << tx << " " << ty << " " << tz << "\n";
+                        if (dz == -1){
+                            for (int dx = 0; dx > -2; --dx){
+                                tx = static_cast<int>(x) + dx;
+                                ty = static_cast<int>(y) + dy;
+                                tz = static_cast<int>(z) + dz;
 
-                            // skip tiles out of bounds
-                            if (tx < 0 || ty < 0 || tz < 0)       continue;
-                            if (tx >= static_cast<int>(m_width))  continue;
-                            if (ty >= static_cast<int>(m_height)) continue;
-                            if (tz >= static_cast<int>(m_depth))  continue;
+                                NodeIndex _node_index (tx, ty, tz);
 
-                            if (_idx >= 8)
-                                continue; // safety check
+                                if (out_of_bounds(_node_index))
+                                {
+                                    ++_idx;
+                                    continue;
+                                }
 
-                            entt::entity tile_entity = at(tx, ty, tz);
+                                entt::entity tile_entity = at(tx, ty, tz);
+                                Node3D _tile = _registry.get<Node3D>(tile_entity);
+                                if (_tile.is_occupied)
+                                    corner.corner_nodes[_idx] = tile_entity;
 
-                            corner.corner_nodes[_idx] = tile_entity;
+                                ++_idx;
+                            }
+                        }
+                        else{
+                            for (int dx = -1; dx <= 0; ++dx){
+                                tx = static_cast<int>(x) + dx;
+                                ty = static_cast<int>(y) + dy;
+                                tz = static_cast<int>(z) + dz;
 
-                            //std::cout << corner << std::endl;
+                                NodeIndex _node_index (tx, ty, tz);
 
-                            // std::cout << "Corner (" << x << "," << y << "," << z << ") -> "
-                            //         << "Tile[" << tx << " " <<  ty << " " << tz <<  " ] = " << static_cast<int>(tile_entity) << "\n";
+                                if (out_of_bounds(_node_index))
+                                {
+                                    ++_idx;
+                                    continue;
+                                }
 
-                            ++_idx; // increment!
+                                entt::entity tile_entity = at(tx, ty, tz);
+                                Node3D _tile = _registry.get<Node3D>(tile_entity);
+                                if (_tile.is_occupied)
+                                    corner.corner_nodes[_idx] = tile_entity;
+
+                                ++_idx;
+                            }
                         }
                     }
                 }
-
-                std::cout << "\n";
-            }
+                uint8_t _bitmask = corner.to_bitmask();
+                std::cout << "corner bit : " << std::bitset<8>(_bitmask) << std::endl;
+             }
         }
     }
 }

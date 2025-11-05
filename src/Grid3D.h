@@ -80,8 +80,8 @@ public:
 
     entt::entity&       at     (size_t x, size_t y, size_t z);
     const entt::entity& at     (size_t x, size_t y, size_t z) const;
-    entt::entity&       node_at(size_t x, size_t y, size_t z);
-    const entt::entity& node_at(size_t x, size_t y, size_t z) const;
+    entt::entity&       corner_node_at(size_t x, size_t y, size_t z);
+    const entt::entity& corner_node_at(size_t x, size_t y, size_t z) const;
 
     uint8_t get_surrounding_bit               (entt::registry& _registry, NodeIndex _node_index);
     uint8_t get_surrounding_bitmask_4direction(entt::registry& _registry, NodeIndex _node_index);

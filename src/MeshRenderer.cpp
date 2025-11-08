@@ -98,6 +98,18 @@ void MeshRenderer::draw() const
 {
     if (!use_instancing)
     {
+        if (m_mesh->sub_meshes.size() > 1)
+        {
+            glBindVertexArray(m_vao);
+            glDrawElements(
+                GL_TRIANGLES,
+                (GLsizei)m_mesh->sub_meshes[0].index_count,
+                GL_UNSIGNED_INT,
+                reinterpret_cast<void*>(m_mesh->sub_meshes[0].index_offset * sizeof(uint32_t)));
+            glBindVertexArray(0);
+            return;
+        }
+
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, (GLsizei)m_mesh->index_buffer.size(), GL_UNSIGNED_INT, nullptr);
         glBindVertexArray(0);

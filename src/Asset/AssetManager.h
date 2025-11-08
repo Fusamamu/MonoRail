@@ -35,7 +35,7 @@ public:
     void load_model    (std::filesystem::path _path);
     void load_model_raw(std::filesystem::path _path);
 
-    void load_mesh_raw_data(uint8_t _bit, std::filesystem::path _path);
+    void load_mesh_raw_data(uint8_t _bit, bool _rotate, uint8_t _rotate_times, std::filesystem::path _path);
 
     void load_texture(std::filesystem::path _path);
 

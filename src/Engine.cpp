@@ -225,7 +225,7 @@ void Engine::update()
     // create_grass_shell(_scene);
 
     // auto _train_e = _scene->create_object("train", "train", { 0.0f, 0.5f, 0.0f }, _phong_material);
-    // auto& _train_agent = _scene->get_registry().emplace<Agent>(_train_e);
+    // auto& _train_agent = _scene->get_registry().emplace<NAV::Agent>(_train_e);
 
     //_scene->create_object("floor", "large_plane" , {0.0f, 0.52f, 0.0f}, _phong_material);
 
@@ -245,7 +245,7 @@ void Engine::update()
 
         {
             PROFILE_SCOPE("Swap");
-        SDL_GL_SwapWindow(p_window);
+            SDL_GL_SwapWindow(p_window);
         }
 
         g_profiler.end_frame();

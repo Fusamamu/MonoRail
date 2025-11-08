@@ -127,20 +127,25 @@ struct Node3D
         return NodeIndex(idx + _idx, idy + _idy, idz + _idz);
     }
 
-    uint8_t to_bitmask()
+    uint8_t to_bitmask(entt::registry& _registry)
     {
-        std::uint8_t mask = 0;
-        for (std::size_t i = 0; i < corner_nodes.size(); ++i)
+        uint8_t mask = 0;
+        for (size_t i = 0; i < corner_nodes.size(); ++i)
         {
             if (corner_nodes[i] != entt::null)
-                mask |= (1 << i);
+            {
+                Node3D _node = _registry.get<Node3D>(corner_nodes[i]);
+                if (_node.is_occupied)
+                    mask |= (1 << (7 - i));
+            }
         }
+
+        bit = mask;
         return mask;
     }
 
     void print() const{ std::cout << *this; }
 
-    // Friend function for stream output
     friend std::ostream& operator<<(std::ostream& os, const Node3D& node)
     {
         os << "Node3D("
@@ -149,7 +154,6 @@ struct Node3D
            << node.idz << ") "
            << "occupied=" << std::boolalpha << node.is_occupied;
 
-        // Build 8-bit mask for corner nodes
         uint8_t mask = 0;
         for (size_t i = 0; i < node.corner_nodes.size(); ++i)
         {

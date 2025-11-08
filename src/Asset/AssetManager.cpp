@@ -33,27 +33,29 @@ void AssetManager::init()
     load_model ("../res/rails/r_0000_1011.fbx"        );
     load_model ("../res/rails/r_0000_1111.fbx"        );
 
-    load_shader("../res/shaders/instance.glsl"        );
-    load_shader("../res/shaders/toon.glsl"            );
-    load_shader("../res/shaders/phong.glsl"           );
-    load_shader("../res/shaders/screen_quad.glsl"     );
-    load_shader("../res/shaders/depth_quad.glsl"      );
-    load_shader("../res/shaders/fog_plane.glsl"       );
-    load_shader("../res/shaders/aabb.glsl"            );
-    load_shader("../res/shaders/skeleton.glsl"        );
-    load_shader("../res/shaders/ui.glsl"              );
-    load_shader("../res/shaders/ui_texture.glsl"      );
-    load_shader("../res/shaders/ui_noise_texture.glsl");
-    load_shader("../res/shaders/text.glsl"            );
-    load_shader("../res/shaders/shell.glsl"           );
-    load_shader("../res/shaders/object_instance.glsl" );
-    load_shader("../res/shaders/depth_of_field.glsl"  );
-    load_shader("../res/shaders/line.glsl"            );
+    load_shader("../res/shaders/instance.glsl"         );
+    load_shader("../res/shaders/toon.glsl"             );
+    load_shader("../res/shaders/phong.glsl"            );
+    load_shader("../res/shaders/screen_quad.glsl"      );
+    load_shader("../res/shaders/depth_quad.glsl"       );
+    load_shader("../res/shaders/fog_plane.glsl"        );
+    load_shader("../res/shaders/aabb.glsl"             );
+    load_shader("../res/shaders/skeleton.glsl"         );
+    load_shader("../res/shaders/ui.glsl"               );
+    load_shader("../res/shaders/ui_texture.glsl"       );
+    load_shader("../res/shaders/ui_noise_texture.glsl" );
+    load_shader("../res/shaders/text.glsl"             );
+    load_shader("../res/shaders/shell.glsl"            );
+    load_shader("../res/shaders/object_instance.glsl"  );
+    load_shader("../res/shaders/depth_of_field.glsl"   );
+    load_shader("../res/shaders/line.glsl"             );
+    load_shader("../res/shaders/planar_projection.glsl");
 
+    load_mesh_raw_data(0b10000000,  true, 3, "../res/tiles/c_1000_0000.fbx");
+    load_mesh_raw_data(0b11000000,  true, 3, "../res/tiles/c_1100_0000.fbx");
+    load_mesh_raw_data(0b11110000, false, 0, "../res/tiles/c_1111_0000.fbx");
 
-
-    load_mesh_raw_data(0b10000000, "../res/tiles/c_1000_0000.fbx");
-    load_mesh_raw_data(0b11000000, "../res/tiles/c_1100_0000.fbx");
+    //load_mesh_raw_data(0b11110000, false, 0, "../res/tiles/c_1111_0000.fbx");
 }
 
 // shifts bits right by one, wrapping the lowest bit to the top
@@ -69,11 +71,13 @@ uint8_t shift_two_bit_pattern(uint8_t bits)
     return bits;
 }
 
-void AssetManager::load_mesh_raw_data(uint8_t _bit, std::filesystem::path _path)
+void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _rotate, uint8_t _rotate_times, std::filesystem::path _path)
 {
     MeshRawData _mesh_raw_data;
     ASSET::load_mesh_raw_data(_path, _mesh_raw_data);
     //m_mesh_raw_data_map[_path.stem().string()] = _mesh_raw_data;
+
+    std::cout << _mesh_raw_data << std::endl;
 
     Mesh _mesh = convert_to_mesh(_mesh_raw_data);
     std::vector<Mesh> _meshes;
@@ -83,13 +87,16 @@ void AssetManager::load_mesh_raw_data(uint8_t _bit, std::filesystem::path _path)
     std::string _format_name = to_formatted_name(_start_bit);
     m_mesh_map[_format_name] = _meshes;
 
-    uint8_t value = 0b00010000;
-    uint8_t high  = (value >> 4) & 0x0F;
-    uint8_t low   = value & 0x0F;
-    high = ((high >> 1) | ((high & 1) << 3)) & 0x0F;
-    uint8_t result = (high << 4) | low; //Combine
+    // uint8_t value = 0b00010000;
+    // uint8_t high  = (value >> 4) & 0x0F;
+    // uint8_t low   = value & 0x0F;
+    // high = ((high >> 1) | ((high & 1) << 3)) & 0x0F;
+    // uint8_t result = (high << 4) | low; //Combine
 
-    for (size_t i = 0; i < 3; i++)
+    if (!_rotate)
+        return;
+
+    for (size_t i = 0; i < _rotate_times; i++)
     {
         float angle = 90.0f * static_cast<float>(i + 1);
 

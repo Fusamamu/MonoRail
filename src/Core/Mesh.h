@@ -4,10 +4,19 @@
 #include "../PCH.h"
 #include "Vertex.h"
 
-struct Submesh {
-    uint32_t indexOffset;
-    uint32_t indexCount;
+struct Submesh
+{
     int material_index;
+    uint32_t index_offset;
+    uint32_t index_count;
+
+    friend std::ostream& operator<<(std::ostream& _os, const Submesh& _submesh)
+    {
+        _os << "Material index: " << _submesh.material_index << "\n"
+            << "Index offset: "   << _submesh.index_offset   << "\n"
+            << "Index count: "    << _submesh.index_count;
+        return _os;
+    }
 };
 
 struct MeshRawData
@@ -15,12 +24,20 @@ struct MeshRawData
     std::vector<Vertex_PNT> vertex_buffer;
     std::vector<uint32_t>   index_buffer;
     std::vector<Submesh>    sub_meshes;
+
+    friend std::ostream& operator<<(std::ostream& _os, const MeshRawData& _data)
+    {
+        for (const Submesh& _sub_mesh : _data.sub_meshes)
+            _os << _sub_mesh << "\n";
+        return _os;
+    }
 };
 
 struct Mesh
 {
     std::vector<uint8_t>  vertex_buffer;
     std::vector<uint32_t> index_buffer;
+    std::vector<Submesh>  sub_meshes;
 
     VertexLayout layout;
 
@@ -97,6 +114,7 @@ inline Mesh convert_to_mesh(const MeshRawData& _mesh_raw_data)
     _mesh.vertex_buffer.resize(_mesh_raw_data.vertex_buffer.size() * sizeof(Vertex_PNT));
     std::memcpy(_mesh.vertex_buffer.data(), _mesh_raw_data.vertex_buffer.data(), _mesh.vertex_buffer.size());
     _mesh.index_buffer = _mesh_raw_data.index_buffer;
+    _mesh.sub_meshes   = _mesh_raw_data.sub_meshes;
 
     _mesh.layout = {};
     _mesh.layout.add_element(VertexAttribute::POSITION  , 0                , sizeof(float) * 3, GL_FLOAT, 3);

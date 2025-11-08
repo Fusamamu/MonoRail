@@ -96,8 +96,10 @@ public:
     void generate_tiles            (entt::registry& _registry);
     void generate_tiles_with_perlin(entt::registry& _registry);
     void generate_corner_nodes     (entt::registry& _registry);
+    void update_corner_nodes       (entt::registry& _registry);
 
     void fill_tile_at_level(entt::registry& _registry, uint32_t _level);
+    void fill_tile_at      (entt::registry& _registry, NodeIndex _at_node_index);
 
     void store_corners_refs(entt::registry& _registry);
     void store_tile_refs   (entt::registry& _registry);

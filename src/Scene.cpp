@@ -156,16 +156,16 @@ void Scene::on_enter()
     //prototype_corners();
 
     create_tile_grid();
-    //
+
     // m_agent_system.init(m_registry, glm::vec2(0.0f));
-    //
-    // Material _phong_material;
-    // _phong_material.shader_id    = "phong";
-    // _phong_material.diffuse_color = glm::vec3(1.0f, 1.0f, 1.0f);
-    //
-    // m_train_entity = create_object("Train", "train", glm::vec3(0.0f, 0.5f, 0.0f), _phong_material);
-    // auto& _train_agent = m_registry.emplace<NAV::Agent>(m_train_entity);
-    // _train_agent.following_path = true;
+
+    Material _phong_material;
+    _phong_material.shader_id    = "phong";
+    _phong_material.diffuse_color = glm::vec3(1.0f, 1.0f, 1.0f);
+
+    m_train_entity = create_object("Train", "train", glm::vec3(0.0f, 0.5f, 0.0f), _phong_material);
+    auto& _train_agent = m_registry.emplace<NAV::Agent>(m_train_entity);
+    _train_agent.following_path = true;
 }
 
 void Scene::on_exit()
@@ -401,6 +401,10 @@ void Scene::on_render_gui(float _dt)
         Shader* _ui_noise_shader = AssetManager::instance().get_shader("ui_noise_texture");
         _ui_noise_shader->use();
         _ui_noise_shader->set_int("u_levels", level);
+
+        Shader* _noise_shader = AssetManager::instance().get_shader("planar_projection");
+        _noise_shader->use();
+        _noise_shader->set_int("u_levels", level);
     }
     static glm::vec3 _base_color;
 
@@ -427,6 +431,14 @@ void Scene::on_render_gui(float _dt)
         _ui_noise_shader->set_vec3("u_effect_color", _effect_color);
     }
 
+    static float noise_scale = 1.0f;
+
+    if (ImGui::InputFloat("Noise scale", &noise_scale))
+    {
+        Shader* _noise_shader = AssetManager::instance().get_shader("planar_projection");
+        _noise_shader->use();
+        _noise_shader->set_float("u_scale", noise_scale);
+    }
 
     // if (ImGui::DragFloat3("Effect color", glm::value_ptr(_effect_color)))
     // {
@@ -454,14 +466,15 @@ void Scene::on_render_gui(float _dt)
 void Scene::create_tile_grid()
 {
     Grid3D& _grid = m_registry.ctx().emplace<Grid3D>();
-    _grid.init(2, 2, 2);
+    _grid.init(10, 3, 10);
     _grid.generate_tiles        (m_registry);
     _grid.create_tile_instance  (m_registry);
     _grid.generate_corner_nodes (m_registry);
     _grid.create_corner_instance(m_registry);
     _grid.store_corners_refs    (m_registry);
-    _grid.fill_tile_at_level    (m_registry, 0);
     _grid.store_tile_refs       (m_registry);
+    _grid.fill_tile_at_level    (m_registry, 0);
+    _grid.update_corner_nodes   (m_registry);
 }
 
 entt::entity Scene::create_object(const std::string& _name, const std::string& _mesh_name, glm::vec3 _position, const Material& _material)

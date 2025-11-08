@@ -55,7 +55,6 @@ private:
     Animation m_animation;
     Animator m_animator;
 
-
     Texture m_perlin_noise_texture;
 
     MGUI::UIRenderer m_ui_renderer;

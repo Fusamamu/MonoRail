@@ -19,20 +19,21 @@ RenderPipeline::~RenderPipeline()
 
 void RenderPipeline::init(const entt::registry& _registry)
 {
-    Shader* _phong_shader     = AssetManager::instance().get_shader("phong"          );
-    Shader* _skeleton_shader  = AssetManager::instance().get_shader("skeleton"       );
-    Shader* _fog_plane_shader = AssetManager::instance().get_shader("fog_plane"      );
-    Shader* _depth_quad       = AssetManager::instance().get_shader("depth_quad"     );
-    Shader* _depth_of_field   = AssetManager::instance().get_shader("depth_of_field" );
-    Shader* _screen_quad      = AssetManager::instance().get_shader("screen_quad"    );
-    Shader* _ui_shader        = AssetManager::instance().get_shader("ui"             );
-    Shader* _ui_texture       = AssetManager::instance().get_shader("ui_noise_texture");
-    Shader* _text_shader      = AssetManager::instance().get_shader("text"           );
-    Shader* _grass_shader     = AssetManager::instance().get_shader("instance"       );
-    Shader* _shell_shader     = AssetManager::instance().get_shader("shell"          );
-    Shader* _object_instance  = AssetManager::instance().get_shader("object_instance");
-    Shader* _aabb_shader      = AssetManager::instance().get_shader("aabb");
-    Shader* _line_shader      = AssetManager::instance().get_shader("line");
+    Shader* _phong_shader      = AssetManager::instance().get_shader("phong"          );
+    Shader* _planar_projection = AssetManager::instance().get_shader("planar_projection");
+    Shader* _skeleton_shader   = AssetManager::instance().get_shader("skeleton"       );
+    Shader* _fog_plane_shader  = AssetManager::instance().get_shader("fog_plane"      );
+    Shader* _depth_quad        = AssetManager::instance().get_shader("depth_quad"     );
+    Shader* _depth_of_field    = AssetManager::instance().get_shader("depth_of_field" );
+    Shader* _screen_quad       = AssetManager::instance().get_shader("screen_quad"    );
+    Shader* _ui_shader         = AssetManager::instance().get_shader("ui"             );
+    Shader* _ui_texture        = AssetManager::instance().get_shader("ui_noise_texture");
+    Shader* _text_shader       = AssetManager::instance().get_shader("text"           );
+    Shader* _grass_shader      = AssetManager::instance().get_shader("instance"       );
+    Shader* _shell_shader      = AssetManager::instance().get_shader("shell"          );
+    Shader* _object_instance   = AssetManager::instance().get_shader("object_instance");
+    Shader* _aabb_shader       = AssetManager::instance().get_shader("aabb");
+    Shader* _line_shader       = AssetManager::instance().get_shader("line");
 
     _phong_shader->use();
     _phong_shader->block_bind("CameraData"           , 0);
@@ -40,6 +41,10 @@ void RenderPipeline::init(const entt::registry& _registry)
     _phong_shader->block_bind("FogDataBlock"         , 2);
     _phong_shader->set_float ("u_shininess", 100.0f);
     _phong_shader->set_vec3  ("u_color", glm::vec3(1.0f, 1.0f, 1.0f));
+
+    _planar_projection->use();
+    _planar_projection->block_bind("CameraData"           , 0);
+    _planar_projection->block_bind("DirectionalLightBlock", 1);
 
     _grass_shader->use();
     _grass_shader->block_bind("CameraData"           , 0);
@@ -307,9 +312,13 @@ void RenderPipeline::render(const entt::registry& _registry)
         auto& _material      = _registry.get<Material>    (_e);
 
         Shader* _found_shader = AssetManager::instance().get_shader(_material.shader_id);
+        //Shader* _found_shader = AssetManager::instance().get_shader("planar_projection");
         _found_shader->use();
         _found_shader->set_vec3("u_color", _material.diffuse_color);
         _found_shader->set_mat4_uniform_model(_transform.world_mat);
+
+        // glActiveTexture(GL_TEXTURE0);
+        // glBindTexture(GL_TEXTURE_2D, m_perlin_noise_texture.texture_id);
 
         if (_material.shader_id == "phong")
         {

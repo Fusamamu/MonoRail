@@ -24,15 +24,15 @@ namespace ASSET
             return _mesh_data;
         }
 
-        uint32_t globalVertexOffset = 0;
-        uint32_t globalIndexOffset  = 0;
+        uint32_t _global_vertex_offset = 0;
+        uint32_t _global_index_offset  = 0;
 
         for (unsigned int m = 0; m < _ai_scene->mNumMeshes; ++m)
         {
             const aiMesh* _ai_mesh = _ai_scene->mMeshes[m];
 
             Submesh _sub_mesh{};
-            _sub_mesh.indexOffset    = globalIndexOffset;
+            _sub_mesh.index_offset    = _global_index_offset;
             _sub_mesh.material_index = _ai_mesh->mMaterialIndex;
 
             for (unsigned int v = 0; v < _ai_mesh->mNumVertices; ++v)
@@ -73,14 +73,14 @@ namespace ASSET
             {
                 const aiFace& face = _ai_mesh->mFaces[f];
                 for (unsigned int i = 0; i < face.mNumIndices; ++i)
-                    _mesh_data.index_buffer.push_back(face.mIndices[i] + globalVertexOffset);
+                    _mesh_data.index_buffer.push_back(face.mIndices[i] + _global_vertex_offset);
             }
 
-            _sub_mesh.indexCount = _ai_mesh->mNumFaces * 3; // all faces are triangles
+            _sub_mesh.index_count = _ai_mesh->mNumFaces * 3; // all faces are triangles
             _mesh_data.sub_meshes.push_back(_sub_mesh);
 
-            globalVertexOffset += _ai_mesh->mNumVertices;
-            globalIndexOffset  += _sub_mesh.indexCount;
+            _global_vertex_offset += _ai_mesh->mNumVertices;
+            _global_index_offset  += _sub_mesh.index_count;
         }
 
         return _mesh_data;

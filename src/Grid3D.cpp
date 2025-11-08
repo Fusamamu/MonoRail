@@ -198,7 +198,7 @@ void Grid3D::fill_tile_at_level(entt::registry& _registry, uint32_t _level)
 {
     for (size_t z = 0; z < m_depth; ++z) {
         for (size_t x = 0; x < m_width; ++x) {
-            add_tile_at(_registry, "bevel_cube",  x, _level, z, glm::vec3(static_cast<float>(x), static_cast<float>(_level), static_cast<float>(z)), TileType::GROUND);
+            fill_tile_at(_registry, NodeIndex(x, _level, z));
         }
     }
 }
@@ -394,7 +394,7 @@ void Grid3D::store_corners_refs(entt::registry& _registry)
                     size_t cidx = corner_index(cx, cy, cz);
                     tile.corner_nodes[i] = m_corner_data[cidx];
 
-                    std::cout << "corner index: " << cx << " " << cz << " " << cy << std::endl;
+                    //std::cout << "corner index: " << cx << " " << cz << " " << cy << std::endl;
                 }
             }
         }
@@ -435,10 +435,7 @@ void Grid3D::store_tile_refs(entt::registry& _registry)
                                 }
 
                                 entt::entity tile_entity = at(tx, ty, tz);
-                                Node3D _tile = _registry.get<Node3D>(tile_entity);
-                                if (_tile.is_occupied)
-                                    corner.corner_nodes[_idx] = tile_entity;
-
+                                corner.corner_nodes[_idx] = tile_entity;
                                 ++_idx;
                             }
                         }
@@ -457,17 +454,51 @@ void Grid3D::store_tile_refs(entt::registry& _registry)
                                 }
 
                                 entt::entity tile_entity = at(tx, ty, tz);
-                                Node3D _tile = _registry.get<Node3D>(tile_entity);
-                                if (_tile.is_occupied)
-                                    corner.corner_nodes[_idx] = tile_entity;
-
+                                corner.corner_nodes[_idx] = tile_entity;
                                 ++_idx;
                             }
                         }
                     }
                 }
-                uint8_t _bitmask = corner.to_bitmask();
-                std::cout << "corner bit : " << std::bitset<8>(_bitmask) << std::endl;
+             }
+        }
+    }
+}
+
+void Grid3D::update_corner_nodes(entt::registry& _registry)
+{
+     for (size_t z = 0; z < m_depth + 1; ++z) {
+        for (size_t y = 0; y < m_height + 1; ++y) {
+            for (size_t x = 0; x < m_width + 1; ++x) {
+
+                entt::entity _corner_entity = corner_node_at(x, y, z);
+                auto& _corner = _registry.get<Node3D>(_corner_entity); // must be Corner3D
+
+                Transform   & _transform     = _registry.get_or_emplace<Transform>   (_corner_entity);
+                MeshRenderer& _mesh_renderer = _registry.get_or_emplace<MeshRenderer>(_corner_entity);
+                Material    & _material      = _registry.get_or_emplace<Material>    (_corner_entity);
+
+                _transform.scale     = glm::vec3(1.0f);
+                _transform.world_mat = _transform.get_local_mat4();
+                _material.shader_id  = "phong";
+
+                uint8_t _bitmask       = _corner.to_bitmask(_registry);
+                std::string _mesh_name = to_formatted_name(_bitmask);
+
+                Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(_mesh_name);
+                if (_tile_mesh)
+                {
+                    _mesh_renderer.load_mesh      (_tile_mesh);
+                    _mesh_renderer.set_buffer_data(_tile_mesh);
+                }
+                else
+                {
+                    Mesh* _fallback = AssetManager::instance().get_first_mesh("sphere");
+                    _transform.scale     = glm::vec3(0.1f);
+                    _transform.world_mat = _transform.get_local_mat4();
+                    _mesh_renderer.load_mesh      (_fallback);
+                    _mesh_renderer.set_buffer_data(_fallback);
+                }
              }
         }
     }
@@ -610,6 +641,27 @@ void Grid3D::add_tile_at(entt::registry& _registry,
     _mesh_renderer.set_buffer_data(_tile_mesh);
 
     add_tile_animation(_registry, _e);
+}
+
+void Grid3D::fill_tile_at(entt::registry& _registry, NodeIndex _at_node_index)
+{
+    if (out_of_bounds(_at_node_index))
+        return;
+    if (is_occupied(_registry, _at_node_index))
+        return;
+
+    const entt::entity& _e = entity_at(_at_node_index);
+
+    auto& _node      = _registry.get<Node>     (_e);
+    auto& _node3D    = _registry.get<Node3D>   (_e);
+    auto& _aabb      = _registry.emplace<AABB> (_e);
+
+    _node  .is_active   = true;
+    _node3D.is_occupied = true;
+    _node3D.type = TileType::GROUND;
+
+    _aabb.min = { -0.5f, -0.5f, -0.5f };
+    _aabb.max = {  0.5f,  0.5f,  0.5f };
 }
 
 void Grid3D::add_tile_at(entt::registry& _registry, const TileData& _tile_data)

@@ -5,13 +5,14 @@
 #include "MMath.h"
 #include "Asset/AssetManager.h"
 #include "Component.h"
-#include "MeshRenderer.h"
+#include "Renderer/MeshRenderer.h"
 #include "PerlinNoise.h"
 #include "Ray.h"
 #include "Camera.h"
 #include "InputSystem.h"
 #include "TileTable.h"
 #include "Navigation/Navigation.h"
+#include "Renderer/Material.h"
 
 static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b);
 

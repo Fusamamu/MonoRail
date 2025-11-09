@@ -4,8 +4,9 @@
 #include "Asset/AssetManager.h"
 #include "Component.h"
 #include "PCH.h"
-#include "MeshRenderer.h"
+#include "Renderer/MeshRenderer.h"
 #include "PerlinNoise.h"
+#include "Renderer/Material.h"
 
 class Grid {
 public:

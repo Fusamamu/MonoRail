@@ -3,7 +3,7 @@
 
 #include "../PCH.h"
 #include "../Core/Mesh.h"
-#include "../Shader.h"
+#include "../Renderer/Shader.h"
 #include "../Texture.h"
 #include "stb_image.h"
 

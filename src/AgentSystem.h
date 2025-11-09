@@ -2,7 +2,8 @@
 #define AGENTSYSTEM_H
 
 #include "PCH.h"
-#include "MeshRenderer.h"
+#include "Renderer/MeshRenderer.h"
+#include "Renderer/Material.h"
 
 class AgentSystem 
 {

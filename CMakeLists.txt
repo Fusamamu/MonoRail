@@ -39,8 +39,8 @@ add_executable(${PROJECT_NAME}
         ${IMGUI_BACKENDS}/imgui_impl_opengl3.cpp
         ./src/main.cpp
         ./src/Engine.cpp
-        ./src/Shader.cpp
-        ./src/MeshRenderer.cpp
+        src/Renderer/Shader.cpp
+        src/Renderer/MeshRenderer.cpp
         src/Asset/AssetManager.cpp
         ./src/InputSystem.cpp
         ./src/Grid.cpp
@@ -52,12 +52,12 @@ add_executable(${PROJECT_NAME}
         src/Ray.h
         src/PerlinNoise.cpp
         src/PerlinNoise.h
-        src/FrameBuffer.cpp
-        src/FrameBuffer.h
-        src/GizmosRenderer.cpp
-        src/GizmosRenderer.h
-        src/RenderPipeline.cpp
-        src/RenderPipeline.h
+        src/Renderer/FrameBuffer.cpp
+        src/Renderer/FrameBuffer.h
+        src/Renderer/GizmosRenderer.cpp
+        src/Renderer/GizmosRenderer.h
+        src/Renderer/RenderPipeline.cpp
+        src/Renderer/RenderPipeline.h
         src/ApplicationConfig.h
         src/SkeletonMeshRenderer.cpp
         src/SkeletonMeshRenderer.h
@@ -93,7 +93,13 @@ add_executable(${PROJECT_NAME}
         src/Asset/Importer.cpp
         src/Asset/Importer.h
         src/Core/Vertex.cpp
-        src/Core/Vertex.h)
+        src/Core/Vertex.h
+        src/Renderer/RenderQueue.cpp
+        src/Renderer/RenderQueue.h
+        src/Renderer/RenderCommand.cpp
+        src/Renderer/RenderCommand.h
+        src/Renderer/Material.cpp
+        src/Renderer/Material.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

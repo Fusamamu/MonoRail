@@ -20,14 +20,18 @@ RenderPipeline::~RenderPipeline()
 void RenderPipeline::init(const entt::registry& _registry)
 {
     Shader* _phong_shader      = AssetManager::instance().get_shader("phong"          );
+    Shader* _tile_shader       = AssetManager::instance().get_shader("tile"          );
     Shader* _planar_projection = AssetManager::instance().get_shader("planar_projection");
     Shader* _skeleton_shader   = AssetManager::instance().get_shader("skeleton"       );
     Shader* _fog_plane_shader  = AssetManager::instance().get_shader("fog_plane"      );
     Shader* _depth_quad        = AssetManager::instance().get_shader("depth_quad"     );
     Shader* _depth_of_field    = AssetManager::instance().get_shader("depth_of_field" );
     Shader* _screen_quad       = AssetManager::instance().get_shader("screen_quad"    );
-    Shader* _ui_shader         = AssetManager::instance().get_shader("ui"             );
+
+    Shader* _ui_shader         = AssetManager::instance().get_shader("ui"              );
     Shader* _ui_texture        = AssetManager::instance().get_shader("ui_noise_texture");
+    Shader* _ui_texture_3d     = AssetManager::instance().get_shader("ui_texture_3d"   );
+
     Shader* _text_shader       = AssetManager::instance().get_shader("text"           );
     Shader* _grass_shader      = AssetManager::instance().get_shader("instance"       );
     Shader* _shell_shader      = AssetManager::instance().get_shader("shell"          );
@@ -41,6 +45,18 @@ void RenderPipeline::init(const entt::registry& _registry)
     _phong_shader->block_bind("FogDataBlock"         , 2);
     _phong_shader->set_float ("u_shininess", 100.0f);
     _phong_shader->set_vec3  ("u_color", glm::vec3(1.0f, 1.0f, 1.0f));
+
+
+    _tile_shader->use();
+    _tile_shader->block_bind("CameraData"           , 0);
+    _tile_shader->block_bind("DirectionalLightBlock", 1);
+    _tile_shader->block_bind("FogDataBlock"         , 2);
+
+    _tile_shader->set_uniform("u_shadow_map" , 0);
+    _tile_shader->set_uniform("u_texture"    , 1);
+
+    _tile_shader->set_float ("u_shininess", 100.0f);
+    _tile_shader->set_vec3  ("u_color", glm::vec3(1.0f, 1.0f, 1.0f));
 
     _planar_projection->use();
     _planar_projection->block_bind("CameraData"           , 0);
@@ -97,10 +113,16 @@ void RenderPipeline::init(const entt::registry& _registry)
         -1.0f, 1.0f);
 
 
-    _ui_shader->use();
-    _ui_shader->set_mat4_uniform_projection(_ortho_proj);
-    _ui_texture->use();
-    _ui_texture->set_mat4_uniform_projection(_ortho_proj);
+    _ui_shader    ->use();
+    _ui_shader    ->set_mat4_uniform_projection(_ortho_proj);
+    _ui_texture   ->use();
+    _ui_texture   ->set_mat4_uniform_projection(_ortho_proj);
+    _ui_texture_3d->use();
+    _ui_texture_3d->set_mat4_uniform_projection(_ortho_proj);
+
+
+
+
     _text_shader->use();
     _text_shader->set_mat4_uniform_projection(_ortho_proj);
 
@@ -197,6 +219,8 @@ void RenderPipeline::init(const entt::registry& _registry)
     PerlinNoise perlin_noise;
     std::vector<float> perlin_noise_data = perlin_noise.generate_perlin_data(256, 256, 6.0f, 2035);
     m_perlin_noise_texture.generate_texture(256, 256, perlin_noise_data);
+    
+    voxel_texture.generate_texture(10, 10, 10);
 }
 
 void RenderPipeline::render(const entt::registry& _registry)
@@ -212,6 +236,7 @@ void RenderPipeline::render(const entt::registry& _registry)
         _render_command.mesh_renderer = &_mesh_renderer;
         _render_command.model_mat     = _transform.get_local_mat4();
         _render_command.shader_map    = m_depth_shadow_map_framebuffer.get_depth_texture();
+        _render_command.texture       = m_perlin_noise_texture.texture_id;
 
         m_render_queue.add(_render_command);
     }
@@ -404,22 +429,11 @@ void RenderPipeline::render(const entt::registry& _registry)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-    MGUI::draw_texture({20.0f, 20.0f}, { 400.0f, 400.0f }, m_perlin_noise_texture.texture_id);
+    MGUI::draw_texture({20.0f, 20.0f}, { 200.0f, 200.0f }, m_perlin_noise_texture.texture_id);
 
-    // auto& _camera = _registry.ctx().get<Camera>();
-    // glm::mat4 _view_mat = _camera.get_view_matrix      ();
-    // glm::mat4 _proj_mat = _camera.get_projection_matrix();
-    //
-    // for (auto _e : _mesh_view)
-    // {
-    //     auto& _transform = _registry.get<Transform>(_e);
-    //
-    //     glm::vec3 _screen_pos = Util::world_to_screen(_transform.position, _view_mat, _proj_mat, g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT);
-    //     _screen_pos.x -= 60.0f;
-    //     _screen_pos.y += 60.0f;
-    //
-    //     MGUI::draw_text("C_1000_0000", { _screen_pos.x, _screen_pos.y } , { 1, 1,1, 1});
-    // }
+    Shader* _ui_texture_3d = AssetManager::instance().get_shader("ui_texture_3d");
+    MGUI::draw_texture_3d({20.0f, 240.0f}, { 200.0f, 200.0f }, voxel_texture.id, 0.15f, _ui_texture_3d);
+
 
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
@@ -684,7 +698,7 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-    MGUI::draw_texture({20.0f, 20.0f}, { 400.0f, 400.0f }, m_perlin_noise_texture.texture_id);
+    MGUI::draw_texture({20.0f, 20.0f}, { 200.0f, 200.0f }, m_perlin_noise_texture.texture_id);
 
     // auto& _camera = _registry.ctx().get<Camera>();
     // glm::mat4 _view_mat = _camera.get_view_matrix      ();

@@ -23,6 +23,8 @@
 class RenderPipeline
 {
 public:
+    Texture3D voxel_texture;
+
     bool display_depth      = false;
     bool display_dof        = false;
     bool display_shadow_map = false;

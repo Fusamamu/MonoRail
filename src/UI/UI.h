@@ -124,7 +124,9 @@ namespace MGUI
 
     void draw_rect(Vec2 pos, Vec2 size, Color color);
     void draw_text(const std::string& text, Vec2 pos, Color color = {1,1,1,1});
+
     void draw_texture(Vec2 _position, Vec2 _size, GLuint _texture_id);
+    void draw_texture_3d(Vec2 _position, Vec2 _size, GLuint _texture_id, float _slice, Shader* _shader);
 
     // Utility
     bool mouse_over(Vec2 pos, Vec2 size);

@@ -12,6 +12,7 @@ struct RenderCommand
     glm::mat4 model_mat;
 
     GLuint shader_map;
+    GLuint texture;
 };
 
 #endif

@@ -52,6 +52,7 @@ public:
         REMOVE_TILE = 2,
         MARK_TILE   = 3,
         ADD_AGENT   = 4,
+        ADD_RAIL    = 5,
     };
 
     struct TileData
@@ -148,6 +149,9 @@ public:
                 ++_it;
         }
     }
+    
+    std::vector<uint8_t> get_voxel_data(entt::registry& _registry);
+
 private:
     size_t m_width  {0};
     size_t m_height {0};

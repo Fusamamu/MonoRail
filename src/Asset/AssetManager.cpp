@@ -43,6 +43,7 @@ void AssetManager::init()
     load_shader("../res/shaders/skeleton.glsl"         );
     load_shader("../res/shaders/ui.glsl"               );
     load_shader("../res/shaders/ui_texture.glsl"       );
+    load_shader("../res/shaders/ui_texture_3d.glsl"    );
     load_shader("../res/shaders/ui_noise_texture.glsl" );
     load_shader("../res/shaders/text.glsl"             );
     load_shader("../res/shaders/shell.glsl"            );
@@ -50,28 +51,27 @@ void AssetManager::init()
     load_shader("../res/shaders/depth_of_field.glsl"   );
     load_shader("../res/shaders/line.glsl"             );
     load_shader("../res/shaders/planar_projection.glsl");
+    load_shader("../res/shaders/tile.glsl"             );
 
-    load_mesh_raw_data(0b10000000,  true, 3, "../res/tiles/c_1000_0000.fbx");
-    load_mesh_raw_data(0b11000000,  true, 3, "../res/tiles/c_1100_0000.fbx");
-    load_mesh_raw_data(0b11110000, false, 0, "../res/tiles/c_1111_0000.fbx");
+    load_mesh_raw_data(0b10000000, true , false, true , 3, "../res/tiles/c_1000_0000.fbx");
+    load_mesh_raw_data(0b11000000, true , false, true , 3, "../res/tiles/c_1100_0000.fbx");
+    load_mesh_raw_data(0b11100000, true , false, true , 3, "../res/tiles/c_1110_0000.fbx");
+    load_mesh_raw_data(0b11110000, true , false, false, 0, "../res/tiles/c_1111_0000.fbx");
+    load_mesh_raw_data(0b10100000, true , false, true , 1, "../res/tiles/c_1010_0000.fbx");
+    load_mesh_raw_data(0b10001000, true ,  true, true , 3, "../res/tiles/c_1000_1000.fbx");
+    load_mesh_raw_data(0b11001100, true ,  true, true , 3, "../res/tiles/c_1100_1100.fbx");
+    load_mesh_raw_data(0b11001000, true ,  true, true , 3, "../res/tiles/c_1100_1000.fbx");
+    load_mesh_raw_data(0b11101100, true ,  true, true , 3, "../res/tiles/c_1110_1100.fbx");
+
+    load_mesh_raw_data(0b11111000, false,  true, true , 3, "../res/tiles/c_1111_1000.fbx");
+    load_mesh_raw_data(0b11111100, false,  true, true , 3, "../res/tiles/c_1111_1100.fbx");
+    load_mesh_raw_data(0b11111110, false,  true, true , 3, "../res/tiles/c_1111_1110.fbx");
+    load_mesh_raw_data(0b11111010, false,  true, true , 1, "../res/tiles/c_1111_1010.fbx");
 
     //load_mesh_raw_data(0b11110000, false, 0, "../res/tiles/c_1111_0000.fbx");
 }
 
-// shifts bits right by one, wrapping the lowest bit to the top
-uint8_t shift_two_bit_pattern(uint8_t bits)
-{
-    // Save the lowest 2 bits
-    uint8_t wrap = bits & 0b00000011;
-    // Shift right by 1
-    bits >>= 1;
-    // If wrap bit(s) exist, move them back to the left side
-    if (wrap & 0b00000001) bits |= 0b10000000;
-    if (wrap & 0b00000010) bits |= 0b01000000;
-    return bits;
-}
-
-void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _rotate, uint8_t _rotate_times, std::filesystem::path _path)
+void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _shift_high_bit, bool _shift_low_bit, bool _rotate, uint8_t _rotate_times, std::filesystem::path _path)
 {
     MeshRawData _mesh_raw_data;
     ASSET::load_mesh_raw_data(_path, _mesh_raw_data);
@@ -86,12 +86,6 @@ void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _rotate, uint8_t _rotat
     uint8_t     _start_bit   = _bit;
     std::string _format_name = to_formatted_name(_start_bit);
     m_mesh_map[_format_name] = _meshes;
-
-    // uint8_t value = 0b00010000;
-    // uint8_t high  = (value >> 4) & 0x0F;
-    // uint8_t low   = value & 0x0F;
-    // high = ((high >> 1) | ((high & 1) << 3)) & 0x0F;
-    // uint8_t result = (high << 4) | low; //Combine
 
     if (!_rotate)
         return;
@@ -108,12 +102,19 @@ void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _rotate, uint8_t _rotat
 
         uint8_t high  = (_start_bit >> 4) & 0x0F;
         uint8_t low   = _start_bit & 0x0F;
-        high = ((high >> 1) | ((high & 1) << 3)) & 0x0F;
-        _start_bit = (high << 4) | low; //Combine
+
+        if (_shift_high_bit)
+            high = ((high >> 1) | ((high & 1) << 3)) & 0x0F;
+        if (_shift_low_bit)
+            low  = ((low >> 1)  | ((low & 1) << 3)) & 0x0F;
+
+        _start_bit = (high << 4) | low;
 
         _format_name = to_formatted_name(_start_bit);
 
         m_mesh_map[_format_name] = _meshes;
+
+        std::cout << _format_name << std::endl;
     }
 }
 

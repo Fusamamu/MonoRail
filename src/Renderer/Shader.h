@@ -26,6 +26,11 @@ public:
     void set_mat4_uniform_view                  (glm::mat4 _view               ) const;
     void set_mat4_uniform_projection            (glm::mat4 _projection         ) const;
 
+    void set_uniform(const std::string& _name, int _value)
+    {
+        glUniform1i(glGetUniformLocation(id, _name.c_str()), _value);
+    }
+
     void set_int(const std::string& _name, int _value)
     {
         glUniform1i(glGetUniformLocation(id, _name.c_str()), _value);

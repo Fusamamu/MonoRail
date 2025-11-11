@@ -286,6 +286,24 @@ namespace MGUI
         ui_renderer.draw();
     }
 
+    void draw_texture_3d(Vec2 _position, Vec2 _size, GLuint _texture_id, float _slice, Shader* _shader)
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_3D, _texture_id);
+
+        _shader->use();
+        _shader->set_float("u_slice", _slice);
+        _shader->set_int  ("u_texture", 0);
+
+        glm::mat4 _ui_model = glm::mat4(1.0f);
+        _ui_model = translate(_ui_model, glm::vec3(_position.x, _position.y, 0.0f));
+        _ui_model = scale    (_ui_model, glm::vec3(    _size.x,     _size.y, 1.0f));
+
+        _shader->set_mat4_uniform_model(_ui_model);
+
+        ui_renderer.draw();
+    }
+
     void draw_text(const std::string& text, Vec2 pos, Color color)
     {
         glActiveTexture(GL_TEXTURE0);

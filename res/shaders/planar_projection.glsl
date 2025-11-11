@@ -51,9 +51,9 @@ void main()
     _uv = fract(_uv);
 
     float noiseValue = texture(u_texture, _uv).r;
-    float level = floor(noiseValue * float(u_levels));
+    float level      = floor(noiseValue * float(u_levels));
 
-float mask = level / float(u_levels - 1); // back to 0-1 range
+    float mask = level / float(u_levels - 1); // back to 0-1 range
 
     FragColor = vec4(vec3(mask), 1.0);
 }

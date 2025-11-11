@@ -480,7 +480,7 @@ void Grid3D::update_corner_nodes(entt::registry& _registry)
 
                 _transform.scale     = glm::vec3(1.0f);
                 _transform.world_mat = _transform.get_local_mat4();
-                _material.shader_id  = "phong";
+                _material.shader_id  = "tile";
 
                 uint8_t _bitmask       = _corner.to_bitmask(_registry);
                 std::string _mesh_name = to_formatted_name(_bitmask);
@@ -494,7 +494,7 @@ void Grid3D::update_corner_nodes(entt::registry& _registry)
                 else
                 {
                     Mesh* _fallback = AssetManager::instance().get_first_mesh("sphere");
-                    _transform.scale     = glm::vec3(0.1f);
+                    _transform.scale     = glm::vec3(0.0f);
                     _transform.world_mat = _transform.get_local_mat4();
                     _mesh_renderer.load_mesh      (_fallback);
                     _mesh_renderer.set_buffer_data(_fallback);
@@ -860,5 +860,63 @@ std::optional<std::vector<entt::entity>> Grid3D::find_path(entt::registry& _regi
 
     return find_path(_registry, _start->to_node_index(), _dest->to_node_index());
 }
+
+std::vector<uint8_t> Grid3D::get_voxel_data(entt::registry& _registry)
+{
+    std::vector<uint8_t>  _data;
+    _data.resize(m_data.size(), 0);
+
+    for(size_t _z = 0; _z < m_depth; ++_z){
+        for(size_t _y = 0; _y < m_height; ++_y){
+            for(size_t _x = 0; _x < m_width; ++_x){
+
+                Node3D _node = _registry.get<Node3D>(at(_x, _y, _z));
+                if (_node.is_occupied)
+                    _data[_z * (m_width * m_height) + _y * m_width + _x] = 255;
+            }
+        }
+    }
+
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    for(size_t _z = 0; _z < m_depth; ++_z){
+            for(size_t _x = 0; _x < m_width; ++_x){
+
+
+                uint8_t _v = _data[_z * (m_width * m_height) + 1 * m_width + _x];
+
+                std::cout << _v << ", ";
+            }
+            std::cout << std::endl;
+    }
+
+    return _data;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -191,6 +191,19 @@ void Engine::init()
     MGUI::ui_shader         = AssetManager::instance().get_shader("ui");
     MGUI::ui_texture_shader = AssetManager::instance().get_shader("ui_noise_texture");
     MGUI::text_shader       = AssetManager::instance().get_shader("text");
+
+
+    std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+    std::cout << "GLSL Version: "  << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+    std::cout << "Renderer: "      << glGetString(GL_RENDERER) << std::endl;
+    std::cout << "Vendor: "        << glGetString(GL_VENDOR) << std::endl;
+
+    SDL_version compiled;
+    SDL_VERSION(&compiled);
+    std::cout << "SDL version: "
+              << int(compiled.major) << "."
+              << int(compiled.minor) << "."
+              << int(compiled.patch) << std::endl;
 }
 
 void Engine::update()

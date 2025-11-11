@@ -218,52 +218,83 @@ void Scene::on_update(float delta_time)
                 case Grid3D::Mode::NONE:
                     break;
                 case Grid3D::Mode::ADD_TILE:
-                    if (m_input_system.left_mouse_pressed())
                     {
-                        Ray _ray = _camera.screen_point_to_ray(m_input_system.get_mouse_pos(), g_app_config.screen_size());
-                        float _dist = 0.0f;
-                        entt::entity _entity = ray_cast_select_entity(m_registry, _ray, _dist);
-                        if (_entity != entt::null)
+                        if (m_input_system.left_mouse_pressed())
                         {
-                            if (auto [tile, transform] = m_registry.try_get<Node3D, Transform>(_entity); tile && transform)
+                            Ray _ray = _camera.screen_point_to_ray(m_input_system.get_mouse_pos(), g_app_config.screen_size());
+                            float _dist = 0.0f;
+                            entt::entity _entity = ray_cast_select_entity(m_registry, _ray, _dist);
+
+                            if (_entity != entt::null)
                             {
-                                if (tile->type != TileType::GROUND)
-                                    return;
-
-                                NAV::Track* _track = _grid->add_track(m_registry,
-                                    tile     ->to_node_index(0, 1, 0),
-                                    transform->position + glm::vec3(0.0f, 0.5f, 0.0f));
-
-                                if (_track)
+                                if(auto [_tile, _transform] = m_registry.try_get<Node3D, Transform>(_entity); _tile && _transform)
                                 {
-                                    m_track_graph.add_track(m_registry, _track);
+                                    if(_tile->type != TileType::GROUND)
+                                        return;
 
-                                    NAV::Track* _origin_track = m_track_graph.try_get_track_at(m_registry, NodeIndex(0, 1, 0));
-
-                                    std::vector<NAV::Edge> _edges                                  = NAV::generate_edges       (m_registry, m_track_graph.tracks, m_track_graph.track_map);
-                                    std::unordered_map<NAV::Track*, std::vector<NAV::Track*>> _adj = NAV::build_track_adjacency(m_registry, _edges);
-                                    std::vector<NAV::Track*> _path                                 = NAV::a_star_search_tracks (m_registry, _origin_track, _track, _adj);
-
-                                    NAV::print_edges(m_registry, _edges);
-
-                                    std::vector<NAV::TrackNode*> _track_nodes    = NAV::translate_to_track_nodes(_path);
-                                    m_track_paths = NAV::translate_to_world_position(m_registry, _track_nodes);
-
-                                    NAV::Agent& _train_agent = m_registry.get<NAV::Agent>(m_train_entity);
-                                    _train_agent.target_path = m_track_paths;
-
-                                    m_render_pipeline.update_line_gizmos(m_track_paths);
+                                    _grid->fill_tile_at       (m_registry, _tile->to_node_index(0, 1, 0));
+                                    _grid->update_corner_nodes(m_registry);
                                 }
                             }
+
+                            std::vector<uint8_t> _voxel_space_data = _grid->get_voxel_data(m_registry);
+                            m_render_pipeline.voxel_texture.populate(_voxel_space_data);
                         }
                     }
-                    _grid->update_tile_animations(m_registry, 0.016f);
                     break;
                 case Grid3D::Mode::REMOVE_TILE:
                     break;
                 case Grid3D::Mode::MARK_TILE:
                     break;
                 case Grid3D::Mode::ADD_AGENT:
+                    break;
+                case Grid3D::Mode::ADD_RAIL:
+                    {
+
+                        if (m_input_system.left_mouse_pressed())
+                        {
+                            Ray _ray = _camera.screen_point_to_ray(m_input_system.get_mouse_pos(), g_app_config.screen_size());
+                            float _dist = 0.0f;
+                            entt::entity _entity = ray_cast_select_entity(m_registry, _ray, _dist);
+
+                            if (_entity != entt::null)
+                            {
+                                if (auto [tile, transform] = m_registry.try_get<Node3D, Transform>(_entity); tile && transform)
+                                {
+                                    if (tile->type != TileType::GROUND)
+                                        return;
+
+                                    NAV::Track* _track = _grid->add_track(m_registry,
+                                        tile     ->to_node_index(0, 1, 0),
+                                        transform->position + glm::vec3(0.0f, 0.5f, 0.0f));
+
+                                    if (_track)
+                                    {
+                                        m_track_graph.add_track(m_registry, _track);
+
+                                        NAV::Track* _origin_track = m_track_graph.try_get_track_at(m_registry, NodeIndex(0, 1, 0));
+
+                                        std::vector<NAV::Edge> _edges                                  = NAV::generate_edges       (m_registry, m_track_graph.tracks, m_track_graph.track_map);
+                                        std::unordered_map<NAV::Track*, std::vector<NAV::Track*>> _adj = NAV::build_track_adjacency(m_registry, _edges);
+                                        std::vector<NAV::Track*> _path                                 = NAV::a_star_search_tracks (m_registry, _origin_track, _track, _adj);
+
+                                        NAV::print_edges(m_registry, _edges);
+
+                                        std::vector<NAV::TrackNode*> _track_nodes    = NAV::translate_to_track_nodes(_path);
+                                        m_track_paths = NAV::translate_to_world_position(m_registry, _track_nodes);
+
+                                        NAV::Agent& _train_agent = m_registry.get<NAV::Agent>(m_train_entity);
+                                        _train_agent.target_path = m_track_paths;
+
+                                        m_render_pipeline.update_line_gizmos(m_track_paths);
+                                    }
+                                }
+                            }
+                        }
+
+                        _grid->update_tile_animations(m_registry, 0.016f);
+                    }
+
                     break;
             }
 
@@ -405,6 +436,12 @@ void Scene::on_render_gui(float _dt)
         Shader* _noise_shader = AssetManager::instance().get_shader("planar_projection");
         _noise_shader->use();
         _noise_shader->set_int("u_levels", level);
+
+        Shader* _tile_shader = AssetManager::instance().get_shader("tile");
+        {
+            _tile_shader->use();
+            _tile_shader->set_int("u_levels", level);
+        }
     }
     static glm::vec3 _base_color;
 
@@ -466,11 +503,11 @@ void Scene::on_render_gui(float _dt)
 void Scene::create_tile_grid()
 {
     Grid3D& _grid = m_registry.ctx().emplace<Grid3D>();
-    _grid.init(10, 3, 10);
+    _grid.init(10, 10, 10);
     _grid.generate_tiles        (m_registry);
-    _grid.create_tile_instance  (m_registry);
+    //_grid.create_tile_instance  (m_registry);
     _grid.generate_corner_nodes (m_registry);
-    _grid.create_corner_instance(m_registry);
+    //_grid.create_corner_instance(m_registry);
     _grid.store_corners_refs    (m_registry);
     _grid.store_tile_refs       (m_registry);
     _grid.fill_tile_at_level    (m_registry, 0);

@@ -19,31 +19,32 @@ RenderPipeline::~RenderPipeline()
 
 void RenderPipeline::init(const entt::registry& _registry)
 {
-    Shader* _phong_shader      = AssetManager::instance().get_shader("phong"          );
-    Shader* _tile_shader       = AssetManager::instance().get_shader("tile"          );
-    Shader* _planar_projection = AssetManager::instance().get_shader("planar_projection");
-    Shader* _skeleton_shader   = AssetManager::instance().get_shader("skeleton"       );
-    Shader* _fog_plane_shader  = AssetManager::instance().get_shader("fog_plane"      );
-    Shader* _depth_quad        = AssetManager::instance().get_shader("depth_quad"     );
-    Shader* _depth_of_field    = AssetManager::instance().get_shader("depth_of_field" );
-    Shader* _screen_quad       = AssetManager::instance().get_shader("screen_quad"    );
+    Shader* _phong_shader      = AssetManager::instance().get_shader("phong"                  );
+    Shader* _tile_shader       = AssetManager::instance().get_shader("tile"                   );
+    Shader* _planar_projection = AssetManager::instance().get_shader("planar_projection"      );
+    Shader* _skeleton_shader   = AssetManager::instance().get_shader("skeleton"               );
+    Shader* _fog_plane_shader  = AssetManager::instance().get_shader("fog_plane"              );
+    Shader* _depth_quad        = AssetManager::instance().get_shader("depth_quad"             );
+    Shader* _depth_of_field    = AssetManager::instance().get_shader("depth_of_field"         );
+    Shader* _screen_quad       = AssetManager::instance().get_shader("screen_quad"            );
 
-    Shader* _ui_shader         = AssetManager::instance().get_shader("ui"              );
-    Shader* _ui_texture        = AssetManager::instance().get_shader("ui_noise_texture");
-    Shader* _ui_texture_3d     = AssetManager::instance().get_shader("ui_texture_3d"   );
+    Shader* _ui_shader         = AssetManager::instance().get_shader("ui"                     );
+    Shader* _ui_texture        = AssetManager::instance().get_shader("ui_noise_texture"       );
+    Shader* _ui_texture_3d     = AssetManager::instance().get_shader("ui_texture_3d"          );
+    Shader* _voxel_ao          = AssetManager::instance().get_shader("voxel_ambient_occlusion");
 
-    Shader* _text_shader       = AssetManager::instance().get_shader("text"           );
-    Shader* _grass_shader      = AssetManager::instance().get_shader("instance"       );
-    Shader* _shell_shader      = AssetManager::instance().get_shader("shell"          );
-    Shader* _object_instance   = AssetManager::instance().get_shader("object_instance");
-    Shader* _aabb_shader       = AssetManager::instance().get_shader("aabb");
-    Shader* _line_shader       = AssetManager::instance().get_shader("line");
+    Shader* _text_shader       = AssetManager::instance().get_shader("text"                   );
+    Shader* _grass_shader      = AssetManager::instance().get_shader("instance"               );
+    Shader* _shell_shader      = AssetManager::instance().get_shader("shell"                  );
+    Shader* _object_instance   = AssetManager::instance().get_shader("object_instance"        );
+    Shader* _aabb_shader       = AssetManager::instance().get_shader("aabb"                   );
+    Shader* _line_shader       = AssetManager::instance().get_shader("line"                   );
 
     _phong_shader->use();
     _phong_shader->block_bind("CameraData"           , 0);
     _phong_shader->block_bind("DirectionalLightBlock", 1);
     _phong_shader->block_bind("FogDataBlock"         , 2);
-    _phong_shader->set_float ("u_shininess", 100.0f);
+    _phong_shader->set_float ("u_shininess"          , 100.0f);
     _phong_shader->set_vec3  ("u_color", glm::vec3(1.0f, 1.0f, 1.0f));
 
 
@@ -52,8 +53,8 @@ void RenderPipeline::init(const entt::registry& _registry)
     _tile_shader->block_bind("DirectionalLightBlock", 1);
     _tile_shader->block_bind("FogDataBlock"         , 2);
 
-    _tile_shader->set_uniform("u_shadow_map" , 0);
-    _tile_shader->set_uniform("u_texture"    , 1);
+    _tile_shader->set_uniform_int("u_shadow_map" , 0);
+    _tile_shader->set_uniform_int("u_texture"    , 1);
 
     _tile_shader->set_float ("u_shininess", 100.0f);
     _tile_shader->set_vec3  ("u_color", glm::vec3(1.0f, 1.0f, 1.0f));
@@ -119,6 +120,9 @@ void RenderPipeline::init(const entt::registry& _registry)
     _ui_texture   ->set_mat4_uniform_projection(_ortho_proj);
     _ui_texture_3d->use();
     _ui_texture_3d->set_mat4_uniform_projection(_ortho_proj);
+    _voxel_ao     ->use();
+    _voxel_ao     ->set_mat4_uniform_projection(_ortho_proj);
+
 
 
 
@@ -129,7 +133,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     m_framebuffer                  = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
     m_depth_framebuffer            = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
     m_depth_shadow_map_framebuffer = FrameBuffer(2 * g_app_config.SCREEN_WIDTH, 2 * g_app_config.SCREEN_HEIGHT, true);
-    //m_depth_shadow_map_framebuffer = FrameBuffer(2048, 2048, true);
+    m_voxel_ao_framebuffer         = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, false);
 
     m_framebuffer.init();
     m_framebuffer.attach_color_texture();
@@ -141,6 +145,8 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     m_depth_shadow_map_framebuffer.init();
     m_depth_shadow_map_framebuffer.attach_depth_texture();
+
+    m_voxel_ao_framebuffer.init();
 
     Quad _quad;
     m_screen_mesh = _quad.screen_vertices_to_mesh();
@@ -219,8 +225,41 @@ void RenderPipeline::init(const entt::registry& _registry)
     PerlinNoise perlin_noise;
     std::vector<float> perlin_noise_data = perlin_noise.generate_perlin_data(256, 256, 6.0f, 2035);
     m_perlin_noise_texture.generate_texture(256, 256, perlin_noise_data);
-    
+
     voxel_texture.generate_texture(10, 10, 10);
+    m_voxel_ambient_texture_3d.generate(voxel_resolution);
+
+
+    // int res = 64;
+    //
+    // glGenTextures(1, &tex3D);
+    // glBindTexture(GL_TEXTURE_3D, tex3D);
+    // glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, res, res, res, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+    // glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    // glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    //
+    // glGenFramebuffers(1, &fbo);
+    // glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    // GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+    // glDrawBuffers(1, drawBuffers);
+    //
+    // glViewport(0, 0, res, res);
+    // glDisable(GL_DEPTH_TEST);
+    // glClearColor(0,0,0,1);
+    //
+    // for (int z = 0; z < res; ++z)
+    // {
+    //     glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, tex3D, 0, z);
+    //     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+    //         printf("Framebuffer incomplete at slice %d!\n", z);
+    //
+    //     glClear(GL_COLOR_BUFFER_BIT);
+    //     _voxel_ao->use();
+    //     _voxel_ao->set_uniform_int("u_slice", z);
+    //     glDrawArrays(GL_TRIANGLES, 0, 3);
+    // }
+    //
+    // glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void RenderPipeline::render(const entt::registry& _registry)
@@ -320,6 +359,99 @@ void RenderPipeline::render(const entt::registry& _registry)
     m_depth_framebuffer.unbind();
 #pragma endregion
 
+
+
+
+    // static bool init = false;
+    // static GLuint _ao_texture;
+    //
+    // int _voxel_resolution = 128;
+    //
+    // if (!init)
+    // {
+    //     init = true;
+    //
+    //     glGenTextures(1, &_ao_texture);
+    //     glBindTexture(GL_TEXTURE_3D, _ao_texture);
+    //     glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, _voxel_resolution, _voxel_resolution, _voxel_resolution, 0,GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+    //     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //
+    //     std::cout << "init voxel texture" << std::endl;
+    // }
+
+    m_voxel_ao_framebuffer.bind();
+    glViewport(0, 0, voxel_resolution, voxel_resolution);
+
+    Shader* _voxel_ao_shader = AssetManager::instance().get_shader("voxel_ambient_occlusion");
+    _voxel_ao_shader->use();
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_3D, voxel_texture.id);
+
+    _voxel_ao_shader->set_uniform_int  ("u_texture"         , 0);
+    _voxel_ao_shader->set_uniform_int  ("u_voxel_resolution", voxel_resolution);
+    _voxel_ao_shader->set_uniform_int  ("u_num_rays"        , 16);
+    _voxel_ao_shader->set_uniform_int  ("u_max_steps"       , 16);
+    _voxel_ao_shader->set_uniform_float("u_step_length"     , 1.0f);
+
+    GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+    glDrawBuffers(1, drawBuffers);
+
+
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
+    glClearColor(0, 0, 0, 1);
+
+    for (int z = 0; z < voxel_resolution; ++z)
+    {
+        glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_voxel_ambient_texture_3d.id, 0, z);
+        GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+        if (status != GL_FRAMEBUFFER_COMPLETE)
+            printf("FBO incomplete at slice %d\n", z);
+
+        _voxel_ao_shader->use();
+        _voxel_ao_shader->set_uniform_int("u_slice", z);
+
+        glClear(GL_COLOR_BUFFER_BIT);
+        m_screen_mesh_renderer.draw();
+    }
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_3D, 0);
+
+    m_voxel_ao_framebuffer.unbind();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #pragma region render to framebuffer pass
     m_framebuffer.bind();
 
@@ -327,6 +459,7 @@ void RenderPipeline::render(const entt::registry& _registry)
     glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
     glClear     (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glEnable    (GL_DEPTH_TEST);
     glEnable    (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -432,7 +565,26 @@ void RenderPipeline::render(const entt::registry& _registry)
     MGUI::draw_texture({20.0f, 20.0f}, { 200.0f, 200.0f }, m_perlin_noise_texture.texture_id);
 
     Shader* _ui_texture_3d = AssetManager::instance().get_shader("ui_texture_3d");
-    MGUI::draw_texture_3d({20.0f, 240.0f}, { 200.0f, 200.0f }, voxel_texture.id, 0.15f, _ui_texture_3d);
+    MGUI::draw_texture_3d(
+        {20.0f, 240.0f},
+        { 200.0f, 200.0f },
+        voxel_texture.id,
+        0.15f,
+        _ui_texture_3d);
+
+
+    float _base = 440.0f;
+    float _y    = 180.0f;
+    for (int _i = 0; _i < 10; ++_i)
+    {
+        float _y_pos = _base + _i * _y;
+        MGUI::draw_texture_3d(
+            {20.0f, _y_pos},
+            { 150.0f, 150.0f },
+            m_voxel_ambient_texture_3d.id,
+            _i * 0.1f, _ui_texture_3d);
+    }
+
 
 
     glEnable(GL_DEPTH_TEST);

@@ -60,8 +60,8 @@ private:
     InputSystem    m_input_system;
     AgentSystem    m_agent_system;
 
-    GLuint  m_fog_data_ubo;
-    FogData m_fog_data;
+    GLuint         m_fog_data_ubo;
+    FogData        m_fog_data;
     GizmosRenderer m_gizmos_renderer;
 
     entt::entity m_train_entity;

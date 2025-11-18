@@ -23,6 +23,7 @@
 class RenderPipeline
 {
 public:
+    int voxel_resolution = 10;
     Texture3D voxel_texture;
 
     bool display_depth      = false;
@@ -44,11 +45,15 @@ public:
         m_gizmos_renderer.update_line_vertice(_line_gizmos);
     }
 private:
+    GLuint tex3D, fbo;
+
+
     RenderQueue m_render_queue;
 
     FrameBuffer m_framebuffer;
     FrameBuffer m_depth_framebuffer;
     FrameBuffer m_depth_shadow_map_framebuffer;
+    FrameBuffer m_voxel_ao_framebuffer;
 
     GLuint m_camera_data_ubo;
     GLuint m_light_data_ubo ;
@@ -62,7 +67,8 @@ private:
     Animation m_animation;
     Animator m_animator;
 
-    Texture m_perlin_noise_texture;
+    Texture   m_perlin_noise_texture;
+    Texture3D m_voxel_ambient_texture_3d;
 
     MGUI::UIRenderer m_ui_renderer;
 

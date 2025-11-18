@@ -51,6 +51,25 @@ struct Texture3D
                         GL_RED, GL_UNSIGNED_BYTE,
                         _data.data());
     }
+
+    void generate(int _resolution)
+    {
+        width  = _resolution;
+        height = _resolution;
+        depth  = _resolution;
+
+        glGenTextures(1, &id);
+        glBindTexture(GL_TEXTURE_3D, id);
+
+        //glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, _resolution, _resolution, _resolution, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
+        glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, _resolution, _resolution, _resolution, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+        glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    }
     
     void generate_texture(int _w, int _h, int _d)
     {

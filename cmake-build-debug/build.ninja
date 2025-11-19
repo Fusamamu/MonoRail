@@ -405,7 +405,7 @@ build HelpPrincess: CXX_EXECUTABLE_LINKER__HelpPrincess_Debug CMakeFiles/HelpPri
   LINK_LIBRARIES = -Wl,-rpath,/Library/Frameworks -Wl,-rpath,/opt/homebrew/lib  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/lib/libz.tbd  /Library/Frameworks/SDL2.framework/Versions/A/SDL2  /opt/homebrew/lib/libGLEW.2.2.0.dylib  /opt/homebrew/lib/libglm.dylib  /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/assimp/lib/libassimp.a  -framework OpenGL  -framework Cocoa  -framework IOKit  -framework CoreVideo  -framework OpenGL
   LINK_PATH = -F/Library/Frameworks -F/Library/Developer/CommandLineTools/SDKs/MacOSX15.sdk/System/Library/Frameworks
   OBJECT_DIR = CMakeFiles/HelpPrincess.dir
-  POST_BUILD = :
+  POST_BUILD = cd /Users/sukumduangpattra/Desktop/HelpPrincess/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -E copy_directory /Users/sukumduangpattra/Desktop/HelpPrincess/res /Users/sukumduangpattra/Desktop/HelpPrincess/cmake-build-debug/res
   PRE_LINK = :
   TARGET_FILE = HelpPrincess
   TARGET_PDB = HelpPrincess.dbg

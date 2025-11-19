@@ -87,28 +87,12 @@ CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -emit-pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -x c++-header -S /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.cxx -o CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.s
 
-CMakeFiles/HelpPrincess.dir/src/main.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
-CMakeFiles/HelpPrincess.dir/src/main.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/main.cpp
-CMakeFiles/HelpPrincess.dir/src/main.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
-CMakeFiles/HelpPrincess.dir/src/main.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
-CMakeFiles/HelpPrincess.dir/src/main.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/HelpPrincess.dir/src/main.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/main.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/main.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/main.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/main.cpp
-
-CMakeFiles/HelpPrincess.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/main.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/main.cpp > CMakeFiles/HelpPrincess.dir/src/main.cpp.i
-
-CMakeFiles/HelpPrincess.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/main.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/main.cpp -o CMakeFiles/HelpPrincess.dir/src/main.cpp.s
-
 CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
 CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Engine.cpp
 CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
 CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
 CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Engine.cpp
 
 CMakeFiles/HelpPrincess.dir/src/Engine.cpp.i: cmake_force
@@ -119,61 +103,872 @@ CMakeFiles/HelpPrincess.dir/src/Engine.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Engine.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Engine.cpp -o CMakeFiles/HelpPrincess.dir/src/Engine.cpp.s
 
-CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
-CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Shader.cpp
-CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
-CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
-CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Shader.cpp
+CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/InputSystem.cpp
+CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/InputSystem.cpp
 
-CMakeFiles/HelpPrincess.dir/src/Shader.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Shader.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Shader.cpp > CMakeFiles/HelpPrincess.dir/src/Shader.cpp.i
+CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/InputSystem.cpp > CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.i
 
-CMakeFiles/HelpPrincess.dir/src/Shader.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Shader.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Shader.cpp -o CMakeFiles/HelpPrincess.dir/src/Shader.cpp.s
+CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/InputSystem.cpp -o CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.s
 
-CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
-CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/MeshRenderer.cpp
-CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
-CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
-CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/MeshRenderer.cpp
+CMakeFiles/HelpPrincess.dir/src/Ray.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Ray.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Ray.cpp
+CMakeFiles/HelpPrincess.dir/src/Ray.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Ray.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Ray.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Ray.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Ray.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Ray.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Ray.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Ray.cpp
 
-CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/MeshRenderer.cpp > CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.i
+CMakeFiles/HelpPrincess.dir/src/Ray.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Ray.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Ray.cpp > CMakeFiles/HelpPrincess.dir/src/Ray.cpp.i
 
-CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/MeshRenderer.cpp -o CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.s
+CMakeFiles/HelpPrincess.dir/src/Ray.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Ray.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Ray.cpp -o CMakeFiles/HelpPrincess.dir/src/Ray.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/main.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/main.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/main.cpp
+CMakeFiles/HelpPrincess.dir/src/main.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/main.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/main.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/HelpPrincess.dir/src/main.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/main.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/main.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/main.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/main.cpp
+
+CMakeFiles/HelpPrincess.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/main.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/main.cpp > CMakeFiles/HelpPrincess.dir/src/main.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/main.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/main.cpp -o CMakeFiles/HelpPrincess.dir/src/main.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Mesh.cpp
+CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Mesh.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Mesh.cpp > CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Mesh.cpp -o CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Profiler.cpp
+CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Profiler.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Profiler.cpp > CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Profiler.cpp -o CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Time.cpp
+CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Time.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Time.cpp > CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Time.cpp -o CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Vertex.cpp
+CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Vertex.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Vertex.cpp > CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Core/Vertex.cpp -o CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/FrameBuffer.cpp
+CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/FrameBuffer.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/FrameBuffer.cpp > CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/FrameBuffer.cpp -o CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/GizmosRenderer.cpp
+CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/GizmosRenderer.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/GizmosRenderer.cpp > CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/GizmosRenderer.cpp -o CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/Material.cpp
+CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/Material.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/Material.cpp > CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/Material.cpp -o CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/MeshRenderer.cpp
+CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/MeshRenderer.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/MeshRenderer.cpp > CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/MeshRenderer.cpp -o CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderCommand.cpp
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderCommand.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderCommand.cpp > CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderCommand.cpp -o CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderPipeline.cpp
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderPipeline.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderPipeline.cpp > CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderPipeline.cpp -o CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderQueue.cpp
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderQueue.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderQueue.cpp > CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/RenderQueue.cpp -o CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/Shader.cpp
+CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/Shader.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/Shader.cpp > CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/Shader.cpp -o CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/SkeletonMeshRenderer.cpp
+CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/SkeletonMeshRenderer.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/SkeletonMeshRenderer.cpp > CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Renderer/SkeletonMeshRenderer.cpp -o CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/TextRenderer.cpp
+CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/TextRenderer.cpp
+
+CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/TextRenderer.cpp > CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/TextRenderer.cpp -o CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/UI.cpp
+CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/UI.cpp
+
+CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/UI.cpp > CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/UI.cpp -o CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/UIRenderer.cpp
+CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/UIRenderer.cpp
+
+CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/UIRenderer.cpp > CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/UI/UIRenderer.cpp -o CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/AssetManager.cpp
+CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/AssetManager.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/AssetManager.cpp > CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/AssetManager.cpp -o CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/Importer.cpp
+CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/Importer.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/Importer.cpp > CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/Importer.cpp -o CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/Texture.cpp
+CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/Texture.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/Texture.cpp > CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Asset/Texture.cpp -o CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/AStar.cpp
+CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/AStar.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/AStar.cpp > CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/AStar.cpp -o CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/Agent.cpp
+CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/Agent.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/Agent.cpp > CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/Agent.cpp -o CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/Navigation.cpp
+CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/Navigation.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/Navigation.cpp > CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Navigation/Navigation.cpp -o CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Grid.cpp
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Grid.cpp
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Grid.cpp > CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Grid.cpp -o CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Grid3D.cpp
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Grid3D.cpp
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Grid3D.cpp > CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Grid3D.cpp -o CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/GridSystem.cpp
+CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/GridSystem.cpp
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/GridSystem.cpp > CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/GridSystem.cpp -o CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Node.cpp
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Node.cpp
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Node.cpp > CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Node.cpp -o CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Node3D.cpp
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Node3D.cpp
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Node3D.cpp > CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Node3D.cpp -o CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/TileTable.cpp
+CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/TileTable.cpp
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/TileTable.cpp > CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/TileTable.cpp -o CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Utility.cpp
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Utility.cpp
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Utility.cpp > CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/TileGrid/Utility.cpp -o CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.s
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui.cpp
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.o -MF CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.o.d -o CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui.cpp
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui.cpp > CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.i
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui.cpp -o CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.s
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_demo.cpp
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.o -MF CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.o.d -o CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_demo.cpp
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_demo.cpp > CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.i
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_demo.cpp -o CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.s
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_draw.cpp
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.o -MF CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.o.d -o CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_draw.cpp
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_draw.cpp > CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.i
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_draw.cpp -o CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.s
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_tables.cpp
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.o -MF CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.o.d -o CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_tables.cpp
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_tables.cpp > CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.i
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_tables.cpp -o CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.s
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_widgets.cpp
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.o -MF CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.o.d -o CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_widgets.cpp
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_widgets.cpp > CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.i
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/imgui_widgets.cpp -o CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Animation/Animation.cpp
+CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Animation/Animation.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Animation/Animation.cpp > CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Animation/Animation.cpp -o CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/EntitySystem/AgentSystem.cpp
+CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/EntitySystem/AgentSystem.cpp
+
+CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/EntitySystem/AgentSystem.cpp > CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/EntitySystem/AgentSystem.cpp -o CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Math/MMath.cpp
+CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Math/MMath.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Math/MMath.cpp > CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Math/MMath.cpp -o CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Scene/Scene.cpp
+CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Scene/Scene.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Scene/Scene.cpp > CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Scene/Scene.cpp -o CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Scene/SceneManager.cpp
+CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Scene/SceneManager.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Scene/SceneManager.cpp > CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Scene/SceneManager.cpp -o CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Components/Camera.cpp
+CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Components/Camera.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Components/Camera.cpp > CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Components/Camera.cpp -o CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Components/Transform.cpp
+CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Components/Transform.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Components/Transform.cpp > CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Components/Transform.cpp -o CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.s
+
+CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/src/Procedural/PerlinNoise.cpp
+CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.o -MF CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.o.d -o CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/src/Procedural/PerlinNoise.cpp
+
+CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/src/Procedural/PerlinNoise.cpp > CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.i
+
+CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/src/Procedural/PerlinNoise.cpp -o CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.s
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/backends/imgui_impl_sdl2.cpp
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.o -MF CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.o.d -o CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/backends/imgui_impl_sdl2.cpp
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/backends/imgui_impl_sdl2.cpp > CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.i
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/backends/imgui_impl_sdl2.cpp -o CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.s
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/HelpPrincess.dir/flags.make
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.o: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/backends/imgui_impl_opengl3.cpp
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/HelpPrincess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -MD -MT CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.o -MF CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.o -c /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/backends/imgui_impl_opengl3.cpp
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -E /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/backends/imgui_impl_opengl3.cpp > CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.i
+
+CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -Xclang -include-pch -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir/cmake_pch.hxx -S /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/imgui/backends/imgui_impl_opengl3.cpp -o CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.s
 
 # Object files for target HelpPrincess
 HelpPrincess_OBJECTS = \
-"CMakeFiles/HelpPrincess.dir/src/main.cpp.o" \
 "CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o" \
-"CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o" \
-"CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o"
+"CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Ray.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/main.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.o" \
+"CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.o"
 
 # External object files for target HelpPrincess
 HelpPrincess_EXTERNAL_OBJECTS =
 
 HelpPrincess: CMakeFiles/HelpPrincess.dir/cmake_pch.hxx.pch
-HelpPrincess: CMakeFiles/HelpPrincess.dir/src/main.cpp.o
 HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Engine.cpp.o
-HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Shader.cpp.o
-HelpPrincess: CMakeFiles/HelpPrincess.dir/src/MeshRenderer.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/InputSystem.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Ray.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/main.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Core/Mesh.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Core/Profiler.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Core/Time.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Core/Vertex.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Renderer/FrameBuffer.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Renderer/GizmosRenderer.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Renderer/Material.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Renderer/MeshRenderer.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Renderer/RenderCommand.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Renderer/RenderPipeline.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Renderer/RenderQueue.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Renderer/Shader.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Renderer/SkeletonMeshRenderer.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/UI/TextRenderer.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/UI/UI.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/UI/UIRenderer.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Asset/AssetManager.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Asset/Importer.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Asset/Texture.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Navigation/AStar.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Navigation/Agent.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Navigation/Navigation.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/TileGrid/Grid3D.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/TileGrid/GridSystem.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/TileGrid/Node.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/TileGrid/Node3D.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/TileGrid/TileTable.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/TileGrid/Utility.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_demo.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_draw.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_tables.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/vendors/imgui/imgui_widgets.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Animation/Animation.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/EntitySystem/AgentSystem.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Math/MMath.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Scene/Scene.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Scene/SceneManager.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Components/Camera.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Components/Transform.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/src/Procedural/PerlinNoise.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_sdl2.cpp.o
+HelpPrincess: CMakeFiles/HelpPrincess.dir/vendors/imgui/backends/imgui_impl_opengl3.cpp.o
 HelpPrincess: CMakeFiles/HelpPrincess.dir/build.make
 HelpPrincess: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/usr/lib/libz.tbd
 HelpPrincess: /Library/Frameworks/SDL2.framework/Versions/A/SDL2
 HelpPrincess: /opt/homebrew/lib/libGLEW.2.2.0.dylib
 HelpPrincess: /opt/homebrew/lib/libglm.dylib
+HelpPrincess: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/assimp/lib/libassimp.a
 HelpPrincess: CMakeFiles/HelpPrincess.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable HelpPrincess"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Linking CXX executable HelpPrincess"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/HelpPrincess.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying game assets..."
+	/opt/homebrew/bin/cmake -E copy_directory /Users/sukumduangpattra/Desktop/HelpPrincess/res /Users/sukumduangpattra/Desktop/HelpPrincess/build/res
 
 # Rule to build all files generated by this target.
 CMakeFiles/HelpPrincess.dir/build: HelpPrincess

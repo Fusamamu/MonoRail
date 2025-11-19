@@ -1,4 +1,5 @@
 #include "MeshRenderer.h"
+#include "Core/Mesh.h"
 
 MeshRenderer::~MeshRenderer()
 {

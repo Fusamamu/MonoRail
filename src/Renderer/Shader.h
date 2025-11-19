@@ -1,7 +1,10 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include "../PCH.h"
+#include <string>
+#include <filesystem>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 enum class ShaderType
 {

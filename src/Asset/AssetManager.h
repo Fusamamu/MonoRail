@@ -1,13 +1,9 @@
 #ifndef RESOURCEMANAGER_H
 #define RESOURCEMANAGER_H
 
-#include "../PCH.h"
-#include "../Core/Mesh.h"
-#include "../Renderer/Shader.h"
-#include "../Texture.h"
-#include "stb_image.h"
-
-#include "Importer.h"
+#include "Core/Mesh.h"
+#include "Renderer/Shader.h"
+#include "Texture.h"
 
 inline std::string to_formatted_name(uint8_t value)
 {

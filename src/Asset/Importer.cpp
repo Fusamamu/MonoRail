@@ -1,4 +1,5 @@
 #include "Importer.h"
+#include "Core/Mesh.h"
 
 namespace ASSET
 {

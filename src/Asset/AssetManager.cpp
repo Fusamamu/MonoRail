@@ -1,4 +1,6 @@
 #include "AssetManager.h"
+#include "Importer.h"
+#include "stb_image.h"
 
 void AssetManager::init()
 {

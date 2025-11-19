@@ -2,6 +2,7 @@
 #include "ApplicationConfig.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include "PerlinNoise.h"
 
 ApplicationConfig g_app_config;
 

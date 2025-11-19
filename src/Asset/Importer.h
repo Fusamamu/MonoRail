@@ -1,9 +1,7 @@
 #ifndef IMPORTER_H
 #define IMPORTER_H
 
-#include "../PCH.h"
-#include "../Core/Mesh.h"
-#include "../Core/Vertex.h"
+struct MeshRawData;
 
 namespace ASSET
 {

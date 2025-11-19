@@ -33,73 +33,25 @@ find_library(COCOA_FRAMEWORK Cocoa)
 find_library(IOKIT_FRAMEWORK IOKit)
 find_library(COREVIDEO_FRAMEWORK CoreVideo)
 
+file(GLOB         SRCS            ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+file(GLOB_RECURSE CORE_SRCS       ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/*.cpp)
+file(GLOB_RECURSE RENDERER_SRCS   ${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/*.cpp)
+file(GLOB_RECURSE UI_SRCS         ${CMAKE_CURRENT_SOURCE_DIR}/src/UI/*.cpp)
+file(GLOB_RECURSE ASSET_SRCS      ${CMAKE_CURRENT_SOURCE_DIR}/src/Asset/*.cpp)
+file(GLOB_RECURSE NAVIGATION_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/Navigation/*.cpp)
+file(GLOB_RECURSE TILE_SRCS       ${CMAKE_CURRENT_SOURCE_DIR}/src/TileGrid/*.cpp)
+
 add_executable(${PROJECT_NAME}
+        ${SRCS}
+        ${CORE_SRCS}
+        ${RENDERER_SRCS}
+        ${UI_SRCS}
+        ${ASSET_SRCS}
+        ${NAVIGATION_SRCS}
+        ${TILE_SRCS}
         ${IMGUI_SRCS}
         ${IMGUI_BACKENDS}/imgui_impl_sdl2.cpp
-        ${IMGUI_BACKENDS}/imgui_impl_opengl3.cpp
-        ./src/main.cpp
-        ./src/Engine.cpp
-        src/Renderer/Shader.cpp
-        src/Renderer/MeshRenderer.cpp
-        src/Asset/AssetManager.cpp
-        ./src/InputSystem.cpp
-        ./src/Grid.cpp
-        src/Scene.cpp
-        src/Scene.h
-        src/SceneManager.cpp
-        src/SceneManager.h
-        src/Ray.cpp
-        src/Ray.h
-        src/PerlinNoise.cpp
-        src/PerlinNoise.h
-        src/Renderer/FrameBuffer.cpp
-        src/Renderer/FrameBuffer.h
-        src/Renderer/GizmosRenderer.cpp
-        src/Renderer/GizmosRenderer.h
-        src/Renderer/RenderPipeline.cpp
-        src/Renderer/RenderPipeline.h
-        src/ApplicationConfig.h
-        src/SkeletonMeshRenderer.cpp
-        src/SkeletonMeshRenderer.h
-        src/Animation.cpp
-        src/Animation.h
-        src/UI/UIRenderer.cpp
-        src/UI/UIRenderer.h
-        src/UI/UI.cpp
-        src/UI/UI.h
-        src/UI/TextRenderer.cpp
-        src/UI/TextRenderer.h
-        src/Grid3D.cpp
-        src/Grid3D.h
-        src/MMath.cpp
-        src/MMath.h
-        src/Core/Time.cpp
-        src/Core/Time.h
-        src/Core/Mesh.cpp
-        src/TileTable.cpp
-        src/TileTable.h
-        src/Profiler.cpp
-        src/Profiler.h
-        src/AgentSystem.cpp
-        src/AgentSystem.h
-        src/Navigation/Navigation.cpp
-        src/Navigation/Navigation.h
-        src/Navigation/AStar.cpp
-        src/Navigation/AStar.h
-        src/Navigation/Agent.cpp
-        src/Navigation/Agent.h
-        src/Texture.cpp
-        src/Texture.h
-        src/Asset/Importer.cpp
-        src/Asset/Importer.h
-        src/Core/Vertex.cpp
-        src/Core/Vertex.h
-        src/Renderer/RenderQueue.cpp
-        src/Renderer/RenderQueue.h
-        src/Renderer/RenderCommand.cpp
-        src/Renderer/RenderCommand.h
-        src/Renderer/Material.cpp
-        src/Renderer/Material.h)
+        ${IMGUI_BACKENDS}/imgui_impl_opengl3.cpp)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

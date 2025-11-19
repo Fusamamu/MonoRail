@@ -1,8 +1,9 @@
 #ifndef MESHRENDERER_H
 #define MESHRENDERER_H
 
-#include "../PCH.h"
-#include "../Core/Mesh.h"
+#include <GL/glew.h>
+
+struct Mesh;
 
 struct InstanceData
 {

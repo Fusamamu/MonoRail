@@ -9,7 +9,6 @@
 
 #include "../UI/UIRenderer.h"
 #include "csv.hpp"
-#include "stb_image.h"
 
 namespace MGUI
 {

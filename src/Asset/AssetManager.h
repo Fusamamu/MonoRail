@@ -3,7 +3,7 @@
 
 #include "Core/Mesh.h"
 #include "Renderer/Shader.h"
-#include "Texture.h"
+#include "Asset/Texture.h"
 
 inline std::string to_formatted_name(uint8_t value)
 {

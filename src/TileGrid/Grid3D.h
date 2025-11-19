@@ -5,7 +5,7 @@
 #include <array>
 #include <entt/entt.hpp>
 
-#include "MMath.h"
+#include "Math/MMath.h"
 #include "InputSystem.h"
 #include "Renderer/MeshRenderer.h"
 #include "Navigation/Navigation.h"

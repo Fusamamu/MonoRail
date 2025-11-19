@@ -33,13 +33,17 @@ find_library(COCOA_FRAMEWORK Cocoa)
 find_library(IOKIT_FRAMEWORK IOKit)
 find_library(COREVIDEO_FRAMEWORK CoreVideo)
 
-file(GLOB         SRCS            ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-file(GLOB_RECURSE CORE_SRCS       ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/*.cpp)
-file(GLOB_RECURSE RENDERER_SRCS   ${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/*.cpp)
-file(GLOB_RECURSE UI_SRCS         ${CMAKE_CURRENT_SOURCE_DIR}/src/UI/*.cpp)
-file(GLOB_RECURSE ASSET_SRCS      ${CMAKE_CURRENT_SOURCE_DIR}/src/Asset/*.cpp)
-file(GLOB_RECURSE NAVIGATION_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/Navigation/*.cpp)
-file(GLOB_RECURSE TILE_SRCS       ${CMAKE_CURRENT_SOURCE_DIR}/src/TileGrid/*.cpp)
+file(GLOB         SRCS            ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp             )
+file(GLOB_RECURSE CORE_SRCS       ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/*.cpp        )
+file(GLOB_RECURSE RENDERER_SRCS   ${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/*.cpp    )
+file(GLOB_RECURSE UI_SRCS         ${CMAKE_CURRENT_SOURCE_DIR}/src/UI/*.cpp          )
+file(GLOB_RECURSE ASSET_SRCS      ${CMAKE_CURRENT_SOURCE_DIR}/src/Asset/*.cpp       )
+file(GLOB_RECURSE NAVIGATION_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/Navigation/*.cpp  )
+file(GLOB_RECURSE TILE_SRCS       ${CMAKE_CURRENT_SOURCE_DIR}/src/TileGrid/*.cpp    )
+file(GLOB_RECURSE ANIMATION_SRCS  ${CMAKE_CURRENT_SOURCE_DIR}/src/Animation/*.cpp   )
+file(GLOB_RECURSE ENTITY_SYS_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/EntitySystem/*.cpp)
+file(GLOB_RECURSE MATH_SRCS       ${CMAKE_CURRENT_SOURCE_DIR}/src/Math/*.cpp        )
+file(GLOB_RECURSE SCENE_SRCS      ${CMAKE_CURRENT_SOURCE_DIR}/src/Scene/*.cpp       )
 
 add_executable(${PROJECT_NAME}
         ${SRCS}
@@ -50,6 +54,10 @@ add_executable(${PROJECT_NAME}
         ${NAVIGATION_SRCS}
         ${TILE_SRCS}
         ${IMGUI_SRCS}
+        ${ANIMATION_SRCS}
+        ${ENTITY_SYS_SRCS}
+        ${MATH_SRCS}
+        ${SCENE_SRCS}
         ${IMGUI_BACKENDS}/imgui_impl_sdl2.cpp
         ${IMGUI_BACKENDS}/imgui_impl_opengl3.cpp)
 

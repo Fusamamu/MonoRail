@@ -1,4 +1,5 @@
 #include "../UI/UI.h"
+#include "stb_image.h"
 
 namespace MGUI
 {

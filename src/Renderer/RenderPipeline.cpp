@@ -1,6 +1,6 @@
 #include "RenderPipeline.h"
 
-#include "../MMath.h"
+#include "../Math/MMath.h"
 #include "../PerlinNoise.h"
 
 RenderPipeline::RenderPipeline()

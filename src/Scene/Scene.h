@@ -2,7 +2,7 @@
 #define SCENE_H
 
 #include "PCH.h"
-#include "Camera.h"
+#include "Components/Camera.h"
 #include "InputSystem.h"
 #include "Renderer/Shader.h"
 #include "Core/Mesh.h"
@@ -18,6 +18,9 @@
 #include "EntitySystem/AgentSystem.h"
 #include "Navigation/Navigation.h"
 #include "Navigation/Agent.h"
+
+
+#include "Core/Profiler.h"
 
 class Engine;
 

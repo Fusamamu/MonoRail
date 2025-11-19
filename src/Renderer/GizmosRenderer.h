@@ -2,7 +2,7 @@
 #define GIZMOSRENDERER_H
 
 #include "../PCH.h"
-#include "../Component.h"
+#include "Components/Component.h"
 #include "../Core/Mesh.h"
 
 enum class GizmosType : int8_t

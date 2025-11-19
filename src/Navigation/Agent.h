@@ -1,7 +1,7 @@
 #ifndef AGENT_H
 #define AGENT_H
 
-#include "../Component.h"
+#include "Components/Component.h"
 
 namespace NAV
 {

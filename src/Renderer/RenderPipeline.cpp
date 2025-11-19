@@ -1,7 +1,12 @@
 #include "RenderPipeline.h"
 
-#include "../Math/MMath.h"
-#include "../PerlinNoise.h"
+#include "ApplicationConfig.h"
+#include "Asset/AssetManager.h"
+#include "Math/MMath.h"
+#include "PerlinNoise.h"
+
+#include "Primitive/Quad.h"
+#include "Core/Profiler.h"
 
 RenderPipeline::RenderPipeline()
 {

@@ -2,7 +2,7 @@
 #define ASTAR_H
 
 #include "../PCH.h"
-#include "../Component.h"
+#include "Components/Component.h"
 #include "../Navigation/Navigation.h"
 
 namespace NAV

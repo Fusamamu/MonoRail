@@ -1,6 +1,6 @@
 #include "AgentSystem.h"
 
-#include "Component.h"
+#include "Components/Component.h"
 #include "Asset/AssetManager.h"
 
 void AgentSystem::init(entt::registry& _registry, glm::vec2 _bounds)

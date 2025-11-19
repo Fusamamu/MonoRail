@@ -1,23 +1,23 @@
 #ifndef RENDERPIPELINE_H
 #define RENDERPIPELINE_H
 
-#include "../PCH.h"
-#include "../Camera.h"
-#include "../Primitive/Quad.h"
-#include "FrameBuffer.h"
-#include "../ApplicationConfig.h"
-#include "../Component.h"
-#include "../Asset/AssetManager.h"
-#include "../Renderer/SkeletonMeshRenderer.h"
-#include "../Animation/Animation.h"
-#include "../UI/UI.h"
-#include "GizmosRenderer.h"
+#include "Math/MMath.h"
+
+#include "Components/Camera.h"
+#include "Components/Component.h"
+
+#include "Renderer/FrameBuffer.h"
+#include "Renderer/SkeletonMeshRenderer.h"
+#include "Renderer/GizmosRenderer.h"
+
+#include "Animation/Animation.h"
+#include "UI/UI.h"
 #include "Shader.h"
-#include "../Math/MMath.h"
-#include "../Profiler.h"
-#include "../Asset/Texture.h"
+
+#include "Asset/Texture.h"
 #include "MeshRenderer.h"
 #include "RenderQueue.h"
+
 #include "Material.h"
 
 class RenderPipeline
@@ -46,7 +46,6 @@ public:
     }
 private:
     GLuint tex3D, fbo;
-
 
     RenderQueue m_render_queue;
 

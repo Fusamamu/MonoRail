@@ -7,8 +7,8 @@
 #include "Renderer/Material.h"
 #include "Renderer/MeshRenderer.h"
 
-#include "Component.h"
-#include "Camera.h"
+#include "Components/Component.h"
+#include "Components/Camera.h"
 #include "Ray.h"
 
 #include "TileTable.h"

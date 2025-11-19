@@ -6,6 +6,7 @@
 #include "Renderer/Material.h"
 #include "Renderer/MeshRenderer.h"
 #include "Scene/Scene.h"
+#include "Core/Profiler.h"
 
 ApplicationConfig g_app_config;
 

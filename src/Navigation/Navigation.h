@@ -2,7 +2,7 @@
 #define NAVIGATION_H
 
 #include "../PCH.h"
-#include "../Component.h"
+#include "Components/Component.h"
 
 namespace NAV
 {

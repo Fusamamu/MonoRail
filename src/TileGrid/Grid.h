@@ -2,7 +2,7 @@
 #define GRID_H
 
 #include "Asset/AssetManager.h"
-#include "Component.h"
+#include "Components/Component.h"
 #include "PCH.h"
 #include "Renderer/MeshRenderer.h"
 #include "PerlinNoise.h"

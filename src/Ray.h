@@ -2,7 +2,7 @@
 #define RAYCAST_H
 
 #include "PCH.h"
-#include "Component.h"
+#include "Components/Component.h"
 
 struct Ray
 {

@@ -68,7 +68,11 @@ add_executable(${PROJECT_NAME}
         src/Components/Transform.cpp
         src/Components/Transform.h
         src/Utility/Utility.cpp
-        src/Utility/Utility.h)
+        src/Utility/Utility.h
+        src/TileGrid/Node3D.cpp
+        src/TileGrid/Node3D.h
+        src/TileGrid/Node.cpp
+        src/TileGrid/Node.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

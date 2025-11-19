@@ -1,6 +1,7 @@
 #include "Grid.h"
 
 #include "Components/Transform.h"
+#include "TileGrid/Node.h"
 
 Grid::Grid(size_t width, size_t height)
     : m_width(width), m_height(height) {

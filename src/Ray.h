@@ -1,6 +1,8 @@
 #ifndef RAYCAST_H
 #define RAYCAST_H
 
+
+
 struct AABB;
 
 struct Ray

@@ -1,11 +1,11 @@
 #ifndef NAVIGATION_H
 #define NAVIGATION_H
 
-#include <Components/Camera.h>
-
-#include "../PCH.h"
 #include "Components/Component.h"
+#include "Components/Camera.h"
 #include "Components/Transform.h"
+
+#include "TileGrid/Node3D.h"
 
 namespace NAV
 {

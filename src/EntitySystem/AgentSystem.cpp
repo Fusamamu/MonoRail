@@ -3,6 +3,7 @@
 #include "Components/Component.h"
 #include "Asset/AssetManager.h"
 #include "Components/Transform.h"
+#include "TileGrid/Node.h"
 
 namespace EntitySystem
 {

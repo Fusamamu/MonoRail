@@ -11,6 +11,8 @@
 #include "Renderer/MeshRenderer.h"
 #include "Navigation/Navigation.h"
 
+#include "TileGrid/Node.h"
+
 class Camera;
 
 static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b);

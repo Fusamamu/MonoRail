@@ -29,6 +29,8 @@ else()
     message(FATAL_ERROR "Assimp library not found!")
 endif()
 
+message(STATUS "CMAKE_BINARY_DIR = ${CMAKE_BINARY_DIR}")
+
 find_library(COCOA_FRAMEWORK Cocoa)
 find_library(IOKIT_FRAMEWORK IOKit)
 find_library(COREVIDEO_FRAMEWORK CoreVideo)
@@ -44,7 +46,7 @@ file(GLOB_RECURSE ANIMATION_SRCS  ${CMAKE_CURRENT_SOURCE_DIR}/src/Animation/*.cp
 file(GLOB_RECURSE ENTITY_SYS_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/EntitySystem/*.cpp)
 file(GLOB_RECURSE MATH_SRCS       ${CMAKE_CURRENT_SOURCE_DIR}/src/Math/*.cpp        )
 file(GLOB_RECURSE SCENE_SRCS      ${CMAKE_CURRENT_SOURCE_DIR}/src/Scene/*.cpp       )
-file(GLOB_RECURSE COMPONENTS_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/Component/*.cpp   )
+file(GLOB_RECURSE COMPONENTS_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/Components/*.cpp   )
 file(GLOB_RECURSE PROCEDURAL_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/Procedural/*.cpp  )
 
 add_executable(${PROJECT_NAME}
@@ -63,20 +65,7 @@ add_executable(${PROJECT_NAME}
         ${COMPONENTS_SRCS}
         ${PROCEDURAL_SRCS}
         ${IMGUI_BACKENDS}/imgui_impl_sdl2.cpp
-        ${IMGUI_BACKENDS}/imgui_impl_opengl3.cpp
-        src/Components/Camera.cpp
-        src/Components/Transform.cpp
-        src/Components/Transform.h
-        src/Utility/Utility.cpp
-        src/Utility/Utility.h
-        src/TileGrid/Node3D.cpp
-        src/TileGrid/Node3D.h
-        src/TileGrid/Node.cpp
-        src/TileGrid/Node.h
-        src/TileGrid/Utility.cpp
-        src/TileGrid/Utility.h
-        src/TileGrid/GridSystem.cpp
-        src/TileGrid/GridSystem.h)
+        ${IMGUI_BACKENDS}/imgui_impl_opengl3.cpp)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

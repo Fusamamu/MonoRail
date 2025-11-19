@@ -2,6 +2,7 @@
 -- EnTT target found as: EnTT
 -- Using the multi-header code from /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/json/include/
 -- Found Assimp library: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/assimp/lib/libassimp.a
--- Configuring done (0.0s)
+-- CMAKE_BINARY_DIR = /Users/sukumduangpattra/Desktop/HelpPrincess/cmake-build-debug
+-- Configuring done (0.1s)
 -- Generating done (0.0s)
 -- Build files have been written to: /Users/sukumduangpattra/Desktop/HelpPrincess/cmake-build-debug

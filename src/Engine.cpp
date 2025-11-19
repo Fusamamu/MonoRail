@@ -14,6 +14,8 @@
 
 #include "Procedural/PerlinNoise.h"
 
+#include "Core/Time.h"
+
 ApplicationConfig g_app_config;
 
 std::vector<glm::mat4> generateRandomInstances(int count)

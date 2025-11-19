@@ -1,26 +1,20 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "PCH.h"
-#include "Components/Camera.h"
+#include <string>
+#include <functional>
+#include <SDL2/SDL.h>
+
 #include "InputSystem.h"
+
 #include "Renderer/Shader.h"
-#include "Core/Mesh.h"
-#include "Asset/AssetManager.h"
 #include "Renderer/MeshRenderer.h"
-#include "TileGrid/Grid3D.h"
-#include "Renderer/FrameBuffer.h"
 #include "Renderer/GizmosRenderer.h"
 #include "Renderer/RenderPipeline.h"
-#include "ApplicationConfig.h"
-#include "Ray.h"
-#include "Core/Time.h"
+
 #include "EntitySystem/AgentSystem.h"
+
 #include "Navigation/Navigation.h"
-#include "Navigation/Agent.h"
-
-
-#include "Core/Profiler.h"
 
 class Engine;
 
@@ -29,8 +23,9 @@ public:
     SDL_Window*   p_window;
 
     std::string name;
-    Scene(const std::string& name, Engine* _engine) :
-        name(name),
+
+    Scene(const std::string& _name, Engine* _engine) :
+        name          (_name  ),
         m_engine_owner(_engine)
     {
 
@@ -61,7 +56,8 @@ private:
 
     RenderPipeline m_render_pipeline;
     InputSystem    m_input_system;
-    AgentSystem    m_agent_system;
+
+    EntitySystem::AgentSystem m_agent_system;
 
     GLuint         m_fog_data_ubo;
     FogData        m_fog_data;
@@ -71,36 +67,8 @@ private:
     NAV::TrackGraph m_track_graph;
     std::vector<glm::vec3> m_track_paths;
 
-    void update_scene_graph()
-    {
-        PROFILE_SCOPE("Scene graph");
-        auto _roots = m_registry.view<Node, Component::Transform>(entt::exclude<Parent>);
-
-        for (auto _e : _roots)
-        {
-            auto& _node = m_registry.get<Node>(_e);
-            if (_node.is_static)
-                continue;
-            update_world_transform(_e, glm::mat4(1.0f));
-        }
-    }
-
-    void update_world_transform(entt::entity _entity, const glm::mat4& _parent_world)
-    {
-        PROFILE_SCOPE("Scene transform");
-        auto& _node      = m_registry.get<Node>     (_entity);
-        auto& _transform = m_registry.get<Component::Transform>(_entity);
-
-        if (!_node.is_static || _node.is_dirty)
-            _transform.world_mat = _parent_world * _transform.get_local_mat4();
-
-        auto _view = m_registry.view<Parent>();
-        for (auto _child : _view)
-        {
-            if (_view.get<Parent>(_child).entity == _entity)
-                update_world_transform(_child, _transform.world_mat);
-        }
-    }
+    void update_scene_graph();
+    void update_world_transform(entt::entity _entity, const glm::mat4& _parent_world);
 };
 
 #endif

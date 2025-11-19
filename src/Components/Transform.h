@@ -14,7 +14,6 @@ namespace Component
         ~Transform();
         glm::mat4 get_local_mat4() const;
     };
-
 }
 
 #endif //TRANSFORM_H

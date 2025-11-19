@@ -1,7 +1,16 @@
 #include "Scene.h"
 
 #include "Engine.h"
+#include "ApplicationConfig.h"
+#include "Core/Time.h"
+#include "Core/Profiler.h"
+
+#include "Components/Camera.h"
+
+#include "TileGrid/Grid3D.h"
 #include "Navigation/AStar.h"
+#include "Navigation/Agent.h"
+#include "Navigation/Navigation.h"
 
 Scene::Scene() = default;
 Scene::~Scene() = default;
@@ -562,5 +571,36 @@ void Scene::prototype_corners()
     create_object("corner", "c_0110_0000", glm::vec3(2.0f, 0.0f, 2.0f), _phong_material);
     create_object("corner", "c_0011_0000", glm::vec3(4.0f, 0.0f, 2.0f), _phong_material);
     create_object("corner", "c_1001_0000", glm::vec3(6.0f, 0.0f, 2.0f), _phong_material);
+}
+
+void Scene::update_scene_graph()
+{
+    PROFILE_SCOPE("Scene graph");
+    auto _roots = m_registry.view<Node, Component::Transform>(entt::exclude<Parent>);
+
+    for (auto _e : _roots)
+    {
+        auto& _node = m_registry.get<Node>(_e);
+        if (_node.is_static)
+            continue;
+        update_world_transform(_e, glm::mat4(1.0f));
+    }
+}
+
+void Scene::update_world_transform(entt::entity _entity, const glm::mat4& _parent_world)
+{
+    PROFILE_SCOPE("Scene transform");
+    auto& _node      = m_registry.get<Node>     (_entity);
+    auto& _transform = m_registry.get<Component::Transform>(_entity);
+
+    if (!_node.is_static || _node.is_dirty)
+        _transform.world_mat = _parent_world * _transform.get_local_mat4();
+
+    auto _view = m_registry.view<Parent>();
+    for (auto _child : _view)
+    {
+        if (_view.get<Parent>(_child).entity == _entity)
+            update_world_transform(_child, _transform.world_mat);
+    }
 }
 

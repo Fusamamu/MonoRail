@@ -315,7 +315,7 @@ void Scene::on_update(float delta_time)
     {
         auto& _transform = m_registry.get<Transform>(_e);
         auto& _agent     = m_registry.get<NAV::Agent>    (_e);
-        _agent.update(_transform, Time::delta_f/1000.0f);
+        _agent.update(_transform, Core::Time::delta_f/1000.0f);
     }
 
     //m_agent_system.update(m_registry);
@@ -339,8 +339,8 @@ void Scene::on_render_gui(float _dt)
 
     ImGui::Begin("Scene debug");
 
-    ImGui::Text("FPS: %.1f"       , Time::fps);
-    ImGui::Text("Time delta: %.4f", Time::delta_f);
+    ImGui::Text("FPS: %.1f"       , Core::Time::fps);
+    ImGui::Text("Time delta: %.4f", Core::Time::delta_f);
 
     auto _directional_light_view = m_registry.view<DirectionalLight>();
     for (auto _e : _directional_light_view)

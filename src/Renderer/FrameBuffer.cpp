@@ -1,4 +1,4 @@
-#include "Framebuffer.h"
+#include "FrameBuffer.h"
 #include <iostream>
 
 FrameBuffer::FrameBuffer(unsigned int width, unsigned int height, bool use_depth):

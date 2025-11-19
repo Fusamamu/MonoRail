@@ -316,6 +316,8 @@ namespace NAV
                 return &track_nodes[7];
             if (_entry_dir == ConnectDirection::SOUTH && _exit_dir == ConnectDirection::EAST)
                 return &track_nodes[8];
+
+            return nullptr;
         }
 
         void connect(ConnectDirection _dir, entt::entity _target_track)

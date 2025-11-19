@@ -242,7 +242,7 @@ void Engine::update()
 
     //_scene->create_object("floor", "large_plane" , {0.0f, 0.52f, 0.0f}, _phong_material);
 
-    Time::init();
+    Core::Time::init();
 
     _scene->on_enter();
     while(m_is_running)
@@ -251,7 +251,7 @@ void Engine::update()
 
         PROFILE_SCOPE("Frame");
 
-        Time::update();
+        Core::Time::update();
         _scene->on_update    (0.016f);
         _scene->on_render    (0.016f);
         _scene->on_render_gui(0.016f);

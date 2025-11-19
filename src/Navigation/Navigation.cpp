@@ -6,6 +6,7 @@ namespace NAV
     {
         switch(dir)
         {
+            case ConnectDirection::NONE : return ConnectDirection::NONE;
             case ConnectDirection::NORTH: return ConnectDirection::SOUTH;
             case ConnectDirection::SOUTH: return ConnectDirection::NORTH;
             case ConnectDirection::WEST : return ConnectDirection::EAST ;

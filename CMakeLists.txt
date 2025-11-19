@@ -73,8 +73,8 @@ add_executable(${PROJECT_NAME}
         src/Grid3D.h
         src/MMath.cpp
         src/MMath.h
-        src/Time.cpp
-        src/Time.h
+        src/Core/Time.cpp
+        src/Core/Time.h
         src/Core/Mesh.cpp
         src/TileTable.cpp
         src/TileTable.h
@@ -104,11 +104,12 @@ add_executable(${PROJECT_NAME}
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ./vendors/stb
-        ./vendors/assimp/include
-        ./vendors/csv)
-target_include_directories(${PROJECT_NAME} PUBLIC ./vendors/imgui)
-target_include_directories(${PROJECT_NAME} PUBLIC ./vendors/imgui/backends)
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendors/imgui
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendors/imgui/backends
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendors/stb
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendors/assimp/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendors/csv)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ZLIB::ZLIB)
 target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2)

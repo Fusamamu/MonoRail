@@ -1,21 +1,7 @@
 #ifndef ENGINE_H 
 #define ENGINE_H 
 
-#include "PCH.h"
-#include "Core/Mesh.h"
-#include "Primitive/Sphere.h"
-#include "Primitive/Cube.h"
-#include "Primitive/Quad.h"
-#include "Renderer/MeshRenderer.h"
-#include "Renderer/Shader.h"
-#include "Camera.h"
 #include "SceneManager.h"
-#include "Asset/AssetManager.h"
-#include "InputSystem.h"
-#include "Component.h"
-#include "UI/UI.h"
-#include "Time.h"
-#include "Profiler.h"
 
 class Engine
 {

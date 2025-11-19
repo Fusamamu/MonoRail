@@ -56,16 +56,6 @@ namespace TileGrid
 
     class Grid3D {
     public:
-        // enum class Mode
-        // {
-        //     NONE        = 0,
-        //     ADD_TILE    = 1,
-        //     REMOVE_TILE = 2,
-        //     MARK_TILE   = 3,
-        //     ADD_AGENT   = 4,
-        //     ADD_RAIL    = 5,
-        // };
-
         struct TileData
         {
             std::string mesh_name;
@@ -85,9 +75,9 @@ namespace TileGrid
         void init  (size_t width, size_t height, size_t depth);
         void resize(size_t width, size_t height, size_t depth);
 
-        size_t get_width()  const { return m_width;  }
+        size_t get_width () const { return m_width ; }
         size_t get_height() const { return m_height; }
-        size_t get_depth()  const { return m_depth;  }
+        size_t get_depth () const { return m_depth ; }
 
         const entt::entity& entity_at     (NodeIndex _node_index) const;
         entt::entity      & at            (size_t x, size_t y, size_t z);
@@ -162,13 +152,18 @@ namespace TileGrid
 
         std::vector<uint8_t> get_voxel_data(entt::registry& _registry);
 
+        size_t corner_index(size_t x, size_t y, size_t z) const
+        {
+            return z * ((m_width + 1) * (m_height + 1)) + y * (m_width + 1) + x;
+        }
+
+        std::vector<entt::entity> m_corner_data;
     private:
         size_t m_width  {0};
         size_t m_height {0};
         size_t m_depth  {0};
 
         std::vector<entt::entity> m_data;
-        std::vector<entt::entity> m_corner_data;
 
         std::vector<InstanceData> m_tile_instance_data;
         std::vector<InstanceData> m_corner_instance_data;
@@ -203,10 +198,10 @@ namespace TileGrid
             return _result;
         }
 
-        size_t corner_index(size_t x, size_t y, size_t z) const
-        {
-            return z * ((m_width + 1) * (m_height + 1)) + y * (m_width + 1) + x;
-        }
+        // size_t corner_index(size_t x, size_t y, size_t z) const
+        // {
+        //     return z * ((m_width + 1) * (m_height + 1)) + y * (m_width + 1) + x;
+        // }
 
         void check_bounds(size_t x, size_t y, size_t z) const;
     };

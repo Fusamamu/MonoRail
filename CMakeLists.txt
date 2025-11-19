@@ -74,7 +74,9 @@ add_executable(${PROJECT_NAME}
         src/TileGrid/Node.cpp
         src/TileGrid/Node.h
         src/TileGrid/Utility.cpp
-        src/TileGrid/Utility.h)
+        src/TileGrid/Utility.h
+        src/TileGrid/GridSystem.cpp
+        src/TileGrid/GridSystem.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

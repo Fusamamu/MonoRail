@@ -15,16 +15,8 @@
 #include "TileGrid/Utility.h"
 #include "Procedural/PerlinNoise.h"
 
-
 namespace TileGrid
 {
-    // static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b)
-    // {
-    //     return std::abs((int)_node_a.idx - (int)_node_b.idx)
-    //          + std::abs((int)_node_a.idy - (int)_node_b.idy)
-    //          + std::abs((int)_node_a.idz - (int)_node_b.idz);
-    // }
-
     Grid3D::Grid3D(size_t width, size_t height, size_t depth)
         : m_width(width), m_height(height), m_depth(depth)
     {

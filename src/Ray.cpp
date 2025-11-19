@@ -1,4 +1,5 @@
 #include "Ray.h"
+#include "Components/Component.h"
 
 bool ray_intersects_aabb(const Ray& ray, const AABB& box, float& t_min, float& t_max)
 {

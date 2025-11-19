@@ -1,12 +1,18 @@
 #include "Engine.h"
 #include "ApplicationConfig.h"
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-#include "PerlinNoise.h"
+
 #include "Renderer/Material.h"
 #include "Renderer/MeshRenderer.h"
+
 #include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
+
 #include "Core/Profiler.h"
+
+#include "Procedural/PerlinNoise.h"
 
 ApplicationConfig g_app_config;
 
@@ -80,12 +86,12 @@ std::vector<glm::mat4> generateGrassInstances(int patchCount, int bladesPerPatch
 Engine::Engine(): 
     m_is_running(true)
 {
-
+    p_scene_manager = new SceneManager();
 }
 
 Engine::~Engine()
 {
-
+    delete p_scene_manager;
 }
 
 void create_grass(Scene* _scene)
@@ -104,7 +110,7 @@ void create_grass(Scene* _scene)
 
 void create_grass_shell(Scene* _scene)
 {
-    PerlinNoise _perlin_noise;
+    Procgen::PerlinNoise _perlin_noise;
     GLuint _noise_id = _perlin_noise.generate_perlin_texture(512, 512, 100.0f, 1337);
 
     Material _shell_material;
@@ -215,7 +221,7 @@ void Engine::update()
 {
     glEnable(GL_DEPTH_TEST);
 
-    Scene* _scene = scene_manager.create_scene("new scene", this);
+    Scene* _scene = p_scene_manager->create_scene("new scene", this);
     _scene->p_window = p_window;
 
     Material _phong_material;

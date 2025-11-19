@@ -1,7 +1,7 @@
 #ifndef ENGINE_H 
 #define ENGINE_H 
 
-#include "Scene/SceneManager.h"
+class SceneManager;
 
 class Engine
 {
@@ -10,7 +10,7 @@ public:
     SDL_GLContext context;
     SDL_Event     sdl_event;
 
-    SceneManager scene_manager;
+    SceneManager* p_scene_manager;
 
     Engine();
     ~Engine();

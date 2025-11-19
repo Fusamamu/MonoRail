@@ -1,8 +1,7 @@
 #ifndef RAYCAST_H
 #define RAYCAST_H
 
-#include "PCH.h"
-#include "Components/Component.h"
+struct AABB;
 
 struct Ray
 {

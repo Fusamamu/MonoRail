@@ -4,153 +4,156 @@
 #include "PCH.h"
 #include "Ray.h"
 
-struct CameraData
+namespace Componenet
 {
-    glm::mat4 projection;
-    glm::mat4 view;
-    alignas(16) glm::vec3 viewPos;
-};
-
-struct Camera
-{
-    glm::vec3 position {0.0f, 0.0f, 3.0f};
-    glm::vec3 target   {0.0f, 0.0f, 0.0f}; //will remove?
-    glm::vec3 front    {0.0f, 0.0f, -1.0f};
-    glm::vec3 up       {0.0f, 1.0f, 0.0f};
-    glm::vec3 right    {1.0f, 0.0f, 0.0f};
-
-    float fov        = 35.0f;     // field of view in degrees
-    float aspect     = 4.0f/3.0f; // width / height
-    float near_plane = 0.1f;
-    float far_plane  = 100.0f;
-
-    float yaw   = -90.0f; // horizontal rotation
-    float pitch = 0.0f;   // vertical rotation
-
-    float focus_distance = 10.0f;
-    float focus_range    = 5.0f;
-
-    Camera()
+    struct CameraData
     {
-        std::cout << "Camera constructor" << std::endl;
-    }
+        glm::mat4 projection;
+        glm::mat4 view;
+        alignas(16) glm::vec3 viewPos;
+    };
 
-    glm::mat4 get_view_matrix() const
+    struct Camera
     {
-        return glm::lookAt(position, position + front, up);
-    }
+        glm::vec3 position {0.0f, 0.0f, 3.0f};
+        glm::vec3 target   {0.0f, 0.0f, 0.0f}; //will remove?
+        glm::vec3 front    {0.0f, 0.0f, -1.0f};
+        glm::vec3 up       {0.0f, 1.0f, 0.0f};
+        glm::vec3 right    {1.0f, 0.0f, 0.0f};
 
-    glm::mat4 get_projection_matrix() const
-    {
-        return glm::perspective(glm::radians(fov), aspect, near_plane, far_plane);
-    }
+        float fov        = 35.0f;     // field of view in degrees
+        float aspect     = 4.0f/3.0f; // width / height
+        float near_plane = 0.1f;
+        float far_plane  = 100.0f;
 
-    CameraData get_camera_data() const
-    {
-        CameraData data{};
-        data.projection = get_projection_matrix();
-        data.view       = get_view_matrix();
-        data.viewPos    = position;
-        return data;
-    }
+        float yaw   = -90.0f; // horizontal rotation
+        float pitch = 0.0f;   // vertical rotation
 
-    void camera_move_left(float distance)
-    {
-        glm::vec3 forward = glm::normalize(target - position);
-        glm::vec3 right   = glm::normalize(glm::cross(forward, up));
-        position -= right * distance;
-        target   -= right * distance;
-    }
+        float focus_distance = 10.0f;
+        float focus_range    = 5.0f;
 
-    void camera_move_right(float distance)
-    {
-        glm::vec3 forward = glm::normalize(target - position);
-        glm::vec3 right   = glm::normalize(glm::cross(forward, up));
-        position += right * distance;
-        target   += right * distance;
-    }
+        Camera()
+        {
+            std::cout << "Camera constructor" << std::endl;
+        }
 
-    void camera_move_up(float distance)
-    {
-        glm::vec3 dir = glm::normalize(up);
-        position += dir * distance;
-        target   += dir * distance;
-    }
+        glm::mat4 get_view_matrix() const
+        {
+            return glm::lookAt(position, position + front, up);
+        }
 
-    void camera_move_down(float distance)
-    {
-        glm::vec3 dir = glm::normalize(up);
-        position -= dir * distance;
-        target   -= dir * distance;
-    }
+        glm::mat4 get_projection_matrix() const
+        {
+            return glm::perspective(glm::radians(fov), aspect, near_plane, far_plane);
+        }
 
-    void move_forward(float distance)  { position += front * distance; }
-    void move_backward(float distance) { position -= front * distance; }
-    void move_right(float distance)    { position += right * distance; }
-    void move_left(float distance)     { position -= right * distance; }
-    void move_up(float distance)       { position += up * distance; }
-    void move_down(float distance)     { position -= up * distance; }
+        CameraData get_camera_data() const
+        {
+            CameraData data{};
+            data.projection = get_projection_matrix();
+            data.view       = get_view_matrix();
+            data.viewPos    = position;
+            return data;
+        }
 
-    // --- Mouse look ---
-    void rotate(float yaw_offset, float pitch_offset)
-    {
-        yaw   += yaw_offset;
-        pitch += pitch_offset;
+        void camera_move_left(float distance)
+        {
+            glm::vec3 forward = glm::normalize(target - position);
+            glm::vec3 right   = glm::normalize(glm::cross(forward, up));
+            position -= right * distance;
+            target   -= right * distance;
+        }
 
-        if (pitch > 89.0f)
-            pitch = 89.0f;
-        if (pitch < -89.0f)
-            pitch = -89.0f;
+        void camera_move_right(float distance)
+        {
+            glm::vec3 forward = glm::normalize(target - position);
+            glm::vec3 right   = glm::normalize(glm::cross(forward, up));
+            position += right * distance;
+            target   += right * distance;
+        }
 
-        update_vectors();
-    }
+        void camera_move_up(float distance)
+        {
+            glm::vec3 dir = glm::normalize(up);
+            position += dir * distance;
+            target   += dir * distance;
+        }
 
-    void update_vectors()
-    {
-        // Convert spherical coordinates to Cartesian
-        glm::vec3 f;
-        f.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-        f.y = sin(glm::radians(pitch));
-        f.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-        front = glm::normalize(f);
+        void camera_move_down(float distance)
+        {
+            glm::vec3 dir = glm::normalize(up);
+            position -= dir * distance;
+            target   -= dir * distance;
+        }
 
-        // Recalculate right and up vectors
-        right = glm::normalize(glm::cross(front, glm::vec3(0.0f,1.0f,0.0f)));
-        up    = glm::normalize(glm::cross(right, front));
-    }
+        void move_forward(float distance)  { position += front * distance; }
+        void move_backward(float distance) { position -= front * distance; }
+        void move_right(float distance)    { position += right * distance; }
+        void move_left(float distance)     { position -= right * distance; }
+        void move_up(float distance)       { position += up * distance; }
+        void move_down(float distance)     { position -= up * distance; }
 
-    void update_angles_from_vectors()
-    {
-        glm::vec3 f = glm::normalize(front);
-        yaw   = glm::degrees(atan2(f.z, f.x));
-        pitch = glm::degrees(asin(f.y));
+        // --- Mouse look ---
+        void rotate(float yaw_offset, float pitch_offset)
+        {
+            yaw   += yaw_offset;
+            pitch += pitch_offset;
 
-        if (pitch > 89.0f)
-            pitch = 89.0f;
-        if (pitch < -89.0f)
-            pitch = -89.0f;
+            if (pitch > 89.0f)
+                pitch = 89.0f;
+            if (pitch < -89.0f)
+                pitch = -89.0f;
 
-        right = glm::normalize(glm::cross(front, glm::vec3(0.0f, 1.0f, 0.0f)));
-        up    = glm::normalize(glm::cross(right, front));
-    }
+            update_vectors();
+        }
 
-    // Convert screen coordinates (pixels) to world ray
-    Ray screen_point_to_ray(const glm::vec2& screen_pos, const glm::vec2& screen_size) const
-    {
-        // Normalize screen coords to NDC
-        float x = (2.0f * screen_pos.x) / screen_size.x - 1.0f;
-        float y = 1.0f - (2.0f * screen_pos.y) / screen_size.y;
-        glm::vec4 ray_ndc(x, y, -1.0f, 1.0f);
+        void update_vectors()
+        {
+            // Convert spherical coordinates to Cartesian
+            glm::vec3 f;
+            f.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+            f.y = sin(glm::radians(pitch));
+            f.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+            front = glm::normalize(f);
 
-        // Clip space -> view space
-        glm::vec4 ray_eye = glm::inverse(get_projection_matrix()) * ray_ndc;
-        ray_eye.z = -1.0f; ray_eye.w = 0.0f;
+            // Recalculate right and up vectors
+            right = glm::normalize(glm::cross(front, glm::vec3(0.0f,1.0f,0.0f)));
+            up    = glm::normalize(glm::cross(right, front));
+        }
 
-        // View space -> world space
-        glm::vec3 ray_wor = glm::normalize(glm::vec3(glm::inverse(get_view_matrix()) * ray_eye));
+        void update_angles_from_vectors()
+        {
+            glm::vec3 f = glm::normalize(front);
+            yaw   = glm::degrees(atan2(f.z, f.x));
+            pitch = glm::degrees(asin(f.y));
 
-        return { position, ray_wor };
-    }
-};
+            if (pitch > 89.0f)
+                pitch = 89.0f;
+            if (pitch < -89.0f)
+                pitch = -89.0f;
+
+            right = glm::normalize(glm::cross(front, glm::vec3(0.0f, 1.0f, 0.0f)));
+            up    = glm::normalize(glm::cross(right, front));
+        }
+
+        // Convert screen coordinates (pixels) to world ray
+        Ray screen_point_to_ray(const glm::vec2& screen_pos, const glm::vec2& screen_size) const
+        {
+            // Normalize screen coords to NDC
+            float x = (2.0f * screen_pos.x) / screen_size.x - 1.0f;
+            float y = 1.0f - (2.0f * screen_pos.y) / screen_size.y;
+            glm::vec4 ray_ndc(x, y, -1.0f, 1.0f);
+
+            // Clip space -> view space
+            glm::vec4 ray_eye = glm::inverse(get_projection_matrix()) * ray_ndc;
+            ray_eye.z = -1.0f; ray_eye.w = 0.0f;
+
+            // View space -> world space
+            glm::vec3 ray_wor = glm::normalize(glm::vec3(glm::inverse(get_view_matrix()) * ray_eye));
+
+            return { position, ray_wor };
+        }
+    };
+}
 
 #endif

@@ -12,7 +12,7 @@
 #include "Ray.h"
 
 #include "TileTable.h"
-#include "PerlinNoise.h"
+#include "Procedural/PerlinNoise.h"
 
 static inline float heuristic_manhattan(NodeIndex _node_a, NodeIndex _node_b)
 {
@@ -41,7 +41,7 @@ void Grid3D::resize(size_t width, size_t height, size_t depth)
     m_corner_data.assign((width + 1) * (height + 1) * (depth + 1), entt::null);
 }
 
-void Grid3D::update(entt::registry &_registry, Camera _camera, InputSystem& _input_system)
+void Grid3D::update(entt::registry &_registry, Componenet::Camera _camera, InputSystem& _input_system)
 {
     switch (mode)
     {
@@ -255,7 +255,7 @@ void Grid3D::create_tile_instance(entt::registry& _registry)
 }
 
 void Grid3D::generate_tiles_with_perlin(entt::registry& _registry) {
-    PerlinNoise noise(12345); // fixed seed
+    Procgen::PerlinNoise noise(12345); // fixed seed
 
     for (size_t z = 0; z < m_depth; ++z) {
         for (size_t y = 0; y < m_height; ++y) {

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <array>
+#include <Components/Camera.h>
 #include <entt/entt.hpp>
 
 #include "Math/MMath.h"
@@ -115,7 +116,7 @@ public:
         _mesh_renderer.update_instance_color(m_tile_instance_data, 1, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
-    void update(entt::registry &_registry, Camera _camera, InputSystem& _input_system);
+    void update(entt::registry &_registry, Componenet::Camera _camera, InputSystem& _input_system);
 
     std::optional<std::vector<entt::entity>> find_path(entt::registry& __restrict, NodeIndex _start_node, NodeIndex _dest_node);
     std::optional<std::vector<entt::entity>> find_path(entt::registry& _registry);

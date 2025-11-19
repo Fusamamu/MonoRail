@@ -3,7 +3,7 @@
 #include "ApplicationConfig.h"
 #include "Asset/AssetManager.h"
 #include "Math/MMath.h"
-#include "PerlinNoise.h"
+#include "Procedural/PerlinNoise.h"
 
 #include "Primitive/Quad.h"
 #include "Core/Profiler.h"
@@ -100,7 +100,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     _depth_of_field->set_float("near_plane", 1);
     _depth_of_field->set_float("far_plane", 550);
 
-    auto& _camera = _registry.ctx().get<Camera>();
+    auto& _camera = _registry.ctx().get<Componenet::Camera>();
     _depth_of_field->set_float("u_focus_dist" , _camera.focus_distance);
     _depth_of_field->set_float("u_focus_range", _camera.focus_range);
 
@@ -161,7 +161,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     //Gen camera ubo
     glGenBuffers(1, &m_camera_data_ubo);
     glBindBuffer(GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(CameraData), nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(Componenet::CameraData), nullptr, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     //Gen light ubo
@@ -177,10 +177,10 @@ void RenderPipeline::init(const entt::registry& _registry)
     // glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     //Camera
-    CameraData camera_data = _registry.ctx().get<Camera>().get_camera_data();
+    Componenet::CameraData camera_data = _registry.ctx().get<Componenet::Camera>().get_camera_data();
 
     glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraData), &camera_data);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Componenet::CameraData), &camera_data);
     glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_camera_data_ubo);
@@ -227,7 +227,7 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     m_gizmos_renderer.init(GizmosType::LINE);
 
-    PerlinNoise perlin_noise;
+    Procgen::PerlinNoise perlin_noise;
     std::vector<float> perlin_noise_data = perlin_noise.generate_perlin_data(256, 256, 6.0f, 2035);
     m_perlin_noise_texture.generate_texture(256, 256, perlin_noise_data);
 
@@ -297,13 +297,13 @@ void RenderPipeline::render(const entt::registry& _registry)
         if (!_light.cast_shadow)
             continue;
 
-        CameraData _camera_data;
+        Componenet::CameraData _camera_data;
         _camera_data.viewPos    = _light.position;
         _camera_data.projection = _light.get_projection_matrix();
         _camera_data.view       = _light.get_view_matrix();
 
         glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraData), &_camera_data);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Componenet::CameraData), &_camera_data);
         glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
         m_depth_shadow_map_framebuffer.bind();
@@ -334,10 +334,10 @@ void RenderPipeline::render(const entt::registry& _registry)
 
 #pragma endregion
 
-    CameraData _camera_data = _registry.ctx().get<Camera>().get_camera_data();
+    Componenet::CameraData _camera_data = _registry.ctx().get<Componenet::Camera>().get_camera_data();
 
     glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraData), &_camera_data);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Componenet::CameraData), &_camera_data);
     glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
 #pragma region render color n depth texture pass
@@ -621,13 +621,13 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
         if (!_light.cast_shadow)
             continue;
 
-        CameraData _camera_data;
+        Componenet::CameraData _camera_data;
         _camera_data.viewPos    = _light.position;
         _camera_data.projection = _light.get_projection_matrix();
         _camera_data.view       = _light.get_view_matrix();
 
         glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraData), &_camera_data);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Componenet::CameraData), &_camera_data);
         glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
         m_depth_shadow_map_framebuffer.bind();
@@ -664,10 +664,10 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
     // glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(_camera_view));
     // glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
-    CameraData _camera_data = _registry.ctx().get<Camera>().get_camera_data();
+    Componenet::CameraData _camera_data = _registry.ctx().get<Componenet::Camera>().get_camera_data();
 
     glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraData), &_camera_data);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Componenet::CameraData), &_camera_data);
     glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
 #pragma region render color n depth texture pass
@@ -726,7 +726,7 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
         {
             glDepthMask(GL_FALSE);
 
-            auto& _camera = _registry.ctx().get<Camera>();
+            auto& _camera = _registry.ctx().get<Componenet::Camera>();
 
             _found_shader->use();
             _found_shader->set_int  ("u_color_texture", 0);

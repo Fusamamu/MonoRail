@@ -5,7 +5,7 @@
 #include "Components/Component.h"
 #include "PCH.h"
 #include "Renderer/MeshRenderer.h"
-#include "PerlinNoise.h"
+#include "Procedural/PerlinNoise.h"
 #include "Renderer/Material.h"
 
 class Grid {

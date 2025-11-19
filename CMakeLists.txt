@@ -45,6 +45,7 @@ file(GLOB_RECURSE ENTITY_SYS_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/EntitySystem/*
 file(GLOB_RECURSE MATH_SRCS       ${CMAKE_CURRENT_SOURCE_DIR}/src/Math/*.cpp        )
 file(GLOB_RECURSE SCENE_SRCS      ${CMAKE_CURRENT_SOURCE_DIR}/src/Scene/*.cpp       )
 file(GLOB_RECURSE COMPONENTS_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/Component/*.cpp   )
+file(GLOB_RECURSE PROCEDURAL_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/Procedural/*.cpp  )
 
 add_executable(${PROJECT_NAME}
         ${SRCS}
@@ -60,6 +61,7 @@ add_executable(${PROJECT_NAME}
         ${MATH_SRCS}
         ${SCENE_SRCS}
         ${COMPONENTS_SRCS}
+        ${PROCEDURAL_SRCS}
         ${IMGUI_BACKENDS}/imgui_impl_sdl2.cpp
         ${IMGUI_BACKENDS}/imgui_impl_opengl3.cpp)
 

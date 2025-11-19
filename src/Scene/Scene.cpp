@@ -90,7 +90,7 @@ void update_boids(entt::registry& reg, float dt) {
 
 void Scene::on_enter()
 {
-    auto& _camera = m_registry.ctx().emplace<Camera>();
+    auto& _camera = m_registry.ctx().emplace<Componenet::Camera>();
 
     _camera.position = { 20.0f, 20.0f, 20.0f };
     _camera.target   = { 0.0f, 0.0f, 0.0f };
@@ -183,7 +183,7 @@ void Scene::on_update(float delta_time)
     if (m_input_system.get_quit_requested())
         m_engine_owner->request_quit();
 
-    auto& _camera = m_registry.ctx().get<Camera>();
+    auto& _camera = m_registry.ctx().get<Componenet::Camera>();
 
     if (m_input_system.is_mouse_button_held(SDL_BUTTON_RIGHT))
     {
@@ -364,7 +364,7 @@ void Scene::on_render_gui(float _dt)
     ImGui::Checkbox("Display shadow map", &m_render_pipeline.display_shadow_map);
     ImGui::Checkbox("Display DOF"       , &m_render_pipeline.display_dof);
 
-    auto& _camera = m_registry.ctx().get<Camera>();
+    auto& _camera = m_registry.ctx().get<Componenet::Camera>();
 
     if (ImGui::DragFloat("near", &_camera.near_plane))
     {

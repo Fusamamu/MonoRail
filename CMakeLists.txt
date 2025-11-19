@@ -72,7 +72,9 @@ add_executable(${PROJECT_NAME}
         src/TileGrid/Node3D.cpp
         src/TileGrid/Node3D.h
         src/TileGrid/Node.cpp
-        src/TileGrid/Node.h)
+        src/TileGrid/Node.h
+        src/TileGrid/Utility.cpp
+        src/TileGrid/Utility.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

@@ -135,16 +135,16 @@ void Scene::on_update(float delta_time)
             _camera.camera_move_down(0.25f);
     }
 
-    if (auto* _grid = m_registry.ctx().find<Grid3D>())
+    if (auto* _grid = m_registry.ctx().find<TileGrid::Grid3D>())
     {
         {
             PROFILE_SCOPE("Grid update");
 
             switch (_grid->mode)
             {
-                case Grid3D::Mode::NONE:
+                case TileGrid::EditMode::NONE:
                     break;
-                case Grid3D::Mode::ADD_TILE:
+                case TileGrid::EditMode::ADD_TILE:
                     {
                         if (m_input_system.left_mouse_pressed())
                         {
@@ -169,13 +169,13 @@ void Scene::on_update(float delta_time)
                         }
                     }
                     break;
-                case Grid3D::Mode::REMOVE_TILE:
+                case TileGrid::EditMode::REMOVE_TILE:
                     break;
-                case Grid3D::Mode::MARK_TILE:
+                case TileGrid::EditMode::MARK_TILE:
                     break;
-                case Grid3D::Mode::ADD_AGENT:
+                case TileGrid::EditMode::ADD_AGENT:
                     break;
-                case Grid3D::Mode::ADD_RAIL:
+                case TileGrid::EditMode::ADD_RAIL:
                     {
 
                         if (m_input_system.left_mouse_pressed())
@@ -411,12 +411,12 @@ void Scene::on_render_gui(float _dt)
     //     _ui_noise_shader->set_vec3("u_effect_color", _effect_color);
     // }
 
-    if (Grid3D* _grid = m_registry.ctx().find<Grid3D>())
+    if (TileGrid::Grid3D* _grid = m_registry.ctx().find<TileGrid::Grid3D>())
     {
         const char* DirectionNames[] = { "NONE", "ADD TILE", "REMOVE TILE", "MARK TILE", "ADD AGENT" };
         int current = static_cast<int>(_grid->mode);
         if (ImGui::Combo("Tile mode", &current, DirectionNames, IM_ARRAYSIZE(DirectionNames))) {
-            _grid->mode = static_cast<Grid3D::Mode>(current);
+            _grid->mode = static_cast<TileGrid::EditMode>(current);
         }
     }
 
@@ -429,7 +429,7 @@ void Scene::on_render_gui(float _dt)
 
 void Scene::create_tile_grid()
 {
-    Grid3D& _grid = m_registry.ctx().emplace<Grid3D>();
+    TileGrid::Grid3D& _grid = m_registry.ctx().emplace<TileGrid::Grid3D>();
     _grid.init(10, 10, 10);
     _grid.generate_tiles        (m_registry);
     //_grid.create_tile_instance  (m_registry);

@@ -74,7 +74,7 @@ private:
     void update_scene_graph()
     {
         PROFILE_SCOPE("Scene graph");
-        auto _roots = m_registry.view<Node, Transform>(entt::exclude<Parent>);
+        auto _roots = m_registry.view<Node, Component::Transform>(entt::exclude<Parent>);
 
         for (auto _e : _roots)
         {
@@ -89,7 +89,7 @@ private:
     {
         PROFILE_SCOPE("Scene transform");
         auto& _node      = m_registry.get<Node>     (_entity);
-        auto& _transform = m_registry.get<Transform>(_entity);
+        auto& _transform = m_registry.get<Component::Transform>(_entity);
 
         if (!_node.is_static || _node.is_dirty)
             _transform.world_mat = _parent_world * _transform.get_local_mat4();

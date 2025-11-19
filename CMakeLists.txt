@@ -63,7 +63,10 @@ add_executable(${PROJECT_NAME}
         ${COMPONENTS_SRCS}
         ${PROCEDURAL_SRCS}
         ${IMGUI_BACKENDS}/imgui_impl_sdl2.cpp
-        ${IMGUI_BACKENDS}/imgui_impl_opengl3.cpp)
+        ${IMGUI_BACKENDS}/imgui_impl_opengl3.cpp
+        src/Components/Camera.cpp
+        src/Components/Transform.cpp
+        src/Components/Transform.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

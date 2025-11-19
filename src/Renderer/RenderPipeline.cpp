@@ -100,7 +100,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     _depth_of_field->set_float("near_plane", 1);
     _depth_of_field->set_float("far_plane", 550);
 
-    auto& _camera = _registry.ctx().get<Componenet::Camera>();
+    auto& _camera = _registry.ctx().get<Component::Camera>();
     _depth_of_field->set_float("u_focus_dist" , _camera.focus_distance);
     _depth_of_field->set_float("u_focus_range", _camera.focus_range);
 
@@ -161,7 +161,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     //Gen camera ubo
     glGenBuffers(1, &m_camera_data_ubo);
     glBindBuffer(GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(Componenet::CameraData), nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(Component::CameraData), nullptr, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     //Gen light ubo
@@ -177,10 +177,10 @@ void RenderPipeline::init(const entt::registry& _registry)
     // glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     //Camera
-    Componenet::CameraData camera_data = _registry.ctx().get<Componenet::Camera>().get_camera_data();
+    Component::CameraData camera_data = _registry.ctx().get<Component::Camera>().get_camera_data();
 
     glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Componenet::CameraData), &camera_data);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Component::CameraData), &camera_data);
     glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_camera_data_ubo);
@@ -271,7 +271,7 @@ void RenderPipeline::render(const entt::registry& _registry)
 {
     m_render_queue.clear();
 
-    auto _mesh_view = _registry.view<Transform, Material, MeshRenderer>();
+    auto _mesh_view = _registry.view<Component::Transform, Material, MeshRenderer>();
 
     for (auto [_e, _transform, _material, _mesh_renderer] : _mesh_view.each())
     {
@@ -297,13 +297,13 @@ void RenderPipeline::render(const entt::registry& _registry)
         if (!_light.cast_shadow)
             continue;
 
-        Componenet::CameraData _camera_data;
+        Component::CameraData _camera_data;
         _camera_data.viewPos    = _light.position;
         _camera_data.projection = _light.get_projection_matrix();
         _camera_data.view       = _light.get_view_matrix();
 
         glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Componenet::CameraData), &_camera_data);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Component::CameraData), &_camera_data);
         glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
         m_depth_shadow_map_framebuffer.bind();
@@ -314,7 +314,7 @@ void RenderPipeline::render(const entt::registry& _registry)
 
         for (auto _e : _mesh_view)
         {
-            auto& _transform     = _registry.get<Transform>   (_e);
+            auto& _transform     = _registry.get<Component::Transform>   (_e);
             auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
             auto& _material      = _registry.get<Material>    (_e);
 
@@ -334,10 +334,10 @@ void RenderPipeline::render(const entt::registry& _registry)
 
 #pragma endregion
 
-    Componenet::CameraData _camera_data = _registry.ctx().get<Componenet::Camera>().get_camera_data();
+    Component::CameraData _camera_data = _registry.ctx().get<Component::Camera>().get_camera_data();
 
     glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Componenet::CameraData), &_camera_data);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Component::CameraData), &_camera_data);
     glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
 #pragma region render color n depth texture pass
@@ -349,7 +349,7 @@ void RenderPipeline::render(const entt::registry& _registry)
 
     for (auto _e : _mesh_view)
     {
-        auto& _transform     = _registry.get<Transform>   (_e);
+        auto& _transform     = _registry.get<Component::Transform>   (_e);
         auto& _material      = _registry.get<Material>    (_e);
         auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
 
@@ -483,10 +483,10 @@ void RenderPipeline::render(const entt::registry& _registry)
 
 
         //-----------Gizmos-----------------------//
-        auto _gizmos_view = _registry.view<Transform, AABB, GizmosRenderer>();
+        auto _gizmos_view = _registry.view<Component::Transform, AABB, GizmosRenderer>();
         for (auto _e : _gizmos_view)
         {
-            auto& _transform      = _registry.get<Transform>(_e);
+            auto& _transform      = _registry.get<Component::Transform>(_e);
             auto& _aabb           = _registry.get<AABB>(_e);
             auto& _gizmo_renderer = _registry.get<GizmosRenderer>(_e);
 
@@ -609,7 +609,7 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
     // _shell_shader->use();
     // _shell_shader->set_float("u_time", SDL_GetTicks() / 16000.0f);
 
-    auto _mesh_view = _registry.view<Transform, MeshRenderer, Material>();
+    auto _mesh_view = _registry.view<Component::Transform, MeshRenderer, Material>();
 
 #pragma region reneder shadow make_public
 
@@ -621,13 +621,13 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
         if (!_light.cast_shadow)
             continue;
 
-        Componenet::CameraData _camera_data;
+        Component::CameraData _camera_data;
         _camera_data.viewPos    = _light.position;
         _camera_data.projection = _light.get_projection_matrix();
         _camera_data.view       = _light.get_view_matrix();
 
         glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Componenet::CameraData), &_camera_data);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Component::CameraData), &_camera_data);
         glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
         m_depth_shadow_map_framebuffer.bind();
@@ -638,7 +638,7 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
 
         for (auto _e : _mesh_view)
         {
-            auto& _transform     = _registry.get<Transform>   (_e);
+            auto& _transform     = _registry.get<Component::Transform>   (_e);
             auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
             auto& _material      = _registry.get<Material>    (_e);
 
@@ -664,10 +664,10 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
     // glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(_camera_view));
     // glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
-    Componenet::CameraData _camera_data = _registry.ctx().get<Componenet::Camera>().get_camera_data();
+    Component::CameraData _camera_data = _registry.ctx().get<Component::Camera>().get_camera_data();
 
     glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Componenet::CameraData), &_camera_data);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Component::CameraData), &_camera_data);
     glBindBuffer   (GL_UNIFORM_BUFFER, 0);
 
 #pragma region render color n depth texture pass
@@ -679,7 +679,7 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
 
     for (auto _e : _mesh_view)
     {
-        auto& _transform     = _registry.get<Transform>   (_e);
+        auto& _transform     = _registry.get<Component::Transform>   (_e);
         auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
         auto& _material      = _registry.get<Material>    (_e);
 
@@ -706,7 +706,7 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
 
     for (auto _e : _mesh_view)
     {
-        auto& _transform     = _registry.get<Transform>   (_e);
+        auto& _transform     = _registry.get<Component::Transform>   (_e);
         auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
         auto& _material      = _registry.get<Material>    (_e);
 
@@ -726,7 +726,7 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
         {
             glDepthMask(GL_FALSE);
 
-            auto& _camera = _registry.ctx().get<Componenet::Camera>();
+            auto& _camera = _registry.ctx().get<Component::Camera>();
 
             _found_shader->use();
             _found_shader->set_int  ("u_color_texture", 0);
@@ -759,10 +759,10 @@ void RenderPipeline::render_raw(const entt::registry& _registry)
              glDepthMask(GL_TRUE);    // restore
     }
 
-    auto _gizmos_view = _registry.view<Transform, AABB, GizmosRenderer>();
+    auto _gizmos_view = _registry.view<Component::Transform, AABB, GizmosRenderer>();
     for (auto _e : _gizmos_view)
     {
-        auto& _transform      = _registry.get<Transform>(_e);
+        auto& _transform      = _registry.get<Component::Transform>(_e);
         auto& _aabb           = _registry.get<AABB>(_e);
         auto& _gizmo_renderer = _registry.get<GizmosRenderer>(_e);
 
@@ -889,11 +889,11 @@ void RenderPipeline::render_default(const entt::registry& _registry)
     glEnable    (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    auto _mesh_view = _registry.view<Transform, MeshRenderer, Material>();
+    auto _mesh_view = _registry.view<Component::Transform, MeshRenderer, Material>();
 
     for (auto _e : _mesh_view)
     {
-        auto& _transform     = _registry.get<Transform>   (_e);
+        auto& _transform     = _registry.get<Component::Transform>   (_e);
         auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
         auto& _material      = _registry.get<Material>    (_e);
 

@@ -41,7 +41,7 @@ void Grid3D::resize(size_t width, size_t height, size_t depth)
     m_corner_data.assign((width + 1) * (height + 1) * (depth + 1), entt::null);
 }
 
-void Grid3D::update(entt::registry &_registry, Componenet::Camera _camera, InputSystem& _input_system)
+void Grid3D::update(entt::registry &_registry, Component::Camera _camera, InputSystem& _input_system)
 {
     switch (mode)
     {
@@ -183,7 +183,7 @@ void Grid3D::generate_tiles(entt::registry& _registry)
 
                 auto& _node         = _registry.emplace<Node>     (_e);
                 auto& _node3D       = _registry.emplace<Node3D>   (_e, Node3D(x, y, z));
-                auto& _transform    = _registry.emplace<Transform>(_e);
+                auto& _transform    = _registry.emplace<Component::Transform>(_e);
 
                 _node.name          = "tile";
                 _node.is_active     = true;
@@ -226,7 +226,7 @@ void Grid3D::create_tile_instance(entt::registry& _registry)
     auto& _node = _registry.emplace<Node>(_e, Node());
     _node.name = "cube grid";
 
-    auto& _transform = _registry.emplace<Transform>(_e);
+    auto& _transform = _registry.emplace<Component::Transform>(_e);
     _transform.position = glm::vec3(0.0f);
 
     auto& _aabb = _registry.emplace<AABB>(_e, AABB());
@@ -290,7 +290,7 @@ void Grid3D::generate_tiles_with_perlin(entt::registry& _registry) {
                 auto& _node = _registry.emplace<Node>(_e);
                 _node.name = tile_type;
 
-                auto& _transform = _registry.emplace<Transform>(_e);
+                auto& _transform = _registry.emplace<Component::Transform>(_e);
                 _transform.position = glm::vec3(x, y, z);
 
                 auto& _aabb = _registry.emplace<AABB>(_e);
@@ -325,7 +325,7 @@ void Grid3D::generate_corner_nodes(entt::registry& _registry)
 
                 auto& _node      = _registry.emplace<Node>     (_e);
                 auto& _node3D    = _registry.emplace<Node3D>   (_e, Node3D(x, y, z));
-                auto& _transform = _registry.emplace<Transform>(_e);
+                auto& _transform = _registry.emplace<Component::Transform>(_e);
 
                 _node.name          = "corner_node";
                 _node.is_active     = true;
@@ -358,7 +358,7 @@ void Grid3D::create_corner_instance(entt::registry& _registry)
     auto& _node = _registry.emplace<Node>(_e, Node());
     _node.name = "corner_grid";
 
-    auto& _transform = _registry.emplace<Transform>(_e);
+    auto& _transform = _registry.emplace<Component::Transform>(_e);
     _transform.position = glm::vec3(0.0f);
 
     Material _material;
@@ -486,7 +486,7 @@ void Grid3D::update_corner_nodes(entt::registry& _registry)
                 entt::entity _corner_entity = corner_node_at(x, y, z);
                 auto& _corner = _registry.get<Node3D>(_corner_entity); // must be Corner3D
 
-                Transform   & _transform     = _registry.get_or_emplace<Transform>   (_corner_entity);
+                Component::Transform   & _transform     = _registry.get_or_emplace<Component::Transform>   (_corner_entity);
                 MeshRenderer& _mesh_renderer = _registry.get_or_emplace<MeshRenderer>(_corner_entity);
                 Material    & _material      = _registry.get_or_emplace<Material>    (_corner_entity);
 
@@ -543,7 +543,7 @@ NAV::Track* Grid3D::add_track(entt::registry& _registry, NodeIndex _at_node_inde
 
     auto& _node      = _registry.get<Node>     (_e);
     auto& _node3D    = _registry.get<Node3D>   (_e);
-    auto& _transform = _registry.get<Transform>(_e);
+    auto& _transform = _registry.get<Component::Transform>(_e);
 
     _node  .is_active   = true;
     _node3D.is_occupied = true;
@@ -629,7 +629,7 @@ void Grid3D::add_tile_at(entt::registry& _registry,
 
     auto& _node      = _registry.get<Node>     (_e);
     auto& _node3D    = _registry.get<Node3D>   (_e);
-    auto& _transform = _registry.get<Transform>(_e);
+    auto& _transform = _registry.get<Component::Transform>(_e);
 
     _node  .is_active   = true;
     _node3D.is_occupied = true;
@@ -687,7 +687,7 @@ void Grid3D::add_tile_at(entt::registry& _registry, const TileData& _tile_data)
 
     auto& _node      = _registry.get<Node>     (_e);
     auto& _node3D    = _registry.get<Node3D>   (_e);
-    auto& _transform = _registry.get<Transform>(_e);
+    auto& _transform = _registry.get<Component::Transform>(_e);
 
     _node  .is_active   = true;
     _node3D.is_occupied = true;

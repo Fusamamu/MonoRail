@@ -5,6 +5,7 @@
 
 #include "Components/Camera.h"
 #include "Components/Component.h"
+#include "Components/Transform.h"
 
 #include "Renderer/FrameBuffer.h"
 #include "Renderer/SkeletonMeshRenderer.h"

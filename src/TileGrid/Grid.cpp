@@ -1,5 +1,7 @@
 #include "Grid.h"
 
+#include "Components/Transform.h"
+
 Grid::Grid(size_t width, size_t height)
     : m_width(width), m_height(height) {
     resize(width, height);
@@ -33,7 +35,7 @@ void Grid::generate_tiles(entt::registry& _registry) {
             auto& _node = _registry.emplace<Node>(_e, Node());
             _node.name = "tile";
 
-            auto& _transform = _registry.emplace<Transform>(_e);
+            auto& _transform = _registry.emplace<Component::Transform>(_e);
             _transform.position = glm::vec3(x, 0, y);
 
             auto& _aabb = _registry.emplace<AABB>(_e, AABB());
@@ -81,7 +83,7 @@ void Grid::generate_tiles_with_perlin(entt::registry& _registry) {
                 auto& _node = _registry.emplace<Node>(_e, Node());
                 _node.name = tile_type;
 
-                auto& _transform = _registry.emplace<Transform>(_e);
+                auto& _transform = _registry.emplace<Component::Transform>(_e);
                 _transform.position = glm::vec3(x, 0, y);
 
                 auto& _aabb = _registry.emplace<AABB>(_e, AABB());

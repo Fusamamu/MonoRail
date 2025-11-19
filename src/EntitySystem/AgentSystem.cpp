@@ -2,6 +2,7 @@
 
 #include "Components/Component.h"
 #include "Asset/AssetManager.h"
+#include "Components/Transform.h"
 
 void AgentSystem::init(entt::registry& _registry, glm::vec2 _bounds)
 {
@@ -60,7 +61,7 @@ void AgentSystem::init(entt::registry& _registry, glm::vec2 _bounds)
     auto& _node = _registry.emplace<Node>(m_instance_entity, Node());
     _node.name = "agent_instances";
 
-    auto& _transform = _registry.emplace<Transform>(m_instance_entity);
+    auto& _transform = _registry.emplace<Component::Transform>(m_instance_entity);
     _transform.position = glm::vec3(0.0f);
 
     Material _material;

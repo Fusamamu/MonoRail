@@ -15,11 +15,11 @@ glm::vec3 center = glm::vec3(0.0f);
 float max_radius = 15.0f;
 
 void update_boids(entt::registry& reg, float dt) {
-    auto view = reg.view<Transform, RigidBody, Boid>();
+    auto view = reg.view<Component::Transform, RigidBody, Boid>();
 
     for (auto e : view)
     {
-        auto& _tf = view.get<Transform>(e);
+        auto& _tf = view.get<Component::Transform>(e);
         auto& _rb = view.get<RigidBody>(e);
 
         glm::vec3 separation{0.0f};
@@ -33,7 +33,7 @@ void update_boids(entt::registry& reg, float dt) {
             if (other == e)
                 continue;
 
-            auto& ot = view.get<Transform>(other);
+            auto& ot = view.get<Component::Transform>(other);
             auto& ov = view.get<RigidBody>(other);
 
             float dist = glm::distance(_tf.position, ot.position);
@@ -90,7 +90,7 @@ void update_boids(entt::registry& reg, float dt) {
 
 void Scene::on_enter()
 {
-    auto& _camera = m_registry.ctx().emplace<Componenet::Camera>();
+    auto& _camera = m_registry.ctx().emplace<Component::Camera>();
 
     _camera.position = { 20.0f, 20.0f, 20.0f };
     _camera.target   = { 0.0f, 0.0f, 0.0f };
@@ -183,7 +183,7 @@ void Scene::on_update(float delta_time)
     if (m_input_system.get_quit_requested())
         m_engine_owner->request_quit();
 
-    auto& _camera = m_registry.ctx().get<Componenet::Camera>();
+    auto& _camera = m_registry.ctx().get<Component::Camera>();
 
     if (m_input_system.is_mouse_button_held(SDL_BUTTON_RIGHT))
     {
@@ -227,7 +227,7 @@ void Scene::on_update(float delta_time)
 
                             if (_entity != entt::null)
                             {
-                                if(auto [_tile, _transform] = m_registry.try_get<Node3D, Transform>(_entity); _tile && _transform)
+                                if(auto [_tile, _transform] = m_registry.try_get<Node3D, Component::Transform>(_entity); _tile && _transform)
                                 {
                                     if(_tile->type != TileType::GROUND)
                                         return;
@@ -259,7 +259,7 @@ void Scene::on_update(float delta_time)
 
                             if (_entity != entt::null)
                             {
-                                if (auto [tile, transform] = m_registry.try_get<Node3D, Transform>(_entity); tile && transform)
+                                if (auto [tile, transform] = m_registry.try_get<Node3D, Component::Transform>(_entity); tile && transform)
                                 {
                                     if (tile->type != TileType::GROUND)
                                         return;
@@ -310,10 +310,10 @@ void Scene::on_update(float delta_time)
         _train_agent.following_path       = true;
     }
 
-    auto _agent_view = m_registry.view<Transform, NAV::Agent>();
+    auto _agent_view = m_registry.view<Component::Transform, NAV::Agent>();
     for (auto _e : _agent_view)
     {
-        auto& _transform = m_registry.get<Transform>(_e);
+        auto& _transform = m_registry.get<Component::Transform>(_e);
         auto& _agent     = m_registry.get<NAV::Agent>    (_e);
         _agent.update(_transform, Core::Time::delta_f/1000.0f);
     }
@@ -364,7 +364,7 @@ void Scene::on_render_gui(float _dt)
     ImGui::Checkbox("Display shadow map", &m_render_pipeline.display_shadow_map);
     ImGui::Checkbox("Display DOF"       , &m_render_pipeline.display_dof);
 
-    auto& _camera = m_registry.ctx().get<Componenet::Camera>();
+    auto& _camera = m_registry.ctx().get<Component::Camera>();
 
     if (ImGui::DragFloat("near", &_camera.near_plane))
     {
@@ -521,7 +521,7 @@ entt::entity Scene::create_object(const std::string& _name, const std::string& _
     Mesh* _teapot = AssetManager::instance().get_first_mesh(_mesh_name);
 
     auto& _node          = m_registry.emplace<Node>          (_e, Node());
-    auto& _transform     = m_registry.emplace<Transform>     (_e);
+    auto& _transform     = m_registry.emplace<Component::Transform>     (_e);
     auto& _aabb          = m_registry.emplace<AABB>          (_e, AABB());
     auto& _material_comp = m_registry.emplace<Material>      (_e);
     auto& _mesh_renderer = m_registry.emplace<MeshRenderer>  (_e);

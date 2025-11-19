@@ -1,5 +1,6 @@
 #include "Ray.h"
 #include "Components/Component.h"
+#include "Components/Transform.h"
 
 bool ray_intersects_aabb(const Ray& ray, const AABB& box, float& t_min, float& t_max)
 {
@@ -66,11 +67,11 @@ entt::entity ray_cast_select_entity(
     float closest_t = std::numeric_limits<float>::max();
 
     // Include Node in the view
-    auto _view = registry.view<Node, Transform, AABB>();
+    auto _view = registry.view<Node, Component::Transform, AABB>();
 
     for (auto entity : _view)
     {
-        auto [node, transform, box] = _view.get<Node, Transform, AABB>(entity);
+        auto [node, transform, box] = _view.get<Node, Component::Transform, AABB>(entity);
 
         if (!node.is_active)
             continue;

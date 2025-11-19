@@ -118,7 +118,7 @@ void create_grass_shell(Scene* _scene)
     _shell_material.diffuseMap = _noise_id;
 
     entt::entity _shell_e      = _scene->create_object("shell" , "large_plane" , { 0.0f,  1.0f, 0.0f}  , _shell_material) ;
-    auto& _shell_transform     = _scene->get_registry().get<Transform>   (_shell_e);
+    auto& _shell_transform     = _scene->get_registry().get<Component::Transform>   (_shell_e);
     auto& _shell_mesh_renderer = _scene->get_registry().get<MeshRenderer>(_shell_e);
     _shell_transform.scale = glm::vec3(0.3f, 0.3f, 0.3f);
     _shell_mesh_renderer.use_instancing = true;

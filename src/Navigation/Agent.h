@@ -2,6 +2,7 @@
 #define AGENT_H
 
 #include "Components/Component.h"
+#include "Components/Transform.h"
 
 namespace NAV
 {
@@ -35,12 +36,12 @@ namespace NAV
         Agent() = default;
         ~Agent() = default;
 
-        void update(Transform& _transform, float _dt)
+        void update(Component::Transform& _transform, float _dt)
         {
             update_following_path(_dt, _transform);
         }
 
-        void update_following_path(float _dt, Transform& _transform)
+        void update_following_path(float _dt, Component::Transform& _transform)
         {
             if (!following_path || target_path.empty())
                 return;
@@ -131,7 +132,7 @@ namespace NAV
             move_elapsed += _dt;
         }
 
-        void update_move(float _dt, Transform& _transform)
+        void update_move(float _dt, Component::Transform& _transform)
         {
             move_elapsed += _dt;
             if (move_elapsed > 1.0f)

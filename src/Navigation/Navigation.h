@@ -1,8 +1,11 @@
 #ifndef NAVIGATION_H
 #define NAVIGATION_H
 
+#include <Components/Camera.h>
+
 #include "../PCH.h"
 #include "Components/Component.h"
+#include "Components/Transform.h"
 
 namespace NAV
 {
@@ -107,9 +110,9 @@ namespace NAV
         {
             if(track_entity == entt::null)
                 return entry_position; //fallback
-            if(_registry.try_get<Transform>(track_entity))
+            if(_registry.try_get<Component::Transform>(track_entity))
             {
-                const Transform& _transform = _registry.get<Transform>(track_entity);
+                const Component::Transform& _transform = _registry.get<Component::Transform>(track_entity);
                 return _transform.position + entry_position;
             }
             return entry_position; //fallback
@@ -119,9 +122,9 @@ namespace NAV
         {
             if(track_entity == entt::null)
                 return exit_position; //fallback
-            if(_registry.try_get<Transform>(track_entity))
+            if(_registry.try_get<Component::Transform>(track_entity))
             {
-                const Transform& _transform = _registry.get<Transform>(track_entity);
+                const Component::Transform& _transform = _registry.get<Component::Transform>(track_entity);
                 return _transform.position + exit_position;
             }
             return exit_position; //fallback
@@ -401,7 +404,7 @@ namespace NAV
             for (entt::entity& _e : tracks)
             {
                 Track&     _track     = _registry.get<Track>(_e);
-                Transform& _transform = _registry.get<Transform>(_e);
+                Component::Transform& _transform = _registry.get<Component::Transform>(_e);
                 _positions.push_back(_transform.position);
             }
             return _positions;

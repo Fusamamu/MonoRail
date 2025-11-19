@@ -116,7 +116,7 @@ public:
         _mesh_renderer.update_instance_color(m_tile_instance_data, 1, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
-    void update(entt::registry &_registry, Componenet::Camera _camera, InputSystem& _input_system);
+    void update(entt::registry &_registry, Component::Camera _camera, InputSystem& _input_system);
 
     std::optional<std::vector<entt::entity>> find_path(entt::registry& __restrict, NodeIndex _start_node, NodeIndex _dest_node);
     std::optional<std::vector<entt::entity>> find_path(entt::registry& _registry);
@@ -128,7 +128,7 @@ public:
         for (auto _it = active_tile_anims.begin(); _it != active_tile_anims.end();)
         {
             auto& _node      = _registry.get<Node>(_it->entity);
-            auto& _transform = _registry.get<Transform>(_it->entity);
+            auto& _transform = _registry.get<Component::Transform>(_it->entity);
 
             _it->elapsed += dt * 2.5f;
 
@@ -167,7 +167,7 @@ private:
 
     void add_tile_animation(entt::registry& reg, entt::entity _tile_e)
     {
-        reg.get<Transform>(_tile_e).scale = glm::vec3(0.0f);
+        reg.get<Component::Transform>(_tile_e).scale = glm::vec3(0.0f);
         active_tile_anims.push_back({ _tile_e, 0.0f, 0.25f });
     }
 

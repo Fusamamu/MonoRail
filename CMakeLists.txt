@@ -66,7 +66,9 @@ add_executable(${PROJECT_NAME}
         ${IMGUI_BACKENDS}/imgui_impl_opengl3.cpp
         src/Components/Camera.cpp
         src/Components/Transform.cpp
-        src/Components/Transform.h)
+        src/Components/Transform.h
+        src/Utility/Utility.cpp
+        src/Utility/Utility.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

@@ -171,15 +171,17 @@ private:
         active_tile_anims.push_back({ _tile_e, 0.0f, 0.25f });
     }
 
-    inline size_t tile_index(size_t x, size_t y, size_t z) const {
+    size_t tile_index(size_t x, size_t y, size_t z) const
+    {
         return z * (m_width * m_height) + y * m_width + x;
     }
 
-    inline size_t tile_index(NodeIndex _node_index) const {
+    size_t tile_index(NodeIndex _node_index) const
+    {
         return _node_index.idz * (m_width * m_height) + _node_index.idy * m_width + _node_index.idx;
     }
 
-    inline NodeIndex tile_index_to_node_coord(size_t _tile_index)
+    NodeIndex tile_index_to_node_coord(size_t _tile_index)
     {
         NodeIndex _result;
         size_t rem  = _tile_index % (m_width * m_height);
@@ -189,7 +191,8 @@ private:
         return _result;
     }
 
-    inline size_t corner_index(size_t x, size_t y, size_t z) const {
+    size_t corner_index(size_t x, size_t y, size_t z) const
+    {
         return z * ((m_width + 1) * (m_height + 1)) + y * (m_width + 1) + x;
     }
 

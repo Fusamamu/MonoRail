@@ -89,9 +89,10 @@ namespace EntitySystem
 
     void AgentSystem::update(entt::registry& _registry)
     {
-        const float moveSpeed   = 5.0f;  // units per second
-        const float turnChance  = 0.005f; // 1% chance to change direction per frame
-        const glm::vec2 bounds(20.0f, 20.0f);
+        const float _move_speed   = 5.0f;  // units per second
+        const float _turn_chance  = 0.005f; // 1% chance to change direction per frame
+
+        const glm::vec2 _bounds (20.0f, 20.0f);
 
         float dt = 0.0016f;
 
@@ -102,7 +103,7 @@ namespace EntitySystem
             glm::vec2& dir = m_agent_velocities[i];
 
             // Occasionally change direction
-            if ((float)std::rand() / RAND_MAX < turnChance)
+            if ((float)std::rand() / RAND_MAX < _turn_chance)
             {
                 glm::vec2 newDir(
                     ((float)std::rand() / RAND_MAX - 0.5f) * 2.0f,
@@ -113,23 +114,23 @@ namespace EntitySystem
 
             // Extract current position from model matrix
             glm::vec3 pos = instance.model[3]; // column 3 = translation
-            pos.x += dir.x * moveSpeed * dt;
-            pos.z += dir.y * moveSpeed * dt;
+            pos.x += dir.x * _move_speed * dt;
+            pos.z += dir.y * _move_speed * dt;
 
             // Bounce off edges
-            float halfX = bounds.x * 0.5f;
-            float halfZ = bounds.y * 0.5f;
+            float halfX = _bounds.x * 0.5f;
+            float halfZ = _bounds.y * 0.5f;
 
-            if (pos.x < 0.0f || pos.x > bounds.x)
+            if (pos.x < 0.0f || pos.x > _bounds.x)
             {
                 dir.x = -dir.x;
-                pos.x = glm::clamp(pos.x, 0.0f, bounds.x);
+                pos.x = glm::clamp(pos.x, 0.0f, _bounds.x);
             }
 
-            if (pos.z < 0.0f || pos.z > bounds.y)
+            if (pos.z < 0.0f || pos.z > _bounds.y)
             {
                 dir.y = -dir.y;
-                pos.z = glm::clamp(pos.z, 0.0f, bounds.y);
+                pos.z = glm::clamp(pos.z, 0.0f, _bounds.y);
             }
 
             // Compute facing angle from direction
@@ -142,5 +143,78 @@ namespace EntitySystem
 
         auto& _mesh_renderer = _registry.get<MeshRenderer>(m_instance_entity);
         _mesh_renderer.set_instance_data(m_agent_instances);
+    }
+
+    void AgentSystem::update_boids(entt::registry& _registry, float _dt)
+    {
+        auto _view = _registry.view<Component::Transform, RigidBody, Boid>();
+
+        for (auto e : _view)
+        {
+            auto& _tf = _view.get<Component::Transform>(e);
+            auto& _rb  = _view.get<RigidBody>           (e);
+
+            glm::vec3 separation{0.0f};
+            glm::vec3 alignment {0.0f};
+            glm::vec3 cohesion  {0.0f};
+
+            int neighbor_count = 0;
+
+            for (auto _other : _view)
+            {
+                if (_other == e)
+                    continue;
+
+                auto& ot = _view.get<Component::Transform>(_other);
+                auto& ov  = _view.get<RigidBody>           (_other);
+
+                float dist = glm::distance(_tf.position, ot.position);
+                if (dist < 10.0f)
+                {
+                    separation += (_tf.position - ot.position) / (dist*dist);
+                    alignment  += ov.velocity;
+                    cohesion   += ot.position;
+                    neighbor_count++;
+                }
+            }
+
+            if (neighbor_count > 0)
+            {
+                alignment /= neighbor_count;
+                cohesion  /= neighbor_count;
+
+                glm::vec3 cohesion_dir = cohesion - _tf.position;
+
+                _rb.velocity += (separation * 1.5f +
+                               alignment  * 1.0f +
+                               cohesion_dir * 1.0f) * _dt;
+            }
+
+            if (glm::length(_rb.velocity) > 0.0001f)
+            {
+                glm::vec3 forward = glm::normalize(_rb.velocity);
+
+                float yaw   = atan2(forward.x, forward.z);
+                float pitch = asin(-forward.y);
+                float roll  = 0.0f;
+
+                _tf.rotation = glm::vec3(pitch, yaw, roll);
+            }
+
+            glm::vec3 to_center = center - _tf.position;
+            float dist_from_center = glm::length(to_center);
+            if (dist_from_center > max_radius) {
+                _rb.velocity += glm::normalize(to_center) * 5.0f * _dt;
+            } else if (dist_from_center > max_radius * 0.9f) {
+                _rb.velocity += glm::normalize(to_center) * 2.0f * _dt;
+            }
+
+            float speed = glm::length(_rb.velocity);
+            if (speed > 5.0f) {
+                _rb.velocity = glm::normalize(_rb.velocity) * 5.0f;
+            }
+
+            _tf.position += _rb.velocity * _dt;
+        }
     }
 }

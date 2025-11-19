@@ -12,7 +12,6 @@ inline std::string to_formatted_name(uint8_t value)
     return "c_" + bits;
 }
 
-
 class AssetManager
 {
 public:

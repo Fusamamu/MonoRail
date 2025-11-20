@@ -68,8 +68,8 @@ namespace TileGrid
         entt::entity start_e = entt::null;
         entt::entity dest_e  = entt::null;
 
-        Grid3D(size_t width, size_t height, size_t depth);
-        Grid3D() = default;
+        Grid3D (size_t width, size_t height, size_t depth);
+        Grid3D () = default;
         ~Grid3D() = default;
 
         void init  (size_t width, size_t height, size_t depth);
@@ -78,6 +78,20 @@ namespace TileGrid
         size_t get_width () const { return m_width ; }
         size_t get_height() const { return m_height; }
         size_t get_depth () const { return m_depth ; }
+
+        size_t corner_index(size_t x, size_t y, size_t z) const { return z * ((m_width + 1) * (m_height + 1)) + y * (m_width + 1) + x;}
+        size_t tile_index  (size_t x, size_t y, size_t z) const { return z * (m_width * m_height) + y * m_width + x;}
+        size_t tile_index  (NodeIndex _node_index)        const { return _node_index.idz * (m_width * m_height) + _node_index.idy * m_width + _node_index.idx;}
+
+        NodeIndex tile_index_to_node_coord(size_t _tile_index)
+        {
+            NodeIndex _result;
+            size_t rem  = _tile_index % (m_width * m_height);
+            _result.idz = _tile_index / (m_width * m_height);
+            _result.idy = rem / m_width;
+            _result.idx = rem % m_width;
+            return _result;
+        }
 
         const entt::entity& entity_at     (NodeIndex _node_index) const;
         entt::entity      & at            (size_t x, size_t y, size_t z);
@@ -89,22 +103,14 @@ namespace TileGrid
         uint8_t get_surrounding_bitmask_4direction(entt::registry& _registry, NodeIndex _node_index);
 
         bool out_of_bounds(size_t x, size_t y, size_t z) const;
+        void check_bounds(size_t x, size_t y, size_t z) const;
+
         bool out_of_bounds(NodeIndex _node_index) const;
         bool is_occupied(entt::registry& _registry, size_t x, size_t y, size_t z);
         bool is_occupied(entt::registry& _registry, NodeIndex _node_index);
 
         void create_tile_instance      (entt::registry& _registry);
         void create_corner_instance    (entt::registry& _registry);
-        void generate_tiles            (entt::registry& _registry);
-        void generate_tiles_with_perlin(entt::registry& _registry);
-        void generate_corner_nodes     (entt::registry& _registry);
-        void update_corner_nodes       (entt::registry& _registry);
-
-        void fill_tile_at_level(entt::registry& _registry, uint32_t _level);
-        void fill_tile_at      (entt::registry& _registry, NodeIndex _at_node_index);
-
-        void store_corners_refs(entt::registry& _registry);
-        void store_tile_refs   (entt::registry& _registry);
 
         NAV::Track* add_track(entt::registry& _registry, NodeIndex _at_node_index, glm::vec3 _position);
 
@@ -152,11 +158,6 @@ namespace TileGrid
 
         std::vector<uint8_t> get_voxel_data(entt::registry& _registry);
 
-        size_t corner_index(size_t x, size_t y, size_t z) const
-        {
-            return z * ((m_width + 1) * (m_height + 1)) + y * (m_width + 1) + x;
-        }
-
         std::vector<entt::entity> m_corner_data;
     private:
         size_t m_width  {0};
@@ -164,11 +165,9 @@ namespace TileGrid
         size_t m_depth  {0};
 
         std::vector<entt::entity> m_data;
-
         std::vector<InstanceData> m_tile_instance_data;
         std::vector<InstanceData> m_corner_instance_data;
-
-        std::vector<TileAnim> active_tile_anims;
+        std::vector<TileAnim>     active_tile_anims;
 
         entt::entity m_tile_mesh_e = entt::null;
 
@@ -177,33 +176,6 @@ namespace TileGrid
             reg.get<Component::Transform>(_tile_e).scale = glm::vec3(0.0f);
             active_tile_anims.push_back({ _tile_e, 0.0f, 0.25f });
         }
-
-        size_t tile_index(size_t x, size_t y, size_t z) const
-        {
-            return z * (m_width * m_height) + y * m_width + x;
-        }
-
-        size_t tile_index(NodeIndex _node_index) const
-        {
-            return _node_index.idz * (m_width * m_height) + _node_index.idy * m_width + _node_index.idx;
-        }
-
-        NodeIndex tile_index_to_node_coord(size_t _tile_index)
-        {
-            NodeIndex _result;
-            size_t rem  = _tile_index % (m_width * m_height);
-            _result.idz = _tile_index / (m_width * m_height);
-            _result.idy = rem / m_width;
-            _result.idx = rem % m_width;
-            return _result;
-        }
-
-        // size_t corner_index(size_t x, size_t y, size_t z) const
-        // {
-        //     return z * ((m_width + 1) * (m_height + 1)) + y * (m_width + 1) + x;
-        // }
-
-        void check_bounds(size_t x, size_t y, size_t z) const;
     };
 }
 #endif

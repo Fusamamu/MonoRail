@@ -11,6 +11,8 @@
 #include "Components/Camera.h"
 
 #include "TileGrid/Grid3D.h"
+#include "TileGrid/GridSystem.h"
+
 #include "Navigation/AStar.h"
 #include "Navigation/Agent.h"
 #include "Navigation/Navigation.h"
@@ -162,8 +164,9 @@ void Scene::on_update(float delta_time)
                                     if(_tile->type != TileType::GROUND)
                                         return;
 
-                                    _grid->fill_tile_at       (m_registry, _tile->to_node_index(0, 1, 0));
-                                    _grid->update_corner_nodes(m_registry);
+                                    TileGrid::GridSystem _grid_system;
+                                    _grid_system.fill_tile_at       (m_registry, *_grid, _tile->to_node_index(0, 1, 0));
+                                    _grid_system.update_corner_nodes(m_registry, *_grid);
                                 }
                             }
 
@@ -434,14 +437,15 @@ void Scene::create_tile_grid()
 {
     TileGrid::Grid3D& _grid = m_registry.ctx().emplace<TileGrid::Grid3D>();
     _grid.init(10, 10, 10);
-    _grid.generate_tiles        (m_registry);
-    //_grid.create_tile_instance  (m_registry);
-    _grid.generate_corner_nodes (m_registry);
-    //_grid.create_corner_instance(m_registry);
-    _grid.store_corners_refs    (m_registry);
-    _grid.store_tile_refs       (m_registry);
-    _grid.fill_tile_at_level    (m_registry, 0);
-    _grid.update_corner_nodes   (m_registry);
+
+    TileGrid::GridSystem _grid_system;
+
+    _grid_system.generate_tiles       (m_registry, _grid);
+    _grid_system.generate_corner_nodes(m_registry, _grid);
+    _grid_system.store_corners_refs   (m_registry, _grid);
+    _grid_system.store_tile_refs      (m_registry, _grid);
+    _grid_system.fill_tile_at_level   (m_registry, _grid, 0);
+    _grid_system.update_corner_nodes  (m_registry, _grid);
 }
 
 entt::entity Scene::create_object(const std::string& _name, const std::string& _mesh_name, glm::vec3 _position, const Material& _material)

@@ -17,8 +17,8 @@ namespace TileGrid
         void store_tile_refs           (entt::registry& _registry, Grid3D& _grid);
         void update_corner_nodes       (entt::registry& _registry, Grid3D& _grid);
 
-        void fill_tile_at_level        (entt::registry& _registry, uint32_t  _level        );
-        void fill_tile_at              (entt::registry& _registry, NodeIndex _at_node_index);
+        void fill_tile_at_level        (entt::registry& _registry, Grid3D& _grid, uint32_t  _level        );
+        void fill_tile_at              (entt::registry& _registry, Grid3D& _grid, NodeIndex _at_node_index);
 
         NAV::Track* add_track(entt::registry& _registry, NodeIndex _at_node_index, glm::vec3 _position);
 

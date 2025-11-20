@@ -274,12 +274,34 @@ namespace TileGrid
         }
     }
 
-    void GridSystem::fill_tile_at_level(entt::registry& _registry, uint32_t _level)
+    void GridSystem::fill_tile_at_level(entt::registry& _registry, Grid3D& _grid, uint32_t _level)
     {
+        for (size_t z = 0; z < _grid.get_depth(); ++z) {
+            for (size_t x = 0; x < _grid.get_width(); ++x) {
+                fill_tile_at(_registry, _grid, NodeIndex(x, _level, z));
+            }
+        }
     }
 
-    void GridSystem::fill_tile_at(entt::registry& _registry, NodeIndex _at_node_index)
+    void GridSystem::fill_tile_at(entt::registry& _registry, Grid3D& _grid, NodeIndex _at_node_index)
     {
+        if (_grid.out_of_bounds(_at_node_index))
+            return;
+        if (_grid.is_occupied(_registry, _at_node_index))
+            return;
+
+        const entt::entity& _e = _grid.entity_at(_at_node_index);
+
+        auto& _node      = _registry.get<Node>     (_e);
+        auto& _node3D    = _registry.get<Node3D>   (_e);
+        auto& _aabb      = _registry.emplace<AABB> (_e);
+
+        _node  .is_active   = true;
+        _node3D.is_occupied = true;
+        _node3D.type = TileType::GROUND;
+
+        _aabb.min = { -0.5f, -0.5f, -0.5f };
+        _aabb.max = {  0.5f,  0.5f,  0.5f };
     }
 
     NAV::Track* GridSystem::add_track(entt::registry& _registry, NodeIndex _at_node_index, glm::vec3 _position)

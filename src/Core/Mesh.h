@@ -1,94 +1,42 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "../PCH.h"
 #include "Vertex.h"
 
-struct Submesh
-{
-    int material_index;
-    uint32_t index_offset;
-    uint32_t index_count;
-
-    friend std::ostream& operator<<(std::ostream& _os, const Submesh& _submesh)
-    {
-        _os << "Material index: " << _submesh.material_index << "\n"
-            << "Index offset: "   << _submesh.index_offset   << "\n"
-            << "Index count: "    << _submesh.index_count;
-        return _os;
-    }
-};
+struct SubMesh;
 
 struct MeshRawData
 {
     std::vector<Vertex_PNT> vertex_buffer;
     std::vector<uint32_t>   index_buffer;
-    std::vector<Submesh>    sub_meshes;
+    std::vector<SubMesh>    sub_meshes;
 
-    friend std::ostream& operator<<(std::ostream& _os, const MeshRawData& _data)
-    {
-        for (const Submesh& _sub_mesh : _data.sub_meshes)
-            _os << _sub_mesh << "\n";
-        return _os;
-    }
+    friend std::ostream& operator<<(std::ostream& _os, const MeshRawData& _data);
 };
 
 struct Mesh
 {
-    std::vector<uint8_t>  vertex_buffer;
+    std::vector<uint8_t > vertex_buffer;
     std::vector<uint32_t> index_buffer;
-    std::vector<Submesh>  sub_meshes;
+    std::vector<SubMesh > sub_meshes;
 
     VertexLayout layout;
 
     [[nodiscard]] std::size_t get_vertex_buffer_size() const { return vertex_buffer.size(); }
     [[nodiscard]] std::size_t get_index_buffer_size () const { return index_buffer .size() * sizeof(unsigned int); }
 
-    // Helper to push a float as raw bytes
-    void push_float(float v)
-    {
-        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(&v);
-        vertex_buffer.insert(vertex_buffer.end(), bytes, bytes + sizeof(float));
-    }
+    void push_float(float v);
 
-    friend std::ostream& operator<<(std::ostream& os, const Mesh& mesh)
-    {
-        os << "Mesh:" << std::endl;
-        os << "Stride: " << mesh.layout.stride << " bytes" << std::endl;
+    friend std::ostream& operator<<(std::ostream& _os, const Mesh& _mesh);
+};
 
-        os << "Vertex layout:" << std::endl;
-        for (const auto& elem : mesh.layout.elements)
-        {
-            os << "  Attribute: "  << static_cast<int>(elem.attribute)
-               << ", Offset: "     << elem.offset
-               << ", Size: "       << elem.size
-               << ", Components: " << elem.components
-               << ", Type: "       << elem.glType
-               << ", Normalized: " << elem.normalized
-               << std::endl;
-        }
+struct SubMesh
+{
+    int material_index;
+    uint32_t index_offset;
+    uint32_t index_count;
 
-        os << "Vertices (" << mesh.vertex_buffer.size() / sizeof(float) << " floats):" << std::endl;
-        const float* verts = reinterpret_cast<const float*>(mesh.vertex_buffer.data());
-        size_t num_floats = mesh.vertex_buffer.size() / sizeof(float);
-
-        for (size_t i = 0; i < num_floats; i += mesh.layout.stride / sizeof(float))
-        {
-            os << "  Vertex " << i / (mesh.layout.stride / sizeof(float)) << ": ";
-            for (size_t j = 0; j < mesh.layout.stride / sizeof(float) && (i + j) < num_floats; j++)
-            {
-                os << std::fixed << std::setprecision(3) << verts[i + j] << " ";
-            }
-            os << std::endl;
-        }
-
-        os << "Indices (" << mesh.index_buffer.size() << "): ";
-        for (auto idx : mesh.index_buffer)
-            os << idx << " ";
-        os << std::endl;
-
-        return os;
-    }
+    friend std::ostream& operator<<(std::ostream& _os, const SubMesh& _sub_mesh);
 };
 
 struct BoneInfo
@@ -100,33 +48,16 @@ struct BoneInfo
 
 struct SkeletonMesh
 {
-    std::vector<Vertex_Bone>   vertices;
-    std::vector<uint32_t> indices;
+    std::vector<Vertex_Bone> vertices;
+    std::vector<uint32_t>    indices;
 
     int bone_count = 0;
     std::map<std::string, BoneInfo> bone_mapping;
 };
 
-inline Mesh convert_to_mesh(const MeshRawData& _mesh_raw_data)
+namespace MUG::Geometry::Util
 {
-    Mesh _mesh;
-
-    _mesh.vertex_buffer.resize(_mesh_raw_data.vertex_buffer.size() * sizeof(Vertex_PNT));
-    std::memcpy(_mesh.vertex_buffer.data(), _mesh_raw_data.vertex_buffer.data(), _mesh.vertex_buffer.size());
-    _mesh.index_buffer = _mesh_raw_data.index_buffer;
-    _mesh.sub_meshes   = _mesh_raw_data.sub_meshes;
-
-    _mesh.layout = {};
-    _mesh.layout.add_element(VertexAttribute::POSITION  , 0                , sizeof(float) * 3, GL_FLOAT, 3);
-    _mesh.layout.add_element(VertexAttribute::NORMAL    , sizeof(float) * 3, sizeof(float) * 3, GL_FLOAT, 3);
-    _mesh.layout.add_element(VertexAttribute::TEXCOORD_0, sizeof(float) * 6, sizeof(float) * 2, GL_FLOAT, 2);
-    _mesh.layout.stride = sizeof(float) * 8;
-
-    return _mesh;
-}
-
-namespace Geometry::Util
-{
+    Mesh convert_to_mesh(const MeshRawData& _mesh_raw_data);
     void rotate_mesh(MeshRawData& mesh, const glm::vec3& axis, float angleDegrees);
     MeshRawData get_rotated_mesh(const MeshRawData& _mesh_raw_data, const glm::vec3& _axis, float _angle_degree);
 }

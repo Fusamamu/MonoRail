@@ -32,7 +32,7 @@ namespace ASSET
         {
             const aiMesh* _ai_mesh = _ai_scene->mMeshes[m];
 
-            Submesh _sub_mesh{};
+            SubMesh _sub_mesh{};
             _sub_mesh.index_offset    = _global_index_offset;
             _sub_mesh.material_index = _ai_mesh->mMaterialIndex;
 

@@ -80,7 +80,7 @@ void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _shift_high_bit, bool _
 
     std::cout << _mesh_raw_data << std::endl;
 
-    Mesh _mesh = convert_to_mesh(_mesh_raw_data);
+    Mesh _mesh = MUG::Geometry::Util::convert_to_mesh(_mesh_raw_data);
     std::vector<Mesh> _meshes;
     _meshes.push_back(_mesh);
 
@@ -95,9 +95,9 @@ void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _shift_high_bit, bool _
     {
         float angle = 90.0f * static_cast<float>(i + 1);
 
-        MeshRawData _rotated_mesh_raw_data = Geometry::Util::get_rotated_mesh(_mesh_raw_data, glm::vec3(0.0f, 1.0f, 0.0f), angle);
+        MeshRawData _rotated_mesh_raw_data = MUG::Geometry::Util::get_rotated_mesh(_mesh_raw_data, glm::vec3(0.0f, 1.0f, 0.0f), angle);
 
-        Mesh _mesh = convert_to_mesh(_rotated_mesh_raw_data);
+        Mesh _mesh = MUG::Geometry::Util::convert_to_mesh(_rotated_mesh_raw_data);
         std::vector<Mesh> _meshes;
         _meshes.push_back(_mesh);
 

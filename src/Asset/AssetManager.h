@@ -44,7 +44,7 @@ public:
     Shader* get_shader(const std::string& _name);
 
 private:
-    AssetManager() = default;   // private constructor
+    AssetManager() = default;
     ~AssetManager() = default;
 
     std::vector<MUG::MeshRawData>             m_meshes_raw_data;
@@ -58,9 +58,9 @@ private:
     std::map<std::string, std::unique_ptr<Shader>>    m_shaders;
     std::map<std::string, std::unique_ptr<Texture>>   m_textures;
 
-    void process_node    (aiNode* node    , const aiScene* scene);
-    MUG::Mesh process_mesh    (aiMesh* _ai_mesh, const aiScene* _ai_scene);
-    void process_node_raw(aiNode* node    , const aiScene* scene);
+    void process_node                (aiNode* _node    , const aiScene* _scene);
+    MUG::Mesh process_mesh           (aiMesh* _ai_mesh, const aiScene* _ai_scene);
+    void process_node_raw            (aiNode* _node    , const aiScene* _scene);
     MUG::MeshRawData process_mesh_raw(aiMesh* _ai_mesh, const aiScene* _ai_scene);
 
     void process_skeleton_node(aiNode* node, const aiScene* scene);

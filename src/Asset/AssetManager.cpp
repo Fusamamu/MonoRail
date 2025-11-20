@@ -308,16 +308,16 @@ MUG::SkeletonMesh AssetManager::process_skeleton_mesh(aiMesh* _ai_mesh, const ai
     return _skeleton_mesh;
 }
 
-void AssetManager::process_node(aiNode* node, const aiScene* scene)
+void AssetManager::process_node(aiNode* _node, const aiScene* _scene)
 {
-    for (unsigned int i = 0; i < node->mNumMeshes; i++)
+    for (unsigned int i = 0; i < _node->mNumMeshes; i++)
     {
-        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        m_meshes.push_back(process_mesh(mesh, scene));
+        aiMesh* mesh = _scene->mMeshes[_node->mMeshes[i]];
+        m_meshes.push_back(process_mesh(mesh, _scene));
     }
 
-    for (unsigned int i = 0; i < node->mNumChildren; i++)
-        process_node(node->mChildren[i], scene);
+    for (unsigned int i = 0; i < _node->mNumChildren; i++)
+        process_node(_node->mChildren[i], _scene);
 }
 
 MUG::Mesh AssetManager::process_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene)
@@ -401,16 +401,16 @@ void AssetManager::load_model_raw(std::filesystem::path _path)
     //m_models[_path.stem().string()] = m_meshes_raw_data;
 }
 
-void AssetManager::process_node_raw(aiNode* node    , const aiScene* scene)
+void AssetManager::process_node_raw(aiNode* _node    , const aiScene* _scene)
 {
-    for (unsigned int i = 0; i < node->mNumMeshes; i++)
+    for (unsigned int i = 0; i < _node->mNumMeshes; i++)
     {
-        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        m_meshes_raw_data.push_back(process_mesh_raw(mesh, scene));
+        aiMesh* mesh = _scene->mMeshes[_node->mMeshes[i]];
+        m_meshes_raw_data.push_back(process_mesh_raw(mesh, _scene));
     }
 
-    for (unsigned int i = 0; i < node->mNumChildren; i++)
-        process_node_raw(node->mChildren[i], scene);
+    for (unsigned int i = 0; i < _node->mNumChildren; i++)
+        process_node_raw(_node->mChildren[i], _scene);
 }
 
 MUG::MeshRawData AssetManager::process_mesh_raw(aiMesh* _ai_mesh, const aiScene* _ai_scene)

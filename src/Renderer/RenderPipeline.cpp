@@ -2,11 +2,18 @@
 
 #include "ApplicationConfig.h"
 #include "Asset/AssetManager.h"
+
 #include "Math/MMath.h"
 #include "Procedural/PerlinNoise.h"
 
+#include "Components/Component.h"
+#include "Components/Camera.h"
+#include "Components/Transform.h"
+
 #include "Primitive/Quad.h"
 #include "Core/Profiler.h"
+
+#include "Shader.h"
 
 RenderPipeline::RenderPipeline()
 {
@@ -287,7 +294,7 @@ void RenderPipeline::render(const entt::registry& _registry)
 
     m_render_queue.sort();
 
-#pragma region reneder shadow make_public
+#pragma region reneder shadow map
 
     auto _light_view = _registry.view<DirectionalLight>();
     for (auto _e : _light_view)

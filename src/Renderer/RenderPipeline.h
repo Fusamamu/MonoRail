@@ -1,25 +1,20 @@
 #ifndef RENDERPIPELINE_H
 #define RENDERPIPELINE_H
 
-#include "Math/MMath.h"
-
-#include "Components/Camera.h"
-#include "Components/Component.h"
-#include "Components/Transform.h"
+#include <GL/glew.h>
 
 #include "Renderer/MeshRenderer.h"
 #include "Renderer/FrameBuffer.h"
 #include "Renderer/SkeletonMeshRenderer.h"
 #include "Renderer/GizmosRenderer.h"
 
-#include "Animation/Animation.h"
-#include "UI/UI.h"
-#include "Shader.h"
-
 #include "Asset/Texture.h"
 #include "RenderQueue.h"
+#include "Animation/Animation.h"
 
-#include "Material.h"
+#include "UI/UI.h"
+
+struct DirectionalLight;
 
 class RenderPipeline
 {
@@ -48,31 +43,29 @@ public:
 private:
     GLuint tex3D, fbo;
 
-    RenderQueue m_render_queue;
-
-    FrameBuffer m_framebuffer;
-    FrameBuffer m_depth_framebuffer;
-    FrameBuffer m_depth_shadow_map_framebuffer;
-    FrameBuffer m_voxel_ao_framebuffer;
-
     GLuint m_camera_data_ubo;
     GLuint m_light_data_ubo ;
     GLuint m_fog_data_ubo   ;
 
-    MUG::Mesh    m_screen_mesh;
-    MeshRenderer m_screen_mesh_renderer;
+    RenderQueue m_render_queue;
 
-    SkeletonMeshRenderer m_skeleton_mesh_renderer;
+    FrameBuffer m_framebuffer                 ;
+    FrameBuffer m_depth_framebuffer           ;
+    FrameBuffer m_depth_shadow_map_framebuffer;
+    FrameBuffer m_voxel_ao_framebuffer        ;
 
-    Animation m_animation;
-    Animator m_animator;
+    MUG::Mesh            m_screen_mesh;
+    MeshRenderer         m_screen_mesh_renderer;
 
     Texture   m_perlin_noise_texture;
     Texture3D m_voxel_ambient_texture_3d;
 
     MGUI::UIRenderer m_ui_renderer;
+    GizmosRenderer   m_gizmos_renderer;
 
-    GizmosRenderer m_gizmos_renderer;
+    Animation            m_animation;
+    Animator             m_animator;
+    SkeletonMeshRenderer m_skeleton_mesh_renderer;
 };
 
 #endif

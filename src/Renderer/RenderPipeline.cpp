@@ -53,47 +53,28 @@ void RenderPipeline::init(const entt::registry& _registry)
     Shader* _line_shader       = AssetManager::instance().get_shader("line"                   );
 
     _phong_shader->use();
-    // _phong_shader->block_bind("CameraData"           , 0);
-    // _phong_shader->block_bind("DirectionalLightBlock", 1);
-    // _phong_shader->block_bind("FogDataBlock"         , 2);
-    _phong_shader->set_float ("u_shininess"          , 100.0f);
-    _phong_shader->set_vec3  ("u_color", glm::vec3(1.0f, 1.0f, 1.0f));
-
+    _phong_shader->set_float ("u_shininess" , 100.0f);
+    _phong_shader->set_vec3  ("u_color"     , glm::vec3(1.0f, 1.0f, 1.0f));
 
     _tile_shader->use();
-    // _tile_shader->block_bind("CameraData"           , 0);
-    // _tile_shader->block_bind("DirectionalLightBlock", 1);
-    // _tile_shader->block_bind("FogDataBlock"         , 2);
-
-    _tile_shader->set_int("u_shadow_map" , 0);
-    _tile_shader->set_int("u_texture"    , 1);
-
-    _tile_shader->set_float ("u_shininess", 100.0f);
-    _tile_shader->set_vec3  ("u_color", glm::vec3(1.0f, 1.0f, 1.0f));
+    _tile_shader->set_int   ("u_shadow_map" , 0);
+    _tile_shader->set_vec3  ("u_color"      , glm::vec3(1.0f, 1.0f, 1.0f));
+    _tile_shader->set_int   ("u_texture"    , 1);
+    _tile_shader->set_float ("u_shininess"  , 100.0f);
 
     _planar_projection->use();
     _planar_projection->block_bind("CameraData"           , 0);
     _planar_projection->block_bind("DirectionalLightBlock", 1);
 
     _grass_shader->use();
-    //_grass_shader->block_bind("CameraData"           , 0);
     _shell_shader->use();
-    //_shell_shader->block_bind("CameraData"           , 0);
-    _aabb_shader->use();
-    //_aabb_shader->block_bind("CameraData"           , 0);
-    _line_shader->use();
-    //_line_shader->block_bind("CameraData"           , 0);
+    _aabb_shader ->use();
+    _line_shader ->use();
 
     _skeleton_shader->use();
-    // _skeleton_shader->block_bind("CameraData"           , 0);
-    // _skeleton_shader->block_bind("DirectionalLightBlock", 1);
-    // _skeleton_shader->block_bind("FogDataBlock"         , 2);
     _skeleton_shader->set_float("u_shininess", 100.0f);
 
     _fog_plane_shader->use();
-    // _fog_plane_shader->block_bind("CameraData"           , 0);
-    // _fog_plane_shader->block_bind("DirectionalLightBlock", 1);
-    // _fog_plane_shader->block_bind("FogDataBlock"         , 2);
     _fog_plane_shader->set_float("u_shininess", 100.0f);
     _fog_plane_shader->set_vec2("u_screen_size", glm::vec2(1600, 1200));
 
@@ -111,7 +92,6 @@ void RenderPipeline::init(const entt::registry& _registry)
     _depth_of_field->set_float("u_focus_dist" , _camera.focus_distance);
     _depth_of_field->set_float("u_focus_range", _camera.focus_range);
 
-
     _screen_quad->use();
     _screen_quad->set_int("u_screen_texture", 0);
 
@@ -125,7 +105,6 @@ void RenderPipeline::init(const entt::registry& _registry)
         0.0f,
         -1.0f, 1.0f);
 
-
     _ui_shader    ->use();
     _ui_shader    ->set_mat4_uniform_projection(_ortho_proj);
     _ui_texture   ->use();
@@ -134,10 +113,6 @@ void RenderPipeline::init(const entt::registry& _registry)
     _ui_texture_3d->set_mat4_uniform_projection(_ortho_proj);
     _voxel_ao     ->use();
     _voxel_ao     ->set_mat4_uniform_projection(_ortho_proj);
-
-
-
-
 
     _text_shader->use();
     _text_shader->set_mat4_uniform_projection(_ortho_proj);
@@ -165,25 +140,16 @@ void RenderPipeline::init(const entt::registry& _registry)
     m_screen_mesh_renderer.load_mesh      (&m_screen_mesh);
     m_screen_mesh_renderer.set_buffer_data(&m_screen_mesh);
 
-    //Gen camera ubo
     glGenBuffers(1, &m_camera_data_ubo);
     glBindBuffer(GL_UNIFORM_BUFFER, m_camera_data_ubo);
     glBufferData(GL_UNIFORM_BUFFER, sizeof(Component::CameraData), nullptr, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-    //Gen light ubo
     glGenBuffers(1, &m_light_data_ubo);
     glBindBuffer(GL_UNIFORM_BUFFER, m_light_data_ubo);
     glBufferData(GL_UNIFORM_BUFFER, sizeof(LightData), nullptr, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-    //Gen fog ubo
-    // glGenBuffers(1, &m_fog_data_ubo);
-    // glBindBuffer(GL_UNIFORM_BUFFER, m_fog_data_ubo);
-    // glBufferData(GL_UNIFORM_BUFFER, sizeof(FogData), nullptr, GL_STATIC_DRAW); // or nullptr if updating later
-    // glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-    //Camera
     Component::CameraData camera_data = _registry.ctx().get<Component::Camera>().get_camera_data();
 
     glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
@@ -206,6 +172,12 @@ void RenderPipeline::init(const entt::registry& _registry)
     }
 
     //Fog
+    //Gen fog ubo
+    // glGenBuffers(1, &m_fog_data_ubo);
+    // glBindBuffer(GL_UNIFORM_BUFFER, m_fog_data_ubo);
+    // glBufferData(GL_UNIFORM_BUFFER, sizeof(FogData), nullptr, GL_STATIC_DRAW); // or nullptr if updating later
+    // glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
     // m_fog_data.fogColor   = glm::vec3(0.5f, 0.5f, 0.5f); // gray fog
     // m_fog_data.fogStart   = -10.0f;
     // m_fog_data.fogEnd     = -4.0f;
@@ -225,13 +197,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     m_animation = Animation("../res/models/test_idle_skeleton.fbx", _skeleton_mesh);
     m_animator  = Animator(&m_animation);
 
-    m_ui_renderer.init();
-
-    // AABB _aabb;
-    // _aabb.min = glm::vec3(-0.5f, -0.5f, -0.5f);
-    // _aabb.max = glm::vec3( 0.5f,  0.5f,  0.5f);
-    // m_gizmos_renderer.create_aabb_gizmos(_aabb);
-
+    m_ui_renderer    .init();
     m_gizmos_renderer.init(GizmosType::LINE);
 
     Procgen::PerlinNoise perlin_noise;
@@ -241,9 +207,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     voxel_texture.generate_texture(10, 10, 10);
     m_voxel_ambient_texture_3d.generate(voxel_resolution);
 
-
     // int res = 64;
-    //
     // glGenTextures(1, &tex3D);
     // glBindTexture(GL_TEXTURE_3D, tex3D);
     // glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, res, res, res, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
@@ -276,6 +240,7 @@ void RenderPipeline::init(const entt::registry& _registry)
 
 void RenderPipeline::render(const entt::registry& _registry)
 {
+#pragma region collect render commands
     m_render_queue.clear();
 
     auto _mesh_view = _registry.view<Component::Transform, Material, MeshRenderer>();
@@ -293,6 +258,8 @@ void RenderPipeline::render(const entt::registry& _registry)
     }
 
     m_render_queue.sort();
+
+#pragma endregion
 
 #pragma region reneder shadow map
 
@@ -371,28 +338,7 @@ void RenderPipeline::render(const entt::registry& _registry)
     m_depth_framebuffer.unbind();
 #pragma endregion
 
-
-
-
-    // static bool init = false;
-    // static GLuint _ao_texture;
-    //
-    // int _voxel_resolution = 128;
-    //
-    // if (!init)
-    // {
-    //     init = true;
-    //
-    //     glGenTextures(1, &_ao_texture);
-    //     glBindTexture(GL_TEXTURE_3D, _ao_texture);
-    //     glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, _voxel_resolution, _voxel_resolution, _voxel_resolution, 0,GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-    //     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //
-    //     std::cout << "init voxel texture" << std::endl;
-    // }
-
-    m_voxel_ao_framebuffer.bind();
+#pragma region render ao texture3d pass
     glViewport(0, 0, voxel_resolution, voxel_resolution);
 
     Shader* _voxel_ao_shader = AssetManager::instance().get_shader("voxel_ambient_occlusion");
@@ -409,7 +355,6 @@ void RenderPipeline::render(const entt::registry& _registry)
 
     GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
     glDrawBuffers(1, drawBuffers);
-
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
@@ -433,36 +378,7 @@ void RenderPipeline::render(const entt::registry& _registry)
     glBindTexture(GL_TEXTURE_3D, 0);
 
     m_voxel_ao_framebuffer.unbind();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#pragma endregion
 
 #pragma region render to framebuffer pass
     m_framebuffer.bind();
@@ -573,7 +489,6 @@ void RenderPipeline::render(const entt::registry& _registry)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
     MGUI::draw_texture({20.0f, 20.0f}, { 200.0f, 200.0f }, m_perlin_noise_texture.texture_id);
 
     Shader* _ui_texture_3d = AssetManager::instance().get_shader("ui_texture_3d");
@@ -583,7 +498,6 @@ void RenderPipeline::render(const entt::registry& _registry)
         voxel_texture.id,
         0.15f,
         _ui_texture_3d);
-
 
     float _base = 440.0f;
     float _y    = 180.0f;
@@ -596,8 +510,6 @@ void RenderPipeline::render(const entt::registry& _registry)
             m_voxel_ambient_texture_3d.id,
             _i * 0.1f, _ui_texture_3d);
     }
-
-
 
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);

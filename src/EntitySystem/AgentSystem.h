@@ -4,6 +4,7 @@
 #include "PCH.h"
 #include "Renderer/MeshRenderer.h"
 #include "Renderer/Material.h"
+#include "Renderer/MeshRenderer.h"
 
 namespace EntitySystem
 {

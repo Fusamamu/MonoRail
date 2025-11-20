@@ -2,6 +2,9 @@
 
 #include "Engine.h"
 #include "ApplicationConfig.h"
+
+#include "Asset/AssetManager.h"
+
 #include "Core/Time.h"
 #include "Core/Profiler.h"
 
@@ -445,7 +448,7 @@ entt::entity Scene::create_object(const std::string& _name, const std::string& _
 {
     entt::entity _e = m_registry.create();
 
-    Mesh* _teapot = AssetManager::instance().get_first_mesh(_mesh_name);
+    MUG::Mesh* _teapot = AssetManager::instance().get_first_mesh(_mesh_name);
 
     auto& _node          = m_registry.emplace<Node>          (_e, Node());
     auto& _transform     = m_registry.emplace<Component::Transform>     (_e);

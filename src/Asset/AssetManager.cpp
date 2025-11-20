@@ -74,14 +74,14 @@ void AssetManager::init()
 
 void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _shift_high_bit, bool _shift_low_bit, bool _rotate, uint8_t _rotate_times, std::filesystem::path _path)
 {
-    MeshRawData _mesh_raw_data;
+    MUG::MeshRawData _mesh_raw_data;
     ASSET::load_mesh_raw_data(_path, _mesh_raw_data);
     //m_mesh_raw_data_map[_path.stem().string()] = _mesh_raw_data;
 
     std::cout << _mesh_raw_data << std::endl;
 
-    Mesh _mesh = MUG::Geometry::Util::convert_to_mesh(_mesh_raw_data);
-    std::vector<Mesh> _meshes;
+    MUG::Mesh _mesh = MUG::Geometry::Util::convert_to_mesh(_mesh_raw_data);
+    std::vector<MUG::Mesh> _meshes;
     _meshes.push_back(_mesh);
 
     uint8_t     _start_bit   = _bit;
@@ -95,10 +95,10 @@ void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _shift_high_bit, bool _
     {
         float angle = 90.0f * static_cast<float>(i + 1);
 
-        MeshRawData _rotated_mesh_raw_data = MUG::Geometry::Util::get_rotated_mesh(_mesh_raw_data, glm::vec3(0.0f, 1.0f, 0.0f), angle);
+        MUG::MeshRawData _rotated_mesh_raw_data = MUG::Geometry::Util::get_rotated_mesh(_mesh_raw_data, glm::vec3(0.0f, 1.0f, 0.0f), angle);
 
-        Mesh _mesh = MUG::Geometry::Util::convert_to_mesh(_rotated_mesh_raw_data);
-        std::vector<Mesh> _meshes;
+        MUG::Mesh _mesh = MUG::Geometry::Util::convert_to_mesh(_rotated_mesh_raw_data);
+        std::vector<MUG::Mesh> _meshes;
         _meshes.push_back(_mesh);
 
         uint8_t high  = (_start_bit >> 4) & 0x0F;
@@ -119,7 +119,7 @@ void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _shift_high_bit, bool _
     }
 }
 
-const std::vector<Mesh>* AssetManager::get_model(const std::string& name) const
+const std::vector<MUG::Mesh>* AssetManager::get_model(const std::string& name) const
 {
     auto it = m_mesh_map.find(name);
     if (it != m_mesh_map.end())
@@ -127,7 +127,7 @@ const std::vector<Mesh>* AssetManager::get_model(const std::string& name) const
     return nullptr;
 }
 
-Mesh* AssetManager::get_first_mesh(const std::string& name)
+MUG::Mesh* AssetManager::get_first_mesh(const std::string& name)
 {
     auto it = m_mesh_map.find(name);
     if (it != m_mesh_map.end() && !it->second.empty())
@@ -135,7 +135,7 @@ Mesh* AssetManager::get_first_mesh(const std::string& name)
     return nullptr;
 }
 
-const std::vector<SkeletonMesh>* AssetManager::get_skeleton_model(const std::string& name) const
+const std::vector<MUG::SkeletonMesh>* AssetManager::get_skeleton_model(const std::string& name) const
 {
     auto it = m_skeleton_models.find(name);
     if (it != m_skeleton_models.end())
@@ -143,7 +143,7 @@ const std::vector<SkeletonMesh>* AssetManager::get_skeleton_model(const std::str
     return nullptr;
 }
 
-SkeletonMesh* AssetManager::get_first_skeleton_mesh(const std::string& name)
+MUG::SkeletonMesh* AssetManager::get_first_skeleton_mesh(const std::string& name)
 {
     auto it = m_skeleton_models.find(name);
     if (it != m_skeleton_models.end() && !it->second.empty())
@@ -245,9 +245,9 @@ void AssetManager::process_skeleton_node(aiNode* node, const aiScene* scene)
         process_skeleton_node(node->mChildren[i], scene);
 }
 
-SkeletonMesh AssetManager::process_skeleton_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene)
+MUG::SkeletonMesh AssetManager::process_skeleton_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene)
 {
-    SkeletonMesh _skeleton_mesh;
+    MUG::SkeletonMesh _skeleton_mesh;
 
     size_t baseVertIndex = _skeleton_mesh.vertices.size();
 
@@ -283,7 +283,7 @@ SkeletonMesh AssetManager::process_skeleton_mesh(aiMesh* _ai_mesh, const aiScene
             _bone_index = _skeleton_mesh.bone_count;
             _skeleton_mesh.bone_count++;
 
-            BoneInfo _bone_info;
+            MUG::BoneInfo _bone_info;
             _bone_info.id = _bone_index;
             _bone_info.offset_matrix       = glm::transpose(glm::make_mat4(&_ai_bone->mOffsetMatrix.a1));
             _bone_info.finalTransformation = glm::mat4(1.0f);
@@ -320,9 +320,9 @@ void AssetManager::process_node(aiNode* node, const aiScene* scene)
         process_node(node->mChildren[i], scene);
 }
 
-Mesh AssetManager::process_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene)
+MUG::Mesh AssetManager::process_mesh(aiMesh* _ai_mesh, const aiScene* _ai_scene)
 {
-    Mesh _outMesh;
+    MUG::Mesh _outMesh;
 
     // Each vertex = 8 floats = 32 bytes
     _outMesh.vertex_buffer.reserve(_ai_mesh->mNumVertices * sizeof(float) * 8);
@@ -413,9 +413,9 @@ void AssetManager::process_node_raw(aiNode* node    , const aiScene* scene)
         process_node_raw(node->mChildren[i], scene);
 }
 
-MeshRawData AssetManager::process_mesh_raw(aiMesh* _ai_mesh, const aiScene* _ai_scene)
+MUG::MeshRawData AssetManager::process_mesh_raw(aiMesh* _ai_mesh, const aiScene* _ai_scene)
 {
-    MeshRawData meshData;
+    MUG::MeshRawData meshData;
 
     meshData.vertex_buffer.reserve(_ai_mesh->mNumVertices);
     meshData.index_buffer.reserve(_ai_mesh->mNumFaces * 3); // assuming triangles

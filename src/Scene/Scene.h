@@ -8,9 +8,8 @@
 #include "InputSystem.h"
 
 #include "Renderer/Shader.h"
-#include "Renderer/MeshRenderer.h"
-#include "Renderer/GizmosRenderer.h"
 #include "Renderer/RenderPipeline.h"
+#include "Renderer/GizmosRenderer.h"
 
 #include "EntitySystem/AgentSystem.h"
 

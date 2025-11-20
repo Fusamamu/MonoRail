@@ -29,7 +29,7 @@ void Grid::generate_tiles(entt::registry& _registry) {
         for (size_t x = 0; x < m_width; ++x) {
             entt::entity _e = _registry.create();
 
-            Mesh* _tile_mesh = AssetManager::instance().get_first_mesh("tile");
+            MUG::Mesh* _tile_mesh = AssetManager::instance().get_first_mesh("tile");
 
             auto& _tile = _registry.emplace<Tile>(_e, Tile(x, y));
 
@@ -77,7 +77,7 @@ void Grid::generate_tiles_with_perlin(entt::registry& _registry) {
 
                 entt::entity _e = _registry.create();
 
-                Mesh* _tile_mesh = AssetManager::instance().get_first_mesh("tile_pillar");
+                MUG::Mesh* _tile_mesh = AssetManager::instance().get_first_mesh("tile_pillar");
 
                 auto& _tile = _registry.emplace<Tile>(_e, Tile(x, y));
 

@@ -1,4 +1,7 @@
 #include "RenderQueue.h"
+#include "MeshRenderer.h"
+#include "Renderer/Shader.h"
+#include "Asset/AssetManager.h"
 
 void RenderQueue::add(const RenderCommand& _command)
 {

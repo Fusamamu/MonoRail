@@ -1,19 +1,22 @@
 #include "Mesh.h"
 
-std::ostream& operator<<(std::ostream& _os, const MeshRawData& _data)
+namespace MUG
 {
-    for (const SubMesh& _sub_mesh : _data.sub_meshes)
+    void Mesh::push_float(float v)
+    {
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(&v);
+        vertex_buffer.insert(vertex_buffer.end(), bytes, bytes + sizeof(float));
+    }
+}
+
+std::ostream& MUG::operator<<(std::ostream& _os, const MUG::MeshRawData& _data)
+{
+    for (const MUG::SubMesh& _sub_mesh : _data.sub_meshes)
         _os << _sub_mesh << "\n";
     return _os;
 }
 
-void Mesh::push_float(float v)
-{
-    const uint8_t* bytes = reinterpret_cast<const uint8_t*>(&v);
-    vertex_buffer.insert(vertex_buffer.end(), bytes, bytes + sizeof(float));
-}
-
-std::ostream& operator<<(std::ostream& _os, const Mesh& _mesh)
+std::ostream& MUG::operator<<(std::ostream& _os, const MUG::Mesh& _mesh)
 {
     _os << "Mesh:" << std::endl;
     _os << "Stride: " << _mesh.layout.stride << " bytes" << std::endl;
@@ -52,7 +55,7 @@ std::ostream& operator<<(std::ostream& _os, const Mesh& _mesh)
     return _os;
 }
 
-std::ostream& operator<<(std::ostream& _os, const SubMesh& _sub_mesh)
+std::ostream& MUG::operator<<(std::ostream& _os, const MUG::SubMesh& _sub_mesh)
 {
     _os << "Material index: " << _sub_mesh.material_index << "\n"
         << "Index offset: "   << _sub_mesh.index_offset   << "\n"

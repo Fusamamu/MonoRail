@@ -1,6 +1,7 @@
 #include "GizmosRenderer.h"
 
 #include "../Core/Mesh.h"
+#include "Components/Component.h"
 
 GizmosRenderer::GizmosRenderer()
 {

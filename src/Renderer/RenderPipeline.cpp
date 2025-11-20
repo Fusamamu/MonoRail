@@ -211,7 +211,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     //
     // glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
 
-    SkeletonMesh* _skeleton_mesh = AssetManager::instance().get_first_skeleton_mesh("test_idle_skeleton");
+    MUG::SkeletonMesh* _skeleton_mesh = AssetManager::instance().get_first_skeleton_mesh("test_idle_skeleton");
     m_skeleton_mesh_renderer.load_mesh      (_skeleton_mesh);
     m_skeleton_mesh_renderer.set_buffer_data(_skeleton_mesh);
 

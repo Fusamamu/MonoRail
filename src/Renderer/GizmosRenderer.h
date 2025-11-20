@@ -1,9 +1,9 @@
 #ifndef GIZMOSRENDERER_H
 #define GIZMOSRENDERER_H
 
-#include "../PCH.h"
-#include "Components/Component.h"
-#include "../Core/Mesh.h"
+#include "Core/Mesh.h"
+
+struct AABB;
 
 enum class GizmosType : int8_t
 {

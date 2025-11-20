@@ -11,12 +11,12 @@ SkeletonMeshRenderer::~SkeletonMeshRenderer()
 
 }
 
-void SkeletonMeshRenderer::load_mesh(SkeletonMesh* _mesh)
+void SkeletonMeshRenderer::load_mesh(MUG::SkeletonMesh* _mesh)
 {
     m_skeleton_mesh = _mesh;
 }
 
-void SkeletonMeshRenderer::set_buffer_data(SkeletonMesh* _mesh)
+void SkeletonMeshRenderer::set_buffer_data(MUG::SkeletonMesh* _mesh)
 {
     glGenVertexArrays(1, &m_vao);
     glGenBuffers(1, &m_vbo);

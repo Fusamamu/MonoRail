@@ -1,9 +1,6 @@
 #ifndef RENDERQUEUE_H
 #define RENDERQUEUE_H
 
-#include "../PCH.h"
-#include "../Asset/AssetManager.h"
-#include "Shader.h"
 #include "RenderCommand.h"
 
 class RenderQueue

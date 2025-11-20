@@ -9,12 +9,12 @@ MeshRenderer::~MeshRenderer()
     if (m_vao)          glDeleteVertexArrays(1, &m_vao);
 }
 
-void MeshRenderer::load_mesh(Mesh* _mesh)
+void MeshRenderer::load_mesh(MUG::Mesh* _mesh)
 {
     m_mesh = _mesh;
 }
 
-void MeshRenderer::set_buffer_data(Mesh* _mesh)
+void MeshRenderer::set_buffer_data(MUG::Mesh* _mesh)
 {
     glGenVertexArrays(1, &m_vao);
     glGenBuffers(1, &m_vbo);

@@ -3,7 +3,7 @@
 
 namespace ASSET
 {
-    MeshRawData load_mesh_raw_data(const std::filesystem::path& path, MeshRawData& _mesh_data)
+    MUG::MeshRawData load_mesh_raw_data(const std::filesystem::path& path, MUG::MeshRawData& _mesh_data)
     {
         Assimp::Importer _importer;
 
@@ -32,7 +32,7 @@ namespace ASSET
         {
             const aiMesh* _ai_mesh = _ai_scene->mMeshes[m];
 
-            SubMesh _sub_mesh{};
+            MUG::SubMesh _sub_mesh{};
             _sub_mesh.index_offset    = _global_index_offset;
             _sub_mesh.material_index = _ai_mesh->mMaterialIndex;
 

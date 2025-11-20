@@ -217,7 +217,7 @@ namespace TileGrid
 
         m_tile_mesh_e = _e;
 
-        Mesh* _p_mesh = AssetManager::instance().get_first_mesh("bevel_cube");
+        MUG::Mesh* _p_mesh = AssetManager::instance().get_first_mesh("bevel_cube");
 
         auto& _node = _registry.emplace<Node>(_e, Node());
         _node.name = "cube grid";
@@ -279,7 +279,7 @@ namespace TileGrid
                     entt::entity _e = _registry.create();
 
                     std::string mesh_name = "tile";
-                    Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(mesh_name);
+                    MUG::Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(mesh_name);
 
                     auto& _tile = _registry.emplace<Node3D>(_e, Node3D(x, y, z));
 
@@ -349,7 +349,7 @@ namespace TileGrid
     {
         entt::entity _e = _registry.create();
 
-        Mesh* _p_mesh = AssetManager::instance().get_first_mesh("sphere");
+        MUG::Mesh* _p_mesh = AssetManager::instance().get_first_mesh("sphere");
 
         auto& _node = _registry.emplace<Node>(_e, Node());
         _node.name = "corner_grid";
@@ -493,7 +493,7 @@ namespace TileGrid
                     uint8_t _bitmask       = _corner.to_bitmask(_registry);
                     std::string _mesh_name = to_formatted_name(_bitmask);
 
-                    Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(_mesh_name);
+                    MUG::Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(_mesh_name);
                     if (_tile_mesh)
                     {
                         _mesh_renderer.load_mesh      (_tile_mesh);
@@ -501,7 +501,7 @@ namespace TileGrid
                     }
                     else
                     {
-                        Mesh* _fallback = AssetManager::instance().get_first_mesh("sphere");
+                        MUG::Mesh* _fallback = AssetManager::instance().get_first_mesh("sphere");
                         _transform.scale     = glm::vec3(0.0f);
                         _transform.world_mat = _transform.get_local_mat4();
                         _mesh_renderer.load_mesh      (_fallback);
@@ -561,7 +561,7 @@ namespace TileGrid
         {
             uint8_t _bitmask  = get_surrounding_bitmask_4direction(_registry, _at_node_index);
             std::string _mesh = TILE_TABLE::get_tile_name(_bitmask);
-            Mesh* _tile_mesh  = AssetManager::instance().get_first_mesh(_mesh);
+            MUG::Mesh* _tile_mesh  = AssetManager::instance().get_first_mesh(_mesh);
 
             _mesh_renderer.load_mesh      (_tile_mesh);
             _mesh_renderer.set_buffer_data(_tile_mesh);
@@ -583,7 +583,7 @@ namespace TileGrid
                 {
                     uint8_t _bitmask  = get_surrounding_bitmask_4direction(_registry, _at_n_node_index);
                     std::string _mesh = TILE_TABLE::get_tile_name(_bitmask);
-                    Mesh* _tile_mesh  = AssetManager::instance().get_first_mesh(_mesh);
+                    MUG::Mesh* _tile_mesh  = AssetManager::instance().get_first_mesh(_mesh);
 
                     _mesh_renderer->load_mesh      (_tile_mesh);
                     _mesh_renderer->set_buffer_data(_tile_mesh);
@@ -643,7 +643,7 @@ namespace TileGrid
 
         _material.shader_id = "phong";
 
-        Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(_mesh);
+        MUG::Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(_mesh);
 
         _mesh_renderer.load_mesh      (_tile_mesh);
         _mesh_renderer.set_buffer_data(_tile_mesh);
@@ -700,7 +700,7 @@ namespace TileGrid
 
         _material.shader_id = "phong";
 
-        Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(_tile_data.mesh_name);
+        MUG::Mesh* _tile_mesh = AssetManager::instance().get_first_mesh(_tile_data.mesh_name);
 
         _mesh_renderer.load_mesh      (_tile_mesh);
         _mesh_renderer.set_buffer_data(_tile_mesh);

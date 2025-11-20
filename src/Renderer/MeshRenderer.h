@@ -1,9 +1,12 @@
-#ifndef MESHRENDERER_H
-#define MESHRENDERER_H
+#ifndef MESH_RENDERER_H
+#define MESH_RENDERER_H
 
 #include <GL/glew.h>
 
-struct Mesh;
+namespace MUG
+{
+    struct Mesh;
+}
 
 struct InstanceData
 {
@@ -16,13 +19,15 @@ class MeshRenderer
 public:
     MeshRenderer() = default;
     ~MeshRenderer();
-   
-    void load_mesh      (Mesh* _mesh);
-    void set_buffer_data(Mesh* _mesh);
-    void set_instance_data(const std::vector<InstanceData>& _data);
-    void update_instance_color(std::vector<InstanceData>& _data, size_t _index, const glm::vec4& _color);
+
+    void load_mesh      (MUG::Mesh* _mesh);
+    void set_buffer_data(MUG::Mesh* _mesh);
+    void set_instance_data          (const std::vector<InstanceData>& _data);
+
+    void update_instance_color      (std::vector<InstanceData>& _data, size_t _index, const glm::vec4& _color);
     void update_all_instance_colors( std::vector<InstanceData>& _data, const glm::vec4& color);
-    void draw() const;
+
+    void draw     () const;
     void draw_mesh() const;
 
     bool use_instancing = false;
@@ -31,6 +36,6 @@ public:
 private:
     GLuint m_vbo, m_vao, m_ebo, m_instance_vbo;
     
-    Mesh* m_mesh;
+    MUG::Mesh* m_mesh;
 };
 #endif 

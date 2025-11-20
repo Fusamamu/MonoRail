@@ -7,6 +7,7 @@
 #include "Components/Component.h"
 #include "Components/Transform.h"
 
+#include "Renderer/MeshRenderer.h"
 #include "Renderer/FrameBuffer.h"
 #include "Renderer/SkeletonMeshRenderer.h"
 #include "Renderer/GizmosRenderer.h"
@@ -16,7 +17,6 @@
 #include "Shader.h"
 
 #include "Asset/Texture.h"
-#include "MeshRenderer.h"
 #include "RenderQueue.h"
 
 #include "Material.h"
@@ -59,7 +59,7 @@ private:
     GLuint m_light_data_ubo ;
     GLuint m_fog_data_ubo   ;
 
-    Mesh         m_screen_mesh;
+    MUG::Mesh    m_screen_mesh;
     MeshRenderer m_screen_mesh_renderer;
 
     SkeletonMeshRenderer m_skeleton_mesh_renderer;

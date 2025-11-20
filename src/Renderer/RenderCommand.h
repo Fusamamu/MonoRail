@@ -2,7 +2,8 @@
 #define RENDERCOMMAND_H
 
 #include "Material.h"
-#include "MeshRenderer.h"
+
+class MeshRenderer;
 
 struct RenderCommand
 {

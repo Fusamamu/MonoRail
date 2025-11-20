@@ -102,7 +102,7 @@ class Animation
 {
 public:
 
-    Animation(const std::string& _animation_path, SkeletonMesh* _skeleton_mesh)
+    Animation(const std::string& _animation_path, MUG::SkeletonMesh* _skeleton_mesh)
     {
         Assimp::Importer _importer;
         const aiScene* _scene = _importer.ReadFile(_animation_path, aiProcess_Triangulate);
@@ -149,7 +149,7 @@ public:
     float get_ticks_per_second()                             { return m_ticks_per_second; }
     float get_duration()                                     { return m_duration        ; }
     const AssimpNodeData& get_root_node()                    { return m_root_node       ; }
-    const std::map<std::string, BoneInfo>& get_bone_id_map() { return m_bone_info_map   ; }
+    const std::map<std::string, MUG::BoneInfo>& get_bone_id_map() { return m_bone_info_map   ; }
 
 private:
 
@@ -169,7 +169,7 @@ private:
         }
     }
 
-    void read_missing_bones(const aiAnimation* _ai_animation, SkeletonMesh& _skeleton_mesh)
+    void read_missing_bones(const aiAnimation* _ai_animation, MUG::SkeletonMesh& _skeleton_mesh)
     {
         int&  _bone_count    = _skeleton_mesh.bone_count;
         auto& _bone_info_map = _skeleton_mesh.bone_mapping;
@@ -207,7 +207,7 @@ private:
     AssimpNodeData m_root_node;
 
     std::vector<Bone> m_bones;
-    std::map<std::string, BoneInfo> m_bone_info_map;
+    std::map<std::string, MUG::BoneInfo> m_bone_info_map;
 };
 
 class Animator

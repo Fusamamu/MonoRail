@@ -42,9 +42,9 @@ struct Quad
     Quad() = default;
     ~Quad() = default;
 
-    Mesh to_mesh()
+    MUG::Mesh to_mesh()
     {
-        Mesh mesh;
+        MUG::Mesh mesh;
 
         mesh.layout = {};
         mesh.layout.add_element(VertexAttribute::POSITION  , 0                      , sizeof(float) * 3, GL_FLOAT, 3);
@@ -60,9 +60,9 @@ struct Quad
         return mesh;
     }
 
-    Mesh screen_vertices_to_mesh()
+    MUG::Mesh screen_vertices_to_mesh()
     {
-        Mesh mesh;
+        MUG::Mesh mesh;
 
         mesh.layout = {};
         mesh.layout.add_element(VertexAttribute::POSITION  , 0                      , sizeof(float) * 3, GL_FLOAT, 3);
@@ -78,9 +78,9 @@ struct Quad
         return mesh;
     }
 
-    Mesh ui_vertices_to_mesh()
+    MUG::Mesh ui_vertices_to_mesh()
     {
-        Mesh mesh;
+        MUG::Mesh mesh;
 
         mesh.layout = {};
         mesh.layout.add_element(VertexAttribute::POSITION  , 0                      , sizeof(float) * 3, GL_FLOAT, 3);

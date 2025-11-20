@@ -4,6 +4,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+#include "Asset/AssetManager.h"
+
 #include "Renderer/Material.h"
 #include "Renderer/MeshRenderer.h"
 

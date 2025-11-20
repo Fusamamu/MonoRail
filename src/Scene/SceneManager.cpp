@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 #include "Scene/Scene.h"
 
-Scene* SceneManager::create_scene(const std::string& name, Engine* _engine)
+Scene* SceneManager::create_scene(const std::string& name, MUG::Engine* _engine)
 {
     auto it = scenes.find(name);
     if (it != scenes.end())

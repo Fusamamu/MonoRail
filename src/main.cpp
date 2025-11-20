@@ -14,10 +14,9 @@ int main()
 {
     auto exeDir = getExecutableDirectory();
     std::filesystem::current_path(exeDir);
-
     std::cout << "Working directory = "<< std::filesystem::current_path() << "\n";
 
-    Engine _engine;
+    MUG::Engine _engine;
     _engine.init();
     _engine.update();
     _engine.quit();

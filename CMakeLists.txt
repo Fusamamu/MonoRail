@@ -3,6 +3,15 @@ project(HelpPrincess)
 
 set(CMAKE_CXX_STANDARD 20)
 
+set(CMAKE_CXX_FLAGS_DEBUG   "-DMU_BUILD_DEBUG"  )
+set(CMAKE_CXX_FLAGS_RELEASE "-DMU_BUILD_RELEASE")
+
+# --- APP BUNDLE SETUP (added) ---
+#set(MACOSX_BUNDLE_ICON_FILE icon.icns)
+#set_source_files_properties(${CMAKE_SOURCE_DIR}/icon.icns PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+#set(APP_ICON ${CMAKE_SOURCE_DIR}/icon.icns)
+# --------------------------------
+
 set(IMGUI_INCLUDE  ./vendors/imgui)
 set(IMGUI_BACKENDS ./vendors/imgui/backends)
 
@@ -97,3 +106,15 @@ add_custom_command(
         ${CMAKE_CURRENT_BINARY_DIR}/res
         COMMENT "Copying game assets..."
 )
+
+# --- COPY RESOURCES INTO THE APP BUNDLE ---
+#add_custom_command(
+#        TARGET ${PROJECT_NAME} POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E make_directory
+#        "$<TARGET_BUNDLE_CONTENT_DIR:${PROJECT_NAME}>/Resources/res"
+#        COMMAND ${CMAKE_COMMAND} -E copy_directory
+#        ${CMAKE_SOURCE_DIR}/res
+#        "$<TARGET_BUNDLE_CONTENT_DIR:${PROJECT_NAME}>/Resources/res"
+#        COMMENT "Copying game assets into .app bundle..."
+#)
+

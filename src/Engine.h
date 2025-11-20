@@ -3,24 +3,27 @@
 
 class SceneManager;
 
-class Engine
+namespace MUG
 {
-public:
-    SDL_Window*   p_window;
-    SDL_GLContext context;
-    SDL_Event     sdl_event;
+    class Engine
+    {
+    public:
+        SDL_Window*   p_window;
+        SDL_GLContext context;
+        SDL_Event     sdl_event;
 
-    SceneManager* p_scene_manager;
+        SceneManager* p_scene_manager;
 
-    Engine();
-    ~Engine();
-    
-    void init  ();
-    void update();
-    void quit  ();
-    void request_quit();
-private:
-    bool m_is_running;
-};
+        Engine();
+        ~Engine();
+
+        void init  ();
+        void update();
+        void quit  ();
+        void request_quit();
+    private:
+        bool m_is_running;
+    };
+}
 
 #endif

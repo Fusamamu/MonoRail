@@ -16,7 +16,11 @@
 
 #include "Navigation/Navigation.h"
 
+namespace MUG
+{
 class Engine;
+
+}
 
 class Scene {
 public:
@@ -24,7 +28,7 @@ public:
 
     std::string name;
 
-    Scene(const std::string& _name, Engine* _engine) :
+    Scene(const std::string& _name, MUG::Engine* _engine) :
         name          (_name  ),
         m_engine_owner(_engine)
     {
@@ -52,7 +56,7 @@ public:
     void prototype_corners();
 private:
     entt::registry m_registry;
-    Engine*        m_engine_owner;
+    MUG::Engine*        m_engine_owner;
 
     RenderPipeline m_render_pipeline;
     InputSystem    m_input_system;

@@ -3,8 +3,13 @@
 
 #include <string>
 #include <memory>
+#include <unordered_map>
 
-class Engine;
+namespace MUG
+{
+    class Engine;
+}
+
 class Scene;
 
 class SceneManager {
@@ -13,7 +18,7 @@ public:
     ~SceneManager() = default;
 
     Scene* get_current_scene();
-    Scene* create_scene(const std::string& name, Engine* _engine);
+    Scene* create_scene(const std::string& name, MUG::Engine* _engine);
     void switch_scene(const std::string& name);
     void update_current_scene(float delta_time);
 

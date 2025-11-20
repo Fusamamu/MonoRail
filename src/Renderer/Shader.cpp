@@ -28,7 +28,7 @@ Shader::Shader(std::filesystem::path _path)
 
     while(std::getline(_input_file, _line)) 
     {
-        if(_line.find("#shader vertex") != std::string::npos)
+        if(_line.find("#shader vertex"  ) != std::string::npos)
         {
             _shader_type = ShaderType::VERTEX;
             continue;
@@ -51,7 +51,7 @@ Shader::Shader(std::filesystem::path _path)
         _ss[_target_index] << _line << '\n';
     }
 
-    m_vertex_src   = _ss[(int)(ShaderType::VERTEX)]  .str();
+    m_vertex_src   = _ss[(int)(ShaderType::VERTEX  )].str();
     m_geometry_src = _ss[(int)(ShaderType::GEOMETRY)].str();
     m_fragment_src = _ss[(int)(ShaderType::FRAGMENT)].str(); 
 
@@ -59,9 +59,22 @@ Shader::Shader(std::filesystem::path _path)
 
     id = create_shader(m_vertex_src, m_geometry_src, m_fragment_src);
 
-    m_uniform_loc_model                 = glGetUniformLocation(id, "model"             );
-    m_uniform_loc_view                  = glGetUniformLocation(id, "view"              );
-    m_uniform_loc_projection            = glGetUniformLocation(id, "proj"              );
+    m_uniform_loc_model      = glGetUniformLocation(id, "model");
+    m_uniform_loc_view       = glGetUniformLocation(id, "view" );
+    m_uniform_loc_projection = glGetUniformLocation(id, "proj" );
+
+    int _block_count;
+    glGetProgramiv(id, GL_ACTIVE_UNIFORM_BLOCKS, &_block_count);
+
+    for (int i = 0; i < _block_count; i++)
+    {
+        char _block_name[128];
+        glGetActiveUniformBlockName(id, i, 128, nullptr, _block_name);
+
+        if (strcmp(_block_name, "CameraData"           ) == 0) block_bind(_block_name, 0);
+        if (strcmp(_block_name, "DirectionalLightBlock") == 0) block_bind(_block_name, 1);
+        if (strcmp(_block_name, "FogDataBlock"         ) == 0) block_bind(_block_name, 2);
+    }
 }
 
 Shader::Shader()
@@ -91,6 +104,45 @@ void Shader::set_mat4_uniform_view(glm::mat4 _view) const
 void Shader::set_mat4_uniform_projection(glm::mat4 _projection) const
 {
     glUniformMatrix4fv(m_uniform_loc_projection, 1, GL_FALSE, glm::value_ptr(_projection));
+}
+
+void Shader::set_int(const std::string& _name, int _value) const
+{
+    glUniform1i(glGetUniformLocation(id, _name.c_str()), _value);
+}
+
+void Shader::set_float(const std::string& _name, float _value) const
+{
+    glUniform1f(glGetUniformLocation(id, _name.c_str()), _value);
+}
+
+void Shader::set_vec2(const std::string& _name, const glm::vec2& _value) const
+{
+    glUniform2f(glGetUniformLocation(id,_name.c_str()), (float)_value.x, (float)_value.y);
+}
+
+void Shader::set_vec3(const std::string& _name, const glm::vec3& _value) const
+{
+    glUniform3f(glGetUniformLocation(id,_name.c_str()), _value.x, _value.y, _value.z);
+}
+
+void Shader::set_vec4(const std::string& _name, const glm::vec4& _value) const
+{
+    glUniform4f(glGetUniformLocation(id, _name.c_str()),_value.x, _value.y, _value.z, _value.w);
+}
+
+void Shader::set_mat4(const std::string& _name, const glm::mat4& _matrix) const
+{
+    GLint _loc = glGetUniformLocation(id, _name.c_str());
+    glUniformMatrix4fv(_loc, 1, GL_FALSE, glm::value_ptr(_matrix));
+}
+
+void Shader::block_bind(const std::string& _block_name, uint32_t _bind_point)
+{
+    unsigned int _uniform_block_index  = glGetUniformBlockIndex(id, _block_name.c_str());
+    if (_uniform_block_index == GL_INVALID_INDEX)
+        return;
+    glUniformBlockBinding(id, _uniform_block_index, _bind_point);
 }
 
 GLuint Shader::create_shader
@@ -147,4 +199,14 @@ GLuint Shader::compile_shader(GLenum _shader_type, const std::string &_shader_sr
     }
 
     return _shader;
+}
+
+std::ostream& operator<<(std::ostream& _os, Shader& _shader)
+{
+    _os << "[ Vertex shader source ]" << '\n';
+    _os << _shader.m_vertex_src << '\n';
+    _os << '\n';
+    _os << "[ Fragment shader source ]" << '\n';
+    _os << _shader.m_fragment_src << '\n';
+    return _os;
 }

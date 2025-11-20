@@ -40,6 +40,10 @@ public:
     const std::vector<MUG::SkeletonMesh>* get_skeleton_model(const std::string& name) const;
     MUG::SkeletonMesh* get_first_skeleton_mesh(const std::string& name);
 
+    auto shader_view()
+    {
+        return std::views::values(m_shaders);
+    }
     void load_shader(const std::filesystem::path _path);
     Shader* get_shader(const std::string& _name);
 

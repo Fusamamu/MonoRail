@@ -53,20 +53,20 @@ void RenderPipeline::init(const entt::registry& _registry)
     Shader* _line_shader       = AssetManager::instance().get_shader("line"                   );
 
     _phong_shader->use();
-    _phong_shader->block_bind("CameraData"           , 0);
-    _phong_shader->block_bind("DirectionalLightBlock", 1);
-    _phong_shader->block_bind("FogDataBlock"         , 2);
+    // _phong_shader->block_bind("CameraData"           , 0);
+    // _phong_shader->block_bind("DirectionalLightBlock", 1);
+    // _phong_shader->block_bind("FogDataBlock"         , 2);
     _phong_shader->set_float ("u_shininess"          , 100.0f);
     _phong_shader->set_vec3  ("u_color", glm::vec3(1.0f, 1.0f, 1.0f));
 
 
     _tile_shader->use();
-    _tile_shader->block_bind("CameraData"           , 0);
-    _tile_shader->block_bind("DirectionalLightBlock", 1);
-    _tile_shader->block_bind("FogDataBlock"         , 2);
+    // _tile_shader->block_bind("CameraData"           , 0);
+    // _tile_shader->block_bind("DirectionalLightBlock", 1);
+    // _tile_shader->block_bind("FogDataBlock"         , 2);
 
-    _tile_shader->set_uniform_int("u_shadow_map" , 0);
-    _tile_shader->set_uniform_int("u_texture"    , 1);
+    _tile_shader->set_int("u_shadow_map" , 0);
+    _tile_shader->set_int("u_texture"    , 1);
 
     _tile_shader->set_float ("u_shininess", 100.0f);
     _tile_shader->set_vec3  ("u_color", glm::vec3(1.0f, 1.0f, 1.0f));
@@ -76,24 +76,24 @@ void RenderPipeline::init(const entt::registry& _registry)
     _planar_projection->block_bind("DirectionalLightBlock", 1);
 
     _grass_shader->use();
-    _grass_shader->block_bind("CameraData"           , 0);
+    //_grass_shader->block_bind("CameraData"           , 0);
     _shell_shader->use();
-    _shell_shader->block_bind("CameraData"           , 0);
+    //_shell_shader->block_bind("CameraData"           , 0);
     _aabb_shader->use();
-    _aabb_shader->block_bind("CameraData"           , 0);
+    //_aabb_shader->block_bind("CameraData"           , 0);
     _line_shader->use();
-    _line_shader->block_bind("CameraData"           , 0);
+    //_line_shader->block_bind("CameraData"           , 0);
 
     _skeleton_shader->use();
-    _skeleton_shader->block_bind("CameraData"           , 0);
-    _skeleton_shader->block_bind("DirectionalLightBlock", 1);
-    _skeleton_shader->block_bind("FogDataBlock"         , 2);
+    // _skeleton_shader->block_bind("CameraData"           , 0);
+    // _skeleton_shader->block_bind("DirectionalLightBlock", 1);
+    // _skeleton_shader->block_bind("FogDataBlock"         , 2);
     _skeleton_shader->set_float("u_shininess", 100.0f);
 
     _fog_plane_shader->use();
-    _fog_plane_shader->block_bind("CameraData"           , 0);
-    _fog_plane_shader->block_bind("DirectionalLightBlock", 1);
-    _fog_plane_shader->block_bind("FogDataBlock"         , 2);
+    // _fog_plane_shader->block_bind("CameraData"           , 0);
+    // _fog_plane_shader->block_bind("DirectionalLightBlock", 1);
+    // _fog_plane_shader->block_bind("FogDataBlock"         , 2);
     _fog_plane_shader->set_float("u_shininess", 100.0f);
     _fog_plane_shader->set_vec2("u_screen_size", glm::vec2(1600, 1200));
 
@@ -401,11 +401,11 @@ void RenderPipeline::render(const entt::registry& _registry)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, voxel_texture.id);
 
-    _voxel_ao_shader->set_uniform_int  ("u_texture"         , 0);
-    _voxel_ao_shader->set_uniform_int  ("u_voxel_resolution", voxel_resolution);
-    _voxel_ao_shader->set_uniform_int  ("u_num_rays"        , 16);
-    _voxel_ao_shader->set_uniform_int  ("u_max_steps"       , 16);
-    _voxel_ao_shader->set_uniform_float("u_step_length"     , 1.0f);
+    _voxel_ao_shader->set_int  ("u_texture"         , 0);
+    _voxel_ao_shader->set_int  ("u_voxel_resolution", voxel_resolution);
+    _voxel_ao_shader->set_int  ("u_num_rays"        , 16);
+    _voxel_ao_shader->set_int  ("u_max_steps"       , 16);
+    _voxel_ao_shader->set_float("u_step_length"     , 1.0f);
 
     GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
     glDrawBuffers(1, drawBuffers);
@@ -423,7 +423,7 @@ void RenderPipeline::render(const entt::registry& _registry)
             printf("FBO incomplete at slice %d\n", z);
 
         _voxel_ao_shader->use();
-        _voxel_ao_shader->set_uniform_int("u_slice", z);
+        _voxel_ao_shader->set_int("u_slice", z);
 
         glClear(GL_COLOR_BUFFER_BIT);
         m_screen_mesh_renderer.draw();

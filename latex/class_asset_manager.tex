@@ -1,0 +1,65 @@
+\doxysection{Asset\+Manager Class Reference}
+\hypertarget{class_asset_manager}{}\label{class_asset_manager}\index{AssetManager@{AssetManager}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_asset_manager_a5f2da3cecd7f2c465e8cc056c4ff3451}\label{class_asset_manager_a5f2da3cecd7f2c465e8cc056c4ff3451} 
+{\bfseries Asset\+Manager} (const \mbox{\hyperlink{class_asset_manager}{Asset\+Manager}} \&)=delete
+\item 
+\Hypertarget{class_asset_manager_a42d6d2424998963c48f0ae71ce6af473}\label{class_asset_manager_a42d6d2424998963c48f0ae71ce6af473} 
+{\bfseries Asset\+Manager} (\mbox{\hyperlink{class_asset_manager}{Asset\+Manager}} \&\&)=delete
+\item 
+\Hypertarget{class_asset_manager_a19aae622b1560e0c1684632278bc9b4c}\label{class_asset_manager_a19aae622b1560e0c1684632278bc9b4c} 
+\mbox{\hyperlink{class_asset_manager}{Asset\+Manager}} \& {\bfseries operator=} (const \mbox{\hyperlink{class_asset_manager}{Asset\+Manager}} \&)=delete
+\item 
+\Hypertarget{class_asset_manager_a0b07c53d4f8dd0fc77c5919abecb1101}\label{class_asset_manager_a0b07c53d4f8dd0fc77c5919abecb1101} 
+\mbox{\hyperlink{class_asset_manager}{Asset\+Manager}} \& {\bfseries operator=} (\mbox{\hyperlink{class_asset_manager}{Asset\+Manager}} \&\&)=delete
+\item 
+\Hypertarget{class_asset_manager_aed7ffd789d19db4b65121c17750846b4}\label{class_asset_manager_aed7ffd789d19db4b65121c17750846b4} 
+void {\bfseries init} ()
+\item 
+\Hypertarget{class_asset_manager_ad82e36bed359a91aa38aa2394f7838ca}\label{class_asset_manager_ad82e36bed359a91aa38aa2394f7838ca} 
+void {\bfseries load\+\_\+model} (std\+::filesystem\+::path \+\_\+path)
+\item 
+\Hypertarget{class_asset_manager_a68e0a7f310cf7d4c759eb58eeaafb36f}\label{class_asset_manager_a68e0a7f310cf7d4c759eb58eeaafb36f} 
+void {\bfseries load\+\_\+model\+\_\+raw} (std\+::filesystem\+::path \+\_\+path)
+\item 
+\Hypertarget{class_asset_manager_a0fc535c3f31ad6a5b1012ef361477058}\label{class_asset_manager_a0fc535c3f31ad6a5b1012ef361477058} 
+void {\bfseries load\+\_\+mesh\+\_\+raw\+\_\+data} (uint8\+\_\+t \+\_\+bit, bool \+\_\+shift\+\_\+high\+\_\+bit, bool \+\_\+shift\+\_\+low\+\_\+bit, bool \+\_\+rotate, uint8\+\_\+t \+\_\+rotate\+\_\+times, std\+::filesystem\+::path \+\_\+path)
+\item 
+\Hypertarget{class_asset_manager_af357f3ff0d325ed469a5e1523e0f589e}\label{class_asset_manager_af357f3ff0d325ed469a5e1523e0f589e} 
+void {\bfseries load\+\_\+texture} (std\+::filesystem\+::path \+\_\+path)
+\item 
+\Hypertarget{class_asset_manager_adac8a3b7005387bd1f48c105b5dbe840}\label{class_asset_manager_adac8a3b7005387bd1f48c105b5dbe840} 
+const std\+::vector$<$ \mbox{\hyperlink{struct_m_u_g_1_1_mesh}{MUG\+::\+Mesh}} $>$ \texorpdfstring{$\ast$}{*} {\bfseries get\+\_\+model} (const std\+::string \&name) const
+\item 
+\Hypertarget{class_asset_manager_a1294a2ba3463f81bb1a666ce089bc5cf}\label{class_asset_manager_a1294a2ba3463f81bb1a666ce089bc5cf} 
+\mbox{\hyperlink{struct_m_u_g_1_1_mesh}{MUG\+::\+Mesh}} \texorpdfstring{$\ast$}{*} {\bfseries get\+\_\+first\+\_\+mesh} (const std\+::string \&name)
+\item 
+\Hypertarget{class_asset_manager_a32d06778cebf7d72c20cfea615af1371}\label{class_asset_manager_a32d06778cebf7d72c20cfea615af1371} 
+const std\+::vector$<$ \mbox{\hyperlink{struct_m_u_g_1_1_skeleton_mesh}{MUG\+::\+Skeleton\+Mesh}} $>$ \texorpdfstring{$\ast$}{*} {\bfseries get\+\_\+skeleton\+\_\+model} (const std\+::string \&name) const
+\item 
+\Hypertarget{class_asset_manager_aa72d265d8b686c1e76f723b1afaa6096}\label{class_asset_manager_aa72d265d8b686c1e76f723b1afaa6096} 
+\mbox{\hyperlink{struct_m_u_g_1_1_skeleton_mesh}{MUG\+::\+Skeleton\+Mesh}} \texorpdfstring{$\ast$}{*} {\bfseries get\+\_\+first\+\_\+skeleton\+\_\+mesh} (const std\+::string \&name)
+\item 
+\Hypertarget{class_asset_manager_a2f5aebfbaa718b4b677910ca5dc8b379}\label{class_asset_manager_a2f5aebfbaa718b4b677910ca5dc8b379} 
+auto {\bfseries shader\+\_\+view} ()
+\item 
+\Hypertarget{class_asset_manager_a4f3921442d8c6f32576f15b9db5d7d3b}\label{class_asset_manager_a4f3921442d8c6f32576f15b9db5d7d3b} 
+void {\bfseries load\+\_\+shader} (const std\+::filesystem\+::path \+\_\+path)
+\item 
+\Hypertarget{class_asset_manager_afc3814b91134d629af60b9e8f8ef37b1}\label{class_asset_manager_afc3814b91134d629af60b9e8f8ef37b1} 
+\mbox{\hyperlink{class_shader}{Shader}} \texorpdfstring{$\ast$}{*} {\bfseries get\+\_\+shader} (const std\+::string \&\+\_\+name)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_asset_manager_a3d8a2cf78d4b9c4b2e338d1138335c1a}\label{class_asset_manager_a3d8a2cf78d4b9c4b2e338d1138335c1a} 
+static \mbox{\hyperlink{class_asset_manager}{Asset\+Manager}} \& {\bfseries instance} ()
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Asset/Asset\+Manager.\+h\item 
+src/\+Asset/Asset\+Manager.\+cpp\end{DoxyCompactItemize}

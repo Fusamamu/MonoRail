@@ -1,0 +1,25 @@
+\doxysection{Transform.\+h}
+\hypertarget{_transform_8h_source}{}\label{_transform_8h_source}\index{src/Components/Transform.h@{src/Components/Transform.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ TRANSFORM\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ TRANSFORM\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{namespace\ }Component}
+\DoxyCodeLine{00005\ \{}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keyword}{struct\ }Transform}
+\DoxyCodeLine{00007\ \ \ \ \ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ glm::vec3\ position;}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ glm::vec3\ rotation;}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ glm::vec3\ scale\ \ \ ;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ glm::mat4\ world\_mat;}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ Transform();}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \string~Transform();}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ glm::mat4\ get\_local\_mat4()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00016\ \ \ \ \ \};}
+\DoxyCodeLine{00017\ \}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//TRANSFORM\_H}}
+
+\end{DoxyCode}

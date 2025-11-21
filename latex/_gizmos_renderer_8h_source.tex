@@ -1,0 +1,40 @@
+\doxysection{Gizmos\+Renderer.\+h}
+\hypertarget{_gizmos_renderer_8h_source}{}\label{_gizmos_renderer_8h_source}\index{src/Renderer/GizmosRenderer.h@{src/Renderer/GizmosRenderer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GIZMOSRENDERER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GIZMOSRENDERER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Core/Mesh.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_a_a_b_b}{AABB}};}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{enum\ class}\ GizmosType\ :\ int8\_t}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ NONE\ =\ -\/1,}
+\DoxyCodeLine{00011\ \ \ \ \ LINE\ =\ 0}
+\DoxyCodeLine{00012\ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }GizmosRenderer}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ GizmosType\ Type\ =\ GizmosType::NONE;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ GizmosRenderer();}
+\DoxyCodeLine{00020\ \ \ \ \ \string~GizmosRenderer();}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ init(GizmosType\ \_type);}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ create\_aabb\_gizmos(\mbox{\hyperlink{struct_a_a_b_b}{AABB}}\&\ \_aabb);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ update\_line\_vertice(\textcolor{keyword}{const}\ std::vector<glm::vec3>\&\ \_line\_vertices);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00028\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00029\ \ \ \ \ GLuint\ m\_vbo,\ m\_vao;}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ std::vector<LineVertex>\ m\_line\_vertices;}
+\DoxyCodeLine{00032\ \};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

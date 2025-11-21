@@ -1,0 +1,108 @@
+\doxysection{Sphere.\+h}
+\hypertarget{_sphere_8h_source}{}\label{_sphere_8h_source}\index{src/Primitive/Sphere.h@{src/Primitive/Sphere.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SPHERE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SPHERE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../PCH.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../Core/Mesh.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{struct\ }Sphere}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ std::vector<float>\ vertices;\ \ \ \ \ \ \textcolor{comment}{//\ position(3)\ |\ normal(3)\ |\ texcoord(2)}}
+\DoxyCodeLine{00010\ \ \ \ \ std::vector<unsigned\ int>\ indices;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ Sphere(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sectorCount\ =\ 36,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ stackCount\ =\ 18)}
+\DoxyCodeLine{00013\ \ \ \ \ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ generate(sectorCount,\ stackCount);}
+\DoxyCodeLine{00015\ \ \ \ \ \}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \string~Sphere()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ Mesh\ to\_mesh()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00020\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ Mesh\ mesh;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ mesh.layout\ =\ \{\};}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ mesh.layout.add\_element(VertexAttribute::POSITION\ \ ,\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})\ *\ 3,\ GL\_FLOAT,\ 3);}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ mesh.layout.add\_element(VertexAttribute::NORMAL\ \ \ \ ,\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})\ *\ 3,\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})\ *\ 3,\ GL\_FLOAT,\ 3);}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ mesh.layout.add\_element(VertexAttribute::TEXCOORD\_0,\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})\ *\ 6,\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})\ *\ 2,\ GL\_FLOAT,\ 2);}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ mesh.layout.stride\ =\ \textcolor{keyword}{sizeof}(float)\ *\ 8;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ mesh.vertex\_buffer.resize(vertices.size()\ *\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}));}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ std::memcpy(mesh.vertex\_buffer.data(),\ vertices.data(),\ vertices.size()\ *\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}));}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ mesh.index\_buffer\ =\ indices;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ mesh;}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ generate(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sectorCount,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ stackCount)}
+\DoxyCodeLine{00039\ \ \ \ \ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ PI\ =\ 3.14159265359f;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ vertices.clear();}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ indices.clear();}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <=\ stackCount;\ ++i)}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ stackAngle\ =\ PI\ /\ 2\ -\/\ i\ *\ (PI\ /\ stackCount);\ \textcolor{comment}{//\ from\ pi/2\ to\ -\/pi/2}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ xy\ =\ cosf(stackAngle);}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ z\ \ =\ sinf(stackAngle);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <=\ sectorCount;\ ++j)}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ sectorAngle\ =\ j\ *\ (2\ *\ PI\ /\ sectorCount);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ x\ =\ xy\ *\ cosf(sectorAngle);}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ y\ =\ xy\ *\ sinf(sectorAngle);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Position}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertices.push\_back(x\ *\ 0.5f);}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertices.push\_back(y\ *\ 0.5f);}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertices.push\_back(z\ *\ 0.5f);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Normal\ (same\ as\ position,\ since\ unit\ sphere)}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertices.push\_back(x);}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertices.push\_back(y);}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertices.push\_back(z);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TexCoords}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ u\ =\ (float)j\ /\ sectorCount;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ v\ =\ (float)i\ /\ stackCount;}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertices.push\_back(u);}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertices.push\_back(v);}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Indices}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ stackCount;\ ++i)}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ k1\ =\ i\ *\ (sectorCount\ +\ 1);}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ k2\ =\ k1\ +\ sectorCount\ +\ 1;}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ sectorCount;\ ++j,\ ++k1,\ ++k2)}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ !=\ 0)}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(k1);}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(k2);}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(k1\ +\ 1);}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ !=\ (stackCount\ -\/\ 1))}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(k1\ +\ 1);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(k2);}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(k2\ +\ 1);}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ \};}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

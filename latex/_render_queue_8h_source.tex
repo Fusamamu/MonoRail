@@ -1,0 +1,27 @@
+\doxysection{Render\+Queue.\+h}
+\hypertarget{_render_queue_8h_source}{}\label{_render_queue_8h_source}\index{src/Renderer/RenderQueue.h@{src/Renderer/RenderQueue.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ RENDERQUEUE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ RENDERQUEUE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}RenderCommand.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }RenderQueue}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \ \ RenderQueue()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00010\ \ \ \ \ \string~RenderQueue()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{void}\ add\ \ \ \ (\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_render_command}{RenderCommand}}\&\ \_command);}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{void}\ sort\ \ \ ();}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{void}\ execute();}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ clear\ \ ();}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00018\ \ \ \ \ std::vector<RenderCommand>\ m\_render\_commands;}
+\DoxyCodeLine{00019\ \};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

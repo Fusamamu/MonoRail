@@ -1,0 +1,83 @@
+\doxysection{Scene.\+h}
+\hypertarget{_scene_8h_source}{}\label{_scene_8h_source}\index{src/Scene/Scene.h@{src/Scene/Scene.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SCENE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SCENE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}InputSystem.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}Renderer/Shader.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}Renderer/RenderPipeline.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}Renderer/GizmosRenderer.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}EntitySystem/AgentSystem.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}Navigation/Navigation.h"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{namespace\ }MUG}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_m_u_g_1_1_engine}{Engine}};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }Scene\ \{}
+\DoxyCodeLine{00025\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00026\ \ \ \ \ SDL\_Window*\ \ \ p\_window;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ std::string\ name;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ Scene(\textcolor{keyword}{const}\ std::string\&\ \_name,\ \mbox{\hyperlink{class_m_u_g_1_1_engine}{MUG::Engine}}*\ \_engine)\ :}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ name\ \ \ \ \ \ \ \ \ \ (\_name\ \ ),}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ m\_engine\_owner(\_engine)}
+\DoxyCodeLine{00033\ \ \ \ \ \{}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ Scene();}
+\DoxyCodeLine{00037\ \ \ \ \ \string~Scene();}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ std::function<void()>\ on\_enter\_callback;}
+\DoxyCodeLine{00040\ \ \ \ \ std::function<void()>\ on\_exit\_callback;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ entt::registry\&\ get\_registry()\{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_registry;}
+\DoxyCodeLine{00044\ \ \ \ \ \}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_enter();}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_exit();}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_update(\textcolor{keywordtype}{float}\ delta\_time);}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_render(\textcolor{keywordtype}{float}\ \_dt);}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_render\_gui(\textcolor{keywordtype}{float}\ \_dt);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ entt::entity\ create\_object(\textcolor{keyword}{const}\ std::string\&\ \_name,\ \textcolor{keyword}{const}\ std::string\&\ \_mesh\_name,\ glm::vec3\ \_position,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_material}{Material}}\&\ \_material);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ create\_tile\_grid();}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ prototype\_corners();}
+\DoxyCodeLine{00056\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00057\ \ \ \ \ entt::registry\ m\_registry;}
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{class_m_u_g_1_1_engine}{MUG::Engine}}*\ \ \ \ \ \ \ \ m\_engine\_owner;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{class_render_pipeline}{RenderPipeline}}\ m\_render\_pipeline;}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{class_input_system}{InputSystem}}\ \ \ \ m\_input\_system;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{class_entity_system_1_1_agent_system}{EntitySystem::AgentSystem}}\ m\_agent\_system;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ GLuint\ \ \ \ \ \ \ \ \ m\_fog\_data\_ubo;}
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{struct_fog_data}{FogData}}\ \ \ \ \ \ \ \ m\_fog\_data;}
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{class_gizmos_renderer}{GizmosRenderer}}\ m\_gizmos\_renderer;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ entt::entity\ m\_train\_entity;}
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{class_n_a_v_1_1_track_graph}{NAV::TrackGraph}}\ m\_track\_graph;}
+\DoxyCodeLine{00071\ \ \ \ \ std::vector<glm::vec3>\ m\_track\_paths;}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ update\_scene\_graph();}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ update\_world\_transform(entt::entity\ \_entity,\ \textcolor{keyword}{const}\ glm::mat4\&\ \_parent\_world);}
+\DoxyCodeLine{00075\ \};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

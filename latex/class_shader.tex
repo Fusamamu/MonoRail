@@ -1,0 +1,65 @@
+\doxysection{Shader Class Reference}
+\hypertarget{class_shader}{}\label{class_shader}\index{Shader@{Shader}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_shader_a7d927c6532c946ab629e5f3dfa0de943}\label{class_shader_a7d927c6532c946ab629e5f3dfa0de943} 
+{\bfseries Shader} (std\+::filesystem\+::path \+\_\+path)
+\item 
+\Hypertarget{class_shader_a870fa9f13d69e558815d6fd351a469dc}\label{class_shader_a870fa9f13d69e558815d6fd351a469dc} 
+void {\bfseries use} ()
+\item 
+\Hypertarget{class_shader_a1c85c3e142e9671e121f1e0c559d2a09}\label{class_shader_a1c85c3e142e9671e121f1e0c559d2a09} 
+void {\bfseries set\+\_\+mat4\+\_\+uniform\+\_\+model} (glm\+::mat4 \+\_\+model) const
+\item 
+\Hypertarget{class_shader_a7550eb31d6efba6ff285f54d2746fde6}\label{class_shader_a7550eb31d6efba6ff285f54d2746fde6} 
+void {\bfseries set\+\_\+mat4\+\_\+uniform\+\_\+view} (glm\+::mat4 \+\_\+view) const
+\item 
+\Hypertarget{class_shader_ac47c2b562e553cadd02abc136f198c25}\label{class_shader_ac47c2b562e553cadd02abc136f198c25} 
+void {\bfseries set\+\_\+mat4\+\_\+uniform\+\_\+projection} (glm\+::mat4 \+\_\+projection) const
+\item 
+\Hypertarget{class_shader_a010f801e8b3015e450fecb37ce1abb67}\label{class_shader_a010f801e8b3015e450fecb37ce1abb67} 
+void {\bfseries set\+\_\+int} (const std\+::string \&\+\_\+name, int \+\_\+value) const
+\item 
+\Hypertarget{class_shader_a153c2b76e92db80fa318a1953f95e8c6}\label{class_shader_a153c2b76e92db80fa318a1953f95e8c6} 
+void {\bfseries set\+\_\+float} (const std\+::string \&\+\_\+name, float \+\_\+value) const
+\item 
+\Hypertarget{class_shader_ada07d8ad7fc83bfe5f835a1c49a9476e}\label{class_shader_ada07d8ad7fc83bfe5f835a1c49a9476e} 
+void {\bfseries set\+\_\+vec2} (const std\+::string \&\+\_\+name, const glm\+::vec2 \&\+\_\+value) const
+\item 
+\Hypertarget{class_shader_a883544315c4341b9bf7462cf37db72c2}\label{class_shader_a883544315c4341b9bf7462cf37db72c2} 
+void {\bfseries set\+\_\+vec3} (const std\+::string \&\+\_\+name, const glm\+::vec3 \&\+\_\+value) const
+\item 
+\Hypertarget{class_shader_a16560be2c7a5d69553f4678a4be95b93}\label{class_shader_a16560be2c7a5d69553f4678a4be95b93} 
+void {\bfseries set\+\_\+vec4} (const std\+::string \&\+\_\+name, const glm\+::vec4 \&\+\_\+value) const
+\item 
+\Hypertarget{class_shader_a095c83a3d26472a150fb9d14c4b1cdd7}\label{class_shader_a095c83a3d26472a150fb9d14c4b1cdd7} 
+void {\bfseries set\+\_\+mat4} (const std\+::string \&\+\_\+name, const glm\+::mat4 \&\+\_\+matrix) const
+\item 
+\Hypertarget{class_shader_a92b9061c125a60d2e4de9aea8e554427}\label{class_shader_a92b9061c125a60d2e4de9aea8e554427} 
+void {\bfseries block\+\_\+bind} (const std\+::string \&\+\_\+block\+\_\+name, uint32\+\_\+t \+\_\+bind\+\_\+point)
+\item 
+\Hypertarget{class_shader_a0ab943d5d7559e8ed6a181930e295491}\label{class_shader_a0ab943d5d7559e8ed6a181930e295491} 
+GLuint {\bfseries create\+\_\+shader} (const std\+::string \&\+\_\+vertex\+\_\+src, const std\+::string \&\+\_\+geometry\+\_\+src, const std\+::string \&\+\_\+fragment\+\_\+src)
+\item 
+\Hypertarget{class_shader_a8e3e239452bf2f62e83fcf1b3cbee33c}\label{class_shader_a8e3e239452bf2f62e83fcf1b3cbee33c} 
+GLuint {\bfseries compile\+\_\+shader} (GLenum \+\_\+shader\+\_\+type, const std\+::string \&\+\_\+shader\+\_\+src)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_shader_afe360c94e9f0727889b198f773cff5e2}\label{class_shader_afe360c94e9f0727889b198f773cff5e2} 
+GLuint {\bfseries id}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_shader_a99ac525fbd9d76f88d15587ba897cf6b}\label{class_shader_a99ac525fbd9d76f88d15587ba897cf6b} 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&\+\_\+os, \mbox{\hyperlink{class_shader}{Shader}} \&\+\_\+shader)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Renderer/Shader.\+h\item 
+src/\+Renderer/Shader.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,136 @@
+\doxysection{AStar.\+h}
+\hypertarget{_a_star_8h_source}{}\label{_a_star_8h_source}\index{src/Navigation/AStar.h@{src/Navigation/AStar.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ASTAR\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ASTAR\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../PCH.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Components/Component.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../Navigation/Navigation.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }NAV}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ std::vector<Edge>\ generate\_edges(entt::registry\&\ \_registry,\ \textcolor{keyword}{const}\ std::vector<entt::entity>\&\ \_tracks,\ \textcolor{keyword}{const}\ std::unordered\_map<NodeIndex,\ entt::entity>\&\ \_track\_map);}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{float}\ heuristic\_dist(entt::registry\&\ \_registry,\ \mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ a,\ \mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ b);}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ std::unordered\_map<Track*,\ std::vector<Track*>>\ build\_track\_adjacency(entt::registry\&\ \_registry,\ \textcolor{keyword}{const}\ std::vector<Edge>\&\ edges);}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ std::vector<Track*>\ a\_star\_search\_tracks(entt::registry\&\ reg,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ start,}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ goal,}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::unordered\_map<\mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*,\ std::vector<Track*>>\&\ \_adjacency);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{struct_n_a_v_1_1_track_node}{TrackNode}}*\ find\_exit\_node(\mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ from,\ \mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ to)}
+\DoxyCodeLine{00022\ \ \ \ \ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ \_track\_node\ :\ from-\/>track\_nodes)}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_track\_node.is\_active)}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_track\_node.exit\_dir\ !=\ ConnectDirection::NONE)}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&\_track\_node;}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{struct_n_a_v_1_1_track_node}{TrackNode}}*\ find\_entry\_node(\mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ to,\ \mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ from)}
+\DoxyCodeLine{00034\ \ \ \ \ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ \_track\_node\ :\ to-\/>track\_nodes)}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_track\_node.is\_active)}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_track\_node.entry\_dir\ !=\ ConnectDirection::NONE)}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&\_track\_node;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{inline}\ std::vector<TrackNode*>\ expand\_to\_node\_path(\textcolor{keyword}{const}\ std::vector<Track*>\&\ track\_path)}
+\DoxyCodeLine{00046\ \ \ \ \ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ std::vector<TrackNode*>\ nodes;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ +\ 1\ <\ track\_path.size();\ ++i)}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ cur\ \ =\ track\_path[i];}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ next\ =\ track\_path[i\ +\ 1];}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_n_a_v_1_1_track_node}{TrackNode}}*\ exit\ \ =\ find\_exit\_node\ (cur,\ next);}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_n_a_v_1_1_track_node}{TrackNode}}*\ entry\ =\ find\_entry\_node(next,\ cur);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (exit)}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nodes.push\_back(exit);}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry)}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nodes.push\_back(entry);}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ nodes;}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{inline}\ std::vector<TrackNode*>\ translate\_to\_track\_nodes(\textcolor{keyword}{const}\ std::vector<Track*>\&\ track\_path)}
+\DoxyCodeLine{00066\ \ \ \ \ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ std::vector<TrackNode*>\ \_track\_nodes;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (track\_path.size()\ <\ 3)}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_track\_nodes;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 1;\ i\ <\ track\_path.size()\ -\/\ 1;\ ++i)}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ \_previous\_track\ =\ track\_path[i\ -\/\ 1];}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ \_current\_track\ \ =\ track\_path[i];}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_n_a_v_1_1_track}{Track}}*\ \_next\_track\ \ \ \ \ =\ track\_path[i\ +\ 1];}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ NodeIndex\ \_previous\_node\_index\ =\ \_previous\_track-\/>node\_index;}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ NodeIndex\ \_current\_node\_index\ \ =\ \_current\_track-\/>node\_index;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ NodeIndex\ \_next\_node\_index\ \ \ \ \ =\ \_next\_track\ \ \ -\/>node\_index;}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ ConnectDirection\ \_entry\_direction\ =\ ConnectDirection::NONE;}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_previous\_node\_index.idx\ >\ \_current\_node\_index.idx)}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_entry\_direction\ =\ ConnectDirection::EAST;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_previous\_node\_index.idx\ <\ \_current\_node\_index.idx)}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_entry\_direction\ =\ ConnectDirection::WEST;}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_previous\_node\_index.idz\ >\ \_current\_node\_index.idz)}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_entry\_direction\ =\ ConnectDirection::SOUTH;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_previous\_node\_index.idz\ <\ \_current\_node\_index.idz)}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_entry\_direction\ =\ ConnectDirection::NORTH;}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ ConnectDirection\ \_exit\_direction\ =\ ConnectDirection::NONE;}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_next\_node\_index.idx\ >\ \_current\_node\_index.idx)}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_exit\_direction\ =\ ConnectDirection::EAST;}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_next\_node\_index.idx\ <\ \_current\_node\_index.idx)}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_exit\_direction\ =\ ConnectDirection::WEST;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_next\_node\_index.idz\ >\ \_current\_node\_index.idz)}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_exit\_direction\ =\ ConnectDirection::SOUTH;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_next\_node\_index.idz\ <\ \_current\_node\_index.idz)}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_exit\_direction\ =\ ConnectDirection::NORTH;}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_n_a_v_1_1_track_node}{TrackNode}}*\ \_track\_node\ =\ \_current\_track-\/>get\_track\_node(\_entry\_direction,\ \_exit\_direction);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_track\_node)}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_track\_nodes.push\_back(\_track\_node);}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_track\_nodes;}
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{inline}\ std::vector<glm::vec3>\ translate\_to\_world\_position(entt::registry\&\ \_registry,\ \textcolor{keyword}{const}\ std::vector<TrackNode*>\&\ \_track\_nodes)}
+\DoxyCodeLine{00113\ \ \ \ \ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ std::vector<glm::vec3>\ \_world\_positions;}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{struct_n_a_v_1_1_track_node}{TrackNode}}*\ \_track\_node\ :\ \_track\_nodes)}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \_world\_positions.push\_back(\_track\_node-\/>entry\_world\_pos(\_registry));}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \_world\_positions.push\_back(\_track\_node-\/>exit\_world\_pos\ (\_registry)\ );}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_world\_positions;}
+\DoxyCodeLine{00123\ \ \ \ \ \}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordtype}{void}\ print\_edges(entt::registry\&\ \_registry,\ \textcolor{keyword}{const}\ std::vector<Edge>\&\ \_edges);}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//ASTAR\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,36 @@
+\doxysection{Agent\+System.\+h}
+\hypertarget{_agent_system_8h_source}{}\label{_agent_system_8h_source}\index{src/EntitySystem/AgentSystem.h@{src/EntitySystem/AgentSystem.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ AGENT\_SYSTEM\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ AGENT\_SYSTEM\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}PCH.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Renderer/MeshRenderer.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}Renderer/Material.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}Renderer/MeshRenderer.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }EntitySystem}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{class\ }AgentSystem}
+\DoxyCodeLine{00012\ \ \ \ \ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ AgentSystem()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \string~AgentSystem()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ init\ \ \ \ \ \ \ \ (entt::registry\&\ \_registry,\ glm::vec2\ \_bounds);}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update\ \ \ \ \ \ (entt::registry\&\ \_registry);}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update\_boids(entt::registry\&\ \_registry,\ \textcolor{keywordtype}{float}\ \_dt);}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ entt::entity\ m\_instance\_entity;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ std::vector<glm::vec2>\ m\_agent\_velocities;}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ std::vector<InstanceData>\ m\_agent\_instances;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ glm::vec3\ center\ =\ glm::vec3(0.0f);}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ max\_radius\ =\ 15.0f;}
+\DoxyCodeLine{00027\ \ \ \ \ \};}
+\DoxyCodeLine{00028\ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

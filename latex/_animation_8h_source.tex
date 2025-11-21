@@ -1,0 +1,296 @@
+\doxysection{Animation.\+h}
+\hypertarget{_animation_8h_source}{}\label{_animation_8h_source}\index{src/Animation/Animation.h@{src/Animation/Animation.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ANIMATION\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ANIMATION\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}PCH.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Core/Mesh.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ Inline\ Assimp\ →\ GLM\ helpers}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{inline}\ glm::vec3\ ai\_to\_glm\_vec(\textcolor{keyword}{const}\ aiVector3D\&\ v)}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ v.x,\ v.y,\ v.z\ \};}
+\DoxyCodeLine{00013\ \}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{inline}\ glm::quat\ ai\_to\_glm\_quat(\textcolor{keyword}{const}\ aiQuaternion\&\ q)}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ q.w,\ q.x,\ q.y,\ q.z\ \};}
+\DoxyCodeLine{00018\ \}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{inline}\ glm::mat4\ ai\_to\_glm\_mat4(\textcolor{keyword}{const}\ aiMatrix4x4\&\ \_from)}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ glm::mat4\ \_to;}
+\DoxyCodeLine{00023\ \ \ \ \ \_to[0][0]\ =\ \_from.a1;\ \_to[1][0]\ =\ \_from.a2;\ \_to[2][0]\ =\ \_from.a3;\ \_to[3][0]\ =\ \_from.a4;}
+\DoxyCodeLine{00024\ \ \ \ \ \_to[0][1]\ =\ \_from.b1;\ \_to[1][1]\ =\ \_from.b2;\ \_to[2][1]\ =\ \_from.b3;\ \_to[3][1]\ =\ \_from.b4;}
+\DoxyCodeLine{00025\ \ \ \ \ \_to[0][2]\ =\ \_from.c1;\ \_to[1][2]\ =\ \_from.c2;\ \_to[2][2]\ =\ \_from.c3;\ \_to[3][2]\ =\ \_from.c4;}
+\DoxyCodeLine{00026\ \ \ \ \ \_to[0][3]\ =\ \_from.d1;\ \_to[1][3]\ =\ \_from.d2;\ \_to[2][3]\ =\ \_from.d3;\ \_to[3][3]\ =\ \_from.d4;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordflow}{return}\ \_to;}
+\DoxyCodeLine{00028\ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ Keyframe\ data\ structs}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00034\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_key_position}{KeyPosition}}}
+\DoxyCodeLine{00035\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ glm::vec3\ position\{\};}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{float}\ time\_stamp\{\};}
+\DoxyCodeLine{00038\ \};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_key_rotation}{KeyRotation}}}
+\DoxyCodeLine{00041\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ glm::quat\ orientation\{\};}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{float}\ time\_stamp\{\};}
+\DoxyCodeLine{00044\ \};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_key_scale}{KeyScale}}}
+\DoxyCodeLine{00047\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ glm::vec3\ scale\{\};}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{float}\ time\_stamp\{\};}
+\DoxyCodeLine{00050\ \};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ Bone:\ stores\ keyframes\ +\ interpolation\ logic}}
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00055\ \textcolor{keyword}{class\ }Bone\ \{}
+\DoxyCodeLine{00056\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{int}\ id;}
+\DoxyCodeLine{00058\ \ \ \ \ std::string\ name;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ Bone(\textcolor{keyword}{const}\ std::string\&\ \_name,\ \textcolor{keywordtype}{int}\ \_id,\ \textcolor{keyword}{const}\ aiNodeAnim*\ \_ai\_node\_anim);}
+\DoxyCodeLine{00061\ \ \ \ \ Bone()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00062\ \ \ \ \ \string~Bone()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ \_animation\_time);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ glm::mat4\ get\_local\_transform()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_local\_transform;\ \}}
+\DoxyCodeLine{00067\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00068\ \ \ \ \ std::vector<KeyPosition>\ m\_positions;}
+\DoxyCodeLine{00069\ \ \ \ \ std::vector<KeyRotation>\ m\_rotations;}
+\DoxyCodeLine{00070\ \ \ \ \ std::vector<KeyScale>\ \ \ \ m\_scales;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_num\_positions\{\};}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_num\_rotations\{\};}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_num\_scalings\{\};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ glm::mat4\ m\_local\_transform\{1.0f\};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{int}\ get\_position\_index(\textcolor{keywordtype}{float}\ animation\_time)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{int}\ get\_rotation\_index(\textcolor{keywordtype}{float}\ animation\_time)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{int}\ get\_scale\_index\ \ \ (\textcolor{keywordtype}{float}\ animation\_time)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{float}\ get\_scale\_factor(\textcolor{keywordtype}{float}\ last\_time,\ \textcolor{keywordtype}{float}\ next\_time,\ \textcolor{keywordtype}{float}\ animation\_time)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ glm::mat4\ interpolate\_position(\textcolor{keywordtype}{float}\ \_animation\_time)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00085\ \ \ \ \ glm::mat4\ interpolate\_rotation(\textcolor{keywordtype}{float}\ \_animation\_time)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00086\ \ \ \ \ glm::mat4\ interpolate\_scaling\ (\textcolor{keywordtype}{float}\ \_animation\_time)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00087\ \};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00090\ \textcolor{comment}{//\ Animation\ container\ (stub)}}
+\DoxyCodeLine{00091\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00092\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_assimp_node_data}{AssimpNodeData}}}
+\DoxyCodeLine{00093\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ glm::mat4\ \ \ transformation;}
+\DoxyCodeLine{00095\ \ \ \ \ std::string\ name;}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{int}\ children\_count;}
+\DoxyCodeLine{00098\ \ \ \ \ std::vector<AssimpNodeData>\ children;}
+\DoxyCodeLine{00099\ \};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{keyword}{class\ }Animation}
+\DoxyCodeLine{00102\ \{}
+\DoxyCodeLine{00103\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ Animation(\textcolor{keyword}{const}\ std::string\&\ \_animation\_path,\ \mbox{\hyperlink{struct_m_u_g_1_1_skeleton_mesh}{MUG::SkeletonMesh}}*\ \_skeleton\_mesh)}
+\DoxyCodeLine{00106\ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ Assimp::Importer\ \_importer;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ aiScene*\ \_scene\ =\ \_importer.ReadFile(\_animation\_path,\ aiProcess\_Triangulate);}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ assert(\_scene\ \&\&\ \_scene-\/>mRootNode);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ numAnimations\ =\ \_scene-\/>mNumAnimations;}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Number\ of\ animations:\ "{}}\ <<\ numAnimations\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ numAnimations;\ i++)}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ aiAnimation*\ anim\ =\ \_scene-\/>mAnimations[i];}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Animation\ "{}}\ <<\ i\ <<\ \textcolor{stringliteral}{"{}:\ "{}}\ <<\ anim-\/>mName.C\_Str()}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ duration:\ "{}}\ <<\ anim-\/>mDuration}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ ticks\ per\ second:\ "{}}\ <<\ anim-\/>mTicksPerSecond\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \_animation\ =\ \_scene-\/>mAnimations[0];}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ m\_duration\ \ \ \ \ \ \ \ \ =\ \_animation-\/>mDuration;}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ m\_ticks\_per\_second\ =\ \_animation-\/>mTicksPerSecond;}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ read\_hierarchy\_data(m\_root\_node,\ \_scene-\/>mRootNode);}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ read\_missing\_bones\ (\_animation,\ *\_skeleton\_mesh);}
+\DoxyCodeLine{00130\ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ Animation()\ \ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00133\ \ \ \ \ \string~Animation()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \mbox{\hyperlink{class_bone}{Bone}}*\ find\_bone(\textcolor{keyword}{const}\ std::string\&\ \_name)}
+\DoxyCodeLine{00136\ \ \ \ \ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \_iter\ =\ std::find\_if(m\_bones.begin(),\ m\_bones.end(),}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ [\&](\textcolor{keyword}{const}\ \mbox{\hyperlink{class_bone}{Bone}}\&\ \_bone)\{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ \_bone.name\ ==\ \_name;}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_iter\ ==\ m\_bones.end())}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&(*\_iter);}
+\DoxyCodeLine{00147\ \ \ \ \ \}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordtype}{float}\ get\_ticks\_per\_second()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ m\_ticks\_per\_second;\ \}}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{float}\ get\_duration()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ m\_duration\ \ \ \ \ \ \ \ ;\ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_assimp_node_data}{AssimpNodeData}}\&\ get\_root\_node()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ m\_root\_node\ \ \ \ \ \ \ ;\ \}}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keyword}{const}\ std::map<std::string,\ MUG::BoneInfo>\&\ get\_bone\_id\_map()\ \{\ \textcolor{keywordflow}{return}\ m\_bone\_info\_map\ \ \ ;\ \}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{void}\ read\_hierarchy\_data(\mbox{\hyperlink{struct_assimp_node_data}{AssimpNodeData}}\&\ \_dest,\ \textcolor{keyword}{const}\ aiNode*\ \_src)}
+\DoxyCodeLine{00157\ \ \ \ \ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ assert(\_src);}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \_dest.name\ \ \ \ \ \ \ \ \ \ \ =\ \_src-\/>mName.data;}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \_dest.transformation\ =\ ai\_to\_glm\_mat4(\_src-\/>mTransformation);}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \_dest.children\_count\ =\ \_src-\/>mNumChildren;}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ \_i\ =\ 0;\ \_i\ <\ \_src-\/>mNumChildren;\ \_i++)}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_assimp_node_data}{AssimpNodeData}}\ \_new\_data;}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ read\_hierarchy\_data(\_new\_data,\ \_src-\/>mChildren[\_i]);}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \_dest.children.push\_back(\_new\_data);}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00170\ \ \ \ \ \}}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordtype}{void}\ read\_missing\_bones(\textcolor{keyword}{const}\ aiAnimation*\ \_ai\_animation,\ \mbox{\hyperlink{struct_m_u_g_1_1_skeleton_mesh}{MUG::SkeletonMesh}}\&\ \_skeleton\_mesh)}
+\DoxyCodeLine{00173\ \ \ \ \ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\&\ \ \_bone\_count\ \ \ \ =\ \_skeleton\_mesh.bone\_count;}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ \_bone\_info\_map\ =\ \_skeleton\_mesh.bone\_mapping;}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ reading\ channels\ (bones\ engaged\ in\ animation\ and\ their\ keyframes)}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ \_i\ =\ 0;\ \_i\ <\ \_ai\_animation-\/>mNumChannels;\ \_i++)}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ aiNodeAnim*\ \_channel\ =\ \_ai\_animation-\/>mChannels[\_i];}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \_bone\_name\ =\ \_channel-\/>mNodeName.data;}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_bone\_info\_map.find(\_bone\_name)\ ==\ \_bone\_info\_map.end())}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Bone\ "{}}\ <<\ \_bone\_name\ <<\ \textcolor{stringliteral}{"{}\ not\ found\(\backslash\)n"{}};}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_bone\_info\_map[\_bone\_name].id\ =\ \_bone\_count;}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_bone\_count++;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_bone}{Bone}}\ \_new\_bone}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ (}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_bone\_name,}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_bone\_info\_map[\_bone\_name].\textcolor{keywordtype}{id},}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_channel}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ m\_bones.push\_back(\_new\_bone);}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ m\_bone\_info\_map\ =\ \_bone\_info\_map;}
+\DoxyCodeLine{00202\ \ \ \ \ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_duration\ \ \ \ \ \ \ \ \{\};}
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ m\_ticks\_per\_second\{\};}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \ \ \ \ \mbox{\hyperlink{struct_assimp_node_data}{AssimpNodeData}}\ m\_root\_node;}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ std::vector<Bone>\ m\_bones;}
+\DoxyCodeLine{00210\ \ \ \ \ std::map<std::string,\ MUG::BoneInfo>\ m\_bone\_info\_map;}
+\DoxyCodeLine{00211\ \};}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \textcolor{keyword}{class\ }Animator}
+\DoxyCodeLine{00214\ \{}
+\DoxyCodeLine{00215\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00216\ \ \ \ \ Animator(\mbox{\hyperlink{class_animation}{Animation}}*\ \_animation)}
+\DoxyCodeLine{00217\ \ \ \ \ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ m\_current\_time\ \ \ \ \ \ =\ 0.0f;}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ m\_current\_animation\ =\ \_animation;}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ m\_final\_bone\_matrices.reserve(100);}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ \_i\ =\ 0;\ \_i\ <\ 100;\ \_i++)}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ m\_final\_bone\_matrices.push\_back(glm::mat4(1.0f));}
+\DoxyCodeLine{00225\ \ \ \ \ \}}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ \ \ Animator()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00228\ \ \ \ \ \string~Animator()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \ \ \ \ std::vector<glm::mat4>\ get\_final\_bone\_matrices()}
+\DoxyCodeLine{00231\ \ \ \ \ \{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_final\_bone\_matrices;}
+\DoxyCodeLine{00233\ \ \ \ \ \}}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \ \ \ \ \textcolor{keywordtype}{void}\ play\_animation(\mbox{\hyperlink{class_animation}{Animation}}*\ \_animation)}
+\DoxyCodeLine{00236\ \ \ \ \ \{}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ m\_current\_animation\ =\ \_animation;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ m\_current\_time\ \ \ \ \ \ =\ 0.0f;}
+\DoxyCodeLine{00239\ \ \ \ \ \}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordtype}{void}\ update\_animation(\textcolor{keywordtype}{float}\ \_dt)}
+\DoxyCodeLine{00242\ \ \ \ \ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ m\_delta\_time\ =\ \_dt;}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_current\_animation)}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ m\_current\_time\ +=\ m\_current\_animation-\/>get\_ticks\_per\_second()\ *\ \_dt;}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ m\_current\_time\ =\ fmod(m\_current\_time,\ m\_current\_animation-\/>get\_duration());}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ calculate\_bone\_transform(\&m\_current\_animation-\/>get\_root\_node(),\ glm::mat4(1.0f));}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00252\ \ \ \ \ \}}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \ \ \ \ \textcolor{keywordtype}{void}\ calculate\_bone\_transform(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_assimp_node_data}{AssimpNodeData}}*\ \_node,\ glm::mat4\ \_parent\_transform)}
+\DoxyCodeLine{00255\ \ \ \ \ \{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ std::string\ \_node\_name\ \ \ \ \ \ =\ \_node-\/>name;}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ glm::mat4\ \ \ \_node\_transform\ =\ \_node-\/>transformation;}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_bone}{Bone}}*\ \_bone\ =\ m\_current\_animation-\/>find\_bone(\_node\_name);}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_bone)}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \_bone-\/>update(m\_current\_time);}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \_node\_transform\ =\ \_bone-\/>get\_local\_transform();}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ glm::mat4\ \_global\_transform\ =\ \_parent\_transform\ *\ \_node\_transform;}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \_bone\_info\_map\ =\ m\_current\_animation-\/>get\_bone\_id\_map();}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_bone\_info\_map.find(\_node\_name)\ !=\ \_bone\_info\_map.end())}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \_index\ =\ \_bone\_info\_map[\_node\_name].id;}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ glm::mat4\ \_offset\ =\ \_bone\_info\_map[\_node\_name].offset\_matrix;}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ m\_final\_bone\_matrices[\_index]\ =\ \_global\_transform\ *\ \_offset;}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ \_i\ =\ 0;\ \_i\ <\ \_node-\/>children\_count;\ \_i++)}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ calculate\_bone\_transform(\&\_node-\/>children[\_i],\ \_global\_transform);}
+\DoxyCodeLine{00279\ \ \ \ \ \}}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00282\ \ \ \ \ std::vector<glm::mat4>\ m\_final\_bone\_matrices;}
+\DoxyCodeLine{00283\ \ \ \ \ \mbox{\hyperlink{class_animation}{Animation}}*\ m\_current\_animation;}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_current\_time;}
+\DoxyCodeLine{00286\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_delta\_time;}
+\DoxyCodeLine{00287\ \};}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

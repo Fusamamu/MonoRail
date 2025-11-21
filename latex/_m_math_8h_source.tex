@@ -1,0 +1,110 @@
+\doxysection{MMath.\+h}
+\hypertarget{_m_math_8h_source}{}\label{_m_math_8h_source}\index{src/Math/MMath.h@{src/Math/MMath.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MMATH\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MMATH\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }EASE}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordtype}{float}\ linear(\textcolor{keywordtype}{float}\ t);}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{float}\ smoothstep(\textcolor{keywordtype}{float}\ t);}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{float}\ ease\_in(\textcolor{keywordtype}{float}\ t);}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{float}\ ease\_out(\textcolor{keywordtype}{float}\ t);}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{float}\ ease\_in\_out(\textcolor{keywordtype}{float}\ t);}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{float}\ ease\_out\_back(\textcolor{keywordtype}{float}\ t);}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{namespace\ }Util}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ glm::vec3\ world\_to\_screen(}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ worldPos,}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::mat4\&\ view,}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ glm::mat4\&\ proj,}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ screenWidth,}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ screenHeight);}
+\DoxyCodeLine{00025\ \}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{namespace\ }PROCGEN}
+\DoxyCodeLine{00028\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{float}\ fade(\textcolor{keywordtype}{float}\ t)\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ t\ *\ t\ *\ t\ *\ (t\ *\ (t\ *\ 6\ -\/\ 15)\ +\ 10);}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{float}\ lerp(\textcolor{keywordtype}{float}\ t,\ \textcolor{keywordtype}{float}\ a,\ \textcolor{keywordtype}{float}\ b)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a\ +\ t\ *\ (b\ -\/\ a);}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{float}\ grad(\textcolor{keywordtype}{int}\ hash,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y)\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ h\ =\ hash\ \&\ 7;\ \textcolor{comment}{//\ 8\ directions}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ u\ =\ h\ <\ 4\ ?\ x\ :\ y;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ v\ =\ h\ <\ 4\ ?\ y\ :\ x;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ((h\ \&\ 1)\ ?\ -\/u\ :\ u)\ +\ ((h\ \&\ 2)\ ?\ -\/v\ :\ v);}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{float}\ noise(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \_seed)}
+\DoxyCodeLine{00045\ \ \ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ std::vector<int>\ p;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ p.resize(256);}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ std::iota(p.begin(),\ p.end(),\ 0);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ std::default\_random\_engine\ engine(\_seed);}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ std::shuffle(p.begin(),\ p.end(),\ engine);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Duplicate\ to\ avoid\ wrapping}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ p.insert(p.end(),\ p.begin(),\ p.end());}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ unit\ grid\ cell\ containing\ point}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ X\ =\ (int)floor(x)\ \&\ 255;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ Y\ =\ (int)floor(y)\ \&\ 255;}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Relative\ coords\ inside\ cell}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ x\ -\/=\ floor(x);}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ y\ -\/=\ floor(y);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fade\ curves}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ u\ =\ fade(x);}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ v\ =\ fade(y);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Hash\ coords\ of\ the\ 4\ corners}}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ aa\ =\ p[p[X\ \ \ \ ]\ +\ Y\ \ \ \ ];}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ab\ =\ p[p[X\ \ \ \ ]\ +\ Y\ +\ 1];}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ba\ =\ p[p[X\ +\ 1]\ +\ Y\ \ \ \ ];}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ bb\ =\ p[p[X\ +\ 1]\ +\ Y\ +\ 1];}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Blend\ results}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ res\ =\ lerp(v,}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ lerp(u,\ grad(aa,\ x,\ y),\ grad(ba,\ x\ -\/\ 1,\ y)),}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ lerp(u,\ grad(ab,\ x,\ y\ -\/\ 1),\ grad(bb,\ x\ -\/\ 1,\ y\ -\/\ 1))}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (res\ +\ 1.0f)\ *\ 0.5f;\ \textcolor{comment}{//\ normalize\ to\ [0,1]}}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{inline}\ std::vector<float>\ generate\_perlin\_noise(uint32\_t\ \_width,\ uint32\_t\ \_height,\ \textcolor{keywordtype}{float}\ \_scale)}
+\DoxyCodeLine{00084\ \ \ \ \ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ std::vector<float>\ \_data(\_width\ *\ \_height);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ y\ =\ 0;\ y\ <\ \_height;\ ++y)}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x\ <\ \_width;\ ++x)}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ fx\ =\ (float)x\ /\ \_width\ \ *\ \_scale;}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ fy\ =\ (float)y\ /\ \_height\ *\ \_scale;}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ n\ =\ noise(fx,\ fy,\ 2025);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_data[y\ *\ \_width\ +\ x]\ =\ n;}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_data;}
+\DoxyCodeLine{00101\ \ \ \ \ \}}
+\DoxyCodeLine{00102\ \}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

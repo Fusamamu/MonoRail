@@ -1,0 +1,43 @@
+\doxysection{Grid\+System.\+h}
+\hypertarget{_grid_system_8h_source}{}\label{_grid_system_8h_source}\index{src/TileGrid/GridSystem.h@{src/TileGrid/GridSystem.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GRID\_SYSTEM\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GRID\_SYSTEM\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Grid3D.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }TileGrid}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_tile_grid_1_1_grid_system}{GridSystem}}}
+\DoxyCodeLine{00009\ \ \ \ \ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ generate\_tiles\ \ \ \ \ \ \ \ \ \ \ \ (entt::registry\&\ \_registry,\ \mbox{\hyperlink{class_tile_grid_1_1_grid3_d}{Grid3D}}\&\ \_grid);}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ generate\_tiles\_with\_perlin(entt::registry\&\ \_registry,\ \mbox{\hyperlink{class_tile_grid_1_1_grid3_d}{Grid3D}}\&\ \_grid);}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ generate\_corner\_nodes\ \ \ \ \ (entt::registry\&\ \_registry,\ \mbox{\hyperlink{class_tile_grid_1_1_grid3_d}{Grid3D}}\&\ \_grid);}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ create\_tile\_instance\ \ \ \ \ \ (entt::registry\&\ \_registry,\ \mbox{\hyperlink{class_tile_grid_1_1_grid3_d}{Grid3D}}\&\ \_grid);}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ create\_corner\_instance\ \ \ \ (entt::registry\&\ \_registry,\ \mbox{\hyperlink{class_tile_grid_1_1_grid3_d}{Grid3D}}\&\ \_grid);}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ store\_corners\_refs\ \ \ \ \ \ \ \ (entt::registry\&\ \_registry,\ \mbox{\hyperlink{class_tile_grid_1_1_grid3_d}{Grid3D}}\&\ \_grid);}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ store\_tile\_refs\ \ \ \ \ \ \ \ \ \ \ (entt::registry\&\ \_registry,\ \mbox{\hyperlink{class_tile_grid_1_1_grid3_d}{Grid3D}}\&\ \_grid);}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update\_corner\_nodes\ \ \ \ \ \ \ (entt::registry\&\ \_registry,\ \mbox{\hyperlink{class_tile_grid_1_1_grid3_d}{Grid3D}}\&\ \_grid);}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ fill\_tile\_at\_level\ \ \ \ \ \ \ \ (entt::registry\&\ \_registry,\ \mbox{\hyperlink{class_tile_grid_1_1_grid3_d}{Grid3D}}\&\ \_grid,\ uint32\_t\ \ \_level\ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ fill\_tile\_at\ \ \ \ \ \ \ \ \ \ \ \ \ \ (entt::registry\&\ \_registry,\ \mbox{\hyperlink{class_tile_grid_1_1_grid3_d}{Grid3D}}\&\ \_grid,\ \mbox{\hyperlink{struct_node_index}{NodeIndex}}\ \_at\_node\_index);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_n_a_v_1_1_track}{NAV::Track}}*\ add\_track(entt::registry\&\ \_registry,\ \mbox{\hyperlink{struct_node_index}{NodeIndex}}\ \_at\_node\_index,\ glm::vec3\ \_position);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ add\_tile\_at\ \ \ (entt::registry\&\ \_registry,\ \textcolor{keyword}{const}\ std::string\&\ \_mesh,\ \textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z,\ glm::vec3\ \_position,\ TileType\ \_tile\_type);}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ add\_tile\_above(entt::registry\&\ \_registry,\ \textcolor{keyword}{const}\ std::string\&\ \_mesh,\ \textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z,\ glm::vec3\ \_position,\ TileType\ \_tile\_type);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ select\_tile\_at(entt::registry\&\ \_registry,\ \textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update(entt::registry\ \&\_registry,\ \mbox{\hyperlink{class_component_1_1_camera}{Component::Camera}}\ \_camera,\ \mbox{\hyperlink{class_input_system}{InputSystem}}\&\ \_input\_system);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ std::optional<std::vector<entt::entity>>\ find\_path(entt::registry\&\ \_registry,\ \mbox{\hyperlink{struct_node_index}{NodeIndex}}\ \_start\_node,\ \mbox{\hyperlink{struct_node_index}{NodeIndex}}\ \_dest\_node);}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ std::optional<std::vector<entt::entity>>\ find\_path(entt::registry\&\ \_registry);}
+\DoxyCodeLine{00034\ \ \ \ \ \};}
+\DoxyCodeLine{00035\ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,136 @@
+\doxysection{Tile\+Grid\+::Grid3D Class Reference}
+\hypertarget{class_tile_grid_1_1_grid3_d}{}\label{class_tile_grid_1_1_grid3_d}\index{TileGrid::Grid3D@{TileGrid::Grid3D}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_tile_grid_1_1_grid3_d_1_1_tile_data}{Tile\+Data}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_ada4463166f619469b9757ee2079c4bd4}\label{class_tile_grid_1_1_grid3_d_ada4463166f619469b9757ee2079c4bd4} 
+{\bfseries Grid3D} (size\+\_\+t width, size\+\_\+t height, size\+\_\+t depth)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_ad4c65ea9ff4e9a9592bd882d43144a0f}\label{class_tile_grid_1_1_grid3_d_ad4c65ea9ff4e9a9592bd882d43144a0f} 
+void {\bfseries init} (size\+\_\+t width, size\+\_\+t height, size\+\_\+t depth)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a4be8271d574271f6ef286919f15e9b1f}\label{class_tile_grid_1_1_grid3_d_a4be8271d574271f6ef286919f15e9b1f} 
+void {\bfseries resize} (size\+\_\+t width, size\+\_\+t height, size\+\_\+t depth)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_abd8dd04c665e85c4f8398152915014eb}\label{class_tile_grid_1_1_grid3_d_abd8dd04c665e85c4f8398152915014eb} 
+size\+\_\+t {\bfseries get\+\_\+width} () const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_ac00a5604b543ff8e698fadeca5dd3d3d}\label{class_tile_grid_1_1_grid3_d_ac00a5604b543ff8e698fadeca5dd3d3d} 
+size\+\_\+t {\bfseries get\+\_\+height} () const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_ab7ca9b33199d6603be6e16d285c6827e}\label{class_tile_grid_1_1_grid3_d_ab7ca9b33199d6603be6e16d285c6827e} 
+size\+\_\+t {\bfseries get\+\_\+depth} () const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a7ec514aae9c7e7810c8d0d5103915d50}\label{class_tile_grid_1_1_grid3_d_a7ec514aae9c7e7810c8d0d5103915d50} 
+size\+\_\+t {\bfseries corner\+\_\+index} (size\+\_\+t x, size\+\_\+t y, size\+\_\+t z) const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_ad7cee3faf07e2516814187bbe493bd9a}\label{class_tile_grid_1_1_grid3_d_ad7cee3faf07e2516814187bbe493bd9a} 
+size\+\_\+t {\bfseries tile\+\_\+index} (size\+\_\+t x, size\+\_\+t y, size\+\_\+t z) const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a2f502d53587c3b8028dc3a8607f182e7}\label{class_tile_grid_1_1_grid3_d_a2f502d53587c3b8028dc3a8607f182e7} 
+size\+\_\+t {\bfseries tile\+\_\+index} (\mbox{\hyperlink{struct_node_index}{Node\+Index}} \+\_\+node\+\_\+index) const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_abadc78f7e3db75f260fc0d6ef617eb85}\label{class_tile_grid_1_1_grid3_d_abadc78f7e3db75f260fc0d6ef617eb85} 
+\mbox{\hyperlink{struct_node_index}{Node\+Index}} {\bfseries tile\+\_\+index\+\_\+to\+\_\+node\+\_\+coord} (size\+\_\+t \+\_\+tile\+\_\+index)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_aa8565bb04c9d2f91f02ba80c1c767121}\label{class_tile_grid_1_1_grid3_d_aa8565bb04c9d2f91f02ba80c1c767121} 
+const entt\+::entity \& {\bfseries entity\+\_\+at} (\mbox{\hyperlink{struct_node_index}{Node\+Index}} \+\_\+node\+\_\+index) const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_ab93ee507d07f287707cf4c82b8299d66}\label{class_tile_grid_1_1_grid3_d_ab93ee507d07f287707cf4c82b8299d66} 
+entt\+::entity \& {\bfseries at} (size\+\_\+t x, size\+\_\+t y, size\+\_\+t z)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a6d48755f30d37a3a6184763f8f2dc2a4}\label{class_tile_grid_1_1_grid3_d_a6d48755f30d37a3a6184763f8f2dc2a4} 
+const entt\+::entity \& {\bfseries at} (size\+\_\+t x, size\+\_\+t y, size\+\_\+t z) const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_aca35285c2c62a5440afb244801633291}\label{class_tile_grid_1_1_grid3_d_aca35285c2c62a5440afb244801633291} 
+entt\+::entity \& {\bfseries corner\+\_\+node\+\_\+at} (size\+\_\+t x, size\+\_\+t y, size\+\_\+t z)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_ac67800e6abfda679ad1c1fd30d73281a}\label{class_tile_grid_1_1_grid3_d_ac67800e6abfda679ad1c1fd30d73281a} 
+const entt\+::entity \& {\bfseries corner\+\_\+node\+\_\+at} (size\+\_\+t x, size\+\_\+t y, size\+\_\+t z) const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a2edd0f355e498967927b3ad605b80d47}\label{class_tile_grid_1_1_grid3_d_a2edd0f355e498967927b3ad605b80d47} 
+uint8\+\_\+t {\bfseries get\+\_\+surrounding\+\_\+bit} (entt\+::registry \&\+\_\+registry, \mbox{\hyperlink{struct_node_index}{Node\+Index}} \+\_\+node\+\_\+index)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a909fab46119799d6d68ce9b1e9057cd9}\label{class_tile_grid_1_1_grid3_d_a909fab46119799d6d68ce9b1e9057cd9} 
+uint8\+\_\+t {\bfseries get\+\_\+surrounding\+\_\+bitmask\+\_\+4direction} (entt\+::registry \&\+\_\+registry, \mbox{\hyperlink{struct_node_index}{Node\+Index}} \+\_\+node\+\_\+index)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a62f0ae3f42089ca698902194c6fd9131}\label{class_tile_grid_1_1_grid3_d_a62f0ae3f42089ca698902194c6fd9131} 
+bool {\bfseries out\+\_\+of\+\_\+bounds} (size\+\_\+t x, size\+\_\+t y, size\+\_\+t z) const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a8bfd9acf5d3a6a7539e98d1d021395b0}\label{class_tile_grid_1_1_grid3_d_a8bfd9acf5d3a6a7539e98d1d021395b0} 
+void {\bfseries check\+\_\+bounds} (size\+\_\+t x, size\+\_\+t y, size\+\_\+t z) const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a8012ebf4909a948db7f27728ff861e8c}\label{class_tile_grid_1_1_grid3_d_a8012ebf4909a948db7f27728ff861e8c} 
+bool {\bfseries out\+\_\+of\+\_\+bounds} (\mbox{\hyperlink{struct_node_index}{Node\+Index}} \+\_\+node\+\_\+index) const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a56bb760ae65ad2c96071aecd214f8320}\label{class_tile_grid_1_1_grid3_d_a56bb760ae65ad2c96071aecd214f8320} 
+bool {\bfseries is\+\_\+occupied} (entt\+::registry \&\+\_\+registry, size\+\_\+t x, size\+\_\+t y, size\+\_\+t z)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a92123ea7e506067c6f5a9894996a8d57}\label{class_tile_grid_1_1_grid3_d_a92123ea7e506067c6f5a9894996a8d57} 
+bool {\bfseries is\+\_\+occupied} (entt\+::registry \&\+\_\+registry, \mbox{\hyperlink{struct_node_index}{Node\+Index}} \+\_\+node\+\_\+index)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a45e492bdd594730950d94a5d8beade39}\label{class_tile_grid_1_1_grid3_d_a45e492bdd594730950d94a5d8beade39} 
+void {\bfseries create\+\_\+tile\+\_\+instance} (entt\+::registry \&\+\_\+registry)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a9e2546c4a1c5458c1bf1b53d0cb7ce1c}\label{class_tile_grid_1_1_grid3_d_a9e2546c4a1c5458c1bf1b53d0cb7ce1c} 
+void {\bfseries create\+\_\+corner\+\_\+instance} (entt\+::registry \&\+\_\+registry)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a613afbf4ac1d921c333b69de800a5fe9}\label{class_tile_grid_1_1_grid3_d_a613afbf4ac1d921c333b69de800a5fe9} 
+\mbox{\hyperlink{class_n_a_v_1_1_track}{NAV\+::\+Track}} \texorpdfstring{$\ast$}{*} {\bfseries add\+\_\+track} (entt\+::registry \&\+\_\+registry, \mbox{\hyperlink{struct_node_index}{Node\+Index}} \+\_\+at\+\_\+node\+\_\+index, glm\+::vec3 \+\_\+position)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a5c25bfa0435d965cac3f7097f3637687}\label{class_tile_grid_1_1_grid3_d_a5c25bfa0435d965cac3f7097f3637687} 
+void {\bfseries add\+\_\+tile\+\_\+at} (entt\+::registry \&\+\_\+registry, const \mbox{\hyperlink{struct_tile_grid_1_1_grid3_d_1_1_tile_data}{Tile\+Data}} \&\+\_\+tile\+\_\+data)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a0e7ee230f607c2cb846438bda7dd8a27}\label{class_tile_grid_1_1_grid3_d_a0e7ee230f607c2cb846438bda7dd8a27} 
+void {\bfseries add\+\_\+tile\+\_\+at} (entt\+::registry \&\+\_\+registry, const std\+::string \&\+\_\+mesh, size\+\_\+t x, size\+\_\+t y, size\+\_\+t z, glm\+::vec3 \+\_\+position, Tile\+Type \+\_\+tile\+\_\+type)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_ae238a8d09d4f63287edbf1d819af1ffa}\label{class_tile_grid_1_1_grid3_d_ae238a8d09d4f63287edbf1d819af1ffa} 
+void {\bfseries add\+\_\+tile\+\_\+above} (entt\+::registry \&\+\_\+registry, const std\+::string \&\+\_\+mesh, size\+\_\+t x, size\+\_\+t y, size\+\_\+t z, glm\+::vec3 \+\_\+position, Tile\+Type \+\_\+tile\+\_\+type)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a5486553c8489c3bf1b8c85e38fe9359e}\label{class_tile_grid_1_1_grid3_d_a5486553c8489c3bf1b8c85e38fe9359e} 
+void {\bfseries select\+\_\+tile\+\_\+at} (entt\+::registry \&\+\_\+registry, size\+\_\+t x, size\+\_\+t y, size\+\_\+t z)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_aeb03f3e8b09c12d091555ef358a5b02c}\label{class_tile_grid_1_1_grid3_d_aeb03f3e8b09c12d091555ef358a5b02c} 
+void {\bfseries update} (entt\+::registry \&\+\_\+registry, \mbox{\hyperlink{class_component_1_1_camera}{Component\+::\+Camera}} \+\_\+camera, \mbox{\hyperlink{class_input_system}{Input\+System}} \&\+\_\+input\+\_\+system)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_ae94966296d1b8a8a2689a6998049731c}\label{class_tile_grid_1_1_grid3_d_ae94966296d1b8a8a2689a6998049731c} 
+std\+::optional$<$ std\+::vector$<$ entt\+::entity $>$ $>$ {\bfseries find\+\_\+path} (entt\+::registry \&\+\_\+\+\_\+restrict, \mbox{\hyperlink{struct_node_index}{Node\+Index}} \+\_\+start\+\_\+node, \mbox{\hyperlink{struct_node_index}{Node\+Index}} \+\_\+dest\+\_\+node)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a03e9a045c86cd1b9d231e7e0e93e8484}\label{class_tile_grid_1_1_grid3_d_a03e9a045c86cd1b9d231e7e0e93e8484} 
+std\+::optional$<$ std\+::vector$<$ entt\+::entity $>$ $>$ {\bfseries find\+\_\+path} (entt\+::registry \&\+\_\+registry)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_ad9ea4cccdd30047d2e7fbf3e565e86cf}\label{class_tile_grid_1_1_grid3_d_ad9ea4cccdd30047d2e7fbf3e565e86cf} 
+void {\bfseries print\+\_\+layer} (size\+\_\+t z) const
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_aa58c7b65314df16bddd4f8753834438b}\label{class_tile_grid_1_1_grid3_d_aa58c7b65314df16bddd4f8753834438b} 
+void {\bfseries update\+\_\+tile\+\_\+animations} (entt\+::registry \&\+\_\+registry, float dt)
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_abf81f23a78e16e1430d1ca01e2dcecb1}\label{class_tile_grid_1_1_grid3_d_abf81f23a78e16e1430d1ca01e2dcecb1} 
+std\+::vector$<$ uint8\+\_\+t $>$ {\bfseries get\+\_\+voxel\+\_\+data} (entt\+::registry \&\+\_\+registry)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a4e2052fcbc59e9c93253f3c3018fd286}\label{class_tile_grid_1_1_grid3_d_a4e2052fcbc59e9c93253f3c3018fd286} 
+Edit\+Mode {\bfseries mode} = Edit\+Mode\+::\+NONE
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a21a2359d5550cc97defb28bdcf23288c}\label{class_tile_grid_1_1_grid3_d_a21a2359d5550cc97defb28bdcf23288c} 
+entt\+::entity {\bfseries start\+\_\+e} = entt\+::null
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a52e1069906afba535f2a1db302c1c615}\label{class_tile_grid_1_1_grid3_d_a52e1069906afba535f2a1db302c1c615} 
+entt\+::entity {\bfseries dest\+\_\+e} = entt\+::null
+\item 
+\Hypertarget{class_tile_grid_1_1_grid3_d_a915374b0bf6823f6cb1e93f770159fbf}\label{class_tile_grid_1_1_grid3_d_a915374b0bf6823f6cb1e93f770159fbf} 
+std\+::vector$<$ entt\+::entity $>$ {\bfseries m\+\_\+corner\+\_\+data}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Tile\+Grid/Grid3\+D.\+h\item 
+src/\+Tile\+Grid/Grid3\+D.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,58 @@
+\doxysection{NAV\+::Track Class Reference}
+\hypertarget{class_n_a_v_1_1_track}{}\label{class_n_a_v_1_1_track}\index{NAV::Track@{NAV::Track}}
+
+
+Collaboration diagram for NAV\+::Track\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{class_n_a_v_1_1_track__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_n_a_v_1_1_track_a26000a4579f06ee7cf312b0659b6921a}\label{class_n_a_v_1_1_track_a26000a4579f06ee7cf312b0659b6921a} 
+void {\bfseries init} (uint8\+\_\+t \+\_\+bitmask)
+\item 
+\Hypertarget{class_n_a_v_1_1_track_a7a564b9e798d6f91c7c28ce15ec0a032}\label{class_n_a_v_1_1_track_a7a564b9e798d6f91c7c28ce15ec0a032} 
+\mbox{\hyperlink{struct_n_a_v_1_1_track_node}{Track\+Node}} \texorpdfstring{$\ast$}{*} {\bfseries get\+\_\+track\+\_\+node} (Connect\+Direction \+\_\+entry\+\_\+dir, Connect\+Direction \+\_\+exit\+\_\+dir)
+\item 
+\Hypertarget{class_n_a_v_1_1_track_a9652abc9c7a55754886c32796c9060ec}\label{class_n_a_v_1_1_track_a9652abc9c7a55754886c32796c9060ec} 
+void {\bfseries connect} (Connect\+Direction \+\_\+dir, entt\+::entity \+\_\+target\+\_\+track)
+\item 
+\Hypertarget{class_n_a_v_1_1_track_ad788c7913f27f519f6adf825da9e756a}\label{class_n_a_v_1_1_track_ad788c7913f27f519f6adf825da9e756a} 
+entt\+::entity {\bfseries get\+\_\+connection} (Connect\+Direction \+\_\+dir)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_n_a_v_1_1_track_a109bfe1418b01932a0ea283c8ff693e7}\label{class_n_a_v_1_1_track_a109bfe1418b01932a0ea283c8ff693e7} 
+Track\+Type {\bfseries type} = Track\+Type\+::\+NONE
+\item 
+\Hypertarget{class_n_a_v_1_1_track_a5ce2e85c63f1a36f84f858ca6044b125}\label{class_n_a_v_1_1_track_a5ce2e85c63f1a36f84f858ca6044b125} 
+\mbox{\hyperlink{struct_node_index}{Node\+Index}} {\bfseries node\+\_\+index}
+\item 
+\Hypertarget{class_n_a_v_1_1_track_a731b26d17d14beefe922a50b784dc9c2}\label{class_n_a_v_1_1_track_a731b26d17d14beefe922a50b784dc9c2} 
+glm\+::vec3 {\bfseries world\+\_\+position}
+\item 
+\Hypertarget{class_n_a_v_1_1_track_a858352289922ebd2c30f6c3f19ffcf6d}\label{class_n_a_v_1_1_track_a858352289922ebd2c30f6c3f19ffcf6d} 
+entt\+::entity {\bfseries self\+\_\+entity}
+\item 
+\Hypertarget{class_n_a_v_1_1_track_a23fe9fd845e310ae0d2d60020ee1d9fe}\label{class_n_a_v_1_1_track_a23fe9fd845e310ae0d2d60020ee1d9fe} 
+std\+::array$<$ entt\+::entity, 4 $>$ {\bfseries connected\+\_\+tracks}
+\item 
+\Hypertarget{class_n_a_v_1_1_track_a9599c014c55c508bfd62e226fbdd699c}\label{class_n_a_v_1_1_track_a9599c014c55c508bfd62e226fbdd699c} 
+std\+::array$<$ \mbox{\hyperlink{struct_n_a_v_1_1_track_node}{Track\+Node}}, 12 $>$ {\bfseries track\+\_\+nodes}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_n_a_v_1_1_track_ad88e3d065d014c62b9ae0481d74f2693}\label{class_n_a_v_1_1_track_ad88e3d065d014c62b9ae0481d74f2693} 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const Track \&\+\_\+track)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Navigation/Navigation.\+h\end{DoxyCompactItemize}

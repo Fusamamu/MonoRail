@@ -1,0 +1,61 @@
+\doxysection{Shader.\+h}
+\hypertarget{_shader_8h_source}{}\label{_shader_8h_source}\index{src/Renderer/Shader.h@{src/Renderer/Shader.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SHADER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SHADER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <glm/gtc/type\_ptr.hpp>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{enum\ class}\ ShaderType}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ NONE\ \ \ \ \ =\ -\/1,}
+\DoxyCodeLine{00012\ \ \ \ \ VERTEX\ \ \ =\ 0,}
+\DoxyCodeLine{00013\ \ \ \ \ GEOMETRY\ =\ 1,}
+\DoxyCodeLine{00014\ \ \ \ \ FRAGMENT\ =\ 2}
+\DoxyCodeLine{00015\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }Shader}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \ \ GLuint\ id;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ Shader(std::filesystem::path\ \_path);}
+\DoxyCodeLine{00023\ \ \ \ \ Shader();}
+\DoxyCodeLine{00024\ \ \ \ \ \string~Shader();}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ use();}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_mat4\_uniform\_model\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (glm::mat4\ \_model\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_mat4\_uniform\_view\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (glm::mat4\ \_view\ \ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_mat4\_uniform\_projection\ \ \ \ \ \ \ \ \ \ \ \ (glm::mat4\ \_projection)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_int\ \ (\textcolor{keyword}{const}\ std::string\&\ \_name,\ \textcolor{keywordtype}{int}\ \ \ \_value)\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_float(\textcolor{keyword}{const}\ std::string\&\ \_name,\ \textcolor{keywordtype}{float}\ \_value)\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_vec2\ (\textcolor{keyword}{const}\ std::string\&\ \_name,\ \textcolor{keyword}{const}\ glm::vec2\&\ \_value\ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_vec3\ (\textcolor{keyword}{const}\ std::string\&\ \_name,\ \textcolor{keyword}{const}\ glm::vec3\&\ \_value\ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_vec4\ (\textcolor{keyword}{const}\ std::string\&\ \_name,\ \textcolor{keyword}{const}\ glm::vec4\&\ \_value\ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_mat4\ (\textcolor{keyword}{const}\ std::string\&\ \_name,\ \textcolor{keyword}{const}\ glm::mat4\&\ \_matrix)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ block\_bind(\textcolor{keyword}{const}\ std::string\&\ \_block\_name,\ uint32\_t\ \_bind\_point);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ operator<<(std::ostream\&\ \_os,\ Shader\&\ \_shader);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ GLuint\ create\_shader\ (\textcolor{keyword}{const}\ std::string\&\ \_vertex\_src,\ \textcolor{keyword}{const}\ std::string\&\ \_geometry\_src,\ \textcolor{keyword}{const}\ std::string\&\ \_fragment\_src);}
+\DoxyCodeLine{00044\ \ \ \ \ GLuint\ compile\_shader(GLenum\ \_shader\_type,\ \textcolor{keyword}{const}\ std::string\ \&\_shader\_src);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00047\ \ \ \ \ std::string\ m\_vertex\_src;}
+\DoxyCodeLine{00048\ \ \ \ \ std::string\ m\_geometry\_src;}
+\DoxyCodeLine{00049\ \ \ \ \ std::string\ m\_fragment\_src;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ GLint\ m\_uniform\_loc\_model;}
+\DoxyCodeLine{00052\ \ \ \ \ GLint\ m\_uniform\_loc\_view;}
+\DoxyCodeLine{00053\ \ \ \ \ GLint\ m\_uniform\_loc\_projection;}
+\DoxyCodeLine{00054\ \};}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

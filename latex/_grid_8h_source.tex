@@ -1,0 +1,43 @@
+\doxysection{Grid.\+h}
+\hypertarget{_grid_8h_source}{}\label{_grid_8h_source}\index{src/TileGrid/Grid.h@{src/TileGrid/Grid.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GRID\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GRID\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Asset/AssetManager.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Components/Component.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}PCH.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}Renderer/MeshRenderer.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}Procedural/PerlinNoise.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}Renderer/Material.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }Grid\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \ \ Grid()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00014\ \ \ \ \ Grid(\textcolor{keywordtype}{size\_t}\ width,\ \textcolor{keywordtype}{size\_t}\ height);}
+\DoxyCodeLine{00015\ \ \ \ \ \string~Grid()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ resize(\textcolor{keywordtype}{size\_t}\ width,\ \textcolor{keywordtype}{size\_t}\ height);}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ get\_width\ ()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_width;\ \}}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ get\_height()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_height;\ \}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ entt::entity\&\ at(\textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y);}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{const}\ entt::entity\&\ at(\textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ generate\_tiles(entt::registry\&\ \_registry);}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ generate\_tiles\_with\_perlin(entt::registry\&\ \_registry);}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ print()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_width\ \{0\};}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_height\{0\};}
+\DoxyCodeLine{00032\ \ \ \ \ std::vector<entt::entity>\ m\_data;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ check\_bounds(\textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

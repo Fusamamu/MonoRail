@@ -1,0 +1,122 @@
+\doxysection{Node3\+D.\+h}
+\hypertarget{_node3_d_8h_source}{}\label{_node3_d_8h_source}\index{src/TileGrid/Node3D.h@{src/TileGrid/Node3D.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ NODE3D\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NODE3D\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{enum\ class}\ TileType\ :\ uint8\_t}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ NONE\ \ \ =\ 0,}
+\DoxyCodeLine{00008\ \ \ \ \ GROUND\ =\ 1\ <<\ 0,}
+\DoxyCodeLine{00009\ \};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{struct\ }NodeIndex}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ int32\_t\ idx;}
+\DoxyCodeLine{00014\ \ \ \ \ int32\_t\ idy;}
+\DoxyCodeLine{00015\ \ \ \ \ int32\_t\ idz;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ NodeIndex(int32\_t\ \_idx,\ int32\_t\ \_idy,\ int32\_t\ \_idz)\ :\ idx(\_idx),\ idy(\_idy),\ idz(\_idz)\ \{\}}
+\DoxyCodeLine{00018\ \ \ \ \ NodeIndex()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00019\ \ \ \ \ \string~NodeIndex()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ NodeIndex\ operator+(\textcolor{keyword}{const}\ NodeIndex\&\ \_other)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NodeIndex(idx\ +\ \_other.idx,\ idy\ +\ \_other.idy,\ idz\ +\ \_other.idz);}
+\DoxyCodeLine{00023\ \ \ \ \ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ NodeIndex\&\ \_other)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ idx\ ==\ \_other.idx\ \&\&\ idy\ ==\ \_other.idy\ \&\&\ idz\ ==\ \_other.idz;}
+\DoxyCodeLine{00027\ \ \ \ \ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ operator<<(std::ostream\&\ os,\ \textcolor{keyword}{const}\ NodeIndex\&\ \_other)}
+\DoxyCodeLine{00030\ \ \ \ \ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ os\ <<\ \_other.idx\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \_other.idy\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \_other.idz;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ os;}
+\DoxyCodeLine{00033\ \ \ \ \ \}}
+\DoxyCodeLine{00034\ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{struct\ }Node3D}
+\DoxyCodeLine{00038\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ int32\_t\ idx;}
+\DoxyCodeLine{00040\ \ \ \ \ int32\_t\ idy;}
+\DoxyCodeLine{00041\ \ \ \ \ int32\_t\ idz;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ uint8\_t\ bit;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ TileType\ type\ =\ TileType::NONE;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ std::array<entt::entity,\ 8>\ corner\_nodes;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_occupied\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ Node3D()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00052\ \ \ \ \ Node3D(uint32\_t\ x,\ uint32\_t\ y,\ uint32\_t\ z)}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ :\ idx(x),\ idy(y),\ idz(z)\ \{\}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{struct_node_index}{NodeIndex}}\ to\_node\_index()\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_node_index}{NodeIndex}}(idx,\ idy,\ idz);}
+\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{struct_node_index}{NodeIndex}}\ to\_node\_index(int32\_t\ \_idx,\ int32\_t\ \_idy,\ int32\_t\ \_idz)\{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_node_index}{NodeIndex}}(idx\ +\ \_idx,\ idy\ +\ \_idy,\ idz\ +\ \_idz);}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ uint8\_t\ to\_bitmask(entt::registry\&\ \_registry)}
+\DoxyCodeLine{00063\ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ uint8\_t\ mask\ =\ 0;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ corner\_nodes.size();\ ++i)}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (corner\_nodes[i]\ !=\ entt::null)}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Node3D\ \_node\ =\ \_registry.get<Node3D>(corner\_nodes[i]);}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_node.is\_occupied)}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mask\ |=\ (1\ <<\ (7\ -\/\ i));}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ bit\ =\ mask;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ mask;}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{void}\ print()\textcolor{keyword}{\ const}\{\ std::cout\ <<\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ operator<<(std::ostream\&\ os,\ \textcolor{keyword}{const}\ Node3D\&\ node)}
+\DoxyCodeLine{00082\ \ \ \ \ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ os\ <<\ \textcolor{stringliteral}{"{}Node3D("{}}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ <<\ node.idx\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ <<\ node.idy\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ <<\ node.idz\ <<\ \textcolor{stringliteral}{"{})\ "{}}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}occupied="{}}\ <<\ std::boolalpha\ <<\ node.is\_occupied;}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ uint8\_t\ mask\ =\ 0;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ node.corner\_nodes.size();\ ++i)}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (node.corner\_nodes[i]\ !=\ entt::null)\ \textcolor{comment}{//\ occupied}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mask\ |=\ (1\ <<\ i);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ os\ <<\ \textcolor{stringliteral}{"{}\ corner\_mask=0b"{}}\ <<\ std::bitset<8>(mask);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ os;}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ \};}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{keyword}{namespace\ }std}
+\DoxyCodeLine{00103\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keyword}{struct\ }hash<\mbox{\hyperlink{struct_node_index}{NodeIndex}}>}
+\DoxyCodeLine{00106\ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ std::size\_t\ operator()(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_node_index}{NodeIndex}}\&\ k)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (std::hash<int>()(k.idx)\ *\ 73856093)\ \string^\ (std::hash<int>()(k.idz)\ *\ 19349663);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \};}
+\DoxyCodeLine{00112\ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//NODE3D\_H}}
+
+\end{DoxyCode}

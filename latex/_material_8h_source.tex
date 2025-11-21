@@ -1,0 +1,41 @@
+\doxysection{Material.\+h}
+\hypertarget{_material_8h_source}{}\label{_material_8h_source}\index{src/Renderer/Material.h@{src/Renderer/Material.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MATERIAL\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MATERIAL\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{struct\ }Material}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ std::string\ shader\_id;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ glm::vec4\ rgba\ \ \ \ \ \ \ \ \ \ \ \{\ 1.0f,\ 1.0f,\ 1.0f,\ 1.0f\ \};}
+\DoxyCodeLine{00013\ \ \ \ \ glm::vec3\ diffuse\_color\ \ \{\ 1.0f,\ 1.0f,\ 1.0f\ \};\ \ \textcolor{comment}{//\ base\ color}}
+\DoxyCodeLine{00014\ \ \ \ \ glm::vec3\ specularColor\ \ \{\ 1.0f,\ 1.0f,\ 1.0f\ \};\ \ \textcolor{comment}{//\ highlight\ color}}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ shininess\ \ \ \ \ \ \{32.0f\};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ specular\ exponent}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ opacity\ \ \ \ \ \ \ \ \{1.0f\};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ transparency}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{bool}\ cast\_shadow\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{bool}\ depth\_test\ \ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{bool}\ depth\_write\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ GLuint\ diffuseMap\ \ =\ 0;}
+\DoxyCodeLine{00023\ \ \ \ \ GLuint\ specularMap\ =\ 0;}
+\DoxyCodeLine{00024\ \ \ \ \ GLuint\ normalMap\ \ \ =\ 0;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ Material()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ Material(\textcolor{keyword}{const}\ glm::vec3\&\ \_diff,\ \textcolor{keyword}{const}\ glm::vec3\&\ \_spec,\ \textcolor{keywordtype}{float}\ \_shin)}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ :\ diffuse\_color(\_diff),\ specularColor(\_spec),\ shininess(\_shin)}
+\DoxyCodeLine{00030\ \ \ \ \ \{}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \}}
+\DoxyCodeLine{00033\ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

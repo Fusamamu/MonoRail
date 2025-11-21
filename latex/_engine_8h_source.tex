@@ -1,0 +1,38 @@
+\doxysection{Engine.\+h}
+\hypertarget{_engine_8h_source}{}\label{_engine_8h_source}\index{src/Engine.h@{src/Engine.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ENGINE\_H\ }}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ENGINE\_H\ }}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_scene_manager}{SceneManager}};}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }MUG}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{class\ }Engine}
+\DoxyCodeLine{00014\ \ \ \ \ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ SDL\_Window*\ \ \ p\_window;}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ SDL\_GLContext\ context;}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ SDL\_Event\ \ \ \ \ sdl\_event;}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_scene_manager}{SceneManager}}*\ p\_scene\_manager;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ Engine();}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \string~Engine();}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_m_u_g_1_1_engine_a5ea7f3424202a8c9e93a5cf37142afee}{init}}\ \ ();}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update();}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ quit\ \ ();}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ request\_quit();}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_is\_running;}
+\DoxyCodeLine{00038\ \ \ \ \ \};}
+\DoxyCodeLine{00039\ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

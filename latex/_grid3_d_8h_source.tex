@@ -1,0 +1,187 @@
+\doxysection{Grid3\+D.\+h}
+\hypertarget{_grid3_d_8h_source}{}\label{_grid3_d_8h_source}\index{src/TileGrid/Grid3D.h@{src/TileGrid/Grid3D.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GRID3D\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GRID3D\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <entt/entt.hpp>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}Math/MMath.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}InputSystem.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}Components/Camera.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}Renderer/MeshRenderer.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}Navigation/Navigation.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}TileGrid/Node.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }Camera;}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{namespace\ }TileGrid}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{const}\ std::array<NodeIndex,\ 8>\ VICINITY\_8\_DIR\ =}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ NodeIndex(\ 1,\ 0,\ \ 1),}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ NodeIndex(\ 0,\ 0,\ \ 1),}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ NodeIndex(-\/1,\ 0,\ \ 1),}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ NodeIndex(\ 1,\ 0,\ \ 0),}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ NodeIndex(-\/1,\ 0,\ \ 0),}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ NodeIndex(\ 1,\ 0,\ -\/1),}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ NodeIndex(\ 0,\ 0,\ -\/1),}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ NodeIndex(-\/1,\ 0,\ -\/1),}
+\DoxyCodeLine{00030\ \ \ \ \ \};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{const}\ std::array<NodeIndex,\ 4>\ VICINITY\_4\_DIR\ =}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ NodeIndex(\ 0,\ 0,\ \ 1),}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ NodeIndex(\ 1,\ 0,\ \ 0),}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ NodeIndex(-\/1,\ 0,\ \ 0),}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ NodeIndex(\ 0,\ 0,\ -\/1),}
+\DoxyCodeLine{00038\ \ \ \ \ \};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_tile_grid_1_1_tile_anim}{TileAnim}}}
+\DoxyCodeLine{00041\ \ \ \ \ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ entt::entity\ entity;}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ elapsed\ \ =\ 0.0f;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ duration\ =\ 0.25f;\ \textcolor{comment}{//\ seconds}}
+\DoxyCodeLine{00045\ \ \ \ \ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{enum}\ EditMode}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ NONE\ \ \ \ \ \ \ \ =\ 0,}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ ADD\_TILE\ \ \ \ =\ 1,}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ REMOVE\_TILE\ =\ 2,}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ MARK\_TILE\ \ \ =\ 3,}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ ADD\_AGENT\ \ \ =\ 4,}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ ADD\_RAIL\ \ \ \ =\ 5,}
+\DoxyCodeLine{00055\ \ \ \ \ \};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{class\ }Grid3D\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_tile_grid_1_1_grid3_d_1_1_tile_data}{TileData}}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ mesh\_name;}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_node_index}{NodeIndex}}\ node\_index;}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ position;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ EditMode\ mode\ =\ EditMode::NONE;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ entt::entity\ start\_e\ =\ entt::null;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ entt::entity\ dest\_e\ \ =\ entt::null;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ Grid3D\ (\textcolor{keywordtype}{size\_t}\ width,\ \textcolor{keywordtype}{size\_t}\ height,\ \textcolor{keywordtype}{size\_t}\ depth);}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ Grid3D\ ()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \string~Grid3D()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ init\ \ (\textcolor{keywordtype}{size\_t}\ width,\ \textcolor{keywordtype}{size\_t}\ height,\ \textcolor{keywordtype}{size\_t}\ depth);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ resize(\textcolor{keywordtype}{size\_t}\ width,\ \textcolor{keywordtype}{size\_t}\ height,\ \textcolor{keywordtype}{size\_t}\ depth);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ get\_width\ ()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_width\ ;\ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ get\_height()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_height;\ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ get\_depth\ ()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_depth\ ;\ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ corner\_index(\textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ z\ *\ ((m\_width\ +\ 1)\ *\ (m\_height\ +\ 1))\ +\ y\ *\ (m\_width\ +\ 1)\ +\ x;\}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ tile\_index\ \ (\textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ z\ *\ (m\_width\ *\ m\_height)\ +\ y\ *\ m\_width\ +\ x;\}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ tile\_index\ \ (NodeIndex\ \_node\_index)\textcolor{keyword}{\ \ \ \ \ \ \ \ const\ }\{\ \textcolor{keywordflow}{return}\ \_node\_index.idz\ *\ (m\_width\ *\ m\_height)\ +\ \_node\_index.idy\ *\ m\_width\ +\ \_node\_index.idx;\}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ NodeIndex\ tile\_index\_to\_node\_coord(\textcolor{keywordtype}{size\_t}\ \_tile\_index)}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ NodeIndex\ \_result;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ rem\ \ =\ \_tile\_index\ \%\ (m\_width\ *\ m\_height);}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \_result.idz\ =\ \_tile\_index\ /\ (m\_width\ *\ m\_height);}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \_result.idy\ =\ rem\ /\ m\_width;}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \_result.idx\ =\ rem\ \%\ m\_width;}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_result;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ entt::entity\&\ entity\_at\ \ \ \ \ (NodeIndex\ \_node\_index)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ entt::entity\ \ \ \ \ \ \&\ at\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z);}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ entt::entity\&\ at\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ entt::entity\ \ \ \ \ \ \&\ corner\_node\_at(\textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z);}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ entt::entity\&\ corner\_node\_at(\textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ uint8\_t\ get\_surrounding\_bit\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (entt::registry\&\ \_registry,\ NodeIndex\ \_node\_index);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ uint8\_t\ get\_surrounding\_bitmask\_4direction(entt::registry\&\ \_registry,\ NodeIndex\ \_node\_index);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ out\_of\_bounds(\textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ check\_bounds(\textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ out\_of\_bounds(NodeIndex\ \_node\_index)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_occupied(entt::registry\&\ \_registry,\ \textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_occupied(entt::registry\&\ \_registry,\ NodeIndex\ \_node\_index);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ create\_tile\_instance\ \ \ \ \ \ (entt::registry\&\ \_registry);}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ create\_corner\_instance\ \ \ \ (entt::registry\&\ \_registry);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ NAV::Track*\ add\_track(entt::registry\&\ \_registry,\ NodeIndex\ \_at\_node\_index,\ glm::vec3\ \_position);}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ add\_tile\_at\ \ \ (entt::registry\&\ \_registry,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_tile_grid_1_1_grid3_d_1_1_tile_data}{TileData}}\&\ \_tile\_data);}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ add\_tile\_at\ \ \ (entt::registry\&\ \_registry,\ \textcolor{keyword}{const}\ std::string\&\ \_mesh,\ \textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z,\ glm::vec3\ \_position,\ TileType\ \_tile\_type);}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ add\_tile\_above(entt::registry\&\ \_registry,\ \textcolor{keyword}{const}\ std::string\&\ \_mesh,\ \textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z,\ glm::vec3\ \_position,\ TileType\ \_tile\_type);}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ select\_tile\_at(entt::registry\&\ \_registry,\ \textcolor{keywordtype}{size\_t}\ x,\ \textcolor{keywordtype}{size\_t}\ y,\ \textcolor{keywordtype}{size\_t}\ z)}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ MeshRenderer\&\ \_mesh\_renderer\ =\ \_registry.get<MeshRenderer>(m\_tile\_mesh\_e);}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \_mesh\_renderer.update\_instance\_color(m\_tile\_instance\_data,\ 1,\ glm::vec4(1.0f,\ 1.0f,\ 1.0f,\ 1.0f));}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update(entt::registry\ \&\_registry,\ Component::Camera\ \_camera,\ InputSystem\&\ \_input\_system);}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ std::optional<std::vector<entt::entity>>\ find\_path(entt::registry\&\ \_\_restrict,\ NodeIndex\ \_start\_node,\ NodeIndex\ \_dest\_node);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ std::optional<std::vector<entt::entity>>\ find\_path(entt::registry\&\ \_registry);}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ print\_layer(\textcolor{keywordtype}{size\_t}\ z)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update\_tile\_animations(entt::registry\&\ \_registry,\ \textcolor{keywordtype}{float}\ dt)}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \_it\ =\ active\_tile\_anims.begin();\ \_it\ !=\ active\_tile\_anims.end();)}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ \_node\ \ \ \ \ \ =\ \_registry.get<Node>(\_it-\/>entity);}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ \_transform\ =\ \_registry.get<Component::Transform>(\_it-\/>entity);}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_it-\/>elapsed\ +=\ dt\ *\ 2.5f;}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ t\ \ \ \ \ \ \ \ =\ glm::clamp(\_it-\/>elapsed\ /\ \_it-\/>duration,\ 0.0f,\ 1.0f);}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ smooth\_t\ =\ EASE::ease\_out\_back(t);\ \textcolor{comment}{//\ or\ smoothstep,\ ease\_in\_out,\ etc.}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_transform.scale\ \ \ \ \ =\ glm::vec3(smooth\_t);}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_transform.world\_mat\ =\ \_transform.get\_local\_mat4();}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ >=\ 1.0f)}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_it\ =\ active\_tile\_anims.erase(\_it);\ \textcolor{comment}{//\ remove\ finished}}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_node.is\_dirty\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++\_it;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ std::vector<uint8\_t>\ get\_voxel\_data(entt::registry\&\ \_registry);}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ std::vector<entt::entity>\ m\_corner\_data;}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_width\ \ \{0\};}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_height\ \{0\};}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_depth\ \ \{0\};}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ std::vector<entt::entity>\ m\_data;}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ std::vector<InstanceData>\ m\_tile\_instance\_data;}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ std::vector<InstanceData>\ m\_corner\_instance\_data;}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ std::vector<TileAnim>\ \ \ \ \ active\_tile\_anims;}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ entt::entity\ m\_tile\_mesh\_e\ =\ entt::null;}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ add\_tile\_animation(entt::registry\&\ reg,\ entt::entity\ \_tile\_e)}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ reg.get<Component::Transform>(\_tile\_e).scale\ =\ glm::vec3(0.0f);}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ active\_tile\_anims.push\_back(\{\ \_tile\_e,\ 0.0f,\ 0.25f\ \});}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00179\ \ \ \ \ \};}
+\DoxyCodeLine{00180\ \}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

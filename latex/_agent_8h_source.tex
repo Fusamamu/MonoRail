@@ -1,0 +1,164 @@
+\doxysection{Agent.\+h}
+\hypertarget{_agent_8h_source}{}\label{_agent_8h_source}\index{src/Navigation/Agent.h@{src/Navigation/Agent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ AGENT\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ AGENT\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Components/Component.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Components/Transform.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }NAV}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keyword}{class\ }Agent}
+\DoxyCodeLine{00010\ \ \ \ \ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ FaceDirection}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \ \ \ NORTH\ =\ 0,}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ WEST\ \ =\ 1,}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ EAST\ \ =\ 2,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ SOUTH\ =\ 3,}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ FaceDirection\ previous\_face\_direction\ =\ FaceDirection::NORTH;}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ FaceDirection\ current\_face\_direction\ \ =\ FaceDirection::NORTH;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ glm::vec2\ move\_direction\ \{\ 1.0f,\ 0.0f\ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ move\_amount\ \ \ =\ 1.0f;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ move\_duration\ =\ 0.5f;}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ move\_elapsed\ \ =\ 0.0f;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ following\_path\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ previous\_path\_index\ =\ -\/1;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ current\_path\_index\ \ =\ 0;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ std::vector<glm::vec3>\ target\_path;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ Agent()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \string~Agent()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update(\mbox{\hyperlink{struct_component_1_1_transform}{Component::Transform}}\&\ \_transform,\ \textcolor{keywordtype}{float}\ \_dt)}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ update\_following\_path(\_dt,\ \_transform);}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update\_following\_path(\textcolor{keywordtype}{float}\ \_dt,\ \mbox{\hyperlink{struct_component_1_1_transform}{Component::Transform}}\&\ \_transform)}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!following\_path\ ||\ target\_path.empty())}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \_previous\_pos\ =\ \_transform.position;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (previous\_path\_index\ !=\ -\/1)}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_previous\_pos\ =\ target\_path[previous\_path\_index];}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ target\_pos\ =\ target\_path[current\_path\_index];}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ dir\ =\ target\_pos\ -\/\ \_transform.position;}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dist\ =\ glm::length\ \ \ (dir);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \_dir\_norm\ =\ glm::normalize(target\_pos\ -\/\ \_previous\_pos);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Direction\ norm\ :\ "{}}\ <<\ \_dir\_norm.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \_dir\_norm.y\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \_dir\_norm.z\ <<\ std::endl;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \_target\_rotation\ =\ glm::vec3(0.0f);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ previous\_face\_direction\ =\ current\_face\_direction;}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_dir\_norm.x\ >\ 0.0f)}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_face\_direction\ =\ FaceDirection::EAST;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_target\_rotation\ =\ glm::vec3(0.0f,\ glm::radians(-\/90.0f),\ 0.0f);}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_dir\_norm.x\ <\ 0.0f)}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_face\_direction\ =\ FaceDirection::WEST;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_target\_rotation\ =\ glm::vec3(0.0f,\ \ glm::radians(90.0f),\ 0.0f);}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_dir\_norm.z\ >\ 0.0f)}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_face\_direction\ =\ FaceDirection::SOUTH;}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_target\_rotation\ =\ glm::vec3(0.0f,\ glm::radians(180.0f),\ 0.0f);}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_dir\_norm.z\ <\ 0.0f)}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_face\_direction\ =\ FaceDirection::NORTH;}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_target\_rotation\ =\ glm::vec3(0.0f,\ glm::radians(0.0f),\ 0.0f);}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ epsilon\ =\ 0.1f;}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (dist\ <\ epsilon)}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ previous\_path\_index\ =\ current\_path\_index;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_path\_index++;}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_path\_index\ >=\ target\_path.size())}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ following\_path\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_pos\ =\ target\_path[current\_path\_index];}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dir\ \ =\ target\_pos\ -\/\ \_transform.position;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dist\ =\ glm::length(dir);}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (dist\ >\ 0.0f)}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dir\ /=\ dist;}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ speed\ =\ move\_amount\ /\ move\_duration;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \_transform.position\ +=\ dir\ *\ speed\ *\ \_dt;}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ diff\ =\ glm::abs(glm::mod(\_target\_rotation.y\ -\/\ \_transform.rotation.y\ +\ glm::pi<float>(),\ glm::two\_pi<float>())\ -\/\ glm::pi<float>());}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ define\ a\ small\ threshold,\ e.g.\ 0.5\ degrees\ in\ radians}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ angle\_epsilon\ =\ glm::radians(0.5f);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (diff\ >\ angle\_epsilon)}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ lerp\_angle\ =\ [](\textcolor{keywordtype}{float}\ a,\ \textcolor{keywordtype}{float}\ b,\ \textcolor{keywordtype}{float}\ t)}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ delta\ =\ glm::mod(b\ -\/\ a\ +\ glm::pi<float>(),\ glm::two\_pi<float>())\ -\/\ glm::pi<float>();}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a\ +\ delta\ *\ glm::clamp(t,\ 0.0f,\ 1.0f);}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ rotation\_speed\ =\ 5.0f;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_transform.rotation.y\ =\ lerp\_angle(\_transform.rotation.y,\ \_target\_rotation.y,\ rotation\_speed\ *\ \_dt);}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_transform.rotation.y\ =\ \_target\_rotation.y;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ move\_elapsed\ +=\ \_dt;}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update\_move(\textcolor{keywordtype}{float}\ \_dt,\ \mbox{\hyperlink{struct_component_1_1_transform}{Component::Transform}}\&\ \_transform)}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ move\_elapsed\ +=\ \_dt;}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (move\_elapsed\ >\ 1.0f)}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ move\_elapsed\ =\ 0.0f;}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_ease\ =\ ease\_out\_elastic(move\_elapsed);}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \_transform.position\ =\ glm::mix(glm::vec3(0.0f),\ \{\ 0.0f,\ 5.0f,\ 0.0f\}\ ,\ \_ease);}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ ease\_out\_elastic(\textcolor{keywordtype}{float}\ t)}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ c4\ =\ (2.0f\ *\ 3.14159265f)\ /\ 3.0f;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ ==\ 0)}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ ==\ 1)}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pow(2,\ -\/10\ *\ t)\ *\ sin((t\ *\ 10\ -\/\ 0.75f)\ *\ c4)\ +\ 1;}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00155\ \ \ \ \ \};}
+\DoxyCodeLine{00156\ \}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

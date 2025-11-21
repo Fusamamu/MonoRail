@@ -1,0 +1,80 @@
+\doxysection{Asset\+Manager.\+h}
+\hypertarget{_asset_manager_8h_source}{}\label{_asset_manager_8h_source}\index{src/Asset/AssetManager.h@{src/Asset/AssetManager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ RESOURCE\_MANAGER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ RESOURCE\_MANAGER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Core/Mesh.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Renderer/Shader.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}Asset/Texture.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{inline}\ std::string\ to\_formatted\_name(uint8\_t\ value)}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ std::string\ bits\ =\ std::bitset<8>(value).to\_string();}
+\DoxyCodeLine{00011\ \ \ \ \ bits.insert(4,\ \textcolor{stringliteral}{"{}\_"{}});}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}c\_"{}}\ +\ bits;}
+\DoxyCodeLine{00013\ \}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }AssetManager}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ \ \ \ \ AssetManager(\textcolor{keyword}{const}\ AssetManager\&)\ \ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00019\ \ \ \ \ AssetManager(AssetManager\&\&)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00020\ \ \ \ \ AssetManager\&\ operator=(\textcolor{keyword}{const}\ AssetManager\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00021\ \ \ \ \ AssetManager\&\ operator=(AssetManager\&\&)\ \ \ \ \ \ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{static}\ AssetManager\&\ instance()}
+\DoxyCodeLine{00024\ \ \ \ \ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ AssetManager\ \_instance;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_instance;}
+\DoxyCodeLine{00027\ \ \ \ \ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ load\_model\ \ \ \ (std::filesystem::path\ \_path);}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ load\_model\_raw(std::filesystem::path\ \_path);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ load\_mesh\_raw\_data(uint8\_t\ \_bit,\ \textcolor{keywordtype}{bool}\ \_shift\_high\_bit,\ \textcolor{keywordtype}{bool}\ \_shift\_low\_bit,\ \textcolor{keywordtype}{bool}\ \_rotate,\ uint8\_t\ \_rotate\_times,\ std::filesystem::path\ \_path);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ load\_texture(std::filesystem::path\ \_path);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<MUG::Mesh>*\ get\_model(\textcolor{keyword}{const}\ std::string\&\ name)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{struct_m_u_g_1_1_mesh}{MUG::Mesh}}*\ get\_first\_mesh(\textcolor{keyword}{const}\ std::string\&\ name);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<MUG::SkeletonMesh>*\ get\_skeleton\_model(\textcolor{keyword}{const}\ std::string\&\ name)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{struct_m_u_g_1_1_skeleton_mesh}{MUG::SkeletonMesh}}*\ get\_first\_skeleton\_mesh(\textcolor{keyword}{const}\ std::string\&\ name);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{auto}\ shader\_view()}
+\DoxyCodeLine{00044\ \ \ \ \ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::views::values(m\_shaders);}
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ load\_shader(\textcolor{keyword}{const}\ std::filesystem::path\ \_path);}
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{class_shader}{Shader}}*\ get\_shader(\textcolor{keyword}{const}\ std::string\&\ \_name);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00051\ \ \ \ \ AssetManager()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00052\ \ \ \ \ \string~AssetManager()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ std::vector<MUG::MeshRawData>\ \ \ \ \ \ \ \ \ \ \ \ \ m\_meshes\_raw\_data;}
+\DoxyCodeLine{00055\ \ \ \ \ std::map<std::string,\ MUG::MeshRawData>\ \ \ m\_mesh\_raw\_data\_map;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ std::vector<MUG::Mesh>\ \ \ \ \ \ \ \ \ \ \ m\_meshes;}
+\DoxyCodeLine{00058\ \ \ \ \ std::vector<MUG::SkeletonMesh>\ \ \ m\_skeleton\_meshes;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ std::map<std::string,\ std::vector<MUG::Mesh>>\ \ \ \ \ \ \ \ \ \ m\_mesh\_map;}
+\DoxyCodeLine{00061\ \ \ \ \ std::map<std::string,\ std::vector<MUG::SkeletonMesh>>\ \ m\_skeleton\_models;}
+\DoxyCodeLine{00062\ \ \ \ \ std::map<std::string,\ std::unique\_ptr<Shader>>\ \ \ \ m\_shaders;}
+\DoxyCodeLine{00063\ \ \ \ \ std::map<std::string,\ std::unique\_ptr<Texture>>\ \ \ m\_textures;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ process\_node\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (aiNode*\ \_node\ \ \ \ ,\ \textcolor{keyword}{const}\ aiScene*\ \_scene);}
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{struct_m_u_g_1_1_mesh}{MUG::Mesh}}\ process\_mesh\ \ \ \ \ \ \ \ \ \ \ (aiMesh*\ \_ai\_mesh,\ \textcolor{keyword}{const}\ aiScene*\ \_ai\_scene);}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ process\_node\_raw\ \ \ \ \ \ \ \ \ \ \ \ (aiNode*\ \_node\ \ \ \ ,\ \textcolor{keyword}{const}\ aiScene*\ \_scene);}
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{struct_m_u_g_1_1_mesh_raw_data}{MUG::MeshRawData}}\ process\_mesh\_raw(aiMesh*\ \_ai\_mesh,\ \textcolor{keyword}{const}\ aiScene*\ \_ai\_scene);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ process\_skeleton\_node(aiNode*\ node,\ \textcolor{keyword}{const}\ aiScene*\ scene);}
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{struct_m_u_g_1_1_skeleton_mesh}{MUG::SkeletonMesh}}\ process\_skeleton\_mesh(aiMesh*\ \_ai\_mesh,\ \textcolor{keyword}{const}\ aiScene*\ \_ai\_scene);}
+\DoxyCodeLine{00072\ \};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

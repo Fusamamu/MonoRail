@@ -1,0 +1,65 @@
+\doxysection{NAV\+::Agent Class Reference}
+\hypertarget{class_n_a_v_1_1_agent}{}\label{class_n_a_v_1_1_agent}\index{NAV::Agent@{NAV::Agent}}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_a01c47817c79f7aa960ff66bd9dc14fe9}\label{class_n_a_v_1_1_agent_a01c47817c79f7aa960ff66bd9dc14fe9} 
+enum class {\bfseries Face\+Direction} \{ {\bfseries NORTH} = 0
+, {\bfseries WEST} = 1
+, {\bfseries EAST} = 2
+, {\bfseries SOUTH} = 3
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_a83b40d101b5963dd6b1164ecf6509245}\label{class_n_a_v_1_1_agent_a83b40d101b5963dd6b1164ecf6509245} 
+void {\bfseries update} (\mbox{\hyperlink{struct_component_1_1_transform}{Component\+::\+Transform}} \&\+\_\+transform, float \+\_\+dt)
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_ab7d23d1d33f0cc0205ae8b7c9b7d2b0c}\label{class_n_a_v_1_1_agent_ab7d23d1d33f0cc0205ae8b7c9b7d2b0c} 
+void {\bfseries update\+\_\+following\+\_\+path} (float \+\_\+dt, \mbox{\hyperlink{struct_component_1_1_transform}{Component\+::\+Transform}} \&\+\_\+transform)
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_a49d5fba8e932f97e3a569edd3d2f0dfd}\label{class_n_a_v_1_1_agent_a49d5fba8e932f97e3a569edd3d2f0dfd} 
+void {\bfseries update\+\_\+move} (float \+\_\+dt, \mbox{\hyperlink{struct_component_1_1_transform}{Component\+::\+Transform}} \&\+\_\+transform)
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_ac4f166788dc86c91eeb2f3b8fddf6db4}\label{class_n_a_v_1_1_agent_ac4f166788dc86c91eeb2f3b8fddf6db4} 
+float {\bfseries ease\+\_\+out\+\_\+elastic} (float t)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_a074d48e15f217dbcef640fccf21cfdaf}\label{class_n_a_v_1_1_agent_a074d48e15f217dbcef640fccf21cfdaf} 
+Face\+Direction {\bfseries previous\+\_\+face\+\_\+direction} = Face\+Direction\+::\+NORTH
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_aa89da916abed7eed84232b06e4f481f1}\label{class_n_a_v_1_1_agent_aa89da916abed7eed84232b06e4f481f1} 
+Face\+Direction {\bfseries current\+\_\+face\+\_\+direction} = Face\+Direction\+::\+NORTH
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_a19208382f2d31dc50cef8395b1226098}\label{class_n_a_v_1_1_agent_a19208382f2d31dc50cef8395b1226098} 
+glm\+::vec2 {\bfseries move\+\_\+direction} \{ 1.\+0f, 0.\+0f \}
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_a845d7da9ee49a2ca7d8c1031b20bc524}\label{class_n_a_v_1_1_agent_a845d7da9ee49a2ca7d8c1031b20bc524} 
+float {\bfseries move\+\_\+amount} = 1.\+0f
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_a63633e8a99df30349c08b06ed74b35c4}\label{class_n_a_v_1_1_agent_a63633e8a99df30349c08b06ed74b35c4} 
+float {\bfseries move\+\_\+duration} = 0.\+5f
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_a41f423dfbe85d2af7f32be1a579bc97a}\label{class_n_a_v_1_1_agent_a41f423dfbe85d2af7f32be1a579bc97a} 
+float {\bfseries move\+\_\+elapsed} = 0.\+0f
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_aa46441744523d5f444c103499cc803d7}\label{class_n_a_v_1_1_agent_aa46441744523d5f444c103499cc803d7} 
+bool {\bfseries following\+\_\+path} = false
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_a7be397ab8ca29ebf3e32bf3eb0bd911c}\label{class_n_a_v_1_1_agent_a7be397ab8ca29ebf3e32bf3eb0bd911c} 
+size\+\_\+t {\bfseries previous\+\_\+path\+\_\+index} = -\/1
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_a725645a9038c8b4188c7166648e8ef5c}\label{class_n_a_v_1_1_agent_a725645a9038c8b4188c7166648e8ef5c} 
+size\+\_\+t {\bfseries current\+\_\+path\+\_\+index} = 0
+\item 
+\Hypertarget{class_n_a_v_1_1_agent_a7ab4081e4a9d1a7d683bc2855de60bbc}\label{class_n_a_v_1_1_agent_a7ab4081e4a9d1a7d683bc2855de60bbc} 
+std\+::vector$<$ glm\+::vec3 $>$ {\bfseries target\+\_\+path}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Navigation/Agent.\+h\end{DoxyCompactItemize}

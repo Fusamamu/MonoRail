@@ -1,0 +1,41 @@
+\doxysection{Mesh\+Renderer Class Reference}
+\hypertarget{class_mesh_renderer}{}\label{class_mesh_renderer}\index{MeshRenderer@{MeshRenderer}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_mesh_renderer_a2e6dabb0342267d2955b68817f3cb96c}\label{class_mesh_renderer_a2e6dabb0342267d2955b68817f3cb96c} 
+void {\bfseries load\+\_\+mesh} (\mbox{\hyperlink{struct_m_u_g_1_1_mesh}{MUG\+::\+Mesh}} \texorpdfstring{$\ast$}{*}\+\_\+mesh)
+\item 
+\Hypertarget{class_mesh_renderer_a8be49e5b491b31bb1cf1d756561994ce}\label{class_mesh_renderer_a8be49e5b491b31bb1cf1d756561994ce} 
+void {\bfseries set\+\_\+buffer\+\_\+data} (\mbox{\hyperlink{struct_m_u_g_1_1_mesh}{MUG\+::\+Mesh}} \texorpdfstring{$\ast$}{*}\+\_\+mesh)
+\item 
+\Hypertarget{class_mesh_renderer_aaab49a5506d636ada010346852830da9}\label{class_mesh_renderer_aaab49a5506d636ada010346852830da9} 
+void {\bfseries set\+\_\+instance\+\_\+data} (const std\+::vector$<$ \mbox{\hyperlink{struct_instance_data}{Instance\+Data}} $>$ \&\+\_\+data)
+\item 
+\Hypertarget{class_mesh_renderer_ab187e94be16814ce9011ca8fd9c7eb4b}\label{class_mesh_renderer_ab187e94be16814ce9011ca8fd9c7eb4b} 
+void {\bfseries update\+\_\+instance\+\_\+color} (std\+::vector$<$ \mbox{\hyperlink{struct_instance_data}{Instance\+Data}} $>$ \&\+\_\+data, size\+\_\+t \+\_\+index, const glm\+::vec4 \&\+\_\+color)
+\item 
+\Hypertarget{class_mesh_renderer_a717af72a219de70ac54b9e42e05ead88}\label{class_mesh_renderer_a717af72a219de70ac54b9e42e05ead88} 
+void {\bfseries update\+\_\+all\+\_\+instance\+\_\+colors} (std\+::vector$<$ \mbox{\hyperlink{struct_instance_data}{Instance\+Data}} $>$ \&\+\_\+data, const glm\+::vec4 \&color)
+\item 
+\Hypertarget{class_mesh_renderer_a13fc68a47300fffaed02e55c2431c9d0}\label{class_mesh_renderer_a13fc68a47300fffaed02e55c2431c9d0} 
+void {\bfseries draw} () const
+\item 
+\Hypertarget{class_mesh_renderer_a5ee11d82a4fcdfd805e958a80098d46b}\label{class_mesh_renderer_a5ee11d82a4fcdfd805e958a80098d46b} 
+void {\bfseries draw\+\_\+mesh} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_mesh_renderer_aeffa1671973ba71cbbd855c4747d934e}\label{class_mesh_renderer_aeffa1671973ba71cbbd855c4747d934e} 
+bool {\bfseries use\+\_\+instancing} = false
+\item 
+\Hypertarget{class_mesh_renderer_aad3870df7ca81563ad76bb0ded862710}\label{class_mesh_renderer_aad3870df7ca81563ad76bb0ded862710} 
+GLsizei {\bfseries instance\+\_\+count} = 1000
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Renderer/Mesh\+Renderer.\+h\item 
+src/\+Renderer/Mesh\+Renderer.\+cpp\end{DoxyCompactItemize}

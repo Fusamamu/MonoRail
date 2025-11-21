@@ -1,0 +1,89 @@
+\doxysection{Vertex.\+h}
+\hypertarget{_vertex_8h_source}{}\label{_vertex_8h_source}\index{src/Core/Vertex.h@{src/Core/Vertex.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ VERTEX\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ VERTEX\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ MAX\_BONE\_INFLUENCE\ 4}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_line_vertex}{LineVertex}}}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ glm::vec3\ position;}
+\DoxyCodeLine{00009\ \ \ \ \ glm::vec3\ color;}
+\DoxyCodeLine{00010\ \};}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_vertex___p_n_t}{Vertex\_PNT}}}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ glm::vec3\ position;}
+\DoxyCodeLine{00015\ \ \ \ \ glm::vec3\ normal;}
+\DoxyCodeLine{00016\ \ \ \ \ glm::vec2\ texCoords;}
+\DoxyCodeLine{00017\ \};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{struct\ }Vertex\_Bone}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ glm::vec3\ Position;}
+\DoxyCodeLine{00022\ \ \ \ \ glm::vec3\ Normal;}
+\DoxyCodeLine{00023\ \ \ \ \ glm::vec2\ TexCoords;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ BoneIDs[MAX\_BONE\_INFLUENCE];}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{float}\ Weights[MAX\_BONE\_INFLUENCE];}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ Vertex\_Bone()}
+\DoxyCodeLine{00029\ \ \ \ \ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ \_i\ =\ 0;\ \_i\ <\ 4;\ \_i++)}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ BoneIDs[\_i]\ =\ -\/1;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ Weights[\_i]\ =\ 0.0f;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ add\_bone\_data(\textcolor{keywordtype}{int}\ \_bone\_id,\ \textcolor{keywordtype}{float}\ \_weight)}
+\DoxyCodeLine{00038\ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ MAX\_BONE\_INFLUENCE;\ i++)}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Weights[i]\ ==\ 0.0f)}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BoneIDs[i]\ =\ \_bone\_id;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Weights[i]\ =\ \_weight;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+\DoxyCodeLine{00049\ \};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{enum\ class}\ VertexAttribute}
+\DoxyCodeLine{00052\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ POSITION,}
+\DoxyCodeLine{00054\ \ \ \ \ NORMAL,}
+\DoxyCodeLine{00055\ \ \ \ \ TEXCOORD\_0,}
+\DoxyCodeLine{00056\ \ \ \ \ COLOR,}
+\DoxyCodeLine{00057\ \ \ \ \ TANGENT}
+\DoxyCodeLine{00058\ \};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_vertex_element}{VertexElement}}}
+\DoxyCodeLine{00061\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ VertexAttribute\ attribute;}
+\DoxyCodeLine{00063\ \ \ \ \ uint32\_t\ offset;\ \ \ \ \textcolor{comment}{//\ offset\ in\ bytes\ in\ the\ vertex\ struct}}
+\DoxyCodeLine{00064\ \ \ \ \ uint32\_t\ size;\ \ \ \ \ \ \textcolor{comment}{//\ size\ in\ bytes\ of\ attribute\ (e.g.\ 12\ for\ vec3\ float)}}
+\DoxyCodeLine{00065\ \ \ \ \ GLenum\ glType;\ \ \ \ \ \ \textcolor{comment}{//\ GL\_FLOAT,\ GL\_UNSIGNED\_BYTE\ etc.}}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{int}\ components;\ \ \ \ \ \textcolor{comment}{//\ number\ of\ components\ (e.g.\ 3\ for\ vec3)}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{bool}\ normalized;\ \ \ \ \textcolor{comment}{//\ normalized\ flag\ for\ GL}}
+\DoxyCodeLine{00068\ \};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_vertex_layout}{VertexLayout}}}
+\DoxyCodeLine{00071\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ std::vector<VertexElement>\ elements;}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ uint32\_t\ stride;}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ add\_element(VertexAttribute\ \_attr,\ uint32\_t\ \_offset,\ uint32\_t\ \_size,\ GLenum\ \_glType,\ \textcolor{keywordtype}{int}\ \_components,\ \textcolor{keywordtype}{bool}\ \_normalized\ =\ \textcolor{keyword}{false})}
+\DoxyCodeLine{00077\ \ \ \ \ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ elements.push\_back(\{\ \_attr,\ \_offset,\ \_size,\ \_glType,\ \_components,\ \_normalized\ \});}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

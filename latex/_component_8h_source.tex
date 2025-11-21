@@ -1,0 +1,143 @@
+\doxysection{Component.\+h}
+\hypertarget{_component_8h_source}{}\label{_component_8h_source}\index{src/Components/Component.h@{src/Components/Component.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ COMPONENT\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ COMPONENT\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}PCH.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_rigid_body}{RigidBody}}}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ glm::vec3\ velocity;}
+\DoxyCodeLine{00009\ \};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{struct\ }Boid}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ uint32\_t\ id;}
+\DoxyCodeLine{00014\ \ \ \ \ Boid()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00015\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_parent_child}{ParentChild}}}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ entt::entity\ parent\ =\ entt::null;}
+\DoxyCodeLine{00020\ \ \ \ \ std::vector<entt::entity>\ children;}
+\DoxyCodeLine{00021\ \};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_parent}{Parent}}\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ entt::entity\ entity\ =\ entt::null;}
+\DoxyCodeLine{00025\ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_children}{Children}}\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ std::vector<entt::entity>\ entities;}
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{struct\ }AABB}
+\DoxyCodeLine{00032\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ glm::vec3\ min\{0.0f\};\ \textcolor{comment}{//\ Minimum\ corner}}
+\DoxyCodeLine{00034\ \ \ \ \ glm::vec3\ max\{0.0f\};\ \textcolor{comment}{//\ Maximum\ corner}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ AABB()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ AABB(\textcolor{keyword}{const}\ glm::vec3\&\ \_min,\ \textcolor{keyword}{const}\ glm::vec3\&\ \_max)}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ :\ min(\_min),\ max(\_max)}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{//\ Get\ the\ center\ of\ the\ AABB}}
+\DoxyCodeLine{00045\ \ \ \ \ glm::vec3\ get\_center()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00046\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (min\ +\ max)\ *\ 0.5f;}
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{comment}{//\ Get\ the\ extents\ (half-\/size)\ of\ the\ AABB}}
+\DoxyCodeLine{00051\ \ \ \ \ glm::vec3\ get\_extents()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00052\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (max\ -\/\ min)\ *\ 0.5f;}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ Expand\ the\ AABB\ to\ include\ a\ point}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ expand(\textcolor{keyword}{const}\ glm::vec3\&\ point)}
+\DoxyCodeLine{00058\ \ \ \ \ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ min\ =\ glm::min(min,\ point);}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ max\ =\ glm::max(max,\ point);}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{comment}{//\ Check\ if\ a\ point\ is\ inside\ the\ AABB}}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{bool}\ contains(\textcolor{keyword}{const}\ glm::vec3\&\ point)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00065\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (point.x\ >=\ min.x\ \&\&\ point.x\ <=\ max.x)\ \&\&}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (point.y\ >=\ min.y\ \&\&\ point.y\ <=\ max.y)\ \&\&}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (point.z\ >=\ min.z\ \&\&\ point.z\ <=\ max.z);}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{comment}{//\ Check\ intersection\ with\ another\ AABB}}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{bool}\ intersects(\textcolor{keyword}{const}\ AABB\&\ other)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00073\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (min.x\ <=\ other.max.x\ \&\&\ max.x\ >=\ other.min.x)\ \&\&}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (min.y\ <=\ other.max.y\ \&\&\ max.y\ >=\ other.min.y)\ \&\&}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (min.z\ <=\ other.max.z\ \&\&\ max.z\ >=\ other.min.z);}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \};}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_light_data}{LightData}}}
+\DoxyCodeLine{00081\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec3\ direction;}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec3\ ambient;}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec3\ diffuse;}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec3\ specular;}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ light\_space\_mat;}
+\DoxyCodeLine{00087\ \};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_directional_light}{DirectionalLight}}}
+\DoxyCodeLine{00090\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{bool}\ cast\_shadow\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{float}\ orthographic\_size\ =\ 20.0f;}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ glm::vec3\ position\ \ \ \ =\ glm::vec3(30.0f,\ 30.0f,\ 30.0f);}
+\DoxyCodeLine{00095\ \ \ \ \ glm::vec3\ direction\ \ \ =\ glm::vec3(-\/0.2f,\ -\/1.0f,\ -\/0.3f);}
+\DoxyCodeLine{00096\ \ \ \ \ glm::vec3\ ambient\ \ \ \ \ =\ glm::vec3(0.2f);}
+\DoxyCodeLine{00097\ \ \ \ \ glm::vec3\ diffuse\ \ \ \ \ =\ glm::vec3(0.5f);}
+\DoxyCodeLine{00098\ \ \ \ \ glm::vec3\ specular\ \ \ \ =\ glm::vec3(1.0f);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ glm::mat4\ get\_view\_matrix()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00101\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ glm::vec3\ dir\ =\ glm::normalize(direction);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ glm::lookAt(position,\ position\ +\ dir,\ glm::vec3(0.0f,\ 1.0f,\ 0.0f));}
+\DoxyCodeLine{00104\ \ \ \ \ \}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ glm::mat4\ get\_projection\_matrix(\textcolor{keywordtype}{float}\ orthoSize\ =\ 100.0f,\ \textcolor{keywordtype}{float}\ nearPlane\ =\ 0.1f,\ \textcolor{keywordtype}{float}\ farPlane\ =\ 100.0f)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00107\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ glm::ortho(-\/orthographic\_size,\ orthographic\_size,\ -\/orthographic\_size,\ orthographic\_size,\ nearPlane,\ farPlane);}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ glm::mat4\ get\_light\_space\_matrix()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00112\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ get\_projection\_matrix()\ *\ get\_view\_matrix();}
+\DoxyCodeLine{00114\ \ \ \ \ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \mbox{\hyperlink{struct_light_data}{LightData}}\ to\_light\_data()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00117\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_light_data}{LightData}}\ data\{\};}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ data.direction\ =\ direction;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ data.ambient\ \ \ =\ ambient;}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ data.diffuse\ \ \ =\ diffuse;}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ data.specular\ \ =\ specular;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ data.light\_space\_mat\ =\ get\_light\_space\_matrix();}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data;}
+\DoxyCodeLine{00125\ \ \ \ \ \}}
+\DoxyCodeLine{00126\ \};}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_fog_data}{FogData}}}
+\DoxyCodeLine{00129\ \{}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec3\ fogColor;\ \ \textcolor{comment}{//\ 12\ bytes\ +\ 4\ bytes\ padding}}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \ \textcolor{keywordtype}{float}\ fogStart;\ \ \ \ \ \ \textcolor{comment}{//\ 4\ bytes}}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \ \textcolor{keywordtype}{float}\ fogEnd;\ \ \ \ \ \ \ \ \textcolor{comment}{//\ 4\ bytes}}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \ \textcolor{keywordtype}{float}\ fogDensity;\ \ \ \ \textcolor{comment}{//\ 4\ bytes}}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \ \textcolor{keywordtype}{float}\ pad;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ extra\ padding\ to\ make\ total\ size\ multiple\ of\ 16\ bytes}}
+\DoxyCodeLine{00135\ \};}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

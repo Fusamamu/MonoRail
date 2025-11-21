@@ -1,0 +1,38 @@
+\doxysection{Ray.\+h}
+\hypertarget{_ray_8h_source}{}\label{_ray_8h_source}\index{src/Ray.h@{src/Ray.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ RAYCAST\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ RAYCAST\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_a_a_b_b}{AABB}};}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_ray}{Ray}}}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ glm::vec3\ origin;}
+\DoxyCodeLine{00011\ \ \ \ \ glm::vec3\ dir;\ \textcolor{comment}{//\ Should\ be\ normalized}}
+\DoxyCodeLine{00012\ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ Returns\ true\ if\ ray\ intersects\ AABB;\ fills\ t\_min\ and\ t\_max\ with\ intersection\ distances.}}
+\DoxyCodeLine{00015\ \textcolor{keywordtype}{bool}\ ray\_intersects\_aabb(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_ray}{Ray}}\&\ ray,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_a_a_b_b}{AABB}}\&\ box,\ \textcolor{keywordtype}{float}\&\ t\_min,\ \textcolor{keywordtype}{float}\&\ t\_max);}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ Creates\ a\ world-\/space\ ray\ from\ camera\ position\ and\ screen\ coordinates.}}
+\DoxyCodeLine{00018\ \mbox{\hyperlink{struct_ray}{Ray}}\ create\_ray\_from\_camera(}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec3\&\ cam\_pos,}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{const}\ glm::mat4\&\ view,}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{const}\ glm::mat4\&\ proj,}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec2\&\ screen\_pos,}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{const}\ glm::vec2\&\ screen\_size}
+\DoxyCodeLine{00024\ );}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ entt::entity\ ray\_cast\_select\_entity(}
+\DoxyCodeLine{00027\ \ \ \ \ entt::registry\&\ registry,}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_ray}{Ray}}\&\ ray,}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{float}\&\ out\_distance}
+\DoxyCodeLine{00030\ );}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ RAYCAST\_H}}
+
+\end{DoxyCode}

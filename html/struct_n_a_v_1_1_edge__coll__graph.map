@@ -1,0 +1,5 @@
+<map id="NAV::Edge" name="NAV::Edge">
+<area shape="rect" id="Node000001" title=" " alt="" coords="22,122,107,148"/>
+<area shape="rect" id="Node000002" href="$struct_n_a_v_1_1_track_node.html" title=" " alt="" coords="5,5,124,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="67,45,67,122,62,121,62,48"/>
+</map>

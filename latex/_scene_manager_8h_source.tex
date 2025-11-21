@@ -1,0 +1,36 @@
+\doxysection{Scene\+Manager.\+h}
+\hypertarget{_scene_manager_8h_source}{}\label{_scene_manager_8h_source}\index{src/Scene/SceneManager.h@{src/Scene/SceneManager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SCENEMANAGER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SCENEMANAGER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }MUG}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_m_u_g_1_1_engine}{Engine}};}
+\DoxyCodeLine{00011\ \}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_scene}{Scene}};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }SceneManager\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ SceneManager()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00018\ \ \ \ \ \string~SceneManager()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_scene}{Scene}}*\ get\_current\_scene();}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{class_scene}{Scene}}*\ create\_scene(\textcolor{keyword}{const}\ std::string\&\ name,\ \mbox{\hyperlink{class_m_u_g_1_1_engine}{MUG::Engine}}*\ \_engine);}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ switch\_scene(\textcolor{keyword}{const}\ std::string\&\ name);}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ update\_current\_scene(\textcolor{keywordtype}{float}\ delta\_time);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00026\ \ \ \ \ std::unordered\_map<std::string,\ std::unique\_ptr<Scene>>\ scenes;}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{class_scene}{Scene}}*\ current\_scene\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00028\ \};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

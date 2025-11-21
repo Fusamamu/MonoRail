@@ -1,0 +1,56 @@
+\doxysection{Scene Class Reference}
+\hypertarget{class_scene}{}\label{class_scene}\index{Scene@{Scene}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_scene_a7dee61337b31d77773791881780bd759}\label{class_scene_a7dee61337b31d77773791881780bd759} 
+{\bfseries Scene} (const std\+::string \&\+\_\+name, \mbox{\hyperlink{class_m_u_g_1_1_engine}{MUG\+::\+Engine}} \texorpdfstring{$\ast$}{*}\+\_\+engine)
+\item 
+\Hypertarget{class_scene_a7e63c0fe49408be4cff40dabc51c9bdb}\label{class_scene_a7e63c0fe49408be4cff40dabc51c9bdb} 
+entt\+::registry \& {\bfseries get\+\_\+registry} ()
+\item 
+\Hypertarget{class_scene_aab0c0116e4ed06bf0e2d6db2412e2beb}\label{class_scene_aab0c0116e4ed06bf0e2d6db2412e2beb} 
+void {\bfseries on\+\_\+enter} ()
+\item 
+\Hypertarget{class_scene_af577cdd54722dca1decf3eb546cd82a9}\label{class_scene_af577cdd54722dca1decf3eb546cd82a9} 
+void {\bfseries on\+\_\+exit} ()
+\item 
+\Hypertarget{class_scene_a5bd4fc71c37fe3b8789e155cca625d8d}\label{class_scene_a5bd4fc71c37fe3b8789e155cca625d8d} 
+void {\bfseries on\+\_\+update} (float delta\+\_\+time)
+\item 
+\Hypertarget{class_scene_ae665841b2539dea8266a4e36e1ec39a0}\label{class_scene_ae665841b2539dea8266a4e36e1ec39a0} 
+void {\bfseries on\+\_\+render} (float \+\_\+dt)
+\item 
+\Hypertarget{class_scene_ac8dce0cb4efe11f82ec3b486500aae7d}\label{class_scene_ac8dce0cb4efe11f82ec3b486500aae7d} 
+void {\bfseries on\+\_\+render\+\_\+gui} (float \+\_\+dt)
+\item 
+\Hypertarget{class_scene_ab9c56b788d3e6d3e57012f6b8b6ce8e7}\label{class_scene_ab9c56b788d3e6d3e57012f6b8b6ce8e7} 
+entt\+::entity {\bfseries create\+\_\+object} (const std\+::string \&\+\_\+name, const std\+::string \&\+\_\+mesh\+\_\+name, glm\+::vec3 \+\_\+position, const \mbox{\hyperlink{struct_material}{Material}} \&\+\_\+material)
+\item 
+\Hypertarget{class_scene_a7039a97dc2c128d2fd135bfcf9f31df6}\label{class_scene_a7039a97dc2c128d2fd135bfcf9f31df6} 
+void {\bfseries create\+\_\+tile\+\_\+grid} ()
+\item 
+\Hypertarget{class_scene_a479866f2e5932b5d4faf4f1914ccaf84}\label{class_scene_a479866f2e5932b5d4faf4f1914ccaf84} 
+void {\bfseries prototype\+\_\+corners} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_scene_ad90e8aed2f5cfd2772e0594b52ad7f6f}\label{class_scene_ad90e8aed2f5cfd2772e0594b52ad7f6f} 
+SDL\+\_\+\+Window \texorpdfstring{$\ast$}{*} {\bfseries p\+\_\+window}
+\item 
+\Hypertarget{class_scene_a44b2d6bffa153dda02f026f8533ceb08}\label{class_scene_a44b2d6bffa153dda02f026f8533ceb08} 
+std\+::string {\bfseries name}
+\item 
+\Hypertarget{class_scene_aea4401711bbe00e06b0e1a685c6032b1}\label{class_scene_aea4401711bbe00e06b0e1a685c6032b1} 
+std\+::function$<$ void()$>$ {\bfseries on\+\_\+enter\+\_\+callback}
+\item 
+\Hypertarget{class_scene_a91dac38c21876ae82c9ae2a55888ef3b}\label{class_scene_a91dac38c21876ae82c9ae2a55888ef3b} 
+std\+::function$<$ void()$>$ {\bfseries on\+\_\+exit\+\_\+callback}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Scene/Scene.\+h\item 
+src/\+Scene/Scene.\+cpp\end{DoxyCompactItemize}

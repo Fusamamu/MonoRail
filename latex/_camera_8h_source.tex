@@ -1,0 +1,66 @@
+\doxysection{Camera.\+h}
+\hypertarget{_camera_8h_source}{}\label{_camera_8h_source}\index{src/Components/Camera.h@{src/Components/Camera.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CAMERA\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CAMERA\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Ray.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }Component}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_component_1_1_camera_data}{CameraData}}}
+\DoxyCodeLine{00009\ \ \ \ \ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ glm::mat4\ projection;}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ glm::mat4\ view;}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec3\ viewPos;}
+\DoxyCodeLine{00013\ \ \ \ \ \};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{class\ }Camera}
+\DoxyCodeLine{00016\ \ \ \ \ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ glm::vec3\ position\ \{0.0f,\ \ 0.0f,\ \ 3.0f\};}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ glm::vec3\ target\ \ \ \{0.0f,\ \ 0.0f,\ \ 0.0f\};}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ glm::vec3\ front\ \ \ \ \{0.0f,\ \ 0.0f,\ -\/1.0f\};}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ glm::vec3\ up\ \ \ \ \ \ \ \{0.0f,\ \ 1.0f,\ \ 0.0f\};}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ glm::vec3\ right\ \ \ \ \{1.0f,\ \ 0.0f,\ \ 0.0f\};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ fov\ \ \ \ \ \ \ \ \ \ \ \ =\ 35.0f\ \ \ \ ;}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ aspect\ \ \ \ \ \ \ \ \ =\ 4.0f/3.0f;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ near\_plane\ \ \ \ \ =\ 0.1f\ \ \ \ \ ;}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ far\_plane\ \ \ \ \ \ =\ 100.0f\ \ \ ;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ yaw\ \ \ \ \ \ \ \ \ \ \ \ =\ -\/90.0f\ \ \ ;}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ pitch\ \ \ \ \ \ \ \ \ \ =\ 0.0f\ \ \ \ \ ;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ focus\_distance\ =\ 10.0f\ \ \ \ ;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ focus\_range\ \ \ \ =\ 5.0f\ \ \ \ \ ;}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ Camera();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ glm::mat4\ \ get\_view\_matrix\ \ \ \ \ \ ()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ glm::mat4\ \ get\_projection\_matrix()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_component_1_1_camera_data}{CameraData}}\ get\_camera\_data\ \ \ \ \ \ ()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ move\_forward\ \ \ \ \ (\textcolor{keywordtype}{float}\ \_distance);}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ move\_backward\ \ \ \ (\textcolor{keywordtype}{float}\ \_distance);}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ move\_right\ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ \_distance);}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ move\_left\ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ \_distance);}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ move\_up\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ \_distance);}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ move\_down\ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ \_distance);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ camera\_move\_left\ (\textcolor{keywordtype}{float}\ \_distance);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ camera\_move\_right(\textcolor{keywordtype}{float}\ \_distance);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ camera\_move\_up\ \ \ (\textcolor{keywordtype}{float}\ \_distance);}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ camera\_move\_down\ (\textcolor{keywordtype}{float}\ \_distance);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ rotate(\textcolor{keywordtype}{float}\ \_yaw\_offset,\ \textcolor{keywordtype}{float}\ \_pitch\_offset);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update\_vectors\ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update\_angles\_from\_vectors();}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_ray}{Ray}}\ screen\_point\_to\_ray(\textcolor{keyword}{const}\ glm::vec2\&\ \_screen\_pos,\ \textcolor{keyword}{const}\ glm::vec2\&\ \_screen\_size)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00057\ \ \ \ \ \};}
+\DoxyCodeLine{00058\ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CAMERA\_H}}
+
+\end{DoxyCode}

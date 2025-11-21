@@ -1,0 +1,48 @@
+\doxysection{Perlin\+Noise.\+h}
+\hypertarget{_perlin_noise_8h_source}{}\label{_perlin_noise_8h_source}\index{src/Procedural/PerlinNoise.h@{src/Procedural/PerlinNoise.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PERLINNOISE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PERLINNOISE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{namespace\ }Procgen}
+\DoxyCodeLine{00005\ \{}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keyword}{class\ }PerlinNoise\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ PerlinNoise(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ seed\ =\ 2025);}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ noise(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ GLuint\ generate\_perlin\_texture(\textcolor{keywordtype}{int}\ \_width,\ \textcolor{keywordtype}{int}\ \_height,\ \textcolor{keywordtype}{float}\ \_scale,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \_seed);}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ std::vector<float>\ generate\_perlin\_data(\textcolor{keywordtype}{int}\ \_width,\ \textcolor{keywordtype}{int}\ \_height,\ \textcolor{keywordtype}{float}\ \_scale,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \_seed)}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<float>\ data(\_width\ *\ \_height);}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ y\ =\ 0;\ y\ <\ \_height;\ ++y)}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x\ <\ \_width;\ ++x)}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ fx\ =\ (float)x\ /\ \_width\ \ *\ \_scale;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ fy\ =\ (float)y\ /\ \_height\ *\ \_scale;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ n\ =\ noise(fx,\ fy);}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data[y\ *\ \_width\ +\ x]\ =\ n;}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ std::vector<int>\ p;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ fade(\textcolor{keywordtype}{float}\ t);}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ lerp(\textcolor{keywordtype}{float}\ t,\ \textcolor{keywordtype}{float}\ a,\ \textcolor{keywordtype}{float}\ b);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ grad(\textcolor{keywordtype}{int}\ hash,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \};}
+\DoxyCodeLine{00040\ \}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//PERLINNOISE\_H}}
+
+\end{DoxyCode}

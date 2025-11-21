@@ -1,0 +1,74 @@
+\doxysection{Mesh.\+h}
+\hypertarget{_mesh_8h_source}{}\label{_mesh_8h_source}\index{src/Core/Mesh.h@{src/Core/Mesh.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MESH\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MESH\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Vertex.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }MUG}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_m_u_g_1_1_sub_mesh}{SubMesh}};}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_m_u_g_1_1_mesh_raw_data}{MeshRawData}}}
+\DoxyCodeLine{00011\ \ \ \ \ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ std::vector<Vertex\_PNT>\ vertex\_buffer;}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ std::vector<uint32\_t>\ \ \ index\_buffer;}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ std::vector<SubMesh>\ \ \ \ sub\_meshes;}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ operator<<(std::ostream\&\ \_os,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_m_u_g_1_1_mesh_raw_data}{MeshRawData}}\&\ \_data);}
+\DoxyCodeLine{00017\ \ \ \ \ \};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_m_u_g_1_1_mesh}{Mesh}}}
+\DoxyCodeLine{00020\ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ std::vector<uint8\_t\ >\ vertex\_buffer;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ std::vector<uint32\_t>\ index\_buffer;}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ std::vector<SubMesh\ >\ sub\_meshes;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vertex_layout}{VertexLayout}}\ layout;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ get\_vertex\_buffer\_size()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ vertex\_buffer.size();\ \}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ get\_index\_buffer\_size\ ()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ index\_buffer\ .size()\ *\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{unsigned}\ int);\ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ push\_float(\textcolor{keywordtype}{float}\ v);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ operator<<(std::ostream\&\ \_os,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_m_u_g_1_1_mesh}{Mesh}}\&\ \_mesh);}
+\DoxyCodeLine{00033\ \ \ \ \ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_m_u_g_1_1_sub_mesh}{SubMesh}}}
+\DoxyCodeLine{00036\ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ material\_index;}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ uint32\_t\ index\_offset;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ uint32\_t\ index\_count;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ operator<<(std::ostream\&\ \_os,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_m_u_g_1_1_sub_mesh}{SubMesh}}\&\ \_sub\_mesh);}
+\DoxyCodeLine{00042\ \ \ \ \ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_m_u_g_1_1_bone_info}{BoneInfo}}}
+\DoxyCodeLine{00045\ \ \ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ id;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ glm::mat4\ offset\_matrix;\ \ \ \ \ \ \ \textcolor{comment}{//\ Bone\ to\ model\ space}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ glm::mat4\ finalTransformation;\ \textcolor{comment}{//\ Final\ matrix\ passed\ to\ the\ shader}}
+\DoxyCodeLine{00049\ \ \ \ \ \};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_m_u_g_1_1_skeleton_mesh}{SkeletonMesh}}}
+\DoxyCodeLine{00052\ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ std::vector<Vertex\_Bone>\ vertices;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ std::vector<uint32\_t>\ \ \ \ indices;}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ bone\_count\ =\ 0;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ std::map<std::string,\ BoneInfo>\ bone\_mapping;}
+\DoxyCodeLine{00058\ \ \ \ \ \};}
+\DoxyCodeLine{00059\ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{namespace\ }MUG::Geometry::Util}
+\DoxyCodeLine{00062\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ Mesh\ convert\_to\_mesh(\textcolor{keyword}{const}\ MeshRawData\&\ \_mesh\_raw\_data);}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ rotate\_mesh(MeshRawData\&\ mesh,\ \textcolor{keyword}{const}\ glm::vec3\&\ axis,\ \textcolor{keywordtype}{float}\ angleDegrees);}
+\DoxyCodeLine{00065\ \ \ \ \ MeshRawData\ get\_rotated\_mesh(\textcolor{keyword}{const}\ MeshRawData\&\ \_mesh\_raw\_data,\ \textcolor{keyword}{const}\ glm::vec3\&\ \_axis,\ \textcolor{keywordtype}{float}\ \_angle\_degree);}
+\DoxyCodeLine{00066\ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

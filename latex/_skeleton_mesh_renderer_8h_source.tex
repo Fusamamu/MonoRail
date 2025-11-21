@@ -1,0 +1,30 @@
+\doxysection{Skeleton\+Mesh\+Renderer.\+h}
+\hypertarget{_skeleton_mesh_renderer_8h_source}{}\label{_skeleton_mesh_renderer_8h_source}\index{src/Renderer/SkeletonMeshRenderer.h@{src/Renderer/SkeletonMeshRenderer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SKELETONMESHRENDERER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SKELETONMESHRENDERER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{namespace\ }MUG}
+\DoxyCodeLine{00005\ \{}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{struct_m_u_g_1_1_skeleton_mesh}{SkeletonMesh}};}
+\DoxyCodeLine{00007\ \}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }SkeletonMeshRenderer}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00012\ \ \ \ \ SkeletonMeshRenderer();}
+\DoxyCodeLine{00013\ \ \ \ \ \string~SkeletonMeshRenderer();}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ load\_mesh\ \ \ \ \ \ (\mbox{\hyperlink{struct_m_u_g_1_1_skeleton_mesh}{MUG::SkeletonMesh}}*\ \_mesh);}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_buffer\_data(\mbox{\hyperlink{struct_m_u_g_1_1_skeleton_mesh}{MUG::SkeletonMesh}}*\ \_mesh);}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ m\_vbo,\ m\_vao,\ m\_ebo;}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{struct_m_u_g_1_1_skeleton_mesh}{MUG::SkeletonMesh}}*\ m\_skeleton\_mesh;}
+\DoxyCodeLine{00022\ \};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

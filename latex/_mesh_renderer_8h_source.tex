@@ -1,0 +1,47 @@
+\doxysection{Mesh\+Renderer.\+h}
+\hypertarget{_mesh_renderer_8h_source}{}\label{_mesh_renderer_8h_source}\index{src/Renderer/MeshRenderer.h@{src/Renderer/MeshRenderer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MESH\_RENDERER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MESH\_RENDERER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }MUG}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_m_u_g_1_1_mesh}{Mesh}};}
+\DoxyCodeLine{00009\ \}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_instance_data}{InstanceData}}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ glm::mat4\ model;}
+\DoxyCodeLine{00014\ \ \ \ \ glm::vec4\ color;}
+\DoxyCodeLine{00015\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }MeshRenderer}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \ \ MeshRenderer()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00021\ \ \ \ \ \string~MeshRenderer();}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ load\_mesh\ \ \ \ \ \ (\mbox{\hyperlink{struct_m_u_g_1_1_mesh}{MUG::Mesh}}*\ \_mesh);}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_buffer\_data(\mbox{\hyperlink{struct_m_u_g_1_1_mesh}{MUG::Mesh}}*\ \_mesh);}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_instance\_data\ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ std::vector<InstanceData>\&\ \_data);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ update\_instance\_color\ \ \ \ \ \ (std::vector<InstanceData>\&\ \_data,\ \textcolor{keywordtype}{size\_t}\ \_index,\ \textcolor{keyword}{const}\ glm::vec4\&\ \_color);}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ update\_all\_instance\_colors(\ std::vector<InstanceData>\&\ \_data,\ \textcolor{keyword}{const}\ glm::vec4\&\ color);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\ \ \ \ \ ()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_mesh()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{bool}\ use\_instancing\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00034\ \ \ \ \ GLsizei\ instance\_count\ =\ 1000;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00037\ \ \ \ \ GLuint\ m\_vbo,\ m\_vao,\ m\_ebo,\ m\_instance\_vbo;}
+\DoxyCodeLine{00038\ \ \ \ \ }
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{struct_m_u_g_1_1_mesh}{MUG::Mesh}}*\ m\_mesh;}
+\DoxyCodeLine{00040\ \};}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

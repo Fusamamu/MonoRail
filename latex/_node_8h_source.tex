@@ -1,0 +1,37 @@
+\doxysection{Node.\+h}
+\hypertarget{_node_8h_source}{}\label{_node_8h_source}\index{src/TileGrid/Node.h@{src/TileGrid/Node.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Sukum\ Duangpattra\ on\ 19/11/2025\ AD.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ NODE\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ NODE\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{struct\ }Node}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ std::string\ name;}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_active\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_dirty\ \ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_static\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ Node()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00018\ \ \ \ \ Node(\textcolor{keyword}{const}\ std::string\&\ name)\ :\ name(name)\ \{\}}
+\DoxyCodeLine{00019\ \};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{struct\ }Tile}
+\DoxyCodeLine{00022\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ uint32\_t\ idx,\ idy;}
+\DoxyCodeLine{00024\ \ \ \ \ Tile()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00025\ \ \ \ \ Tile(uint32\_t\ x,\ uint32\_t\ y)\ :\ idx(x),\ idy(y)\ \{\}}
+\DoxyCodeLine{00026\ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//NODE\_H}}
+
+\end{DoxyCode}

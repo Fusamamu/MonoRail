@@ -1,0 +1,56 @@
+\doxysection{Render\+Pipeline Class Reference}
+\hypertarget{class_render_pipeline}{}\label{class_render_pipeline}\index{RenderPipeline@{RenderPipeline}}
+
+
+Collaboration diagram for Render\+Pipeline\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{class_render_pipeline__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_render_pipeline_a5b843d9a84d8ef95be028f54017f961b}\label{class_render_pipeline_a5b843d9a84d8ef95be028f54017f961b} 
+void {\bfseries init} (const entt\+::registry \&\+\_\+registry)
+\item 
+\Hypertarget{class_render_pipeline_a582640147dad9d2a6651c1abe8edc52f}\label{class_render_pipeline_a582640147dad9d2a6651c1abe8edc52f} 
+void {\bfseries render} (const entt\+::registry \&\+\_\+registry)
+\item 
+\Hypertarget{class_render_pipeline_a08d77199c06394659467a3a74f03639b}\label{class_render_pipeline_a08d77199c06394659467a3a74f03639b} 
+void {\bfseries render\+\_\+raw} (const entt\+::registry \&\+\_\+registry)
+\item 
+\Hypertarget{class_render_pipeline_ae28f50b7fb88476fe12b9a52321fa828}\label{class_render_pipeline_ae28f50b7fb88476fe12b9a52321fa828} 
+void {\bfseries render\+\_\+default} (const entt\+::registry \&\+\_\+registry)
+\item 
+\Hypertarget{class_render_pipeline_a154d9e08b4a42fe8de6c4b23dfd2729e}\label{class_render_pipeline_a154d9e08b4a42fe8de6c4b23dfd2729e} 
+void {\bfseries update\+\_\+light\+\_\+ubo} (\mbox{\hyperlink{struct_directional_light}{Directional\+Light}} \&\+\_\+directional\+\_\+light)
+\item 
+\Hypertarget{class_render_pipeline_a36aabeb116183bc7a00248a088d34d98}\label{class_render_pipeline_a36aabeb116183bc7a00248a088d34d98} 
+void {\bfseries update\+\_\+line\+\_\+gizmos} (const std\+::vector$<$ glm\+::vec3 $>$ \&\+\_\+line\+\_\+gizmos)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_render_pipeline_a85c72cadc6f5b23b66226215198f6508}\label{class_render_pipeline_a85c72cadc6f5b23b66226215198f6508} 
+int {\bfseries voxel\+\_\+resolution} = 10
+\item 
+\Hypertarget{class_render_pipeline_a8d94a61096c0fa02a1f3508517041f72}\label{class_render_pipeline_a8d94a61096c0fa02a1f3508517041f72} 
+\mbox{\hyperlink{struct_texture3_d}{Texture3D}} {\bfseries voxel\+\_\+texture}
+\item 
+\Hypertarget{class_render_pipeline_a44b70a3d489d4e56cb2355b2cf3a9f80}\label{class_render_pipeline_a44b70a3d489d4e56cb2355b2cf3a9f80} 
+bool {\bfseries display\+\_\+depth} = false
+\item 
+\Hypertarget{class_render_pipeline_ad7ddadb643254e16922503fd8a93d2f7}\label{class_render_pipeline_ad7ddadb643254e16922503fd8a93d2f7} 
+bool {\bfseries display\+\_\+dof} = false
+\item 
+\Hypertarget{class_render_pipeline_aa4fb655966f0e7c85648519188fe8fda}\label{class_render_pipeline_aa4fb655966f0e7c85648519188fe8fda} 
+bool {\bfseries display\+\_\+shadow\+\_\+map} = false
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Renderer/Render\+Pipeline.\+h\item 
+src/\+Renderer/Render\+Pipeline.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,77 @@
+\doxysection{Render\+Pipeline.\+h}
+\hypertarget{_render_pipeline_8h_source}{}\label{_render_pipeline_8h_source}\index{src/Renderer/RenderPipeline.h@{src/Renderer/RenderPipeline.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ RENDERPIPELINE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ RENDERPIPELINE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}Renderer/MeshRenderer.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}Renderer/FrameBuffer.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}Renderer/SkeletonMeshRenderer.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}Renderer/GizmosRenderer.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}Asset/Texture.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}RenderQueue.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}Animation/Animation.h"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}UI/UI.h"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_directional_light}{DirectionalLight}};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }RenderPipeline}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{int}\ voxel\_resolution\ =\ 10;}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{struct_texture3_d}{Texture3D}}\ voxel\_texture;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{bool}\ display\_depth\ \ \ \ \ \ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{bool}\ display\_dof\ \ \ \ \ \ \ \ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{bool}\ display\_shadow\_map\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ RenderPipeline();}
+\DoxyCodeLine{00030\ \ \ \ \ \string~RenderPipeline();}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ init\ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ entt::registry\&\ \_registry);}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ render\ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ entt::registry\&\ \_registry);}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ render\_raw\ \ \ \ (\textcolor{keyword}{const}\ entt::registry\&\ \_registry);}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ render\_default(\textcolor{keyword}{const}\ entt::registry\&\ \_registry);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ update\_light\_ubo(\mbox{\hyperlink{struct_directional_light}{DirectionalLight}}\&\ \_directional\_light);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ update\_line\_gizmos(\textcolor{keyword}{const}\ std::vector<glm::vec3>\&\ \_line\_gizmos)}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ m\_gizmos\_renderer.update\_line\_vertice(\_line\_gizmos);}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00044\ \ \ \ \ GLuint\ tex3D,\ fbo;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ GLuint\ m\_camera\_data\_ubo;}
+\DoxyCodeLine{00047\ \ \ \ \ GLuint\ m\_light\_data\_ubo\ ;}
+\DoxyCodeLine{00048\ \ \ \ \ GLuint\ m\_fog\_data\_ubo\ \ \ ;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{class_render_queue}{RenderQueue}}\ m\_render\_queue;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{class_frame_buffer}{FrameBuffer}}\ m\_framebuffer\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ;}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{class_frame_buffer}{FrameBuffer}}\ m\_depth\_framebuffer\ \ \ \ \ \ \ \ \ \ \ ;}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{class_frame_buffer}{FrameBuffer}}\ m\_depth\_shadow\_map\_framebuffer;}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{class_frame_buffer}{FrameBuffer}}\ m\_voxel\_ao\_framebuffer\ \ \ \ \ \ \ \ ;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{struct_m_u_g_1_1_mesh}{MUG::Mesh}}\ \ \ \ \ \ \ \ \ \ \ \ m\_screen\_mesh;}
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{class_mesh_renderer}{MeshRenderer}}\ \ \ \ \ \ \ \ \ m\_screen\_mesh\_renderer;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{struct_texture}{Texture}}\ \ \ m\_perlin\_noise\_texture;}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{struct_texture3_d}{Texture3D}}\ m\_voxel\_ambient\_texture\_3d;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{class_m_g_u_i_1_1_u_i_renderer}{MGUI::UIRenderer}}\ m\_ui\_renderer;}
+\DoxyCodeLine{00064\ \ \ \ \ \mbox{\hyperlink{class_gizmos_renderer}{GizmosRenderer}}\ \ \ m\_gizmos\_renderer;}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{class_animation}{Animation}}\ \ \ \ \ \ \ \ \ \ \ \ m\_animation;}
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{class_animator}{Animator}}\ \ \ \ \ \ \ \ \ \ \ \ \ m\_animator;}
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{class_skeleton_mesh_renderer}{SkeletonMeshRenderer}}\ m\_skeleton\_mesh\_renderer;}
+\DoxyCodeLine{00069\ \};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

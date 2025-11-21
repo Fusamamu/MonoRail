@@ -1,0 +1,74 @@
+\doxysection{Input\+System.\+h}
+\hypertarget{_input_system_8h_source}{}\label{_input_system_8h_source}\index{src/InputSystem.h@{src/InputSystem.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ INPUTSYSTEM\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ INPUTSYSTEM\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}UI/UI.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }InputSystem}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ \ \ InputSystem();}
+\DoxyCodeLine{00012\ \ \ \ \ \string~InputSystem();}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{void}\ update();}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Keyboard\ -\/-\/-\/}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_key\_down(SDL\_Scancode\ sc)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_key\_up\ \ (SDL\_Scancode\ sc)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_key\_held(SDL\_Scancode\ sc)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Mouse\ -\/-\/-\/}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{int}\ get\_mouse\_x()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{int}\ get\_mouse\_y()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ glm::vec2\ get\_mouse\_pos()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ get\_mouse\_wheel\_x()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{int}\ get\_mouse\_wheel\_y()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_mouse\_down\ \ \ \ \ \ \ (Uint8\ button)\ \textcolor{keyword}{const};\ \ \ \ \textcolor{comment}{//\ pressed\ this\ frame}}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_mouse\_up\ \ \ \ \ \ \ \ \ (Uint8\ button)\ \textcolor{keyword}{const};\ \ \ \ \textcolor{comment}{//\ released\ this\ frame}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_mouse\_button\_held(Uint8\ button)\ \textcolor{keyword}{const};\ \ \ \ \textcolor{comment}{//\ held}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{bool}\ left\_mouse\_pressed()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{bool}\ right\_mouse\_pressed()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{bool}\ left\_mouse\_held()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{bool}\ right\_mouse\_held()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Quit\ -\/-\/-\/}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{bool}\ get\_quit\_requested()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ glm::vec2\ get\_mouse\_delta()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ current\_mouse\_pos\ -\/\ previous\_mouse\_pos;\ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_quit;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ std::unordered\_map<SDL\_Scancode,\ bool>\ m\_key\_down;}
+\DoxyCodeLine{00049\ \ \ \ \ std::unordered\_map<SDL\_Scancode,\ bool>\ m\_key\_up;}
+\DoxyCodeLine{00050\ \ \ \ \ std::unordered\_map<SDL\_Scancode,\ bool>\ m\_key\_held;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ std::unordered\_map<Uint8,\ bool>\ m\_mouse\_down;}
+\DoxyCodeLine{00053\ \ \ \ \ std::unordered\_map<Uint8,\ bool>\ m\_mouse\_up;}
+\DoxyCodeLine{00054\ \ \ \ \ std::unordered\_map<Uint8,\ bool>\ m\_mouse\_held;}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ std::unordered\_map<Uint8,\ bool>\ m\_mouse\_buttons;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_mouse\_x\ =\ 0;}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_mouse\_y\ =\ 0;}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_mouse\_wheel\_x\ =\ 0;}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_mouse\_wheel\_y\ =\ 0;}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ glm::vec2\ current\_mouse\_pos\ \{0.0f,\ 0.0f\};}
+\DoxyCodeLine{00065\ \ \ \ \ glm::vec2\ previous\_mouse\_pos\{0.0f,\ 0.0f\};}
+\DoxyCodeLine{00066\ \};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -41,7 +41,8 @@ void RenderPipeline::init(const entt::registry& _registry)
     Shader* _screen_quad       = AssetManager::instance().get_shader("screen_quad"            );
 
     Shader* _ui_shader         = AssetManager::instance().get_shader("ui"                     );
-    Shader* _ui_texture        = AssetManager::instance().get_shader("ui_noise_texture"       );
+    Shader* _ui_texture        = AssetManager::instance().get_shader("ui_texture"             );
+    Shader* _ui_noise_tex      = AssetManager::instance().get_shader("ui_noise_texture"       );
     Shader* _ui_texture_3d     = AssetManager::instance().get_shader("ui_texture_3d"          );
     Shader* _voxel_ao          = AssetManager::instance().get_shader("voxel_ambient_occlusion");
 
@@ -109,10 +110,12 @@ void RenderPipeline::init(const entt::registry& _registry)
     _ui_shader    ->set_mat4_uniform_projection(_ortho_proj);
     _ui_texture   ->use();
     _ui_texture   ->set_mat4_uniform_projection(_ortho_proj);
+    _ui_noise_tex   ->use();
+    _ui_noise_tex   ->set_mat4_uniform_projection(_ortho_proj);
     _ui_texture_3d->use();
     _ui_texture_3d->set_mat4_uniform_projection(_ortho_proj);
     _voxel_ao     ->use();
-    _voxel_ao     ->set_mat4_uniform_projection(_ortho_proj);
+    //_voxel_ao     ->set_mat4_uniform_projection(_ortho_proj);
 
     _text_shader->use();
     _text_shader->set_mat4_uniform_projection(_ortho_proj);
@@ -120,7 +123,7 @@ void RenderPipeline::init(const entt::registry& _registry)
     m_framebuffer                  = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
     m_depth_framebuffer            = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
     m_depth_shadow_map_framebuffer = FrameBuffer(2 * g_app_config.SCREEN_WIDTH, 2 * g_app_config.SCREEN_HEIGHT, true);
-    m_voxel_ao_framebuffer         = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, false);
+    m_voxel_ao_framebuffer         = FrameBuffer(g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT, true);
 
     m_framebuffer.init();
     m_framebuffer.attach_color_texture();
@@ -134,6 +137,8 @@ void RenderPipeline::init(const entt::registry& _registry)
     m_depth_shadow_map_framebuffer.attach_depth_texture();
 
     m_voxel_ao_framebuffer.init();
+    m_voxel_ao_framebuffer.attach_color_texture();
+    m_voxel_ao_framebuffer.attach_depth_texture();
 
     Quad _quad;
     m_screen_mesh = _quad.screen_vertices_to_mesh();
@@ -207,35 +212,58 @@ void RenderPipeline::init(const entt::registry& _registry)
     voxel_texture.generate_texture(10, 10, 10);
     m_voxel_ambient_texture_3d.generate(voxel_resolution);
 
-    // int res = 64;
-    // glGenTextures(1, &tex3D);
-    // glBindTexture(GL_TEXTURE_3D, tex3D);
-    // glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, res, res, res, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-    // glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    // glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    //
-    // glGenFramebuffers(1, &fbo);
-    // glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-    // GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-    // glDrawBuffers(1, drawBuffers);
-    //
-    // glViewport(0, 0, res, res);
-    // glDisable(GL_DEPTH_TEST);
-    // glClearColor(0,0,0,1);
-    //
-    // for (int z = 0; z < res; ++z)
-    // {
-    //     glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, tex3D, 0, z);
-    //     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-    //         printf("Framebuffer incomplete at slice %d!\n", z);
-    //
-    //     glClear(GL_COLOR_BUFFER_BIT);
-    //     _voxel_ao->use();
-    //     _voxel_ao->set_uniform_int("u_slice", z);
-    //     glDrawArrays(GL_TRIANGLES, 0, 3);
-    // }
-    //
-    // glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glGenTextures(1, &tex3D);
+    glBindTexture(GL_TEXTURE_3D, tex3D);
+
+    int _resolution = voxel_resolution;
+
+    glTexImage3D(
+        GL_TEXTURE_3D,
+        0,
+        GL_RGBA8,      // 4-channel color
+        _resolution, _resolution, _resolution,
+        0,
+        GL_RGBA,       // upload format
+        GL_UNSIGNED_BYTE,
+        nullptr
+    );
+
+    // Filters & wrap
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    glGenFramebuffers(1, &fbo);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+    Shader* _voxel_ao_shader = AssetManager::instance().get_shader("voxel_ambient_occlusion");
+
+    for (int z = 0; z < _resolution; z++)
+    {
+        glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, tex3D, 0, z);
+
+        GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+        glDrawBuffers(1, drawBuffers);
+
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+            printf("FBO ERROR\n");
+
+        glViewport  (0, 0, _resolution, _resolution);
+        glClearColor(0, 0, 0, 1);
+        glDisable   (GL_DEPTH_TEST);
+        glDisable   (GL_CULL_FACE);
+        glClear     (GL_COLOR_BUFFER_BIT);
+
+        _voxel_ao_shader->use();
+        _voxel_ao_shader->set_float("u_slice_norm", float(z) / float(_resolution));
+
+        m_screen_mesh_renderer.draw();
+    }
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void RenderPipeline::render(const entt::registry& _registry)
@@ -339,45 +367,45 @@ void RenderPipeline::render(const entt::registry& _registry)
 #pragma endregion
 
 #pragma region render ao texture3d pass
-    glViewport(0, 0, voxel_resolution, voxel_resolution);
-
-    Shader* _voxel_ao_shader = AssetManager::instance().get_shader("voxel_ambient_occlusion");
-    _voxel_ao_shader->use();
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, voxel_texture.id);
 
-    _voxel_ao_shader->set_int  ("u_texture"         , 0);
-    _voxel_ao_shader->set_int  ("u_voxel_resolution", voxel_resolution);
-    _voxel_ao_shader->set_int  ("u_num_rays"        , 16);
-    _voxel_ao_shader->set_int  ("u_max_steps"       , 16);
-    _voxel_ao_shader->set_float("u_step_length"     , 1.0f);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
-    GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-    glDrawBuffers(1, drawBuffers);
+     for (int z = 0; z < voxel_resolution; ++z)
+     {
+         glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, tex3D, 0, z);
 
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_BLEND);
-    glClearColor(0, 0, 0, 1);
+         GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+         glDrawBuffers(1, drawBuffers);
 
-    for (int z = 0; z < voxel_resolution; ++z)
-    {
-        glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_voxel_ambient_texture_3d.id, 0, z);
-        GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-        if (status != GL_FRAMEBUFFER_COMPLETE)
-            printf("FBO incomplete at slice %d\n", z);
+         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+             printf("FBO ERROR\n");
 
-        _voxel_ao_shader->use();
-        _voxel_ao_shader->set_int("u_slice", z);
+         glViewport  (0, 0, voxel_resolution, voxel_resolution);
+         glClearColor(0, 0, 0, 1);
+         glDisable   (GL_DEPTH_TEST);
+         glDisable   (GL_CULL_FACE);
+         glClear     (GL_COLOR_BUFFER_BIT);
 
-        glClear(GL_COLOR_BUFFER_BIT);
-        m_screen_mesh_renderer.draw();
-    }
+         Shader* _voxel_ao_shader = AssetManager::instance().get_shader("voxel_ambient_occlusion");
+         _voxel_ao_shader->use();
+         _voxel_ao_shader->set_int  ("u_texture"         , 0);
+         _voxel_ao_shader->set_int  ("u_voxel_resolution", voxel_resolution);
+         _voxel_ao_shader->set_int  ("u_num_rays"        , 16);
+         _voxel_ao_shader->set_int  ("u_max_steps"       , 16);
+         _voxel_ao_shader->set_float("u_step_length"     , 1.0f);
+         _voxel_ao_shader->set_float("u_slice"          , (float)z);
+         _voxel_ao_shader->set_float("u_slice_norm", float(z) / float(voxel_resolution));
+
+         m_screen_mesh_renderer.draw();
+     }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, 0);
 
-    m_voxel_ao_framebuffer.unbind();
 #pragma endregion
 
 #pragma region render to framebuffer pass
@@ -391,43 +419,31 @@ void RenderPipeline::render(const entt::registry& _registry)
     glEnable    (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
-
-
-
     m_render_queue.execute();
 
+    //-----------Gizmos-----------------------//
+    auto _gizmos_view = _registry.view<Component::Transform, AABB, GizmosRenderer>();
+    for (auto _e : _gizmos_view)
+    {
+        auto& _transform      = _registry.get<Component::Transform>(_e);
+        auto& _aabb           = _registry.get<AABB>(_e);
+        auto& _gizmo_renderer = _registry.get<GizmosRenderer>(_e);
 
+        Shader* _aabb_shader = AssetManager::instance().get_shader("aabb");
+        _aabb_shader->use();
+        _aabb_shader->set_mat4_uniform_model(_transform.world_mat);
 
+        _gizmo_renderer.draw();
+    }
+    //---------------------------------------//
 
-
-
-
-
-
-        //-----------Gizmos-----------------------//
-        auto _gizmos_view = _registry.view<Component::Transform, AABB, GizmosRenderer>();
-        for (auto _e : _gizmos_view)
-        {
-            auto& _transform      = _registry.get<Component::Transform>(_e);
-            auto& _aabb           = _registry.get<AABB>(_e);
-            auto& _gizmo_renderer = _registry.get<GizmosRenderer>(_e);
-
-            Shader* _aabb_shader = AssetManager::instance().get_shader("aabb");
-            _aabb_shader->use();
-            _aabb_shader->set_mat4_uniform_model(_transform.world_mat);
-
-            _gizmo_renderer.draw();
-        }
-        //---------------------------------------//
-
-        //----------LINE------------------//
-        glDisable(GL_DEPTH_TEST);
-        Shader* _line_shader = AssetManager::instance().get_shader("line");
-        _line_shader->use();
-        m_gizmos_renderer.draw();
-        glEnable(GL_DEPTH_TEST);
-        //-------------------------------//
+    //----------LINE------------------//
+    glDisable(GL_DEPTH_TEST);
+    Shader* _line_shader = AssetManager::instance().get_shader("line");
+    _line_shader->use();
+    m_gizmos_renderer.draw();
+    glEnable(GL_DEPTH_TEST);
+    //-------------------------------//
 
     glDisable (GL_BLEND);
 
@@ -496,20 +512,27 @@ void RenderPipeline::render(const entt::registry& _registry)
         {20.0f, 240.0f},
         { 200.0f, 200.0f },
         voxel_texture.id,
-        0.15f,
+        slice/100.0f,
         _ui_texture_3d);
 
-    float _base = 440.0f;
-    float _y    = 180.0f;
-    for (int _i = 0; _i < 10; ++_i)
-    {
-        float _y_pos = _base + _i * _y;
-        MGUI::draw_texture_3d(
-            {20.0f, _y_pos},
-            { 150.0f, 150.0f },
-            m_voxel_ambient_texture_3d.id,
-            _i * 0.1f, _ui_texture_3d);
-    }
+    MGUI::draw_texture_3d(
+        {20.0f, 460.0f},
+        { 200.0f, 200.0f },
+        tex3D,
+        slice/100.0f,
+        _ui_texture_3d);
+
+    // float _base = 440.0f;
+    // float _y    = 180.0f;
+    // for (int _i = 0; _i < 10; ++_i)
+    // {
+    //     float _y_pos = _base + _i * _y;
+    //     MGUI::draw_texture_3d(
+    //         {20.0f, _y_pos},
+    //         { 150.0f, 150.0f },
+    //         m_voxel_ambient_texture_3d.id,
+    //         _i * 0.1f, _ui_texture_3d);
+    // }
 
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);

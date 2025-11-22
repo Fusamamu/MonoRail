@@ -125,6 +125,7 @@ namespace MGUI
     void draw_text(const std::string& text, Vec2 pos, Color color = {1,1,1,1});
 
     void draw_texture(Vec2 _position, Vec2 _size, GLuint _texture_id);
+    void draw_texture(Vec2 _position, Vec2 _size, GLuint _texture_id, Shader* _shader);
     void draw_texture_3d(Vec2 _position, Vec2 _size, GLuint _texture_id, float _slice, Shader* _shader);
 
     // Utility

@@ -426,6 +426,15 @@ void Scene::on_render_gui(float _dt)
         }
     }
 
+    static float vo_slice = 0.0f;
+
+    if (ImGui::DragFloat("vo slice", &m_render_pipeline.slice))
+    {
+        // Shader* _voxel_ao_shader = AssetManager::instance().get_shader("ui_texture_3d");
+        // _voxel_ao_shader->use();
+        // _voxel_ao_shader->set_int  ("u_slice", vo_slice);
+    }
+
 
     ImGui::End();
 

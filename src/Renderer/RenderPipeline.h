@@ -19,7 +19,7 @@ struct DirectionalLight;
 class RenderPipeline
 {
 public:
-    int voxel_resolution = 10;
+    int voxel_resolution = 128;
     Texture3D voxel_texture;
 
     bool display_depth      = false;
@@ -40,6 +40,7 @@ public:
     {
         m_gizmos_renderer.update_line_vertice(_line_gizmos);
     }
+    float slice = 0.0f;
 private:
     GLuint tex3D, fbo;
 

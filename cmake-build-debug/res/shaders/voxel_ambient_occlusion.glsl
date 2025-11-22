@@ -12,8 +12,8 @@ uniform mat4 model;
 
 void main()
 {
+    gl_Position = vec4(position.x, position.y, 0.0, 1.0);
     TexCoord    = texCoord;
-    gl_Position = proj * model * vec4(position, 1.0);
 }
 
 #shader fragment
@@ -23,8 +23,8 @@ layout(location = 0) out vec4 FragColor;
 in vec3 FragPos;
 in vec2 TexCoord;
 
-
 uniform float     u_slice;
+uniform float     u_slice_norm;
 uniform sampler3D u_texture;//voxel_texture!!
 
 uniform int       u_voxel_resolution;
@@ -34,11 +34,10 @@ uniform float     u_step_length;
 
 float hash(float _n)
 {
-    return fract(sin(_n) * 43748.5453132); 
+    return fract(sin(_n) * 43748.5453132);
 }
 
-// generate a random direction roughly upward hemisphere
-vec3 sampleDirection(float _seed) 
+vec3 sampleDirection(float _seed)
 {
     float phi = 6.2831853 * hash(_seed);
     float z   = hash(_seed * 3.13) * 2.0 - 1.0;
@@ -48,11 +47,66 @@ vec3 sampleDirection(float _seed)
 
 void main()
 {
+    vec3 texCoord = vec3(TexCoord.x, TexCoord.y, float(u_slice) / float(u_voxel_resolution));
+
+    float solid = texture(u_texture, texCoord).r;
+
+    if (solid > 0.5) {
+        FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        return;
+    }
+
+    // Voxel coordinate in voxel grid space
+    vec3 pos = texCoord * float(u_voxel_resolution);
+
+    float visible = 0.0;
+
+    for (int r = 0; r < u_num_rays; ++r) {
+
+        vec3 dir = normalize(sampleDirection(float(r) + pos.x + pos.y + pos.z));
+
+        // track if this ray is unobstructed
+        float ray_vis = 1.0;
+
+        vec3 p = pos;
+
+        for (int s = 0; s < u_max_steps; ++s)
+        {
+            p += dir * u_step_length;
+            vec3 tc = p / float(u_voxel_resolution);
+
+            // outside grid → open space
+            if (any(lessThan(tc, vec3(0.0))) || any(greaterThan(tc, vec3(1.0))))
+            {
+                break;
+            }
+
+            // sample solid voxels
+            float d = texture(u_texture, tc).r;
+
+            if (d > 0.5)
+            {
+                ray_vis = 0.0;
+                break;
+            }
+        }
+
+        visible += ray_vis;
+    }
+
+    float ao = visible / float(u_num_rays);
+
+    FragColor = vec4(ao, 0.0, 0.0, 1.0);
+}
+
+
+//void main()
+//{
 //    // 0..1 texture coordinate for current voxel in XY and slice in Z
-//    vec3 texCoord = vec3(TexCoord.x, float(u_slice) / float(u_voxel_resolution), TexCoord.y);
+//    vec3 texCoord = vec3(TexCoord.x, TexCoord.y, float(u_slice) / float(u_voxel_resolution));
 //
 //    // Skip if this voxel is empty
-//    float occ = texture(u_voxel_texture, texCoord).r;
+//    float occ = texture(u_texture, texCoord).r;
 //    if (occ < 0.5)
 //    {
 //        FragColor = vec4(1.0, 0.0, 0.0, 1.0); // fully open space (no AO)
@@ -81,10 +135,11 @@ void main()
 //                break;
 //
 //            // Sample voxel density
-//            float d = texture(u_voxel_texture, tc).r;
+//            float d = texture(u_texture, tc).r;
 //            if (d > 0.5)
 //            {
-//                vis = 0.0; break;
+//                vis = 0.0;
+//                break;
 //            } // hit solid voxel
 //        }
 //
@@ -93,7 +148,5 @@ void main()
 //
 //    float ao = visible / float(u_num_rays);
 //    FragColor = vec4(ao, 0.0, 0.0, 1.0); // AO stored in red
-
-    FragColor = vec4(1.0, 0.0, 0.0, 1.0); // AO stored in red
-}
+//}
 

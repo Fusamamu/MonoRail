@@ -20,6 +20,7 @@ void main()
 
 #shader fragment
 #version 330 core
+
 in vec2 vTexCoord;
 in vec4 vColor;
 
@@ -30,8 +31,13 @@ uniform sampler3D u_texture;
 
 void main()
 {
-    vec3 texCoord = vec3(vTexCoord.x, u_slice, vTexCoord.y);
+    //vec3 texCoord = vec3(vTexCoord.x, u_slice, vTexCoord.y);
+    vec3 texCoord = vec3(vTexCoord.x, vTexCoord.y, u_slice);
+
     float d = texture(u_texture, texCoord).r;
     FragColor = vec4(vec3(d), 1.0);
+
+    vec4 col = texture(u_texture, texCoord);
+    FragColor = col;
 }
 

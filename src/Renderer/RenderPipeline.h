@@ -34,6 +34,8 @@ public:
     void render_raw    (const entt::registry& _registry);
     void render_default(const entt::registry& _registry);
 
+    void render_ao_map();
+
     void update_light_ubo(DirectionalLight& _directional_light);
 
     void update_line_gizmos(const std::vector<glm::vec3>& _line_gizmos)
@@ -42,7 +44,7 @@ public:
     }
     float slice = 0.0f;
 private:
-    GLuint tex3D, fbo;
+    GLuint m_voxel_ao_texture_3d, fbo;
 
     GLuint m_camera_data_ubo;
     GLuint m_light_data_ubo ;

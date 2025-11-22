@@ -41,6 +41,9 @@ void RenderQueue::execute()
 
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, _command.texture);
+
+            glActiveTexture(GL_TEXTURE2);
+            glBindTexture(GL_TEXTURE_3D, _command.ao_map);
         }
 
         _command.mesh_renderer->draw();
@@ -50,6 +53,9 @@ void RenderQueue::execute()
 
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, 0);
+
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_3D, 0);
     }
 }
 

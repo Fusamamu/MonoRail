@@ -172,6 +172,7 @@ void Scene::on_update(float delta_time)
 
                             std::vector<uint8_t> _voxel_space_data = _grid->get_voxel_data(m_registry);
                             m_render_pipeline.voxel_texture.populate(_voxel_space_data);
+                            m_render_pipeline.render_ao_map();
                         }
                     }
                     break;
@@ -433,6 +434,24 @@ void Scene::on_render_gui(float _dt)
         // Shader* _voxel_ao_shader = AssetManager::instance().get_shader("ui_texture_3d");
         // _voxel_ao_shader->use();
         // _voxel_ao_shader->set_int  ("u_slice", vo_slice);
+    }
+
+    static float _map_size;
+
+    if (ImGui::DragFloat("voxel max", &_map_size))
+    {
+        Shader* _tile = AssetManager::instance().get_shader("tile");
+        _tile->use();
+        _tile->set_vec3("u_voxelMax", glm::vec3(_map_size));
+    }
+
+    static float _min_size;
+
+    if (ImGui::DragFloat("min size", &_min_size))
+    {
+        Shader* _tile = AssetManager::instance().get_shader("tile");
+        _tile->use();
+        _tile->set_vec3("u_voxelMin", glm::vec3(_min_size));
     }
 
 

@@ -14,6 +14,7 @@ struct RenderCommand
 
     GLuint shader_map;
     GLuint texture;
+    GLuint ao_map;
 };
 
 #endif

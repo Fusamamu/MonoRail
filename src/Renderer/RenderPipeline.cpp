@@ -59,8 +59,11 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     _tile_shader->use();
     _tile_shader->set_int   ("u_shadow_map" , 0);
-    _tile_shader->set_vec3  ("u_color"      , glm::vec3(1.0f, 1.0f, 1.0f));
     _tile_shader->set_int   ("u_texture"    , 1);
+    _tile_shader->set_int   ("u_voxel_ao"   , 2);
+    _tile_shader->set_vec3  ("u_voxelMin"   , glm::vec3(0.0f));
+    _tile_shader->set_vec3  ("u_voxelMax"   , glm::vec3(10.0f, 10.0f, 10.0f));
+    _tile_shader->set_vec3  ("u_color"      , glm::vec3(1.0f, 1.0f, 1.0f));
     _tile_shader->set_float ("u_shininess"  , 100.0f);
 
     _planar_projection->use();
@@ -212,8 +215,8 @@ void RenderPipeline::init(const entt::registry& _registry)
     voxel_texture.generate_texture(10, 10, 10);
     m_voxel_ambient_texture_3d.generate(voxel_resolution);
 
-    glGenTextures(1, &tex3D);
-    glBindTexture(GL_TEXTURE_3D, tex3D);
+    glGenTextures(1, &m_voxel_ao_texture_3d);
+    glBindTexture(GL_TEXTURE_3D, m_voxel_ao_texture_3d);
 
     int _resolution = voxel_resolution;
 
@@ -243,7 +246,7 @@ void RenderPipeline::init(const entt::registry& _registry)
 
     for (int z = 0; z < _resolution; z++)
     {
-        glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, tex3D, 0, z);
+        glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_voxel_ao_texture_3d, 0, z);
 
         GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
         glDrawBuffers(1, drawBuffers);
@@ -281,6 +284,7 @@ void RenderPipeline::render(const entt::registry& _registry)
         _render_command.model_mat     = _transform.get_local_mat4();
         _render_command.shader_map    = m_depth_shadow_map_framebuffer.get_depth_texture();
         _render_command.texture       = m_perlin_noise_texture.texture_id;
+        _render_command.ao_map        = m_voxel_ao_texture_3d;
 
         m_render_queue.add(_render_command);
     }
@@ -364,48 +368,6 @@ void RenderPipeline::render(const entt::registry& _registry)
     }
 
     m_depth_framebuffer.unbind();
-#pragma endregion
-
-#pragma region render ao texture3d pass
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_3D, voxel_texture.id);
-
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-
-     for (int z = 0; z < voxel_resolution; ++z)
-     {
-         glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, tex3D, 0, z);
-
-         GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-         glDrawBuffers(1, drawBuffers);
-
-         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-             printf("FBO ERROR\n");
-
-         glViewport  (0, 0, voxel_resolution, voxel_resolution);
-         glClearColor(0, 0, 0, 1);
-         glDisable   (GL_DEPTH_TEST);
-         glDisable   (GL_CULL_FACE);
-         glClear     (GL_COLOR_BUFFER_BIT);
-
-         Shader* _voxel_ao_shader = AssetManager::instance().get_shader("voxel_ambient_occlusion");
-         _voxel_ao_shader->use();
-         _voxel_ao_shader->set_int  ("u_texture"         , 0);
-         _voxel_ao_shader->set_int  ("u_voxel_resolution", voxel_resolution);
-         _voxel_ao_shader->set_int  ("u_num_rays"        , 16);
-         _voxel_ao_shader->set_int  ("u_max_steps"       , 16);
-         _voxel_ao_shader->set_float("u_step_length"     , 1.0f);
-         _voxel_ao_shader->set_float("u_slice"          , (float)z);
-         _voxel_ao_shader->set_float("u_slice_norm", float(z) / float(voxel_resolution));
-
-         m_screen_mesh_renderer.draw();
-     }
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_3D, 0);
-
 #pragma endregion
 
 #pragma region render to framebuffer pass
@@ -518,7 +480,7 @@ void RenderPipeline::render(const entt::registry& _registry)
     MGUI::draw_texture_3d(
         {20.0f, 460.0f},
         { 200.0f, 200.0f },
-        tex3D,
+        m_voxel_ao_texture_3d,
         slice/100.0f,
         _ui_texture_3d);
 
@@ -539,6 +501,48 @@ void RenderPipeline::render(const entt::registry& _registry)
 
 #pragma endregion
 }
+
+void RenderPipeline::render_ao_map()
+{
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_3D, voxel_texture.id);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+    for (int z = 0; z < voxel_resolution; ++z)
+    {
+        glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_voxel_ao_texture_3d, 0, z);
+
+        GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+        glDrawBuffers(1, drawBuffers);
+
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+            printf("FBO ERROR\n");
+
+        glViewport  (0, 0, voxel_resolution, voxel_resolution);
+        glClearColor(0, 0, 0, 1);
+        glDisable   (GL_DEPTH_TEST);
+        glDisable   (GL_CULL_FACE);
+        glClear     (GL_COLOR_BUFFER_BIT);
+
+        Shader* _voxel_ao_shader = AssetManager::instance().get_shader("voxel_ambient_occlusion");
+        _voxel_ao_shader->use();
+        _voxel_ao_shader->set_int  ("u_texture"         , 0);
+        _voxel_ao_shader->set_int  ("u_voxel_resolution", voxel_resolution);
+        _voxel_ao_shader->set_int  ("u_num_rays"        , 16);
+        _voxel_ao_shader->set_int  ("u_max_steps"       , 16);
+        _voxel_ao_shader->set_float("u_step_length"     , 1.0f);
+        _voxel_ao_shader->set_float("u_slice"          , (float)z);
+        _voxel_ao_shader->set_float("u_slice_norm", float(z) / float(voxel_resolution));
+
+        m_screen_mesh_renderer.draw();
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_3D, 0);
+}
+
 
 void RenderPipeline::render_raw(const entt::registry& _registry)
 {

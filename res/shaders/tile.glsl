@@ -81,6 +81,12 @@ uniform int       u_levels;
 
 uniform sampler2D u_shadow_map;
 uniform sampler2D u_texture;
+uniform sampler3D u_voxel_ao;
+
+uniform vec3      u_voxelMin;    // world-space minimum corner of voxel grid
+uniform vec3      u_voxelMax;    // world-space maximum corner of voxel grid
+uniform int       u_voxelResolution; // size of 3D AO grid
+
 
 float calculate_shadow(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir)
 {
@@ -137,11 +143,8 @@ void main()
     vec3 color = mix(fogData.fogColor, _result, fogFactor);
     color = _result * u_color;
 
-
     vec2 _uv = FragPos.xz * 0.1f;
     _uv = fract(_uv);
-
-    //float _levels = 3.0f;
 
     float noiseValue = texture(u_texture, _uv).r;
     float level      = floor(noiseValue * float(u_levels));
@@ -149,6 +152,55 @@ void main()
     float mask = level / float(u_levels - 1); // back to 0-1 range
 
     float _color = mask * (1.0 - shadow);
+
+    //FragColor = vec4(vec3(_color), 1.0);
+
+
+    //vec3 voxelUV = (FragPos - u_voxelMin) / (u_voxelMax - u_voxelMin);
+
+
+//    vec3 voxelUV = vec3
+//    (
+//        (FragPos.z - u_voxelMin.z) / (u_voxelMax.z - u_voxelMin.z),
+//        (FragPos.y - u_voxelMin.y) / (u_voxelMax.y - u_voxelMin.y),
+//        (FragPos.x - u_voxelMin.x) / (u_voxelMax.x - u_voxelMin.x)
+//    );
+
+
+vec3 voxelUV = vec3
+(
+(FragPos.z - u_voxelMin.z) / (u_voxelMax.z - u_voxelMin.z),   // X stays the same?
+(FragPos.y - u_voxelMin.y) / (u_voxelMax.y - u_voxelMin.y),   // Y stays the same
+1.0 - ( (FragPos.x - u_voxelMin.x) / (u_voxelMax.x - u_voxelMin.x) ) // <-- flipped Z
+);
+
+float angle = radians(270);    // you can pass angle in degrees
+float c = cos(angle);
+float s = sin(angle);
+
+float x = voxelUV.x;
+float z = voxelUV.z;
+
+voxelUV.x =  c * x + s * z;
+voxelUV.y =  voxelUV.y;   // unchanged
+voxelUV.z = -s * x + c * z;
+
+
+
+
+
+
+
+
+voxelUV = clamp(voxelUV, 0.0, 1.0); // ensure inside grid
+
+
+    float ao = texture(u_voxel_ao, voxelUV).r; // AO stored in red channel
+
+        _color *= ao;
+
+
+    FragColor = vec4(vec3(ao), 1.0);
 
     FragColor = vec4(vec3(_color), 1.0);
 }

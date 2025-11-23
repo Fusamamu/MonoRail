@@ -5,6 +5,7 @@
 
 #include "Renderer/MeshRenderer.h"
 #include "Renderer/FrameBuffer.h"
+#include "Renderer/GBuffer.h"
 #include "Renderer/SkeletonMeshRenderer.h"
 #include "Renderer/GizmosRenderer.h"
 
@@ -16,9 +17,19 @@
 
 struct DirectionalLight;
 
+enum class DisplayRenderMode
+{
+    NONE           = 0,
+    DEPTH          = 1,
+    WORLD_POSITION = 2,
+    WORLD_NORMAL   = 3,
+};
+
 class RenderPipeline
 {
 public:
+    DisplayRenderMode display_render_mode = DisplayRenderMode::NONE;
+
     float slice = 0.0f;
     int voxel_resolution = 128;
     Texture3D voxel_texture;
@@ -54,6 +65,8 @@ private:
     FrameBuffer m_depth_framebuffer           ;
     FrameBuffer m_depth_shadow_map_framebuffer;
     FrameBuffer m_voxel_ao_framebuffer        ;
+
+    MUG::Renderer::GBuffer m_g_buffer;
 
     MUG::Mesh            m_screen_mesh;
     MeshRenderer         m_screen_mesh_renderer;

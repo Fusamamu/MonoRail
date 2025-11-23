@@ -262,6 +262,13 @@ void Scene::on_render_gui(float _dt)
     ImGui::Checkbox("Display shadow map", &m_render_pipeline.display_shadow_map);
     ImGui::Checkbox("Display DOF"       , &m_render_pipeline.display_dof);
 
+    const char* _display_modes[] = { "NONE", "DEPTH", "WORLD_POSITION", "WORLD_NORMAL" };
+    int current = static_cast<int>(m_render_pipeline.display_render_mode);
+    if (ImGui::Combo("Display mode", &current, _display_modes, IM_ARRAYSIZE(_display_modes)))
+    {
+        m_render_pipeline.display_render_mode = static_cast<DisplayRenderMode>(current);
+    }
+
     auto& _camera = m_registry.ctx().get<Component::Camera>();
 
     if (ImGui::DragFloat("near", &_camera.near_plane))

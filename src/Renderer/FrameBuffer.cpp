@@ -61,7 +61,8 @@ void FrameBuffer::attach_depth_texture()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void FrameBuffer::cleanup() {
+void FrameBuffer::cleanup()
+{
     if (m_color_texture) {
         glDeleteTextures(1, &m_color_texture);
         m_color_texture = 0;

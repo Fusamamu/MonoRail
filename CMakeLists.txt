@@ -69,7 +69,9 @@ add_executable(${PROJECT_NAME}
         ${PROCEDURAL_SRCS}
         ${IMGUI_BACKENDS}/imgui_impl_sdl2.cpp
         ${IMGUI_BACKENDS}/imgui_impl_opengl3.cpp
-        src/Utility/Utility.h)
+        src/Utility/Utility.h
+        src/Renderer/GBuffer.cpp
+        src/Renderer/GBuffer.h)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ./src/PCH.h)
 

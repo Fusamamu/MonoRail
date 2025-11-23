@@ -3,6 +3,6 @@
 -- Using the multi-header code from /Users/sukumduangpattra/Desktop/MonoRail/vendors/json/include/
 -- Found Assimp library: /Users/sukumduangpattra/Desktop/MonoRail/vendors/assimp/lib/libassimp.a
 -- CMAKE_BINARY_DIR = /Users/sukumduangpattra/Desktop/MonoRail/cmake-build-debug
--- Configuring done (0.0s)
+-- Configuring done (0.1s)
 -- Generating done (0.0s)
 -- Build files have been written to: /Users/sukumduangpattra/Desktop/MonoRail/cmake-build-debug

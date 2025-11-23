@@ -29,19 +29,14 @@ public:
 
     Scene(const std::string& _name, MUG::Engine* _engine) :
         name          (_name  ),
-        m_engine_owner(_engine)
-    {
-
-    }
+        m_engine_owner(_engine){ }
     Scene();
     ~Scene();
 
     std::function<void()> on_enter_callback;
     std::function<void()> on_exit_callback;
 
-    entt::registry& get_registry(){
-        return m_registry;
-    }
+    entt::registry& get_registry(){ return m_registry; }
 
     void on_enter();
     void on_exit();
@@ -51,7 +46,8 @@ public:
 
     entt::entity create_object(const std::string& _name, const std::string& _mesh_name, glm::vec3 _position, const Material& _material);
 
-    void create_tile_grid();
+    void create_boid      ();
+    void create_tile_grid ();
     void prototype_corners();
 private:
     entt::registry m_registry;

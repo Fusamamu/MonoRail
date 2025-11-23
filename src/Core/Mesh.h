@@ -63,6 +63,8 @@ namespace MUG::Geometry::Util
     Mesh convert_to_mesh(const MeshRawData& _mesh_raw_data);
     void rotate_mesh(MeshRawData& mesh, const glm::vec3& axis, float angleDegrees);
     MeshRawData get_rotated_mesh(const MeshRawData& _mesh_raw_data, const glm::vec3& _axis, float _angle_degree);
+    MeshRawData get_flipped_x_mesh(const MeshRawData& _src);
+    MeshRawData get_flipped_y_mesh(const MeshRawData& _src);
 }
 
 #endif

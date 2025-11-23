@@ -16,6 +16,7 @@
 #include "Navigation/AStar.h"
 #include "Navigation/Agent.h"
 #include "Navigation/Navigation.h"
+#include "Utility/Utility.h"
 
 Scene::Scene() = default;
 Scene::~Scene() = default;
@@ -31,36 +32,6 @@ void Scene::on_enter()
 
     auto _e_directional_light = m_registry.create();
     m_registry.emplace<DirectionalLight>(_e_directional_light);
-
-    //create boid
-    // for (int i = 0; i < 200; i++) {
-    //     auto _e = m_registry.create();
-    //
-    //     auto& _transform  = m_registry.emplace<Transform>(_e);
-    //     auto& _rigid_body = m_registry.emplace<RigidBody>(_e); // random unit direction
-    //     auto& _boid       = m_registry.emplace<Boid>     (_e);
-    //
-    //     _transform.position = glm::vec3(
-    //         randomFloat(-10.0f, 10.0f),
-    //         randomFloat(-10.0f, 10.0f),
-    //         randomFloat(-10.0f, 10.0f)
-    //     );
-    //
-    //     _rigid_body.velocity = glm::sphericalRand(1.0f); // radius = 1
-    //
-    //     _boid.id = i;
-    //
-    //     Mesh* _arrow_mesh = ResourceManager::instance().get_first_mesh("arrow");
-    //
-    //     auto& _material_comp = m_registry.emplace<Material>(_e);
-    //     _material_comp.shader_id   = "toon";
-    //     _material_comp.depth_test  = true;
-    //     _material_comp.depth_write = true;
-    //
-    //     auto& _mesh_renderer = m_registry.emplace<MeshRenderer>(_e);
-    //     _mesh_renderer.load_mesh      (_arrow_mesh);
-    //     _mesh_renderer.set_buffer_data(_arrow_mesh);
-    // }
 
     m_render_pipeline.init(m_registry);
 
@@ -85,14 +56,10 @@ void Scene::on_enter()
     if(on_enter_callback)
         on_enter_callback();
 
-    //prototype_corners();
-
     create_tile_grid();
 
-    // m_agent_system.init(m_registry, glm::vec2(0.0f));
-
     Material _phong_material;
-    _phong_material.shader_id    = "phong";
+    _phong_material.shader_id     = "phong";
     _phong_material.diffuse_color = glm::vec3(1.0f, 1.0f, 1.0f);
 
     m_train_entity = create_object("Train", "train", glm::vec3(0.0f, 0.5f, 0.0f), _phong_material);
@@ -184,7 +151,6 @@ void Scene::on_update(float delta_time)
                     break;
                 case TileGrid::EditMode::ADD_RAIL:
                     {
-
                         if (m_input_system.left_mouse_pressed())
                         {
                             Ray _ray = _camera.screen_point_to_ray(m_input_system.get_mouse_pos(), g_app_config.screen_size());
@@ -228,7 +194,6 @@ void Scene::on_update(float delta_time)
 
                         _grid->update_tile_animations(m_registry, 0.016f);
                     }
-
                     break;
             }
 
@@ -236,12 +201,11 @@ void Scene::on_update(float delta_time)
         }
     }
 
-
     if (m_input_system.is_key_down(SDL_SCANCODE_SPACE))
     {
         NAV::Agent& _train_agent = m_registry.get<NAV::Agent>(m_train_entity);
         _train_agent.current_path_index = 0;
-        _train_agent.following_path       = true;
+        _train_agent.following_path     = true;
     }
 
     auto _agent_view = m_registry.view<Component::Transform, NAV::Agent>();
@@ -251,8 +215,6 @@ void Scene::on_update(float delta_time)
         auto& _agent     = m_registry.get<NAV::Agent>    (_e);
         _agent.update(_transform, Core::Time::delta_f/1000.0f);
     }
-
-    //m_agent_system.update(m_registry);
 
     update_scene_graph();
 }
@@ -266,7 +228,7 @@ void Scene::on_render(float _dt)
 void Scene::on_render_gui(float _dt)
 {
     PROFILE_SCOPE("RenderGUI");
-    //ImGui
+
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
@@ -281,10 +243,7 @@ void Scene::on_render_gui(float _dt)
     {
         auto& _directional_light = m_registry.get<DirectionalLight>(_e);
 
-        if (ImGui::Checkbox("Cast shadows", &_directional_light.cast_shadow))
-        {
-
-        }
+        if (ImGui::Checkbox("Cast shadows", &_directional_light.cast_shadow)){}
 
         if (ImGui::DragFloat3("Light direction", &_directional_light.direction[0], 0.1f, -100.0f, 100.0f))
             m_render_pipeline.update_light_ubo(_directional_light);
@@ -360,25 +319,24 @@ void Scene::on_render_gui(float _dt)
     ImGui::Text("Mouse x: %.3f", static_cast<float>(MGUI::input.mouse_x));
     ImGui::Text("Mouse y: %.3f", static_cast<float>(MGUI::input.mouse_y));
 
-    static int level = 0;
-    if (ImGui::DragInt("Level", &level))
+    static int _level = 0;
+    if (ImGui::DragInt("Level", &_level))
     {
         Shader* _ui_noise_shader = AssetManager::instance().get_shader("ui_noise_texture");
         _ui_noise_shader->use();
-        _ui_noise_shader->set_int("u_levels", level);
+        _ui_noise_shader->set_int("u_levels", _level);
 
         Shader* _noise_shader = AssetManager::instance().get_shader("planar_projection");
         _noise_shader->use();
-        _noise_shader->set_int("u_levels", level);
+        _noise_shader->set_int("u_levels", _level);
 
         Shader* _tile_shader = AssetManager::instance().get_shader("tile");
         {
             _tile_shader->use();
-            _tile_shader->set_int("u_levels", level);
+            _tile_shader->set_int("u_levels", _level);
         }
     }
     static glm::vec3 _base_color;
-
 
     ImVec4 temp = ImVec4(_base_color.r, _base_color.g, _base_color.b, 1.0f);
     if (ImGui::ColorEdit3("Base color", (float*)&temp, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_InputRGB))
@@ -391,7 +349,6 @@ void Scene::on_render_gui(float _dt)
     }
 
     static glm::vec3 _effect_color;
-
     ImVec4 _effect_temp = ImVec4(_effect_color.r, _effect_color.g, _effect_color.b, 1.0f);
     if (ImGui::ColorEdit3("Effect color", (float*)&_effect_temp, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_InputRGB))
     {
@@ -403,20 +360,12 @@ void Scene::on_render_gui(float _dt)
     }
 
     static float noise_scale = 1.0f;
-
     if (ImGui::InputFloat("Noise scale", &noise_scale))
     {
         Shader* _noise_shader = AssetManager::instance().get_shader("planar_projection");
         _noise_shader->use();
         _noise_shader->set_float("u_scale", noise_scale);
     }
-
-    // if (ImGui::DragFloat3("Effect color", glm::value_ptr(_effect_color)))
-    // {
-    //     Shader* _ui_noise_shader = ResourceManager::instance().get_shader("ui_noise_texture");
-    //     _ui_noise_shader->use();
-    //     _ui_noise_shader->set_vec3("u_effect_color", _effect_color);
-    // }
 
     if (TileGrid::Grid3D* _grid = m_registry.ctx().find<TileGrid::Grid3D>())
     {
@@ -427,18 +376,10 @@ void Scene::on_render_gui(float _dt)
         }
     }
 
-    static float vo_slice = 0.0f;
-
-    if (ImGui::DragFloat("vo slice", &m_render_pipeline.slice))
-    {
-        // Shader* _voxel_ao_shader = AssetManager::instance().get_shader("ui_texture_3d");
-        // _voxel_ao_shader->use();
-        // _voxel_ao_shader->set_int  ("u_slice", vo_slice);
-    }
+    if (ImGui::DragFloat("vo slice", &m_render_pipeline.slice)){}
 
     static float _map_size;
-
-    if (ImGui::DragFloat("voxel max", &_map_size))
+    if (ImGui::DragFloat("max size", &_map_size))
     {
         Shader* _tile = AssetManager::instance().get_shader("tile");
         _tile->use();
@@ -446,7 +387,6 @@ void Scene::on_render_gui(float _dt)
     }
 
     static float _min_size;
-
     if (ImGui::DragFloat("min size", &_min_size))
     {
         Shader* _tile = AssetManager::instance().get_shader("tile");
@@ -454,11 +394,42 @@ void Scene::on_render_gui(float _dt)
         _tile->set_vec3("u_voxelMin", glm::vec3(_min_size));
     }
 
-
     ImGui::End();
-
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void Scene::create_boid()
+{
+    for (int _i = 0; _i < 200; _i++)
+    {
+        entt::entity _e = m_registry.create();
+
+        auto& _transform  = m_registry.emplace<Component::Transform>(_e);
+        auto& _rigid_body = m_registry.emplace<RigidBody>           (_e);
+        auto& _boid       = m_registry.emplace<Boid>                (_e);
+
+        _transform.position = glm::vec3(
+            Utility::randomFloat(-10.0f, 10.0f),
+            Utility::randomFloat(-10.0f, 10.0f),
+            Utility::randomFloat(-10.0f, 10.0f)
+        );
+
+        _rigid_body.velocity = glm::sphericalRand(1.0f);
+
+        _boid.id = _i;
+
+        MUG::Mesh* _arrow_mesh = AssetManager::instance().get_first_mesh("arrow");
+
+        auto& _material_comp = m_registry.emplace<Material>(_e);
+        _material_comp.shader_id   = "toon";
+        _material_comp.depth_test  = true;
+        _material_comp.depth_write = true;
+
+        auto& _mesh_renderer = m_registry.emplace<MeshRenderer>(_e);
+        _mesh_renderer.load_mesh      (_arrow_mesh);
+        _mesh_renderer.set_buffer_data(_arrow_mesh);
+    }
 }
 
 void Scene::create_tile_grid()

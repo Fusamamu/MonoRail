@@ -97,27 +97,66 @@ namespace MUG::Geometry::Util
         }
     }
 
-    MeshRawData get_rotated_mesh(const MeshRawData& src, const glm::vec3& axis, float angleDegrees)
+    MeshRawData get_rotated_mesh(const MeshRawData& _src, const glm::vec3& _axis, float _angle_degrees)
     {
-        MeshRawData dst;
+        MeshRawData _dst;
 
-        glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(angleDegrees), glm::normalize(axis));
+        glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(_angle_degrees), glm::normalize(_axis));
 
-        dst.vertex_buffer.reserve(src.vertex_buffer.size());
-        dst.index_buffer  = src.index_buffer;
-        dst.sub_meshes    = src.sub_meshes;
+        _dst.vertex_buffer.reserve(_src.vertex_buffer.size());
+        _dst.index_buffer  = _src.index_buffer;
+        _dst.sub_meshes    = _src.sub_meshes;
 
-        for (const auto& vertex : src.vertex_buffer)
+        for (const auto& vertex : _src.vertex_buffer)
         {
             Vertex_PNT v;
             v.position  = glm::vec3(rotation * glm::vec4(vertex.position, 1.0f));
             v.normal    = glm::vec3(rotation * glm::vec4(vertex.normal, 0.0f));
             v.texCoords = vertex.texCoords;
 
-            dst.vertex_buffer.push_back(v);
+            _dst.vertex_buffer.push_back(v);
         }
 
-        return dst;
+        return _dst;
     }
 
+    MeshRawData get_flipped_x_mesh(const MeshRawData& _src)
+    {
+        MeshRawData _dst;
+        _dst.index_buffer  = _src.index_buffer;
+        _dst.sub_meshes    = _src.sub_meshes;
+        _dst.vertex_buffer.reserve(_src.vertex_buffer.size());
+
+        for (const auto& vertex : _src.vertex_buffer)
+        {
+            Vertex_PNT v;
+            v.position  = glm::vec3(-vertex.position.x, vertex.position.y, vertex.position.z);
+            v.normal    = glm::vec3(-vertex.normal.x  , vertex.normal.y  , vertex.normal.z  );
+            v.texCoords = vertex.texCoords;
+
+            _dst.vertex_buffer.push_back(v);
+        }
+
+        return _dst;
+    }
+
+    MeshRawData get_flipped_y_mesh(const MeshRawData& _src)
+    {
+        MeshRawData _dst;
+        _dst.index_buffer  = _src.index_buffer;
+        _dst.sub_meshes    = _src.sub_meshes;
+        _dst.vertex_buffer.reserve(_src.vertex_buffer.size());
+
+        for (const auto& vertex : _src.vertex_buffer)
+        {
+            Vertex_PNT v;
+            v.position  = glm::vec3(vertex.position.x, -vertex.position.y, vertex.position.z);
+            v.normal    = glm::vec3(vertex.normal.x,   -vertex.normal.y,   vertex.normal.z);
+            v.texCoords = vertex.texCoords;
+
+            _dst.vertex_buffer.push_back(v);
+        }
+
+        return _dst;
+    }
 }

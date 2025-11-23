@@ -113,12 +113,11 @@ void RenderPipeline::init(const entt::registry& _registry)
     _ui_shader    ->set_mat4_uniform_projection(_ortho_proj);
     _ui_texture   ->use();
     _ui_texture   ->set_mat4_uniform_projection(_ortho_proj);
-    _ui_noise_tex   ->use();
-    _ui_noise_tex   ->set_mat4_uniform_projection(_ortho_proj);
+    _ui_noise_tex ->use();
+    _ui_noise_tex ->set_mat4_uniform_projection(_ortho_proj);
     _ui_texture_3d->use();
     _ui_texture_3d->set_mat4_uniform_projection(_ortho_proj);
     _voxel_ao     ->use();
-    //_voxel_ao     ->set_mat4_uniform_projection(_ortho_proj);
 
     _text_shader->use();
     _text_shader->set_mat4_uniform_projection(_ortho_proj);
@@ -178,25 +177,6 @@ void RenderPipeline::init(const entt::registry& _registry)
 
         glBindBufferBase(GL_UNIFORM_BUFFER, 1, m_light_data_ubo);
     }
-
-    //Fog
-    //Gen fog ubo
-    // glGenBuffers(1, &m_fog_data_ubo);
-    // glBindBuffer(GL_UNIFORM_BUFFER, m_fog_data_ubo);
-    // glBufferData(GL_UNIFORM_BUFFER, sizeof(FogData), nullptr, GL_STATIC_DRAW); // or nullptr if updating later
-    // glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-    // m_fog_data.fogColor   = glm::vec3(0.5f, 0.5f, 0.5f); // gray fog
-    // m_fog_data.fogStart   = -10.0f;
-    // m_fog_data.fogEnd     = -4.0f;
-    // m_fog_data.fogDensity = 3.0f;
-    // m_fog_data.pad        = 0.0f; // padding must be set
-    //
-    // glBindBuffer   (GL_UNIFORM_BUFFER, m_fog_data_ubo);
-    // glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(FogData), &m_fog_data);
-    // glBindBuffer   (GL_UNIFORM_BUFFER, 0);
-    //
-    // glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
 
     MUG::SkeletonMesh* _skeleton_mesh = AssetManager::instance().get_first_skeleton_mesh("test_idle_skeleton");
     m_skeleton_mesh_renderer.load_mesh      (_skeleton_mesh);
@@ -502,6 +482,27 @@ void RenderPipeline::render(const entt::registry& _registry)
 #pragma endregion
 }
 
+void RenderPipeline::generate_fog()
+{
+    glGenBuffers(1, &m_fog_data_ubo);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_fog_data_ubo);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(FogData), nullptr, GL_STATIC_DRAW); // or nullptr if updating later
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+    FogData _fog_data;
+    _fog_data.fogColor   = glm::vec3(0.5f, 0.5f, 0.5f); // gray fog
+    _fog_data.fogStart   = -10.0f;
+    _fog_data.fogEnd     = -4.0f;
+    _fog_data.fogDensity = 3.0f;
+    _fog_data.pad        = 0.0f; // padding must be set
+
+    glBindBuffer   (GL_UNIFORM_BUFFER, m_fog_data_ubo);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(FogData), &_fog_data);
+    glBindBuffer   (GL_UNIFORM_BUFFER, 0);
+
+    glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_fog_data_ubo);
+}
+
 void RenderPipeline::render_ao_map()
 {
     glActiveTexture(GL_TEXTURE0);
@@ -541,331 +542,6 @@ void RenderPipeline::render_ao_map()
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, 0);
-}
-
-
-void RenderPipeline::render_raw(const entt::registry& _registry)
-{
-    //m_animator.update_animation(0.016f);//!!!temp
-    // Shader* _grass_shader     = ResourceManager::instance().get_shader("instance"   );
-    // _grass_shader->use();
-    // _grass_shader->set_float("u_time", SDL_GetTicks() / 500.0f);
-    //
-    // Shader* _shell_shader     = ResourceManager::instance().get_shader("shell"   );
-    // _shell_shader->use();
-    // _shell_shader->set_float("u_time", SDL_GetTicks() / 16000.0f);
-
-    auto _mesh_view = _registry.view<Component::Transform, MeshRenderer, Material>();
-
-#pragma region reneder shadow make_public
-
-    auto _light_view = _registry.view<DirectionalLight>();
-    for (auto _e : _light_view)
-    {
-        auto& _light = _registry.get<DirectionalLight>(_e);
-
-        if (!_light.cast_shadow)
-            continue;
-
-        Component::CameraData _camera_data;
-        _camera_data.viewPos    = _light.position;
-        _camera_data.projection = _light.get_projection_matrix();
-        _camera_data.view       = _light.get_view_matrix();
-
-        glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Component::CameraData), &_camera_data);
-        glBindBuffer   (GL_UNIFORM_BUFFER, 0);
-
-        m_depth_shadow_map_framebuffer.bind();
-
-        glViewport  (0, 0, 2 * g_app_config.SCREEN_WIDTH, 2 * g_app_config.SCREEN_HEIGHT);
-        glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-        glClear     (GL_DEPTH_BUFFER_BIT);
-
-        for (auto _e : _mesh_view)
-        {
-            auto& _transform     = _registry.get<Component::Transform>   (_e);
-            auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
-            auto& _material      = _registry.get<Material>    (_e);
-
-            if (!_material.cast_shadow)
-                continue;
-
-            Shader* _found_shader = AssetManager::instance().get_shader(_material.shader_id);
-            _found_shader->use();
-            _found_shader->set_mat4_uniform_model(_transform.world_mat);
-
-            if (_material.depth_write)
-                _mesh_renderer.draw();
-        }
-
-        m_depth_shadow_map_framebuffer.unbind();
-    }
-
-#pragma endregion
-
-    // glm::mat4 _camera_view  = _registry.ctx().get<Camera>().get_view_matrix();
-    //
-    // glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    // glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(_camera_view));
-    // glBindBuffer   (GL_UNIFORM_BUFFER, 0);
-
-    Component::CameraData _camera_data = _registry.ctx().get<Component::Camera>().get_camera_data();
-
-    glBindBuffer   (GL_UNIFORM_BUFFER, m_camera_data_ubo);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Component::CameraData), &_camera_data);
-    glBindBuffer   (GL_UNIFORM_BUFFER, 0);
-
-#pragma region render color n depth texture pass
-    m_depth_framebuffer.bind();
-
-    glViewport  (0, 0, g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT);
-    glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-    glClear     (GL_DEPTH_BUFFER_BIT);
-
-    for (auto _e : _mesh_view)
-    {
-        auto& _transform     = _registry.get<Component::Transform>   (_e);
-        auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
-        auto& _material      = _registry.get<Material>    (_e);
-
-        Shader* _found_shader = AssetManager::instance().get_shader(_material.shader_id);
-        _found_shader->use();
-        _found_shader->set_mat4_uniform_model(_transform.world_mat);
-
-        if (_material.depth_write)
-            _mesh_renderer.draw();
-    }
-
-    m_depth_framebuffer.unbind();
-#pragma endregion
-
-#pragma region render to framebuffer pass
-    m_framebuffer.bind();
-
-    glViewport  (0, 0, g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT);
-    glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-    glClear     (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glEnable    (GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    for (auto _e : _mesh_view)
-    {
-        auto& _transform     = _registry.get<Component::Transform>   (_e);
-        auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
-        auto& _material      = _registry.get<Material>    (_e);
-
-        Shader* _found_shader = AssetManager::instance().get_shader(_material.shader_id);
-
-        _found_shader->use();
-        _found_shader->set_vec3("u_color", _material.diffuse_color);
-        _found_shader->set_mat4_uniform_model(_transform.world_mat);
-
-        if (_material.shader_id == "phong")
-        {
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, m_depth_shadow_map_framebuffer.get_depth_texture());
-        }
-
-        if (!_material.depth_write)
-        {
-            glDepthMask(GL_FALSE);
-
-            auto& _camera = _registry.ctx().get<Component::Camera>();
-
-            _found_shader->use();
-            _found_shader->set_int  ("u_color_texture", 0);
-            _found_shader->set_int  ("u_depth_texture", 1);
-            _found_shader->set_float("u_near_plane", _camera.near_plane);
-            _found_shader->set_float("u_far_plane" , _camera.far_plane);
-
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_color_texture());
-            glActiveTexture(GL_TEXTURE1);
-            glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
-        }
-
-        if (_material.diffuseMap != 0)
-        {
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, _material.diffuseMap);
-            _found_shader->set_int("grassPattern", 0);
-
-            _mesh_renderer.draw();
-
-            glBindTexture(GL_TEXTURE_2D, 0);
-        }
-        else
-        {
-            _mesh_renderer.draw();
-        }
-
-         if (!_material.depth_write)
-             glDepthMask(GL_TRUE);    // restore
-    }
-
-    auto _gizmos_view = _registry.view<Component::Transform, AABB, GizmosRenderer>();
-    for (auto _e : _gizmos_view)
-    {
-        auto& _transform      = _registry.get<Component::Transform>(_e);
-        auto& _aabb           = _registry.get<AABB>(_e);
-        auto& _gizmo_renderer = _registry.get<GizmosRenderer>(_e);
-
-        Shader* _aabb_shader = AssetManager::instance().get_shader("aabb");
-        _aabb_shader->use();
-        _aabb_shader->set_mat4_uniform_model(_transform.world_mat);
-
-        _gizmo_renderer.draw();
-    }
-
-    glDisable(GL_DEPTH_TEST);
-    Shader* _line_shader = AssetManager::instance().get_shader("line");
-    _line_shader->use();
-    m_gizmos_renderer.draw();
-    glEnable(GL_DEPTH_TEST);
-
-    glDisable (GL_BLEND);
-
-    //Render skeleton mesh renderer
-    // glm::mat4 _model = glm::mat4(1.0f);
-    // _model = glm::translate(_model, glm::vec3(5.0f, 0.0f, 5.0f));
-    // _model = glm::scale    (_model, glm::vec3(0.05f));
-    //
-    // Shader* _skeleton_shader = ResourceManager::instance().get_shader("skeleton");
-    // _skeleton_shader->use();
-    //
-    // auto transforms = m_animator.get_final_bone_matrices();
-    // for (int i = 0; i < transforms.size(); ++i)
-    //     _skeleton_shader->set_mat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
-    //
-    // _skeleton_shader->set_mat4_uniform_model(_model);
-    // m_skeleton_mesh_renderer.draw();
-
-    m_framebuffer.unbind();
-#pragma endregion
-
-#pragma region render screen quad pass
-
-    glViewport  (0, 0, 2 * g_app_config.SCREEN_WIDTH, 2 * g_app_config.SCREEN_HEIGHT);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear     (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    if (!display_depth)
-    {
-        Shader* _screen_quad = AssetManager::instance().get_shader("screen_quad");
-        _screen_quad->use();
-        _screen_quad->set_int("u_screen_texture", 0);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_framebuffer.get_color_texture());
-    }
-    else
-    {
-        if (!display_dof)
-        {
-            Shader* _depth_quad = AssetManager::instance().get_shader("depth_quad");
-            _depth_quad->use();
-            _depth_quad->set_int("u_depth_texture", 0);
-
-            if (!display_shadow_map)
-            {
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
-            }
-            else
-            {
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, m_depth_shadow_map_framebuffer.get_depth_texture());
-            }
-        }
-        else
-        {
-            Shader* _depth_quad = AssetManager::instance().get_shader("depth_of_field");
-            _depth_quad->use();
-            _depth_quad->set_int("u_depth_texture", 0);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, m_depth_framebuffer.get_depth_texture());
-        }
-    }
-
-    m_screen_mesh_renderer.draw();
-
-#pragma endregion
-
-#pragma region render UI
-
-    glClear(GL_DEPTH_BUFFER_BIT);
-
-    glDisable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
-    MGUI::draw_texture({20.0f, 20.0f}, { 200.0f, 200.0f }, m_perlin_noise_texture.texture_id);
-
-    // auto& _camera = _registry.ctx().get<Camera>();
-    // glm::mat4 _view_mat = _camera.get_view_matrix      ();
-    // glm::mat4 _proj_mat = _camera.get_projection_matrix();
-    //
-    // for (auto _e : _mesh_view)
-    // {
-    //     auto& _transform = _registry.get<Transform>(_e);
-    //
-    //     glm::vec3 _screen_pos = Util::world_to_screen(_transform.position, _view_mat, _proj_mat, g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT);
-    //     _screen_pos.x -= 60.0f;
-    //     _screen_pos.y += 60.0f;
-    //
-    //     MGUI::draw_text("C_1000_0000", { _screen_pos.x, _screen_pos.y } , { 1, 1,1, 1});
-    // }
-
-    glEnable(GL_DEPTH_TEST);
-    glDisable(GL_BLEND);
-
-#pragma endregion
-}
-
-void RenderPipeline::render_default(const entt::registry& _registry)
-{
-    m_framebuffer.bind();
-
-    glViewport  (0, 0, g_app_config.SCREEN_WIDTH, g_app_config.SCREEN_HEIGHT);
-    glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-    glClear     (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glEnable    (GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    auto _mesh_view = _registry.view<Component::Transform, MeshRenderer, Material>();
-
-    for (auto _e : _mesh_view)
-    {
-        auto& _transform     = _registry.get<Component::Transform>   (_e);
-        auto& _mesh_renderer = _registry.get<MeshRenderer>(_e);
-        auto& _material      = _registry.get<Material>    (_e);
-
-        Shader* _found_shader = AssetManager::instance().get_shader(_material.shader_id);
-        _found_shader->use();
-        _found_shader->set_mat4_uniform_model(_transform.world_mat);
-
-        _mesh_renderer.draw();
-    }
-
-    m_framebuffer.unbind();
-
-    glDisable (GL_BLEND);
-
-    glViewport  (0, 0, 2* g_app_config.SCREEN_WIDTH, 2 * g_app_config.SCREEN_HEIGHT);
-    glClearColor(0.1f, 0.0f, 0.0f, 1.0f);
-    glClear     (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    Shader* _screen_quad = AssetManager::instance().get_shader("screen_quad");
-
-    _screen_quad->use();
-    _screen_quad->set_int("u_screen_texture", 0);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_framebuffer.get_color_texture());
-
-    m_screen_mesh_renderer.draw_mesh();
 }
 
 void RenderPipeline::update_light_ubo(DirectionalLight &_directional_light)

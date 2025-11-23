@@ -92,6 +92,7 @@ struct DirectionalLight
     float orthographic_size = 20.0f;
 
     glm::vec3 position    = glm::vec3(30.0f, 30.0f, 30.0f);
+    glm::vec3 target      = glm::vec3(0.0f);
     glm::vec3 direction   = glm::vec3(-0.2f, -1.0f, -0.3f);
     glm::vec3 ambient     = glm::vec3(0.2f);
     glm::vec3 diffuse     = glm::vec3(0.5f);
@@ -100,7 +101,10 @@ struct DirectionalLight
     glm::mat4 get_view_matrix() const
     {
         glm::vec3 dir = glm::normalize(direction);
-        return glm::lookAt(position, position + dir, glm::vec3(0.0f, 1.0f, 0.0f));
+
+        glm::vec3 _dir = glm::normalize(target - position);
+
+        return glm::lookAt(position, position + _dir, glm::vec3(0.0f, 1.0f, 0.0f));
     }
 
     glm::mat4 get_projection_matrix(float orthoSize = 100.0f, float nearPlane = 0.1f, float farPlane = 100.0f) const

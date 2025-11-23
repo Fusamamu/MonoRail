@@ -19,6 +19,7 @@ struct DirectionalLight;
 class RenderPipeline
 {
 public:
+    float slice = 0.0f;
     int voxel_resolution = 128;
     Texture3D voxel_texture;
 
@@ -31,18 +32,15 @@ public:
 
     void init          (const entt::registry& _registry);
     void render        (const entt::registry& _registry);
-    void render_raw    (const entt::registry& _registry);
-    void render_default(const entt::registry& _registry);
 
+    void generate_fog ();
     void render_ao_map();
 
-    void update_light_ubo(DirectionalLight& _directional_light);
-
-    void update_line_gizmos(const std::vector<glm::vec3>& _line_gizmos)
-    {
+    void update_light_ubo  (DirectionalLight& _directional_light);
+    void update_line_gizmos(const std::vector<glm::vec3>& _line_gizmos){
         m_gizmos_renderer.update_line_vertice(_line_gizmos);
     }
-    float slice = 0.0f;
+
 private:
     GLuint m_voxel_ao_texture_3d, fbo;
 

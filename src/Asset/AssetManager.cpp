@@ -55,30 +55,53 @@ void AssetManager::init()
     load_shader("res/shaders/tile.glsl"                   );
     load_shader("res/shaders/voxel_ambient_occlusion.glsl");
 
-    load_mesh_raw_data(0b10000000, true , false, true , 3, "res/tiles/c_1000_0000.fbx");
-    load_mesh_raw_data(0b11000000, true , false, true , 3, "res/tiles/c_1100_0000.fbx");
-    load_mesh_raw_data(0b11100000, true , false, true , 3, "res/tiles/c_1110_0000.fbx");
-    load_mesh_raw_data(0b11110000, true , false, false, 0, "res/tiles/c_1111_0000.fbx");
-    load_mesh_raw_data(0b10100000, true , false, true , 1, "res/tiles/c_1010_0000.fbx");
-    load_mesh_raw_data(0b10001000, true ,  true, true , 3, "res/tiles/c_1000_1000.fbx");
-    load_mesh_raw_data(0b11001100, true ,  true, true , 3, "res/tiles/c_1100_1100.fbx");
-    load_mesh_raw_data(0b11001000, true ,  true, true , 3, "res/tiles/c_1100_1000.fbx");
-    load_mesh_raw_data(0b11101100, true ,  true, true , 3, "res/tiles/c_1110_1100.fbx");
-    load_mesh_raw_data(0b11111000, false,  true, true , 3, "res/tiles/c_1111_1000.fbx");
-    load_mesh_raw_data(0b11111100, false,  true, true , 3, "res/tiles/c_1111_1100.fbx");
-    load_mesh_raw_data(0b11111110, false,  true, true , 3, "res/tiles/c_1111_1110.fbx");
-    load_mesh_raw_data(0b11111010, false,  true, true , 1, "res/tiles/c_1111_1010.fbx");
-
-    //load_mesh_raw_data(0b11110000, false, 0, "../res/tiles/c_1111_0000.fbx");
+    load_mesh_raw_data(0b10000000, true , false, false, true , 3, "res/tiles/c_1000_0000.fbx");
+    load_mesh_raw_data(0b11000000, true , false, false, true , 3, "res/tiles/c_1100_0000.fbx");
+    load_mesh_raw_data(0b11100000, true , false, false, true , 3, "res/tiles/c_1110_0000.fbx");
+    load_mesh_raw_data(0b11110000, true , false, false, false, 0, "res/tiles/c_1111_0000.fbx");
+    load_mesh_raw_data(0b10100000, true , false, false, true , 1, "res/tiles/c_1010_0000.fbx");
+    load_mesh_raw_data(0b10001000, true ,  true, false, true , 3, "res/tiles/c_1000_1000.fbx");
+    load_mesh_raw_data(0b11001100, true ,  true, false, true , 3, "res/tiles/c_1100_1100.fbx");
+    load_mesh_raw_data(0b11001000, true ,  true, true , true , 3, "res/tiles/c_1100_1000.fbx");
+    load_mesh_raw_data(0b11101100, true ,  true, true , true , 3, "res/tiles/c_1110_1100.fbx");
+    load_mesh_raw_data(0b11111000, false,  true, false, true , 3, "res/tiles/c_1111_1000.fbx");
+    load_mesh_raw_data(0b11111100, false,  true, false, true , 3, "res/tiles/c_1111_1100.fbx");
+    load_mesh_raw_data(0b11111110, false,  true, false, true , 3, "res/tiles/c_1111_1110.fbx");
+    load_mesh_raw_data(0b11111010, false,  true, false, true , 1, "res/tiles/c_1111_1010.fbx");
+    load_mesh_raw_data(0b11100100, true ,  true, false, true , 3, "res/tiles/c_1110_0100.fbx");
+    load_mesh_raw_data(0b11101000, true ,  true, true , true , 3, "res/tiles/c_1110_1000.fbx");
+    load_mesh_raw_data(0b11101110, true ,  true, false, true , 3, "res/tiles/c_1110_1110.fbx");
+    load_mesh_raw_data(0b10101010, true ,  true, false, true , 1, "res/tiles/c_1010_1010.fbx");
+    load_mesh_raw_data(0b10101000, true ,  true, false, true , 3, "res/tiles/c_1010_1000.fbx");
+    load_mesh_raw_data(0b11101010, true ,  true, false, true , 3, "res/tiles/c_1110_1010.fbx");
 }
 
-void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _shift_high_bit, bool _shift_low_bit, bool _rotate, uint8_t _rotate_times, std::filesystem::path _path)
+uint8_t flip_2bit_groups(uint8_t nibble)
+{
+    // keep only the lowest 4 bits
+    nibble &= 0x0F;
+
+    // extract two 2-bit groups
+    uint8_t high = (nibble >> 2) & 0x03; // upper 2 bits
+    uint8_t low  = nibble & 0x03;        // lower 2 bits
+
+    // reverse each 2-bit group
+    auto reverse2 = [](uint8_t x) -> uint8_t {
+        return ((x & 0x2) >> 1) | ((x & 0x1) << 1);
+    };
+
+    high = reverse2(high);
+    low  = reverse2(low);
+
+    // combine back
+    return (high << 2) | low;
+}
+
+void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _shift_high_bit, bool _shift_low_bit, bool _flip, bool _rotate, uint8_t _rotate_times, std::filesystem::path _path)
 {
     MUG::MeshRawData _mesh_raw_data;
-    ASSET::load_mesh_raw_data(_path, _mesh_raw_data);
-    //m_mesh_raw_data_map[_path.stem().string()] = _mesh_raw_data;
 
-    std::cout << _mesh_raw_data << std::endl;
+    ASSET::load_mesh_raw_data(_path, _mesh_raw_data);
 
     MUG::Mesh _mesh = MUG::Geometry::Util::convert_to_mesh(_mesh_raw_data);
     std::vector<MUG::Mesh> _meshes;
@@ -117,13 +140,62 @@ void AssetManager::load_mesh_raw_data(uint8_t _bit, bool _shift_high_bit, bool _
 
         std::cout << _format_name << std::endl;
     }
+
+    if (!_flip)
+        return;
+
+    MUG::MeshRawData _flipped_mesh_raw_data = MUG::Geometry::Util::get_flipped_x_mesh(_mesh_raw_data);
+
+    _mesh = MUG::Geometry::Util::convert_to_mesh(_flipped_mesh_raw_data);
+    _meshes.clear();
+    _meshes.push_back(_mesh);
+
+    _start_bit   = _bit;
+
+    uint8_t high  = (_start_bit >> 4) & 0x0F;
+    uint8_t low   = _start_bit & 0x0F;
+
+    high = flip_2bit_groups(high);
+    low  = flip_2bit_groups(low);
+
+    _start_bit = (high << 4) | low;
+
+    _format_name = to_formatted_name(_start_bit);
+    m_mesh_map[_format_name] = _meshes;
+
+    for (size_t i = 0; i < _rotate_times; i++)
+    {
+        float angle = 90.0f * static_cast<float>(i + 1);
+
+        MUG::MeshRawData _rotated_mesh_raw_data = MUG::Geometry::Util::get_rotated_mesh(_flipped_mesh_raw_data, glm::vec3(0.0f, 1.0f, 0.0f), angle);
+
+        MUG::Mesh _mesh = MUG::Geometry::Util::convert_to_mesh(_rotated_mesh_raw_data);
+        std::vector<MUG::Mesh> _meshes;
+        _meshes.push_back(_mesh);
+
+        uint8_t high  = (_start_bit >> 4) & 0x0F;
+        uint8_t low   = _start_bit & 0x0F;
+
+        if (_shift_high_bit)
+            high = ((high >> 1) | ((high & 1) << 3)) & 0x0F;
+        if (_shift_low_bit)
+            low  = ((low >> 1)  | ((low & 1) << 3)) & 0x0F;
+
+        _start_bit = (high << 4) | low;
+
+        _format_name = to_formatted_name(_start_bit);
+
+        m_mesh_map[_format_name] = _meshes;
+
+        std::cout << _format_name << std::endl;
+    }
 }
 
 const std::vector<MUG::Mesh>* AssetManager::get_model(const std::string& name) const
 {
     auto it = m_mesh_map.find(name);
     if (it != m_mesh_map.end())
-        return &(it->second); // pointer to the stored vector
+        return &(it->second);
     return nullptr;
 }
 
@@ -131,7 +203,7 @@ MUG::Mesh* AssetManager::get_first_mesh(const std::string& name)
 {
     auto it = m_mesh_map.find(name);
     if (it != m_mesh_map.end() && !it->second.empty())
-        return &(it->second[0]); // pointer to the first element
+        return &(it->second[0]);
     return nullptr;
 }
 
@@ -139,7 +211,7 @@ const std::vector<MUG::SkeletonMesh>* AssetManager::get_skeleton_model(const std
 {
     auto it = m_skeleton_models.find(name);
     if (it != m_skeleton_models.end())
-        return &(it->second); // pointer to the stored vector
+        return &(it->second);
     return nullptr;
 }
 
@@ -147,7 +219,7 @@ MUG::SkeletonMesh* AssetManager::get_first_skeleton_mesh(const std::string& name
 {
     auto it = m_skeleton_models.find(name);
     if (it != m_skeleton_models.end() && !it->second.empty())
-        return &(it->second[0]); // pointer to the first element
+        return &(it->second[0]);
     return nullptr;
 }
 

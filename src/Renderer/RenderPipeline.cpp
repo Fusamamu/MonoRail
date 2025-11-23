@@ -1,5 +1,7 @@
 #include "RenderPipeline.h"
 
+#include <Core/Time.h>
+
 #include "ApplicationConfig.h"
 #include "Asset/AssetManager.h"
 
@@ -33,6 +35,7 @@ void RenderPipeline::init(const entt::registry& _registry)
 {
     Shader* _phong_shader      = AssetManager::instance().get_shader("phong"                  );
     Shader* _tile_shader       = AssetManager::instance().get_shader("tile"                   );
+    Shader* _water_shader      = AssetManager::instance().get_shader("water"                  );
     Shader* _planar_projection = AssetManager::instance().get_shader("planar_projection"      );
     Shader* _skeleton_shader   = AssetManager::instance().get_shader("skeleton"               );
     Shader* _fog_plane_shader  = AssetManager::instance().get_shader("fog_plane"              );
@@ -56,6 +59,10 @@ void RenderPipeline::init(const entt::registry& _registry)
     _phong_shader->use();
     _phong_shader->set_float ("u_shininess" , 100.0f);
     _phong_shader->set_vec3  ("u_color"     , glm::vec3(1.0f, 1.0f, 1.0f));
+
+    _water_shader->use();
+    _water_shader->set_float ("u_shininess" , 100.0f);
+    _water_shader->set_vec3  ("u_color"     , glm::vec3(1.0f, 1.0f, 1.0f));
 
     _tile_shader->use();
     _tile_shader->set_int   ("u_shadow_map" , 0);
@@ -251,6 +258,10 @@ void RenderPipeline::init(const entt::registry& _registry)
 
 void RenderPipeline::render(const entt::registry& _registry)
 {
+    Shader* _water_shader = AssetManager::instance().get_shader("water");
+    _water_shader->use();
+    _water_shader->set_float("u_time", SDL_GetTicks()/1000.0f);
+
 #pragma region collect render commands
     m_render_queue.clear();
 

@@ -18,6 +18,7 @@ void AssetManager::init()
     load_model ("res/models/bevel_cube.fbx"               );
     load_model ("res/models/agent.fbx"                    );
     load_model ("res/models/train.fbx"                    );
+    load_model ("res/models/water_plane.fbx"              );
     load_model ("res/rails/r_0100_0010.fbx"               );
     load_model ("res/rails/r_0001_1000.fbx"               );
     load_model ("res/rails/r_0000_0001.fbx"               );
@@ -54,6 +55,7 @@ void AssetManager::init()
     load_shader("res/shaders/planar_projection.glsl"      );
     load_shader("res/shaders/tile.glsl"                   );
     load_shader("res/shaders/voxel_ambient_occlusion.glsl");
+    load_shader("res/shaders/water.glsl"                  );
 
     load_mesh_raw_data(0b10000000, true , false, false, true , 3, "res/tiles/c_1000_0000.fbx");
     load_mesh_raw_data(0b11000000, true , false, false, true , 3, "res/tiles/c_1100_0000.fbx");

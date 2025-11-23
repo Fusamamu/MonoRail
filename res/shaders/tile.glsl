@@ -112,14 +112,11 @@ vec3 calculate_dir_light(vec3 normal, vec3 viewDir, float shadow)
 {
     vec3 lightDir = normalize(-dirLight.direction);
 
-    // Diffuse
     float diff = max(dot(normal, lightDir), 0.0);
 
-    // Specular
     vec3 reflectDir = reflect(-lightDir, normal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_shininess);
 
-    // Combine
     vec3 ambient  = dirLight.ambient;
     vec3 diffuse  = dirLight.diffuse  * diff * (1.0 - shadow);
     vec3 specular = dirLight.specular * spec * (1.0 - shadow);
@@ -151,7 +148,7 @@ void main()
 
     float mask = level / float(u_levels - 1); // back to 0-1 range
 
-    float _color = mask * (1.0 - shadow);
+    float _color = mask * (1.0 - shadow * 0.3);
 
     vec3 voxelUV = vec3
     (
@@ -173,7 +170,6 @@ void main()
 
     voxelUV = clamp(voxelUV, 0.0, 1.0); // ensure inside grid
 
-
     float ao = texture(u_voxel_ao, voxelUV).r; // AO stored in red channel
 
     _color *= ao;
@@ -183,6 +179,6 @@ void main()
 
     _color *= diff;
 
-    FragColor = vec4(vec3(color), 1.0);
+    FragColor = vec4(vec3(_color), 1.0);
 }
 

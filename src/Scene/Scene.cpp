@@ -65,6 +65,11 @@ void Scene::on_enter()
     m_train_entity = create_object("Train", "train", glm::vec3(0.0f, 0.5f, 0.0f), _phong_material);
     auto& _train_agent = m_registry.emplace<NAV::Agent>(m_train_entity);
     _train_agent.following_path = true;
+
+    Material _water_material;
+    _water_material.shader_id     = "water";
+
+    entt::entity _water_entity = create_object("Water", "water_plane", glm::vec3(0.0f, 0.0f, 0.0f), _water_material);
 }
 
 void Scene::on_exit()

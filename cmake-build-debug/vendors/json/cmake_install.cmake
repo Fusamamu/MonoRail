@@ -1,4 +1,4 @@
-# Install script for directory: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/json
+# Install script for directory: /Users/sukumduangpattra/Desktop/MonoRail/vendors/json
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

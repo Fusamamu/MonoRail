@@ -153,54 +153,35 @@ void main()
 
     float _color = mask * (1.0 - shadow);
 
-    //FragColor = vec4(vec3(_color), 1.0);
+    vec3 voxelUV = vec3
+    (
+        (FragPos.z - u_voxelMin.z) / (u_voxelMax.z - u_voxelMin.z),   // X stays the same?
+        (FragPos.y - u_voxelMin.y) / (u_voxelMax.y - u_voxelMin.y),   // Y stays the same
+        1.0 - ( (FragPos.x - u_voxelMin.x) / (u_voxelMax.x - u_voxelMin.x) ) // <-- flipped Z
+    );
 
+    float angle = radians(270);    // you can pass angle in degrees
+    float c = cos(angle);
+    float s = sin(angle);
 
-    //vec3 voxelUV = (FragPos - u_voxelMin) / (u_voxelMax - u_voxelMin);
+    float x = voxelUV.x;
+    float z = voxelUV.z;
 
+    voxelUV.x =  c * x + s * z;
+    voxelUV.y =  voxelUV.y;   // unchanged
+    voxelUV.z = -s * x + c * z;
 
-//    vec3 voxelUV = vec3
-//    (
-//        (FragPos.z - u_voxelMin.z) / (u_voxelMax.z - u_voxelMin.z),
-//        (FragPos.y - u_voxelMin.y) / (u_voxelMax.y - u_voxelMin.y),
-//        (FragPos.x - u_voxelMin.x) / (u_voxelMax.x - u_voxelMin.x)
-//    );
-
-
-vec3 voxelUV = vec3
-(
-(FragPos.z - u_voxelMin.z) / (u_voxelMax.z - u_voxelMin.z),   // X stays the same?
-(FragPos.y - u_voxelMin.y) / (u_voxelMax.y - u_voxelMin.y),   // Y stays the same
-1.0 - ( (FragPos.x - u_voxelMin.x) / (u_voxelMax.x - u_voxelMin.x) ) // <-- flipped Z
-);
-
-float angle = radians(270);    // you can pass angle in degrees
-float c = cos(angle);
-float s = sin(angle);
-
-float x = voxelUV.x;
-float z = voxelUV.z;
-
-voxelUV.x =  c * x + s * z;
-voxelUV.y =  voxelUV.y;   // unchanged
-voxelUV.z = -s * x + c * z;
-
-
-
-
-
-
-
-
-voxelUV = clamp(voxelUV, 0.0, 1.0); // ensure inside grid
+    voxelUV = clamp(voxelUV, 0.0, 1.0); // ensure inside grid
 
 
     float ao = texture(u_voxel_ao, voxelUV).r; // AO stored in red channel
 
-        _color *= ao;
+    _color *= ao;
 
+    vec3 lightDir = normalize(-dirLight.direction);
+    float diff    = max(dot(_norm, lightDir), 0.0);
 
-    FragColor = vec4(vec3(ao), 1.0);
+    _color *= diff;
 
     FragColor = vec4(vec3(_color), 1.0);
 }

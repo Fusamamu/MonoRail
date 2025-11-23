@@ -148,7 +148,7 @@ namespace MUG
         auto window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
 
         p_window = SDL_CreateWindow(
-                    "Help princess",
+                    "Mono rail",
                     SDL_WINDOWPOS_CENTERED,
                     SDL_WINDOWPOS_CENTERED,
                     g_app_config.SCREEN_WIDTH,

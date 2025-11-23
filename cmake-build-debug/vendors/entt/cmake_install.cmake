@@ -1,4 +1,4 @@
-# Install script for directory: /Users/sukumduangpattra/Desktop/HelpPrincess/vendors/entt
+# Install script for directory: /Users/sukumduangpattra/Desktop/MonoRail/vendors/entt
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

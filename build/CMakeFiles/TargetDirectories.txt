@@ -1,7 +1,0 @@
-/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/HelpPrincess.dir
-/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/edit_cache.dir
-/Users/sukumduangpattra/Desktop/HelpPrincess/build/CMakeFiles/rebuild_cache.dir
-/Users/sukumduangpattra/Desktop/HelpPrincess/build/vendors/entt/CMakeFiles/edit_cache.dir
-/Users/sukumduangpattra/Desktop/HelpPrincess/build/vendors/entt/CMakeFiles/rebuild_cache.dir
-/Users/sukumduangpattra/Desktop/HelpPrincess/build/vendors/json/CMakeFiles/edit_cache.dir
-/Users/sukumduangpattra/Desktop/HelpPrincess/build/vendors/json/CMakeFiles/rebuild_cache.dir
